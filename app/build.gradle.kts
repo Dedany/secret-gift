@@ -1,14 +1,15 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+
 }
 
 android {
-    namespace = "com.dedany.secretgift"
+    namespace = "com.dedany.disney"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.dedany.secretgift"
+        applicationId = "com.dedany.disney"
         minSdk = 28
         targetSdk = 35
         versionCode = 1
@@ -26,12 +27,18 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     kotlinOptions {
         jvmTarget = "11"
+    }
+
+    buildFeatures {
+        viewBinding = true
     }
 }
 
@@ -45,4 +52,25 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    // Retrofit
+    implementation(libs.com.squareup.retrofit2.retrofit)
+    implementation(libs.com.squareup.retrofit2.converter.gson)
+
+// Gson
+    implementation(libs.gson)
+
+// Logging Interceptor
+    implementation(libs.logging.interceptor)
+
+    // Glide
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+
+
+    // Life-cycle
+    implementation(libs.runtime)
+    implementation(libs.viewmodel)
+
+
+
+
 }
