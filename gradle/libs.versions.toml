@@ -17,6 +17,8 @@ runtime = "1.1.1"
 firebaseCrashlytics = "19.4.0"
 googleGmsGoogleServices = "4.4.2"
 googleFirebaseCrashlytics = "3.0.3"
+firebaseFirestore = "25.1.2"
+firebaseAuth = "23.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -40,6 +42,8 @@ logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-intercep
 runtime = { module = "android.arch.lifecycle:runtime", version.ref = "runtime" }
 viewmodel = { module = "android.arch.lifecycle:viewmodel", version.ref = "runtime" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 
 
 
