@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "647653611216",
+    "project_id": "secretgift-a01b4",
+    "storage_bucket": "secretgift-a01b4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647653611216:android:565de38bea2beca8eeb0d5",
+        "android_client_info": {
+          "package_name": "com.dedany.baseprojectwithfirebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0iGdZBo3HDOc5Comk--y4XAwC0teyF5A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647653611216:android:25fb85fa9c3d6717eeb0d5",
+        "android_client_info": {
+          "package_name": "com.dedany.disney"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0iGdZBo3HDOc5Comk--y4XAwC0teyF5A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647653611216:android:6bfaa358caca5fe1eeb0d5",
+        "android_client_info": {
+          "package_name": "com.dedany.secretgift"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0iGdZBo3HDOc5Comk--y4XAwC0teyF5A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
