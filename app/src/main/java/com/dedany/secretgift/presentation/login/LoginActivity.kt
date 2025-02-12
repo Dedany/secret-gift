@@ -7,10 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.dedany.secretgift.R
 
-class LoginActivity
-
-//por alguna razón creaste esta clase como clase , en lugar de actividad , por lo que lo dejo así
-    /*: AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -21,4 +18,4 @@ class LoginActivity
             insets
         }
     }
-}*/
+}
