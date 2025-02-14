@@ -12,9 +12,10 @@
         android:id="@+id/tv_tittle_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:text="Cuenta de Logeo"
-        android:textColor="#5F786503"
+        android:fontFamily="cursive"
+        android:textColor="#835B18"
         android:textAlignment="center"
         android:textSize="24dp"
         android:textStyle="bold"
@@ -27,9 +28,9 @@
         android:id="@+id/iv_login"
         android:layout_width="128dp"
         android:layout_height="128dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/logo_login"
+        android:src="@drawable/logo_login2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_tittle_login" />
@@ -40,6 +41,9 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginVertical="20dp"
+        android:layout_marginTop="30dp"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_login">
@@ -57,31 +61,39 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
+        app:boxStrokeColor="#4E000000"
+        android:layout_marginTop="20dp"
         android:layout_marginVertical="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_user">
 
+
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password" />
+    </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="50dp"
-            android:layout_marginTop="30dp"
+            android:backgroundTint="#23000000"
+            android:textColor="#835B18"
+            android:layout_marginTop="70dp"
+            app:layout_constraintTop_toBottomOf="@id/til_password"
             android:text="@string/btn_log" />
 
         <TextView
+            android:id="@+id/tv_link_create_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/link_create_user"
             android:textAlignment="center"
-            android:textColor="#9CA46D6D"
+            android:textColor="#B6835B18"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_login" />
@@ -92,9 +104,12 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="50dp"
             android:layout_marginTop="30dp"
-            android:text="@string/btn_event" />
+            android:text="@string/btn_event"
+            android:textColor="#A3835B18"
+            android:backgroundTint="#23000000"
+            app:layout_constraintTop_toBottomOf="@id/tv_link_create_user"/>
 
 
-    </com.google.android.material.textfield.TextInputLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
