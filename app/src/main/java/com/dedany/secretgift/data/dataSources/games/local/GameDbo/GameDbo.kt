@@ -2,6 +2,7 @@ package com.dedany.secretgift.data.dataSources.games.local.GameDbo
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.dedany.secretgift.domain.entities.GuestUser
 import com.dedany.secretgift.domain.entities.User
 
 @Entity(tableName = "games")
@@ -11,5 +12,5 @@ data class GameDbo(
     val averageCost: Int,
     val status: String,
     val roomCode: String,
-    val players: List<User> = emptyList(),
+//    val players: ArrayList<GuestUser>,
 )

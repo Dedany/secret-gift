@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">SecretGift</string>
+    <string name="register">Registro de Usuario</string>
+    <string name="name">Nombre</string>
+    <string name="email">Email</string>
+    <string name="password">Contraseña</string>
+    <string name="repeat_password">Confirmar contraseña\n</string>
 </resources>
