@@ -13,7 +13,7 @@
         android:id="@+id/btnLogout"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="Cerrar sesión"
         android:scaleType="centerCrop"
@@ -21,11 +21,9 @@
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.878"
-        app:layout_constraintMarginEnd="16dp"
-        app:layout_constraintMarginTop="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.318" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView"
@@ -39,7 +37,6 @@
         android:textSize="48sp"
         app:layout_constraintBottom_toTopOf="@+id/button_crear_evento"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintMarginTop="16dp"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -61,8 +58,6 @@
         android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.489"
-        app:layout_constraintMarginTop="20dp"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

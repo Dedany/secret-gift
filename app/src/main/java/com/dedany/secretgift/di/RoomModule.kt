@@ -9,21 +9,21 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-    @Module
-    @InstallIn(SingletonComponent::class)
-    object RoomModule {
+@Module
+@InstallIn(SingletonComponent::class)
+object RoomModule {
 
-        @Provides
-        @Singleton
-        fun provideLocalDataSource(application: Application): RoomDb {
-            return RoomDb.invoke(application)
-
-        }
-
-        @Provides
-        @Singleton
-        fun provideGamesDao(database: RoomDb): GamesDao {
-            return database.gamesDao()
-        }
+    @Provides
+    @Singleton
+    fun provideLocalDataSource(application: Application): RoomDb {
+        return RoomDb.invoke(application)
 
     }
+
+    @Provides
+    @Singleton
+    fun provideGamesDao(database: RoomDb): GamesDao {
+        return database.gamesDao()
+    }
+
+}

@@ -2,6 +2,7 @@ package com.dedany.secretgift.data.dataSources.games.users.local.UserDbo
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 
 
 @Entity(tableName = "users")

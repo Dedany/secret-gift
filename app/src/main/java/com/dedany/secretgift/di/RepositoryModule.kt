@@ -1,6 +1,7 @@
 package com.dedany.secretgift.di
 
 import com.dedany.secretgift.data.dataSources.games.local.GamesDao
+import com.dedany.secretgift.data.dataSources.games.remote.GameRemoteDataSource
 import com.dedany.secretgift.data.respositories.GameRepositoryImpl
 import com.dedany.secretgift.domain.repositories.GamesRepository
 import dagger.Module

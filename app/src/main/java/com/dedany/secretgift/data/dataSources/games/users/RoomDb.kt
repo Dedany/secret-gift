@@ -4,14 +4,20 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
+import com.dedany.secretgift.data.dataSources.games.Converters
 import com.dedany.secretgift.data.dataSources.games.local.GameDbo.GameDbo
 import com.dedany.secretgift.data.dataSources.games.local.GamesDao
 
 
 @Database(
     entities = [GameDbo::class],
-    version = 1
+    version = 1,
+    exportSchema = false
+
 ) //2.Anotacion de @Database pasando entities en vacio y version en 1
+@TypeConverters(Converters::class)
 abstract class RoomDb : RoomDatabase() { //1.La clase creada debe ser "abstract"
 
     abstract fun gamesDao(): GamesDao

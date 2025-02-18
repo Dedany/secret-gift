@@ -6,6 +6,7 @@ import com.dedany.secretgift.data.dataSources.games.remote.GameRemoteDataSource
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameDto
 import com.dedany.secretgift.domain.entities.Game
 import com.dedany.secretgift.domain.repositories.GamesRepository
+import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -22,13 +23,13 @@ class GameRepositoryImpl {
                 val gamesDto = remoteDataSource.getGames()
 
                 val gamesDbo = gamesDto.map { it.toLocal() }
-                val games = gamesDto.map { it.toDomain() }
+                val game = gamesDto.map { it.toGame() }
 
 
                 localCharactersDataSource.saveAllGames(gamesDbo)
 
 
-                return@withContext games
+                return@withContext game
             }
         }
 
@@ -38,58 +39,42 @@ class GameRepositoryImpl {
                 id = this.id,
                 name = this.name,
                 ownerId = this.ownerId,
-                averageCost = this.averageCost,
                 status = this.status,
-                roomCode = this.roomCode,
-                players = this.players.map { it.toUser() }
+                gameCode = this.gameCode,
+                maxCost = this.maxCost,
+                minCost = this.minCost,
+                gameDate = this.gameDate
+                //players = this.players.map { it.toUser() }
             )
         }
 
-        private fun GameDto.toDomain(): Game {
+        private fun GameDbo.toDomain(): GameDto {
+            return GameDto(
+                id = this.id,
+                name = this.name,
+                ownerId = this.ownerId,
+                status = this.status,
+                gameCode = this.gameCode,
+                maxCost = this.maxCost,
+                minCost = this.minCost,
+                gameDate = this.gameDate
+                //players = this.players.map { it }
+            )
+        }
+
+        private fun GameDto.toGame(): Game {
             return Game(
                 id = this.id,
                 name = this.name,
                 ownerId = this.ownerId,
-                averageCost = this.averageCost,
                 status = this.status,
-                roomCode = this.roomCode,
-                players = this.players.map { it.toUser() }
+                gameCode = this.gameCode,
+                maxCost = this.maxCost,
+                minCost = this.minCost,
+                gameDate = this.gameDate,
             )
         }
 
-
-        private fun GameDbo.toDomain(): Game {
-            return Game(
-                id = this.id,
-                name = this.name,
-                ownerId = this.ownerId,
-                averageCost = this.averageCost,
-                status = this.status,
-                roomCode = this.roomCode,
-                players = this.players
-            )
-        }
-
-        // Conversión de UserDto a User
-        fun UserDto.toUser(): User {
-            return if (this.email != null) {
-                // Si tiene un email, es un usuario registrado
-                RegisteredUser(
-                    id = this.id,
-                    name = this.name,
-                    email = this.email,
-                    password = this.password ?: "", // Asumimos que la contraseña es opcional
-
-                )
-            } else {
-                // Si no tiene un email, es un usuario invitado
-                GuestUser(
-                    id = this.id,
-                    name = this.name,
-
-                    )
-            }
-        }
     }
 
 }
