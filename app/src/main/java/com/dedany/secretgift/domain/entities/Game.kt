@@ -7,7 +7,7 @@ data class Game(
     val averageCost: Int,
     val status: String,
     val roomCode: String,
-    val players: List<GuestUser> = emptyList(),
+    val players: List<User>,
     val name: String
 )
 

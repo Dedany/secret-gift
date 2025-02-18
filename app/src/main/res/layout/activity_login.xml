@@ -3,8 +3,117 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:background="@drawable/background2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.login.LoginActivity">
+
+    <TextView
+        android:id="@+id/tv_tittle_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Cuenta de Logeo"
+        android:fontFamily="cursive"
+        android:textColor="#835B18"
+        android:textAlignment="center"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_login"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_marginTop="30dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logo_login2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_tittle_login" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="20dp"
+        android:layout_marginTop="30dp"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_login">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/usuario" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        app:boxStrokeColor="#4E000000"
+        android:layout_marginTop="20dp"
+        android:layout_marginVertical="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/til_user">
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="70dp"
+        android:backgroundTint="#23000000"
+        android:text="@string/btn_log"
+        android:textColor="#835B18"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/til_password" />
+
+        <TextView
+            android:id="@+id/tv_link_create_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/link_create_user"
+            android:textAlignment="center"
+            android:textColor="#B6835B18"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_login" />
+
+    <Button
+        android:id="@+id/btn_event"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="28dp"
+        android:backgroundTint="#23000000"
+        android:text="@string/btn_event"
+        android:textColor="#A3835B18"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_link_create_user"
+        app:layout_constraintVertical_bias="0.181" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

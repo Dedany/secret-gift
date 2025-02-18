@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">SecretGift</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_profile">Profile</string>
+    <string name="usuario">Usuario/correo</string>
+    <string name="btn_log">LOGEAR</string>
+    <string name="btn_event">Consultar evento</string>
+    <string name="link_create_user"><u>No tengo cuenta</u></string>
     <string name="register">Registro de Usuario</string>
     <string name="name">Nombre</string>
     <string name="email">Email</string>
