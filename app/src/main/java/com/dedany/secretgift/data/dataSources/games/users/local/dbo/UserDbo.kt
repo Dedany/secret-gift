@@ -1,8 +1,7 @@
-package com.dedany.secretgift.data.dataSources.games.users.local.UserDbo
+package com.dedany.secretgift.data.dataSources.games.users.local.dbo
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
 
 
 @Entity(tableName = "users")

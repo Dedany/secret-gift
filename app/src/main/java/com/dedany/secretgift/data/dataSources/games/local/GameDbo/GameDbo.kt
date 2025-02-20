@@ -2,11 +2,6 @@ package com.dedany.secretgift.data.dataSources.games.local.GameDbo
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
-import androidx.room.TypeConverters
-import com.dedany.secretgift.data.dataSources.games.users.local.UserDbo.UserDbo
-import com.dedany.secretgift.domain.entities.GuestUser
-import com.dedany.secretgift.domain.entities.User
 import com.google.gson.annotations.SerializedName
 import java.time.LocalDate
 

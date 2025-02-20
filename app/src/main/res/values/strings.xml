@@ -4,7 +4,7 @@
     <string name="menu_profile">Profile</string>
     <string name="usuario">Usuario/correo</string>
     <string name="btn_log">LOGEAR</string>
-    <string name="btn_event">Consultar evento</string>
+    <string name="btn_event">CONSULTAR EVENTO</string>
     <string name="link_create_user"><u>No tengo cuenta</u></string>
     <string name="register">REGISTRAR</string>
     <string name="name">Nombre</string>

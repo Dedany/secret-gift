@@ -1,7 +1,7 @@
 package com.dedany.secretgift.data.dataSources.games
 
 import androidx.room.TypeConverter
-import com.dedany.secretgift.data.dataSources.games.users.local.UserDbo.UserDbo
+import com.dedany.secretgift.data.dataSources.games.users.local.dbo.UserDbo
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type

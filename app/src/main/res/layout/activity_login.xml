@@ -15,7 +15,7 @@
         android:layout_marginTop="30dp"
         android:text="Cuenta de Logeo"
         android:fontFamily="cursive"
-        android:textColor="#835B18"
+        android:textColor="@color/brown"
         android:textAlignment="center"
         android:textSize="24dp"
         android:textStyle="bold"
@@ -27,7 +27,7 @@
         android:id="@+id/iv_login"
         android:layout_width="128dp"
         android:layout_height="128dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="@dimen/activity_top_margin"
         android:scaleType="centerCrop"
         android:src="@drawable/logo_login2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-        android:layout_marginVertical="20dp"
+        android:layout_marginTop="@dimen/activity_top_margin"
 
         app:boxBackgroundMode="outline"
         app:boxStrokeColor="@color/black"
@@ -62,7 +62,7 @@
         android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
         app:boxStrokeColor="#4E000000"
 
-        android:layout_marginVertical="20dp"
+        android:layout_marginTop="@dimen/activity_top_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_user">
@@ -82,7 +82,7 @@
         android:layout_marginTop="70dp"
         android:backgroundTint="#23000000"
         android:text="@string/btn_log"
-        android:textColor="#835B18"
+        android:textColor="@color/brown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/til_password" />
@@ -94,7 +94,7 @@
             android:layout_marginTop="24dp"
             android:text="@string/link_create_user"
             android:textAlignment="center"
-            android:textColor="#B6835B18"
+            android:textColor="@color/brown"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_login" />
@@ -107,7 +107,7 @@
         android:layout_marginTop="28dp"
         android:backgroundTint="#23000000"
         android:text="@string/btn_event"
-        android:textColor="#A3835B18"
+        android:textColor="@color/brown"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"

@@ -16,13 +16,9 @@
         android:theme="@style/Theme.SecretGift"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.game.viewGame.ViewGameActivity"
-            android:exported="false" />
-        <activity
             android:name=".presentation.register.RegisterActivity"
-            android:exported="true">
+            android:exported="false" />
 
-        </activity>
         <activity
             android:name=".presentation.login.LoginActivity"
             android:exported="true" >
@@ -33,8 +29,12 @@
         </intent-filter>
         </activity>
         <activity
+            android:name=".presentation.game.createGame.CreateGameActivity"
+            android:exported="true"/>
+        <activity
             android:name=".presentation.main.MainActivity"
-            android:exported="false"></activity>
+            android:exported="true"/>
+
     </application>
 
 </manifest>
