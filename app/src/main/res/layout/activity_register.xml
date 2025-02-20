@@ -11,8 +11,9 @@
     <Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
         android:layout_height="40dp"
-        android:background="@color/black"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -22,19 +23,22 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/ic_launcher_foreground"
-            app:tint="@color/white" />
+            app:tint="#835B18" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="30dp"
+            android:fontFamily="cursive"
+            android:textColor="#835B18"
             android:gravity="center"
-            android:text="@string/register"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:text="Registro de Usuario"
+
+            android:textSize="24sp" />
     </Toolbar>
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/name_layout"
+            app:boxStrokeColor="@color/black"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
@@ -55,6 +59,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/email_layout"
+            app:boxStrokeColor="@color/black"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
@@ -72,6 +77,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/password_layout"
+            app:boxStrokeColor="@color/black"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
@@ -90,6 +96,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/confirm_password_layout"
+            app:boxStrokeColor="@color/black"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
@@ -113,7 +120,7 @@
             android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
             android:layout_marginTop="10dp"
             android:focusable="true"
-
+            android:textColor="#835B18"
             android:text="Acepto Términos y Condiciones"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -122,6 +129,7 @@
         <TextView
             android:id="@+id/tv_checkbox_error"
             android:layout_width="0dp"
+            android:textColor="#835B18"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -130,9 +138,10 @@
         <Button
             android:id="@+id/register_button"
             android:layout_width="0dp"
+            android:backgroundTint="#23000000"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-            android:backgroundTint="@color/black"
+            android:textColor="#835B18"
             android:text="@string/register"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
