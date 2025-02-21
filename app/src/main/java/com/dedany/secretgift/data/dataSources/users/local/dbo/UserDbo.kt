@@ -1,4 +1,4 @@
-package com.dedany.secretgift.data.dataSources.games.users.local.dbo
+package com.dedany.secretgift.data.dataSources.users.local.dbo
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

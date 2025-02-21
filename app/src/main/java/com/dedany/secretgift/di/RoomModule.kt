@@ -2,7 +2,7 @@ package com.dedany.secretgift.di
 
 import android.app.Application
 import com.dedany.secretgift.data.dataSources.games.local.GamesDao
-import com.dedany.secretgift.data.dataSources.games.users.RoomDb
+import com.dedany.secretgift.data.RoomDb
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

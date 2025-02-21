@@ -21,7 +21,7 @@ object RepositoryModule {
         remoteGamesDataSource: GameRemoteDataSource,
         localGameDataSource: GamesDao
     ): GamesRepository {
-        return GameRepositoryImpl.GameRepositoryImpl(
+        return GameRepositoryImpl(
             remoteGamesDataSource, localGameDataSource
         )
     }

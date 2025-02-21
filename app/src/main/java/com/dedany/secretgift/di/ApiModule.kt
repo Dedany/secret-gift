@@ -1,5 +1,6 @@
 package com.dedany.secretgift.di
 
+import com.dedany.secretgift.data.dataSources.games.remote.api.SecretGiftApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,9 +37,15 @@ object ApiModule {
 
     @Provides
     @Singleton
-    fun providesRetrofitDisney(okHttpClient: OkHttpClient): Retrofit {
+    fun providesRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder().baseUrl("https://secret-gift-backend.vercel.app")
             .client(okHttpClient).addConverterFactory(GsonConverterFactory.create()).build()
 
+    }
+
+    @Provides
+    @Singleton
+    fun providesSecretGiftApi(retrofit: Retrofit): SecretGiftApi {
+        return retrofit.create(SecretGiftApi::class.java)
     }
 }

@@ -1,4 +1,4 @@
-package com.dedany.secretgift.data.dataSources.games.users.remote.dto
+package com.dedany.secretgift.data.dataSources.users.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
