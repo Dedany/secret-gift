@@ -1,6 +1,7 @@
 package com.dedany.secretgift.domain.entities
 
 import java.time.LocalDate
+import java.util.Date
 
 
 data class Game(
@@ -12,7 +13,7 @@ data class Game(
     val name: String,
     val maxCost : Int,
     val minCost : Int,
-    val gameDate : LocalDate
+    val gameDate : Date
 )
 
 

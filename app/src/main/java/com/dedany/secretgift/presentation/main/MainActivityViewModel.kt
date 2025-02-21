@@ -12,11 +12,13 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class MainActivityViewModel @Inject constructor(private val gamesUseCase: GamesUseCase): ViewModel(){
+class MainActivityViewModel @Inject constructor(private val gamesUseCase: GamesUseCase) :
+    ViewModel() {
+
     private val _games: MutableLiveData<List<Game>> = MutableLiveData()
     val games: LiveData<List<Game>> = _games
 
-    fun loadGames(){
+    fun loadGames() {
         viewModelScope.launch {
             _games.value = gamesUseCase.getGames()
         }

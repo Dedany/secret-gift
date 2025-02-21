@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import java.time.LocalDate
+import java.util.Date
 
 @Entity(tableName = "games")
 data class GameDbo(
@@ -20,5 +21,5 @@ data class GameDbo(
     val gameCode: String,
     //@TypeConverters(Converters::class)val players: ArrayList<UserDbo>
     @SerializedName("game_date")
-    val gameDate: LocalDate
+    val gameDate: Date
 )
