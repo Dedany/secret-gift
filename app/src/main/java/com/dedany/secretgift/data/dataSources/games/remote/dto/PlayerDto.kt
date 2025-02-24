@@ -2,7 +2,8 @@ package com.dedany.secretgift.data.dataSources.games.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class PlayerDto(
+data class PlayerDto (
+
     @SerializedName("_id")
     val id: String,
     val name: String,
@@ -12,5 +13,4 @@ data class PlayerDto(
     @SerializedName("linked_to")
     val linkedTo: String,
 
-
-    )
+)

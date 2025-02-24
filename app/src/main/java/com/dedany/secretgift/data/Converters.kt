@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 import java.time.LocalDate
+import java.util.Date
 
 class Converters {
 
@@ -23,15 +24,15 @@ class Converters {
     }
 
     @TypeConverter
-    fun dateToString(date: LocalDate): String {
+    fun dateToString(date: Date): String {
         val gson = Gson()
         return gson.toJson(date)
     }
 
     @TypeConverter
-    fun stringToDate(value: String): LocalDate {
+    fun stringToDate(value: String): Date {
         val gson = Gson()
-        return gson.fromJson(value, LocalDate::class.java)
+        return gson.fromJson(value, Date::class.java)
     }
 
 }

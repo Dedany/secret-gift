@@ -1,13 +1,14 @@
 package com.dedany.secretgift.data.dataSources.games.remote.dto
 
-import com.dedany.secretgift.data.dataSources.users.remote.game.dto.UserDto
+import com.dedany.secretgift.domain.entities.User
 import com.google.gson.annotations.SerializedName
 import java.time.LocalDate
+import java.util.Date
 
 data class GameDto(
     @SerializedName("_id")
     var id: String,
-
+    @SerializedName("game_name")
     val name: String,
 
     @SerializedName("owner_id")
@@ -28,5 +29,5 @@ data class GameDto(
     val players: List<PlayerDto>,
 
     @SerializedName("game_date")
-    val gameDate: LocalDate
+    val gameDate: Date
 )
