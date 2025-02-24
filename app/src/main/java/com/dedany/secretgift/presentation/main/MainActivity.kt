@@ -1,59 +1,49 @@
 package com.dedany.secretgift.presentation.main
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityMainBinding
-import com.dedany.secretgift.presentation.game.createGame.CreateGameActivity
-import com.dedany.secretgift.presentation.login.LoginActivity
+import com.dedany.secretgift.presentation.fragments.MainFragment
+import com.dedany.secretgift.presentation.fragments.ProfileFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private var binding : ActivityMainBinding? = null
-    private var viewModel : MainActivityViewModel? = null
-    private var gamesAdapter : GamesAdapter? = null
+    private lateinit var binding: ActivityMainBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
-        setContentView(binding?.root)
+        setContentView(binding.root)
 
-        setUpAdapters()
-        setUpObservers()
-        setUpListeners()
-        viewModel?.loadGames()
-    }
-
-    private fun setUpAdapters(){
-        gamesAdapter = GamesAdapter()
-        binding?.recyclerViewMain?.adapter = gamesAdapter
-        binding?.recyclerViewMain?.layoutManager = LinearLayoutManager(this)
-
-    }
-
-    private fun setUpObservers(){
-        viewModel?.games?.observe(this) { games ->
-            gamesAdapter?.submitList(games)
-        }
-    }
-
-    private fun setUpListeners(){
-        binding?.buttonCreateEvent?.setOnClickListener {
-            val intent = Intent(this, CreateGameActivity::class.java)
-            startActivity(intent)
+        // Establecer el fragmento inicial
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, MainFragment())
+                .commit()
         }
 
-        binding?.btnLogoutMain?.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+        // Configurar la navegación del BottomNavigationView
+        binding.bottomNavigationMain.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, MainFragment())
+                        .commit()
+                    true
+                }
+                R.id.navigation_profile -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, ProfileFragment())
+                        .commit()
+                    true
+                }
+                else -> false
+            }
         }
     }
 }

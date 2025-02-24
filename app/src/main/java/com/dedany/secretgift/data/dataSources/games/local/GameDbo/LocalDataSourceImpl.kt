@@ -19,5 +19,9 @@ class LocalDataSourceImpl @Inject constructor(
     override suspend fun getGameById(id: String): GameDbo? {
         TODO("Not yet implemented")
     }
+
+    override suspend fun deleteGame(game: GameDbo) {
+        gamesDao.delete(game)
+    }
 }
 

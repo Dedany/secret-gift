@@ -8,62 +8,14 @@
     android:background="@drawable/app_background"
     tools:context=".presentation.main.MainActivity">
 
-
-    <ImageButton
-        android:id="@+id/btn_logout_main"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="@dimen/activity_top_margin"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Cerrar sesión"
-        android:scaleType="centerCrop"
-        android:src="@drawable/icon_logout"
-        app:layout_constraintBottom_toTopOf="@+id/textView_title_main"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.878"
-        android:layout_marginEnd="16dp"
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation_main"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView_title_main"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="76dp"
-        android:fontFamily="cursive"
-        android:gravity="center"
-        android:text="SecretGift"
-        android:textColor="@color/brown"
-        android:textSize="48sp"
-        app:layout_constraintBottom_toTopOf="@+id/button_create_event"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/button_create_event"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:layout_marginBottom="76dp"
-        android:backgroundTint="#595454"
-        android:text="Crear evento"
-
-        android:textColor="#BC8D1A"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView_main"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_main"
-        android:layout_width="362dp"
-        android:layout_height="328dp"
-        android:layout_marginBottom="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_main"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.489"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_main"
@@ -72,9 +24,7 @@
         android:background="@drawable/bottom_nav_shape"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav_menu" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,4 +7,5 @@ interface LocalDataSource {
     suspend fun insertGames(games : List<GameDbo>)
     suspend fun getGames(): List<GameDbo>
     suspend fun getGameById(id: String): GameDbo?
+    suspend fun deleteGame(game: GameDbo)
 }
