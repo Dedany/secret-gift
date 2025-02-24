@@ -27,14 +27,19 @@
         <activity
             android:name=".presentation.game.createGame.CreateGameActivity"
             android:exported="true" />
-
         <activity
-            android:name=".presentation.main.MainActivity"
-            android:exported="true">
+            android:name=".presentation.game.viewGame.ViewGameActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".presentation.main.MainActivity"
+            android:exported="true">
+
         </activity>
 
     </application>
