@@ -24,4 +24,10 @@ object UseCaseModule {
         )
     }
 
+    @Provides
+    @Singleton
+    fun provideAuthUseCase(repository: AuthRepository): AuthUseCase {
+        return AuthUseCaseImpl(repository)
+    }
+
 }
