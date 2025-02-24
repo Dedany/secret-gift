@@ -37,6 +37,11 @@
             </intent-filter>
         </activity>
 
+        <!-- Declaración de DetailsMainActivity -->
+        <activity
+            android:name=".presentation.details.DetailsMainActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>

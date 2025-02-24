@@ -1,24 +1,37 @@
 package com.dedany.secretgift.presentation.main
 
+import android.content.ClipData.Item
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.dedany.secretgift.databinding.ItemGameListBinding
 import com.dedany.secretgift.domain.entities.Game
 
-class GamesAdapter : ListAdapter<Game, GamesAdapter.GameViewHolder>(ListAdapterCallback()) {
+class GamesAdapter(
+    private val onGameClick: (Game, Int) -> Unit,
+    private val onGameDelete: (Game, Int) -> Unit
+) : ListAdapter<Game, GamesAdapter.GameViewHolder>(ListAdapterCallback()) {
 
-    inner class GameViewHolder(
-        private val binding: ItemGameListBinding
-    ) : ViewHolder(binding.root) {
-        fun bind(game: Game) {
+    inner class GameViewHolder(private val binding: ItemGameListBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(game: Game, position: Int) {
             binding.tvGameName.text = game.name
+
+            // Evento para eliminar
+            binding.ibMainDelete.setOnClickListener {
+                onGameDelete(game, position)
+            }
+
+            // Evento para ver detalles
+            binding.root.setOnClickListener {
+                onGameClick(game, position)
+            }
         }
     }
 
-    class ListAdapterCallback: DiffUtil.ItemCallback<Game>(){
+    class ListAdapterCallback : DiffUtil.ItemCallback<Game>() {
         override fun areItemsTheSame(oldItem: Game, newItem: Game): Boolean {
             return oldItem.id == newItem.id
         }
@@ -29,11 +42,11 @@ class GamesAdapter : ListAdapter<Game, GamesAdapter.GameViewHolder>(ListAdapterC
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameViewHolder {
-        val binding = ItemGameListBinding.inflate(LayoutInflater.from(parent.context))
+        val binding = ItemGameListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return GameViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: GameViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), position)
     }
 }

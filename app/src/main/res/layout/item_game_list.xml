@@ -3,27 +3,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@android:color/transparent"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="4dp"
-    app:strokeColor="@android:color/transparent"
+    app:cardBackgroundColor="#00FFFFFF"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="0dp"
+    app:strokeColor="#00FFFFFF"
     app:cardUseCompatPadding="true">
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="12dp"
-        android:gravity="center_vertical">
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        >
 
         <TextView
             android:id="@+id/tv_game_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginHorizontal="@dimen/activity_top_margin"
+            android:layout_marginVertical="@dimen/activity_top_margin"
+            android:layout_weight="1"
             android:text="Nombre"
             android:textColor="@color/brown"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:paddingHorizontal="8dp" />
+            android:textSize="20dp" />
+
+        <ImageButton
+            android:id="@+id/ib_main_delete"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginVertical="@dimen/activity_top_margin"
+            android:background="#00FFFFFF"
+            android:src="@drawable/icon_delete" />
+
 
     </LinearLayout>
 
