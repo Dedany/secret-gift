@@ -24,7 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainFragment : Fragment(R.layout.fragment_main) {
 
     private var binding: FragmentMainBinding? = null
-    private lateinit var viewModel: MainActivityViewModel
+    private var viewModel: MainActivityViewModel? =null
     private var gamesAdapter: GamesAdapter? = null
 
     private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -32,7 +32,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             RESULT_OK -> {
                 if (result.data?.hasExtra(Constants.KEY_GAME) == true) {
                     val game = result.data?.extras?.getSerializable(Constants.KEY_GAME) as? Game
-                    val position = result.data?.extras?.getSerializable(Constants.KEY_GAME_POSITION) as? Int
+                    val position = result.data?.extras?.getInt(Constants.KEY_GAME_POSITION)
                     position?.let {
                         game?.let {
                             viewModel?.updateGamesList(position, game)
@@ -53,7 +53,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         setUpObservers()
         setUpListeners()
 
-        viewModel.loadGames() // Cargar los juegos cuando el fragmento se ha creado
+        viewModel?.loadGames() // Cargar los juegos cuando el fragmento se ha creado
     }
 
     private fun setUpAdapters() {

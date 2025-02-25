@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         // Establecer el fragmento inicial
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, MainFragment())
+                .replace(binding.fragmentContainer.id, MainFragment())
                 .commit()
         }
 
@@ -32,13 +32,13 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.navigation_home -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, MainFragment())
+                        .replace(binding.fragmentContainer.id, MainFragment())
                         .commit()
                     true
                 }
                 R.id.navigation_profile -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, ProfileFragment())
+                        .replace(binding.fragmentContainer.id, ProfileFragment())
                         .commit()
                     true
                 }

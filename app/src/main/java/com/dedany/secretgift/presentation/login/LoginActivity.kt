@@ -14,7 +14,9 @@ import com.dedany.secretgift.databinding.ActivityLoginBinding
 import com.dedany.secretgift.databinding.ActivityMainBinding
 import com.dedany.secretgift.presentation.main.MainActivity
 import com.dedany.secretgift.presentation.main.MainActivityViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     private var binding: ActivityLoginBinding? = null
@@ -32,13 +34,24 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initObservers() {
-        viewModel?.isLoginSuccess?.observe(this) {isSucces->
-            if(isSucces){
+        viewModel?.isLoginSuccess?.observe(this) { isSucces ->
+            if (isSucces) {
                 startActivity(Intent(this, MainActivity::class.java))
-            }else {
-                Toast.makeText(this,"Error al iniciar sesion",Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Error al iniciar sesion", Toast.LENGTH_SHORT).show()
             }
+        }
+        viewModel?.canDoLogin?.observe(this) { isEnabled ->
+        }
+        viewModel?.isLoginFormValid?.observe(this) { isValid ->
+            if (!isValid) {
+                Toast.makeText(
+                    this@LoginActivity,
+                    "Rectifica correo y contraseña",
+                    Toast.LENGTH_LONG
+                ).show()
             }
+        }
     }
 
     private fun initListeners() {
