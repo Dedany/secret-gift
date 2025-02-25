@@ -1,145 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:background="@drawable/app_background"
     android:layout_height="match_parent"
-    tools:context=".presentation.game.viewGame.ViewGameActivity">
-
-    <Toolbar
+    android:background="@drawable/app_background">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/view_game_settings">
 
-        android:id="@+id/toolbar"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#00ffffff"
+            android:fitsSystemWindows="true">
 
-            android:layout_gravity="center"
-            android:fontFamily="cursive"
-            android:gravity="center"
-            android:text="Mi amigo invisible"
-            android:textColor="#835B18"
-            android:textSize="48sp"
-             />
-    </Toolbar>
-    <LinearLayout
-        android:id="@+id/player_info_layout"
-        android:layout_marginTop="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:backgroundTint="#327167"
-            app:cardCornerRadius="16dp"
-            app:strokeColor="#835B18"
-            app:strokeWidth="2dp">
+                android:backgroundTint="#00FFFFFF"
+                app:layout_scrollFlags="scroll|snap">
 
-            <TextView
-                android:id="@+id/main_player_name"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:orientation="vertical">
+
+                    <Toolbar
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:layout_gravity="center"
+                            android:fontFamily="cursive"
+                            android:gravity="center"
+                            android:text="Mi amigo invisible"
+                            android:textColor="#835B18"
+                            android:textSize="48sp" />
+                    </Toolbar>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:backgroundTint="#327167"
+                        app:cardCornerRadius="16dp"
+                        app:strokeColor="#835B18"
+                        app:strokeWidth="2dp">
+
+                        <TextView
+                            android:id="@+id/main_player_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:paddingHorizontal="12dp"
+                            android:paddingVertical="2dp"
+                            android:text="Jugador 1"
+                            android:textColor="#EBDFDF"
+                            android:textSize="24sp" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/mc_conector"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:gravity="center"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="2dp"
-                android:text="Jugador 1"
-                android:textColor="#EBDFDF"
-                android:textSize="24sp" />
-        </com.google.android.material.card.MaterialCardView>
-        <com.google.android.material.card.MaterialCardView
-            app:cardCornerRadius="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:backgroundTint="#A29F67"
-            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/conector"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="#A29F67"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/conector"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="2dp"
+                    android:text="te ha tocado"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/mc_asigned_player"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textColor="@color/white"
-                android:gravity="center"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="2dp"
-                android:text="te ha tocado"
-                android:textSize="12sp" />
-        </com.google.android.material.card.MaterialCardView>
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#327167"
+                app:cardCornerRadius="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/mc_conector"
+                app:strokeColor="#835B18"
+                app:strokeWidth="2dp">
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:backgroundTint="#327167"
-            app:cardCornerRadius="16dp"
-            app:strokeColor="#835B18"
-            app:strokeWidth="2dp">
+                <TextView
+                    android:id="@+id/main_player_target"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="2dp"
+                    android:text="Jugador 2"
+                    android:textColor="#EBDFDF"
+                    android:textSize="24sp" />
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
-                android:id="@+id/main_player_target"
-                android:layout_width="wrap_content"
+                android:id="@+id/players_list"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
                 android:gravity="center"
+                android:text="PARTICIPANTES"
+                android:textColor="#835B18"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/mc_asigned_player" />
 
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="2dp"
-                android:text="Jugador 2"
-                android:textColor="#EBDFDF"
-                android:textSize="24sp" />
-        </com.google.android.material.card.MaterialCardView>
-    </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/players_recycler_view"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/players_list"
+                tools:itemCount="15"
+                tools:listitem="@layout/item_players_view">
 
-    <TextView
-        android:id="@+id/players_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:text="PARTICIPANTES"
-        android:textColor="#835B18"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/player_info_layout" />
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/players_recycler_view"
-        app:layout_constraintTop_toBottomOf="@+id/players_list"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:itemCount="5"
+            </androidx.recyclerview.widget.RecyclerView>
 
-        tools:listitem="@layout/item_players_view">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/view_game_settings"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="205dp"
+        android:layout_gravity="bottom"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="#A05F5540"
         android:orientation="vertical"
         app:cardCornerRadius="16dp"
@@ -149,9 +196,8 @@
         app:contentPaddingTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/players_recycler_view"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:strokeColor="#835B18"
-
         app:strokeWidth="2dp">
 
         <LinearLayout
@@ -268,5 +314,4 @@
 
 
     </com.google.android.material.card.MaterialCardView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
