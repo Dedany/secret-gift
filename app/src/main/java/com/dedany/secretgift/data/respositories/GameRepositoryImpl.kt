@@ -27,6 +27,10 @@ class GameRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun deleteGame(game: Game) {
+        val gameDbo = game.toGameDbo()
+        localGamesDataSource.delete(gameDbo)
+    }
     private fun GameDto.toLocal(): GameDbo {
         return GameDbo(
             id = this.id,
@@ -62,6 +66,19 @@ class GameRepositoryImpl @Inject constructor(
             gameCode = this.gameCode,
             maxCost = this.maxCost,
             minCost = this.minCost,
+            gameDate = this.gameDate
+        )
+    }
+
+    private fun Game.toGameDbo(): GameDbo {
+        return GameDbo(
+            id = this.id,
+            name = this.name,
+            ownerId = this.ownerId,
+            maxCost = this.maxCost,
+            minCost = this.minCost,
+            status = this.status,
+            gameCode = this.gameCode,
             gameDate = this.gameDate
         )
     }

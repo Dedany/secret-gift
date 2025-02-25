@@ -11,21 +11,7 @@ class GameRemoteDataSourceImpl @Inject constructor(
     private val gamesApi: SecretGiftApi,
    // private val firestore: FirebaseFirestore
 ):GameRemoteDataSource {
-/*
-     suspend fun getGames2(): List<GameDto> {
-        return suspendCoroutine {
-            firestore.collection("games").get()
-                .addOnSuccessListener { result ->
-                    val games: List<GameDto> = result.toObjects(GameDto::class.java)
-                    games.forEachIndexed{ index, game ->
-                        game.id = result.documents.getOrNull(index)?.id.toString()
-                    }
-                    it.resume(games)
-                }.addOnFailureListener{ _ ->
-                    it.resume(emptyList())}
-        }
-    }
-*/
+
     override suspend fun getGames(): List<GameDto> {
         val games = gamesApi.getGames().body()?.data ?: emptyList()
         return games
