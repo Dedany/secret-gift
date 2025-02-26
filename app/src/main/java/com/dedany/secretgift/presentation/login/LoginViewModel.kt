@@ -50,4 +50,8 @@ class LoginViewModel @Inject constructor(
             _isLoginFormValid.value = false
         }
     }
+
+    fun setCode(toString: String) {
+
+    }
 }
