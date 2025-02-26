@@ -15,6 +15,7 @@ import com.dedany.secretgift.domain.entities.Game
 import com.dedany.secretgift.presentation.details.DetailsMainActivity
 import com.dedany.secretgift.presentation.game.createGame.CreateGameActivity
 import com.dedany.secretgift.presentation.helpers.Constants
+import com.dedany.secretgift.presentation.helpers.getCustomSerializable
 import com.dedany.secretgift.presentation.login.LoginActivity
 import com.dedany.secretgift.presentation.main.GamesAdapter
 import com.dedany.secretgift.presentation.main.MainActivityViewModel
@@ -24,25 +25,27 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainFragment : Fragment(R.layout.fragment_main) {
 
     private var binding: FragmentMainBinding? = null
-    private var viewModel: MainActivityViewModel? =null
+    private var viewModel: MainActivityViewModel? = null
     private var gamesAdapter: GamesAdapter? = null
 
-    private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        when (result.resultCode) {
-            RESULT_OK -> {
-                if (result.data?.hasExtra(Constants.KEY_GAME) == true) {
-                    val game = result.data?.extras?.getSerializable(Constants.KEY_GAME) as? Game
-                    val position = result.data?.extras?.getInt(Constants.KEY_GAME_POSITION)
-                    position?.let {
-                        game?.let {
-                            viewModel?.updateGamesList(position, game)
-                            gamesAdapter?.notifyDataSetChanged()
+    private var resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                RESULT_OK -> {
+                    if (result.data?.hasExtra(Constants.KEY_GAME) == true) {
+                        val game = result.data?.getCustomSerializable<Game>(Constants.KEY_GAME)
+                        val position = result.data?.extras?.getInt(Constants.KEY_GAME_POSITION)
+                        position?.let {
+                            game?.let {
+                                viewModel?.updateGamesList(position, game)
+                                gamesAdapter?.notifyDataSetChanged()
+                            }
                         }
                     }
                 }
             }
         }
-    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
