@@ -20,6 +20,7 @@ import com.dedany.secretgift.databinding.CodeInputDialogBinding
 import com.dedany.secretgift.presentation.game.viewGame.ViewGameActivity
 import com.dedany.secretgift.presentation.main.MainActivity
 import com.dedany.secretgift.presentation.main.MainActivityViewModel
+import com.dedany.secretgift.presentation.register.RegisterActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -72,9 +73,13 @@ class LoginActivity : AppCompatActivity() {
         binding?.btnLogin?.setOnClickListener {
             viewModel?.login()
         }
-        binding?.btnEvent?.setOnClickListener {
-            // Crear un nuevo objeto Dialog
-            val dialog = Dialog(this)
+
+        binding?.tvLinkCreateUser?.setOnClickListener {
+            startActivity(Intent(this, RegisterActivity::class.java))
+        }
+    binding?.btnEvent?.setOnClickListener {
+        // Crear un nuevo objeto Dialog
+        val dialog = Dialog(this)
 
 
             // Configurar el layout personalizado

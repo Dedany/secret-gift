@@ -1,14 +1,22 @@
 package com.dedany.secretgift.presentation.register
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityRegisterBinding
+import com.dedany.secretgift.presentation.main.MainActivity
+import com.google.android.material.textfield.TextInputLayout
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterActivity : AppCompatActivity() {
 
     private var binding : ActivityRegisterBinding? = null
@@ -21,5 +29,84 @@ class RegisterActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[RegisterViewModel::class.java]
         setContentView(binding?.root)
 
+        initListeners()
+        initObservers()
+
+
+    }
+
+    private fun initObservers() {
+        viewModel?.nameError?.observe(this) {
+            binding?.nameLayout?.error = it
+        }
+        viewModel?.emailError?.observe(this) {
+            binding?.emailLayout?.error = it
+        }
+        viewModel?.passwordError?.observe(this) {
+            binding?.passwordLayout?.error = it
+        }
+        viewModel?.confirmPasswordError?.observe(this) {
+            binding?.confirmPasswordLayout?.error = it
+        }
+        viewModel?.isTermsAcceptedError?.observe(this) {
+            binding?.tvCheckboxError?.isVisible = !it.isNullOrEmpty()
+            binding?.tvCheckboxError?.text = it
+        }
+        viewModel?.isRegisterSuccessful?.observe(this) { isValid ->
+
+            Toast.makeText(
+                this,
+                if (isValid) "Registro exitoso" else "Error en el registro",
+                Toast.LENGTH_LONG
+            ).show()
+            if (isValid){
+                startActivity(Intent(this, MainActivity::class.java))
+            }
+
+
+        }
+        viewModel?.formHasError?.observe(this) { hasError ->
+            if (hasError) {
+                Toast.makeText(this, "Error en el formulario", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+    }
+
+    private fun initListeners() {
+        with(binding) {
+            this?.nameEditText?.doOnTextChanged  { text, start, before, count ->
+                clearErrorState(this.nameLayout)
+                viewModel?.setName(text?.toString() ?: "")
+            }
+            this?.nameEditText?.setOnFocusChangeListener { v, hasFocus ->
+                if (!hasFocus) {
+                    viewModel?.setName(nameEditText.text?.toString() ?: "")
+                }
+            }
+
+            this?.emailEditText?.doOnTextChanged { text, start, before, count ->
+                clearErrorState(this.emailLayout)
+                viewModel?.setEmail(text.toString())
+            }
+            this?.passwordEditText?.doOnTextChanged { text, start, before, count ->
+                clearErrorState(this.passwordLayout)
+                viewModel?.setPassword(text.toString())
+            }
+            this?.confirmPasswordEditText?.doOnTextChanged { text, start, before, count ->
+                clearErrorState(this.confirmPasswordLayout)
+                viewModel?.setConfirmPassword(text.toString())
+            }
+            this?.checkboxPrivacyPolicy?.setOnCheckedChangeListener { buttonView, isChecked ->
+                viewModel?.setTermsAccepted(isChecked)
+            }
+            this?.registerButton?.setOnClickListener {
+                viewModel?.register()
+            }
+
+        }
+    }
+    private fun clearErrorState(layout: TextInputLayout?) {
+        layout?.error = null
     }
 }

@@ -21,6 +21,17 @@ class AuthRepositoryImpl @Inject constructor(
         return false
     }
 
+    override suspend fun register(name: String, email: String, password: String): Boolean {
+        val dto = UserDto(
+            id = "",
+            name = name,
+            email = email,
+            password = password
+        )
+        val responseDto = authRemoteDataSource.register(dto)
+        return responseDto.first
+    }
+
     override fun logout(): Boolean {
         return authRemoteDataSource.logout()
     }
