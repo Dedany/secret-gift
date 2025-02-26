@@ -8,10 +8,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityRegisterBinding
+import com.dedany.secretgift.presentation.main.MainActivity
+import com.google.android.material.textfield.TextInputLayout
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterActivity : AppCompatActivity() {
 
     private var binding : ActivityRegisterBinding? = null
@@ -55,7 +60,7 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.LENGTH_LONG
             ).show()
             if (isValid){
-                startActivity(Intent(this, HomeActivity::class.java))
+                startActivity(Intent(this, MainActivity::class.java))
             }
 
 
@@ -69,6 +74,39 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun initListeners() {
-        TODO("Not yet implemented")
+        with(binding) {
+            this?.nameEditText?.doOnTextChanged  { text, start, before, count ->
+                clearErrorState(this.nameLayout)
+                viewModel?.setName(text?.toString() ?: "")
+            }
+            this?.nameEditText?.setOnFocusChangeListener { v, hasFocus ->
+                if (!hasFocus) {
+                    viewModel?.setName(nameEditText.text?.toString() ?: "")
+                }
+            }
+
+            this?.emailEditText?.doOnTextChanged { text, start, before, count ->
+                clearErrorState(this.emailLayout)
+                viewModel?.setEmail(text.toString())
+            }
+            this?.passwordEditText?.doOnTextChanged { text, start, before, count ->
+                clearErrorState(this.passwordLayout)
+                viewModel?.setPassword(text.toString())
+            }
+            this?.confirmPasswordEditText?.doOnTextChanged { text, start, before, count ->
+                clearErrorState(this.confirmPasswordLayout)
+                viewModel?.setConfirmPassword(text.toString())
+            }
+            this?.checkboxPrivacyPolicy?.setOnCheckedChangeListener { buttonView, isChecked ->
+                viewModel?.setTermsAccepted(isChecked)
+            }
+            this?.registerButton?.setOnClickListener {
+                viewModel?.register()
+            }
+
+        }
+    }
+    private fun clearErrorState(layout: TextInputLayout?) {
+        layout?.error = null
     }
 }

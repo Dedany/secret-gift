@@ -4,9 +4,16 @@ import com.dedany.secretgift.data.dataSources.users.remote.dto.UserDto
 import com.dedany.secretgift.domain.repositories.AuthRepository
 import javax.inject.Inject
 
-class AuthUseCaseImpl @Inject constructor(private val repository: AuthRepository) : AuthUseCase {
+class AuthUseCaseImpl @Inject constructor(
+    private val repository: AuthRepository
+) : AuthUseCase {
     override suspend fun login(email: String, password: String): Boolean {
         return repository.login(email, password)
+    }
+
+    override suspend fun register(name: String, email: String, password: String): Boolean {
+        val result = repository.register(name, email, password)
+        return result
     }
 
     override fun isEmailFormatValid(email: String): Boolean {
@@ -49,13 +56,16 @@ class AuthUseCaseImpl @Inject constructor(private val repository: AuthRepository
 
     override fun isRegisterFormValid(
         name: String,
-        age: Int,
         email: String,
         password: String,
-        repeatPassword: String
+        repeatPassword: String,
+        termsAndConditions: Boolean
     ): Boolean {
-        return isNameValid(name)  && isEmailFormatValid(email) &&
-                isPasswordFormatValid(password) && isPasswordMatching(password, repeatPassword)
+        return isNameValid(name) && isEmailFormatValid(email) &&
+                isPasswordFormatValid(password) && isPasswordMatching(
+            password,
+            repeatPassword
+        ) && termsAndConditions
     }
 
     override suspend fun getUsers(): List<UserDto> {

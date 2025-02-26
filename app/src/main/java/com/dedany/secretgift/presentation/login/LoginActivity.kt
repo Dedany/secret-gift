@@ -14,6 +14,7 @@ import com.dedany.secretgift.databinding.ActivityLoginBinding
 import com.dedany.secretgift.databinding.ActivityMainBinding
 import com.dedany.secretgift.presentation.main.MainActivity
 import com.dedany.secretgift.presentation.main.MainActivityViewModel
+import com.dedany.secretgift.presentation.register.RegisterActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -66,9 +67,9 @@ class LoginActivity : AppCompatActivity() {
         binding?.btnLogin?.setOnClickListener {
             viewModel?.login()
         }
-        /*
-                binding?.tvLinkCreateUser?.setOnClickListener {
-                    startActivity(Intent(this, RegisterActivity::class.java))
-                }*/
+
+        binding?.tvLinkCreateUser?.setOnClickListener {
+            startActivity(Intent(this, RegisterActivity::class.java))
+        }
     }
 }

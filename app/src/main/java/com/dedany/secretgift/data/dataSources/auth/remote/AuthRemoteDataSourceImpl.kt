@@ -34,11 +34,29 @@ class AuthRemoteDataSourceImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    suspend fun register(userDto: UserDto): Pair<Boolean, String> {
-        TODO("Not yet implemented")
+    override suspend fun register(userDto: UserDto): Pair<Boolean, String> {
+        val uuid = createAuthUser(userDto.email, userDto.password)
+        var isRegisterSuccess = false
+        if (uuid.isNotEmpty()) {
+            isRegisterSuccess = true
+        }
+        return Pair(isRegisterSuccess, uuid)
     }
 
     override suspend fun getUsers(): List<UserDto> {
         TODO("Not yet implemented")
+    }
+    private suspend fun createAuthUser(email: String, password: String): String {
+        return suspendCoroutine { result ->
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        result.resume(task.result.user?.uid ?: "")
+                    }
+                }.addOnFailureListener {
+                    result.resume("")
+                }
+        }
+
     }
 }
