@@ -48,4 +48,11 @@ object ApiModule {
     fun providesSecretGiftApi(retrofit: Retrofit): SecretGiftApi {
         return retrofit.create(SecretGiftApi::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun providesUsersApi(userApi: SecretGiftApi): SecretGiftRepository {
+        return SecretGiftRepository(secretGiftApi)
+    }
+
 }
