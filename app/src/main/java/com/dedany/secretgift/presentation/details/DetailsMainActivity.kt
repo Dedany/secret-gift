@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.dedany.secretgift.databinding.ActivityDetailsMainBinding
 import com.dedany.secretgift.domain.entities.Game
 import com.dedany.secretgift.presentation.helpers.Constants
+import com.dedany.secretgift.presentation.helpers.getCustomSerializable
 
 class DetailsMainActivity : AppCompatActivity() {
 
@@ -27,20 +28,21 @@ class DetailsMainActivity : AppCompatActivity() {
         setUpObservers()
     }
 
+
     private fun getIntentData() {
         if (intent.hasExtra(Constants.KEY_GAME)) {
-            (intent?.extras?.getSerializable(Constants.KEY_GAME) as? Game)?.let {
+            (intent?.getCustomSerializable<Game>(Constants.KEY_GAME))?.let {
                 viewModel?.setGameValue(it)
-
             }
         }
 
         if (intent.hasExtra(Constants.KEY_GAME_POSITION)) {
-            (intent?.extras?.getSerializable(Constants.KEY_GAME_POSITION) as? Int)?.let {
+            (intent?.extras?.getInt(Constants.KEY_GAME_POSITION))?.let {
                 viewModel?.setPositionValue(it)
             }
         }
     }
+
 
     private fun setUpListeners() {
         binding?.buttonSave?.setOnClickListener {
