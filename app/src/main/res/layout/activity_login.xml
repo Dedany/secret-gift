@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/app_background"
+    android:background="@drawable/background3"
     tools:context=".presentation.login.LoginActivity">
 
     <TextView
@@ -14,7 +14,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:fontFamily="cursive"
-        android:text="Cuenta de Logeo"
         android:textAlignment="center"
         android:textColor="@color/brown"
         android:textSize="24dp"
@@ -29,7 +28,7 @@
         android:layout_height="128dp"
         android:layout_marginTop="@dimen/activity_top_margin"
         android:scaleType="centerCrop"
-        android:src="@drawable/logo_login2"
+        android:src="@drawable/logo_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_tittle_login" />
@@ -40,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_top_margin"
+        android:textColorHint="@color/white"
         app:boxBackgroundMode="outline"
         app:boxStrokeColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,9 +49,10 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_email"
             android:layout_width="match_parent"
-            android:inputType="textEmailAddress|textNoSuggestions"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
             android:hint="@string/usuario"
+            android:inputType="textEmailAddress|textNoSuggestions"
             android:textColor="@color/white" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -62,10 +63,11 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_top_margin"
+        android:textColorHint="@color/white"
         app:boxStrokeColor="#4E000000"
+        app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:endIconMode="password_toggle"
         app:layout_constraintTop_toBottomOf="@+id/til_email">
 
 
@@ -73,9 +75,11 @@
             android:id="@+id/et_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
             android:hint="@string/password"
             android:inputType="textPassword"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textColorHint="@color/black" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

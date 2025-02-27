@@ -28,6 +28,7 @@ class LoginActivity : AppCompatActivity() {
 
     private var binding: ActivityLoginBinding? = null
     private var viewModel: LoginViewModel? = null
+    private var loginAdapter: LoginAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +40,13 @@ class LoginActivity : AppCompatActivity() {
         initObservers()
         initListeners()
     }
+
+    /*private fun setAdapter(){
+        loginAdapter = LoginAdapter(){
+            viewModel?.loadListCode()
+        }
+
+        binding?.recyclerView?.adapter = loginAdapter*/
 
     private fun initObservers() {
         viewModel?.isLoginSuccess?.observe(this) { isSucces ->
