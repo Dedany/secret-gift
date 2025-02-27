@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:fontFamily="cursive"
-        android:text="Cuenta de Logeo"
+        android:text="Iniciar Sesión"
         android:textAlignment="center"
         android:textColor="@color/brown"
         android:textSize="24dp"
@@ -29,7 +29,7 @@
         android:layout_height="128dp"
         android:layout_marginTop="@dimen/activity_top_margin"
         android:scaleType="centerCrop"
-        android:src="@drawable/logo_login2"
+        android:src="@drawable/logo_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_tittle_login" />
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_top_margin"
-
+        android:textColorHint="@color/white"
         app:boxBackgroundMode="outline"
         app:boxStrokeColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,6 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/usuario"
+
             android:textColor="@color/white" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -62,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_top_margin"
-
+        android:textColorHint="@color/white"
         app:boxStrokeColor="#4E000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

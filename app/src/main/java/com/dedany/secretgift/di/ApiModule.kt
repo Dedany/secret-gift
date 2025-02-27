@@ -1,6 +1,7 @@
 package com.dedany.secretgift.di
 
 import com.dedany.secretgift.data.dataSources.games.remote.api.SecretGiftApi
+import com.dedany.secretgift.data.dataSources.users.api.UsersApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -51,8 +52,8 @@ object ApiModule {
 
     @Provides
     @Singleton
-    fun providesUsersApi(userApi: SecretGiftApi): SecretGiftRepository {
-        return SecretGiftRepository(secretGiftApi)
+    fun providesUsersApi(retrofit: Retrofit): UsersApi {
+        return retrofit.create(UsersApi::class.java)
     }
 
 }

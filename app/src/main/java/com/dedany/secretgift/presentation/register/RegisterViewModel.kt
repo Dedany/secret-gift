@@ -122,7 +122,6 @@ class RegisterViewModel @Inject constructor(
     fun register() {
         viewModelScope.launch {
             val name = name.value ?: ""
-
             val email = email.value ?: ""
             val password = password.value ?: ""
             val confirmPassword = confirmPassword.value ?: ""
@@ -136,8 +135,6 @@ class RegisterViewModel @Inject constructor(
                     isTermsAccepted
                 )
             ) {
-
-
                 _isRegisterSuccessful.value =
                     authUseCase.register(name,  email, password)
             } else {

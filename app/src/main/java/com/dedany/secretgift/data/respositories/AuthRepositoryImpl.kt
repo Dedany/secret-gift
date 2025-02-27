@@ -2,6 +2,7 @@ package com.dedany.secretgift.data.respositories
 
 import com.dedany.secretgift.data.dataSources.auth.remote.AuthRemoteDataSource
 import com.dedany.secretgift.data.dataSources.auth.remote.dto.LoginDto
+import com.dedany.secretgift.data.dataSources.users.remote.dto.CreateUserDto
 import com.dedany.secretgift.data.dataSources.users.remote.dto.UserDto
 import com.dedany.secretgift.domain.entities.RegisteredUser
 import com.dedany.secretgift.domain.repositories.AuthRepository
@@ -22,8 +23,7 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun register(name: String, email: String, password: String): Boolean {
-        val dto = UserDto(
-            id = "",
+        val dto = CreateUserDto(
             name = name,
             email = email,
             password = password

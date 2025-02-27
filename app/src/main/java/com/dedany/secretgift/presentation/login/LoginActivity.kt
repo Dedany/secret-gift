@@ -1,7 +1,7 @@
 package com.dedany.secretgift.presentation.login
 
 import android.app.Dialog
-import android.app.Dialog
+
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -75,14 +75,15 @@ class LoginActivity : AppCompatActivity() {
         binding?.tvLinkCreateUser?.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
-    binding?.btnEvent?.setOnClickListener {
-        // Crear un nuevo objeto Dialog
-        val dialog = Dialog(this)
+        binding?.btnEvent?.setOnClickListener {
+            // Crear un nuevo objeto Dialog
+            val dialog = Dialog(this)
 
-        // Configurar el layout personalizado
-        dialog.setContentView(R.layout.code_input_dialog)
+            // Configurar el layout personalizado
+            dialog.setContentView(R.layout.code_input_dialog)
 
-        // Mostrar el modal
-        dialog.show()
+            // Mostrar el modal
+            dialog.show()
+        }
     }
 }
