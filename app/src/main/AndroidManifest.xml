@@ -21,7 +21,10 @@
             android:exported="true" >
 
         </activity>
-
+        <activity
+            android:name=".presentation.game.viewGame.ViewGameActivity"
+            android:exported="true" >
+        </activity>
         <activity
             android:name=".presentation.login.LoginActivity"
             android:exported="true" >

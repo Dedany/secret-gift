@@ -54,7 +54,7 @@ class LoginActivity : AppCompatActivity() {
             if (!isValid) {
                 Toast.makeText(
                     this@LoginActivity,
-                    "Rectifica correo y contraseña",
+                    "Rectifica correo o contraseña",
                     Toast.LENGTH_LONG
                 ).show()
             }
@@ -77,29 +77,26 @@ class LoginActivity : AppCompatActivity() {
         binding?.tvLinkCreateUser?.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
-    binding?.btnEvent?.setOnClickListener {
-        // Crear un nuevo objeto Dialog
-        val dialog = Dialog(this)
+        binding?.btnEvent?.setOnClickListener {
 
+            val dialog = Dialog(this)
 
-            // Configurar el layout personalizado
             dialog.setContentView(R.layout.code_input_dialog)
 
-            // Mostrar el modal
             dialog.show()
             val btnConfirm = dialog.findViewById<Button>(R.id.btn_confirm)
             val btnCancel = dialog.findViewById<Button>(R.id.btn_cancel)
             val inputCodeField = dialog.findViewById<EditText>(R.id.inputCodeField)
 
-           btnConfirm.setOnClickListener {
-                startActivity(Intent(this, MainActivity::class.java))
+            btnConfirm.setOnClickListener {
+                startActivity(Intent(this,ViewGameActivity::class.java))
             }
 
             btnCancel.setOnClickListener {
                 dialog.dismiss()
             }
 
-          inputCodeField.doOnTextChanged { text, _, _, _ ->
+            inputCodeField.doOnTextChanged { text, _, _, _ ->
                 viewModel?.setCode(text.toString())
             }
 

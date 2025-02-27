@@ -49,10 +49,10 @@ object ApiModule {
         return retrofit.create(SecretGiftApi::class.java)
     }
 
-    @Provides
-    @Singleton
-    fun providesUsersApi(userApi: SecretGiftApi): SecretGiftRepository {
-        return SecretGiftRepository(secretGiftApi)
-    }
+//    @Provides
+//    @Singleton
+//    fun providesUsersApi(userApi: SecretGiftApi): SecretGiftRepository {
+//        return SecretGiftRepository(secretGiftApi)
+//    }
 
 }

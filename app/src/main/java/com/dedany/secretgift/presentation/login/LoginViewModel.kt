@@ -12,7 +12,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val authUseCase: AuthUseCase): ViewModel() {
+    private val authUseCase: AuthUseCase
+) : ViewModel() {
 
     private var _isLoginSuccess: MutableLiveData<Boolean> = MutableLiveData()
     val isLoginSuccess: LiveData<Boolean> = _isLoginSuccess
@@ -26,12 +27,13 @@ class LoginViewModel @Inject constructor(
 
     private var email: String = ""
     private var password: String = ""
-
+    private var code: String = ""
     fun setEmail(text: String) {
         email = text
         _canDoLogin.value = authUseCase.isLoginFormValid(email, password)
 
     }
+
     fun setPassword(text: String) {
         password = text
         _canDoLogin.value = authUseCase.isLoginFormValid(email, password)
@@ -51,7 +53,7 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun setCode(toString: String) {
-
+    fun setCode(code: String) {
+        this.code = code
     }
 }
