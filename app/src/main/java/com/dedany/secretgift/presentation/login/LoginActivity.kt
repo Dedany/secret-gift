@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.semantics.text
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doOnTextChanged
@@ -97,7 +98,11 @@ class LoginActivity : AppCompatActivity() {
             val inputCodeField = dialog.findViewById<EditText>(R.id.inputCodeField)
 
             btnConfirm.setOnClickListener {
-                startActivity(Intent(this,ViewGameActivity::class.java))
+                val gameCode = inputCodeField.text.toString()
+                val intent = Intent(this, ViewGameActivity::class.java)
+                intent.putExtra("CODE_EXTRA", gameCode)
+                startActivity(intent)
+                dialog.dismiss()
             }
 
             btnCancel.setOnClickListener {
