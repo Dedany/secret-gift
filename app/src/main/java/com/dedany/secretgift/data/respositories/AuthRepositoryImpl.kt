@@ -2,21 +2,24 @@ package com.dedany.secretgift.data.respositories
 
 import com.dedany.secretgift.data.dataSources.auth.remote.AuthRemoteDataSource
 import com.dedany.secretgift.data.dataSources.auth.remote.dto.LoginDto
+import com.dedany.secretgift.data.dataSources.users.local.preferences.UserPreferences
+import com.dedany.secretgift.data.dataSources.users.remote.UsersRemoteDataSource
 import com.dedany.secretgift.data.dataSources.users.remote.dto.CreateUserDto
-import com.dedany.secretgift.data.dataSources.users.remote.dto.UserDto
-import com.dedany.secretgift.domain.entities.RegisteredUser
 import com.dedany.secretgift.domain.repositories.AuthRepository
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
-    private val authRemoteDataSource: AuthRemoteDataSource
+    private val authRemoteDataSource: AuthRemoteDataSource,
+    private val userPreferences: UserPreferences,
+    private val usersRemoteDataSource: UsersRemoteDataSource
 ) :
     AuthRepository {
-    override suspend fun login(email: String, password: String): Boolean {
-        val credentials = LoginDto(email, password, null)
+    override suspend fun login(email: String,password: String): Boolean {
+        val credentials = LoginDto(email, password,null)
         val dto = authRemoteDataSource.login(credentials)
         if (!dto.token.isNullOrEmpty()) {
-            //Guardo en local
+            val userId = usersRemoteDataSource.getIdUserByEmail(email)
+            userPreferences.setUserId(userId)
             return true
         }
         return false
@@ -39,8 +42,4 @@ class AuthRepositoryImpl @Inject constructor(
 
 
 
-
-    override suspend fun getUsers(): List<RegisteredUser> {
-        TODO("Not yet implemented")
-    }
 }

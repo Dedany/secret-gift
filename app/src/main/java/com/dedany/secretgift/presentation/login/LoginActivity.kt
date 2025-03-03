@@ -49,13 +49,24 @@ class LoginActivity : AppCompatActivity() {
         binding?.recyclerView?.adapter = loginAdapter*/
 
     private fun initObservers() {
-        viewModel?.isLoginSuccess?.observe(this) { isSucces ->
-            if (isSucces) {
-                startActivity(Intent(this, MainActivity::class.java))
+        viewModel?.isLoginSuccess?.observe(this) { isSuccess ->
+            if (isSuccess) {
+
+
             } else {
-                Toast.makeText(this, "Error al iniciar sesion", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Error al iniciar sesión", Toast.LENGTH_SHORT).show()
             }
         }
+
+        viewModel?.registeredUser?.observe(this) { registeredUser ->
+            // Crear el intent para pasar a MainActivity
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("user", registeredUser) // Pasar el objeto usando putExtra
+
+            startActivity(intent)
+            finish() // Finaliza LoginActivity si no deseas regresar a ella
+        }
+
         viewModel?.canDoLogin?.observe(this) { isEnabled ->
         }
         viewModel?.isLoginFormValid?.observe(this) { isValid ->
@@ -97,7 +108,7 @@ class LoginActivity : AppCompatActivity() {
             val inputCodeField = dialog.findViewById<EditText>(R.id.inputCodeField)
 
             btnConfirm.setOnClickListener {
-                startActivity(Intent(this,ViewGameActivity::class.java))
+                startActivity(Intent(this, ViewGameActivity::class.java))
             }
 
             btnCancel.setOnClickListener {

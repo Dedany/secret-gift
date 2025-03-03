@@ -29,5 +29,9 @@ data class GameDto(
     val players: List<PlayerDto>,
 
     @SerializedName("game_date")
-    val gameDate: Date
+    val gameDate: Date,
+
+    @SerializedName("rules")
+    val rules: List<GameRuleDto>
+
 )

@@ -12,7 +12,8 @@ data class Game(
     var name: String,
     val maxCost : Int,
     val minCost : Int,
-    val gameDate : Date
+    val gameDate : Date,
+    val rules: List<Rule> = emptyList()
 ): Serializable
 
 
