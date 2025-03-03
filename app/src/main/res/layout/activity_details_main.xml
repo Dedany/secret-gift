@@ -41,7 +41,7 @@
             android:layout_margin="20dp"
             android:gravity="center_vertical"
             android:text="Nombre:"
-            android:textColor="@color/brown"
+            android:textColor="@color/maincolor"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -73,7 +73,6 @@
             android:layout_margin="20dp"
             android:gravity="center_vertical"
             android:text="Estado:"
-            android:textColor="@color/brown"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -105,18 +104,16 @@
             android:layout_margin="20dp"
             android:gravity="center_vertical"
             android:text="Código de Juego:"
-            android:textColor="@color/brown"
             android:textSize="14sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/text_game_code"
-            style="@style/custom_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="20dp"
-            android:textColor="#F8F5F5" />
+            android:textColor="#F4F1F1" />
 
     </LinearLayout>
 
@@ -138,18 +135,16 @@
             android:layout_margin="20dp"
             android:gravity="center_vertical"
             android:text="Costo Máximo:"
-            android:textColor="@color/brown"
             android:textSize="14sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/text_max_cost"
-            style="@style/custom_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="20dp"
-            android:textColor="#FDFCFC" />
+            android:textColor="#F4F1F1" />
 
     </LinearLayout>
 
@@ -172,19 +167,17 @@
             android:layout_margin="20dp"
             android:gravity="center_vertical"
             android:text="Fecha del Juego:"
-            android:textColor="@color/brown"
             android:textSize="14sp"
             android:textStyle="bold" />
 
 
         <TextView
             android:id="@+id/text_game_date"
-            style="@style/custom_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="20dp"
-            android:textColor="#F2EDED" />
+            android:textColor="#F4F1F1" />
 
     </LinearLayout>
 

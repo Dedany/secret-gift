@@ -22,12 +22,15 @@
         app:titleTextColor="@android:color/white" />
 
     <!-- LinearLayout para el nombre -->
+
+    <!-- LinearLayout para el correo electrónico -->
     <LinearLayout
         android:id="@+id/linear_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
@@ -37,26 +40,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:textColor="@color/maincolor"
-            android:gravity="center_vertical"
             android:text="Nombre:"
             android:textSize="14sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/text_name_value"
-            style="@style/custom_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="20dp"
-            android:textColor="#F8F5F5" />
+            android:textColor="#F4F1F1" />
     </LinearLayout>
 
-    <!-- LinearLayout para el correo electrónico -->
     <LinearLayout
         android:id="@+id/linear_email"
-        style="@style/custom_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -70,20 +68,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:textColor="@color/maincolor"
-            android:gravity="center_vertical"
             android:text="Correo Electrónico:"
+            android:textColor="@color/maincolor"
             android:textSize="14sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/text_email_value"
-            style="@style/custom_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="20dp"
-            android:textColor="#F8F5F5" />
+            android:textColor="#F4F1F1" />
     </LinearLayout>
 
     <!-- LinearLayout para el ID -->
@@ -102,26 +98,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:textColor="@color/maincolor"
             android:gravity="center_vertical"
             android:text="ID de Usuario:"
+            android:textColor="@color/maincolor"
             android:textSize="14sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/text_id_value"
-            style="@style/custom_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="20dp"
-            android:textColor="#F8F5F5" />
+            android:textColor="#F4F1F1" />
     </LinearLayout>
 
     <!-- Botón de acción (si lo necesitas) -->
     <Button
-        style="@style/custom_button"
         android:id="@+id/button_save"
+        style="@style/custom_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"

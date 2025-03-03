@@ -39,7 +39,7 @@
                     android:src="@drawable/icon_logout" />
 
             </androidx.appcompat.widget.Toolbar>
-            
+
             <TextView
                 android:id="@+id/textView_title_main"
                 style="@style/custom_text_view"

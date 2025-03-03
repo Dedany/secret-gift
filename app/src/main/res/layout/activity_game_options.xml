@@ -12,10 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="SecretGift"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView_options"
@@ -54,8 +53,8 @@
                 style="@style/custom_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14dp"
                 android:text="Fecha de evento:"
+                android:textSize="14dp"
                 android:textStyle="bold" />
 
             <EditText
@@ -63,15 +62,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="DD/MM/YYYY"
-                android:inputType="date"
-                />
+                android:inputType="date" />
 
             <TextView
                 style="@style/custom_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14dp"
                 android:text="Numero de participantes:"
+                android:textSize="14dp"
                 android:textStyle="bold" />
 
             <EditText
@@ -80,16 +78,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="E.g.: 5"
-                android:inputType="number"
-                />
+                android:inputType="number" />
 
 
             <TextView
                 style="@style/custom_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14dp"
                 android:text="Precio máximo:"
+                android:textSize="14dp"
                 android:textStyle="bold" />
 
             <EditText
@@ -105,8 +102,8 @@
                 style="@style/custom_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="24dp"
-                android:text="Incompatibilidades:" />
+                android:text="Incompatibilidades:"
+                android:textSize="24dp" />
 
             <LinearLayout
                 android:id="@+id/layout_incompatibilities"
@@ -145,7 +142,7 @@
                         style="@style/custom_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                     android:layout_marginLeft="8dp"
+                        android:layout_marginLeft="8dp"
                         android:backgroundTint="@color/maincolor"
                         android:text="+"
                         android:textColor="#FFFFFF" />
