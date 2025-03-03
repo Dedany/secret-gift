@@ -39,6 +39,15 @@
                     android:layout_marginTop="@dimen/activity_top_margin"
                     android:text="SecretGift" />
 
+                <ImageView
+                    android:id="@+id/icon_back"
+                    style="@style/custom_back_image"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="40dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+                />
+
                 <TextView
                     android:id="@+id/tv_name_room"
                     style="@style/custom_text_view"

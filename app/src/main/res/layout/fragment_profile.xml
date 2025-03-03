@@ -12,14 +12,24 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:layout_margin="@dimen/activity_horizontal_margin"
         android:background="@color/maincolor"
         android:backgroundTint="#00FFFFFF"
+        android:layout_marginTop="@dimen/activity_top_margin"
         android:elevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title="Detalles del Usuario"
-        app:titleTextColor="@android:color/white" />
+        app:titleTextColor="@color/maincolor" />
+
+    <ImageView
+        android:id="@+id/icon_back"
+        style="@style/custom_back_image"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="66dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- LinearLayout para el nombre -->
 

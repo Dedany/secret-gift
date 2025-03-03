@@ -5,6 +5,9 @@ import com.dedany.secretgift.data.dataSources.games.remote.GameRemoteDataSourceI
 import com.dedany.secretgift.data.dataSources.games.remote.api.SecretGiftApi
 import com.dedany.secretgift.data.dataSources.auth.remote.AuthRemoteDataSource
 import com.dedany.secretgift.data.dataSources.auth.remote.AuthRemoteDataSourceImpl
+import com.dedany.secretgift.data.dataSources.users.api.UsersApi
+import com.dedany.secretgift.data.dataSources.users.remote.UsersRemoteDataSource
+import com.dedany.secretgift.data.dataSources.users.remote.UsersRemoteDataSourceImpl
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
@@ -25,7 +28,15 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideAuthRemoteDataSource(auth: FirebaseAuth): AuthRemoteDataSource {
-        return AuthRemoteDataSourceImpl(auth)
+    fun provideAuthRemoteDataSource(
+        auth: FirebaseAuth,
+        user: UsersRemoteDataSource
+    ): AuthRemoteDataSource {
+        return AuthRemoteDataSourceImpl(auth, user)
+    }
+    @Provides
+    @Singleton
+    fun provideUsersRemoteDataSource(usersApi: UsersApi): UsersRemoteDataSource {
+        return UsersRemoteDataSourceImpl(usersApi) //
     }
 }

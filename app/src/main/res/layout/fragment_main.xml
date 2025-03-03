@@ -45,12 +45,20 @@
                 style="@style/custom_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="54dp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="cursive"
                 android:gravity="center"
                 android:text="SecretGift"
                 android:textColor="@color/maincolor"
                 android:textSize="48sp" />
+            <ImageView
+                android:id="@+id/icon_back"
+                style="@style/custom_back_image"
+                android:layout_marginTop="40dp"
+                android:layout_marginHorizontal="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
