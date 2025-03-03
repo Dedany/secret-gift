@@ -11,7 +11,8 @@
         android:id="@+id/inputCodeField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Introduce el código de la sala"
+        android:hint="@string/game_code"
+        android:textAlignment="center"
         android:textColor="@color/white"
         android:inputType="text"
         android:textColorHint="#EBDFDF" />
@@ -20,24 +21,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="@dimen/activity_top_margin">
 
         <Button
+            style="@style/custom_button"
             android:id="@+id/btn_confirm"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="#23000000"
+            android:backgroundTint="#EF000000"
             android:text="Aceptar"
-            android:textColor="@color/brown" />
+            android:textColor="@color/maincolor" />
 
         <Button
+            style="@style/custom_button"
             android:id="@+id/btn_cancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="#23000000"
+            android:backgroundTint="#EF000000"
             android:text="Cancelar"
-            android:textColor="@color/brown" />
+            android:textColor="@color/maincolor" />
     </LinearLayout>
 </LinearLayout>

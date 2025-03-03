@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
@@ -49,7 +50,7 @@ class RegisterActivity : AppCompatActivity() {
             binding?.confirmPasswordLayout?.error = it
         }
         viewModel?.isTermsAcceptedError?.observe(this) {
-            binding?.tvCheckboxError?.isVisible = !it.isNullOrEmpty()
+            binding?.tvCheckboxError?.isInvisible = it.isNullOrEmpty()
             binding?.tvCheckboxError?.text = it
         }
         viewModel?.isRegisterSuccessful?.observe(this) { isValid ->

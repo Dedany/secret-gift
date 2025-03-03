@@ -46,13 +46,12 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-
                             android:layout_gravity="center"
                             android:fontFamily="cursive"
                             android:gravity="center"
                             android:text="Mi amigo invisible"
-                            android:textColor="#835B18"
-                            android:textSize="48sp" />
+                            android:textColor="@color/maincolor"
+                            android:textSize="@dimen/text_size_text_view" />
                     </Toolbar>
 
                     <com.google.android.material.card.MaterialCardView
@@ -147,13 +146,11 @@
 
             <TextView
                 android:id="@+id/players_list"
+                style="@style/custom_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
                 android:text="PARTICIPANTES"
-                android:textColor="#835B18"
-                android:textSize="24sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -222,12 +219,13 @@
                     android:src="@drawable/baseline_calendar_month_24" />
 
                 <TextView
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="4dp"
                     android:text="24/12/25"
-                    android:textColor="#EBDFDF"
+                    android:textColor="@color/hintColor"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -242,16 +240,17 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:textColor="@color/hintColor"
                     android:src="@drawable/group_profile_users_icon_icons_com_73540" />
 
                 <TextView
                     android:id="@+id/tv_players_number"
                     android:layout_width="wrap_content"
+                    android:textColor="@color/hintColor"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="8dp"
                     android:text="7"
-                    android:textColor="#EBDFDF"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -292,6 +291,7 @@
 
                 <ImageView
                     android:layout_width="30dp"
+                    android:textColor="@color/hintColor"
                     android:layout_height="30dp"
                     android:src="@drawable/baseline_monetization_on_24" />
 
@@ -307,7 +307,7 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="8dp"
                     android:text="25"
-                    android:textColor="#EBDFDF"
+                    android:textColor="@color/hintColor"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>

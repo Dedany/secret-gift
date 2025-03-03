@@ -2,11 +2,12 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="whiteStroke">#62FFFFFF</color>
     <color name="brown">#835B18</color>
     <color name="navColor">#A0382A07</color>
     <color name="editColor">#A99C57</color>
     <color name="deleteColor">#96E08989</color>
-
-
+    <color name="maincolor">#C38217</color>
+    <color name="hintColor">#FFFFFFFF</color>
 
 </resources>

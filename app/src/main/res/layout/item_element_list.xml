@@ -24,7 +24,7 @@
             android:layout_marginVertical="@dimen/activity_top_margin"
             android:layout_weight="1"
             android:text="Nombre"
-            android:textColor="@color/brown"
+            android:textColor="@color/maincolor"
             android:textSize="20dp" />
 
         <ImageButton

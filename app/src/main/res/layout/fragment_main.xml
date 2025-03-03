@@ -42,13 +42,14 @@
             
             <TextView
                 android:id="@+id/textView_title_main"
+                style="@style/custom_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="54dp"
                 android:fontFamily="cursive"
                 android:gravity="center"
                 android:text="SecretGift"
-                android:textColor="@color/brown"
+                android:textColor="@color/maincolor"
                 android:textSize="48sp" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -63,12 +64,11 @@
 
         <Button
             android:id="@+id/button_create_event"
-            android:layout_width="match_parent"
+            style="@style/custom_button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/activity_horizontal_margin"
-            android:backgroundTint="#595454"
             android:text="Crear evento"
-            android:textColor="#BC8D1A"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
