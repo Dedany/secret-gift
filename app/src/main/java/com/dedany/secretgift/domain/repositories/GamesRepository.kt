@@ -1,6 +1,5 @@
 package com.dedany.secretgift.domain.repositories
 
-import com.dedany.secretgift.data.dataSources.games.local.GameDbo.GameDbo
 import com.dedany.secretgift.domain.entities.Game
 
 interface GamesRepository {

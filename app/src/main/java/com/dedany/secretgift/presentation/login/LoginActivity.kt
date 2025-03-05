@@ -59,12 +59,11 @@ class LoginActivity : AppCompatActivity() {
         }
 
         viewModel?.registeredUser?.observe(this) { registeredUser ->
-            // Crear el intent para pasar a MainActivity
             val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("user", registeredUser) // Pasar el objeto usando putExtra
+            intent.putExtra("user", registeredUser)
 
             startActivity(intent)
-            finish() // Finaliza LoginActivity si no deseas regresar a ella
+            finish()
         }
 
         viewModel?.canDoLogin?.observe(this) { isEnabled ->

@@ -11,9 +11,6 @@ class UsersRemoteDataSourceImpl @Inject constructor(
     override suspend fun signUpUser(user: CreateUserDto): CreateUserDto {
         return usersApi.signUpUser(user)
     }
-    override suspend fun getUserDetails(userId: String): PlayerDto {
-        return usersApi.getUserDetails()
-    }
     override suspend fun getUserById(userId: String): PlayerDto {
         return usersApi.getUserById(userId)
     }

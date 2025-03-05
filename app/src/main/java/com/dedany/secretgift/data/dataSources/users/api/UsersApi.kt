@@ -14,9 +14,6 @@ interface UsersApi {
     @POST("user/create")
     suspend fun signUpUser(@Body user: CreateUserDto): CreateUserDto
 
-    @GET("user/rooms")
-    suspend fun getUserDetails(): PlayerDto
-
     @GET("users/email/{email}")
     suspend fun getIdUserByEmail(@Path("email") email: String): String
 
