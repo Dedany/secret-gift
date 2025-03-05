@@ -12,7 +12,7 @@ import retrofit2.http.Path
 
 interface SecretGiftApi {
 
-    @GET("room/getallrooms")
-    suspend fun getGames(): Response<GamesDataDto>
+    @GET("user/rooms/{user_id}")
+    suspend fun getGamesByUser(@Path("user_id") userId: String): Response<GamesDataDto>
 
 }

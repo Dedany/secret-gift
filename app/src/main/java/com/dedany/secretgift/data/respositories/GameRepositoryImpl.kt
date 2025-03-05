@@ -20,35 +20,13 @@ import javax.inject.Inject
 class GameRepositoryImpl @Inject constructor(
     private val remoteDataSource: GameRemoteDataSource,
     private val localGamesDataSource: GamesDao,
-    private val userPreferences: UserPreferences
 ) : GamesRepository {
-
-    override suspend fun getGames(): List<Game> {
-        return withContext(Dispatchers.IO) {
-            val gamesDto = remoteDataSource.getGames()
-            val gamesDbo = gamesDto.map { it.toLocal() }
-            val games = gamesDto.map { it.toGame() }
-
-            localGamesDataSource.saveAllGames(gamesDbo)
-            return@withContext games
-        }
-    }
-
 
     override suspend fun getGamesByUser(): List<Game> {
         return withContext(Dispatchers.IO) {
             try {
-                val userEmail = userPreferences.getUserEmail()
-
-                if (userEmail.isEmpty()) throw Exception("User email not found in preferences")
-
-                val gamesDto = remoteDataSource.getGames()
-                val filteredGames = gamesDto.filter { game ->
-                    game.players.any { it.email == userEmail }
-                }.map { it.toDomain() }
-
-                return@withContext filteredGames
-
+                val gamesDto = remoteDataSource.getGamesByUser()
+                return@withContext gamesDto.map { it.toDomain() }
             } catch (e: Exception) {
                 Log.e("getGamesByUser", "Error obteniendo juegos: ${e.message}")
                 return@withContext emptyList<Game>()
@@ -56,32 +34,9 @@ class GameRepositoryImpl @Inject constructor(
         }
     }
 
-
     override suspend fun deleteGame(game: Game) {
         val gameDbo = game.toGameDbo()
         localGamesDataSource.delete(gameDbo)
-    }
-
-    private fun GameDto.toLocal(): GameDbo {
-        return GameDbo(
-            id = this.id,
-            name = this.name,
-            ownerId = this.ownerId,
-            status = this.status,
-            gameCode = this.gameCode,
-            maxCost = this.maxCost,
-            minCost = this.minCost,
-            gameDate = this.gameDate,
-            players = this.players.map { it.toPlayerDbo() }
-        )
-    }
-
-    private fun PlayerDto.toPlayerDbo(): PlayerDbo {
-        return PlayerDbo(
-            id = this.id,
-            name = this.name,
-            email = this.email,
-        )
     }
 
 
@@ -115,35 +70,14 @@ class GameRepositoryImpl @Inject constructor(
         )
     }
 
-    private fun GameDto.toGame(): Game {
-        return Game(
-            id = this.id,
-            name = this.name,
-            ownerId = this.ownerId,
-            status = this.status,
-            gameCode = this.gameCode,
-            maxCost = this.maxCost,
-            minCost = this.minCost,
-            gameDate = this.gameDate,
-            players = this.players.map { it.toRegisteredUser() }, // Conversión correcta
-            rules = this.rules.map { it.toGameRule() }
-        )
-    }
-
     private fun PlayerDto.toRegisteredUser(): RegisteredUser {
         return RegisteredUser(
-            id = this.id,
+            id = this.userId,
             name = this.name,
             email = this.email
         )
     }
 
-    private fun GameRuleDto.toGameRule(): Rule {
-        return Rule(
-            player1 = this.player1,
-            player2 = this.player2
-        )
-    }
 
     private fun RegisteredUser.toPlayerDbo(): PlayerDbo {
         return PlayerDbo(
@@ -152,15 +86,5 @@ class GameRepositoryImpl @Inject constructor(
             email = this.email,
         )
     }
-
-    private fun PlayerDbo.toRegisteredUser(): RegisteredUser {
-        return RegisteredUser(
-            id = this.id,
-            name = this.name,
-            email = this.email
-        )
-    }
-
-
 
 }

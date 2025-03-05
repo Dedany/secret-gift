@@ -4,10 +4,12 @@ import android.content.SharedPreferences
 import javax.inject.Inject
 
 private const val USER_EMAIL = "userEmail"
+private const val USER_ID = "userId"  // Nueva clave para el ID del usuario
 
 class UserPreferences @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) {
+
     fun clear() = sharedPreferences.edit()?.clear()?.apply()
 
     fun getUserEmail(): String {
@@ -16,5 +18,14 @@ class UserPreferences @Inject constructor(
 
     fun setUserEmail(userEmail: String) {
         sharedPreferences.edit()?.putString(USER_EMAIL, userEmail)?.apply()
+    }
+
+
+    fun getUserId(): String {
+        return sharedPreferences.getString(USER_ID, "").orEmpty()
+    }
+
+    fun setUserId(userId: String) {
+        sharedPreferences.edit()?.putString(USER_ID, userId)?.apply()
     }
 }

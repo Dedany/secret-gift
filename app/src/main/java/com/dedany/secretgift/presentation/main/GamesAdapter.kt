@@ -19,12 +19,10 @@ class GamesAdapter(
         fun bind(game: Game, position: Int) {
             binding.tvGameName.text = game.name
 
-            // Evento para eliminar
             binding.ibMainDelete.setOnClickListener {
                 onGameDelete(game, position)
             }
 
-            // Evento para ver detalles
             binding.root.setOnClickListener {
                 onGameClick(game, position)
             }

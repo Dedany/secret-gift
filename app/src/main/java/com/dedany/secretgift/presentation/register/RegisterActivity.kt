@@ -13,6 +13,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityRegisterBinding
+import com.dedany.secretgift.presentation.login.LoginActivity
 import com.dedany.secretgift.presentation.main.MainActivity
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
@@ -61,7 +62,7 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.LENGTH_LONG
             ).show()
             if (isValid){
-                startActivity(Intent(this, MainActivity::class.java))
+                startActivity(Intent(this, LoginActivity::class.java))
             }
 
 

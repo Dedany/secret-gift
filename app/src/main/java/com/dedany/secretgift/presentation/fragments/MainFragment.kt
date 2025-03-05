@@ -63,7 +63,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         setUpListeners()
 
 
-        viewModel?.loadGames()
+        //viewModel?.loadGames()
     }
 
     private fun setUpAdapters() {

@@ -3,6 +3,7 @@ package com.dedany.secretgift.data.repositories
 import com.dedany.secretgift.data.dataSources.games.remote.dto.PlayerDto
 import com.dedany.secretgift.data.dataSources.users.local.preferences.UserPreferences
 import com.dedany.secretgift.data.dataSources.users.remote.UsersRemoteDataSource
+import com.dedany.secretgift.data.dataSources.users.remote.dto.UserEmailDto
 import com.dedany.secretgift.domain.entities.RegisteredUser
 import com.dedany.secretgift.domain.repositories.UsersRepository
 import javax.inject.Inject
@@ -16,7 +17,7 @@ class UsersRepositoryImpl @Inject constructor(
         val email = userPreferences.getUserEmail()
 
         if (email.isNotEmpty()) {
-            val response = usersRemoteDataSource.getUserByEmail(email)
+            val response = usersRemoteDataSource.getUserByEmail(email = UserEmailDto(email))
             if (response.isSuccessful) {
                 val playerDto = response.body()
                 if (playerDto != null) {
@@ -35,7 +36,7 @@ class UsersRepositoryImpl @Inject constructor(
 
     private fun PlayerDto.toLocal(): RegisteredUser {
         return RegisteredUser(
-            id = this.id,
+            id = this.userId,
             email = this.email,
             name = this.name
         )
