@@ -6,7 +6,6 @@ import com.dedany.secretgift.data.dataSources.users.remote.dto.CreateUserDto
 import com.dedany.secretgift.data.dataSources.users.remote.dto.UserDto
 
 interface AuthRemoteDataSource {
-
     suspend fun login(loginDto: LoginDto): LoginDto
     suspend fun register(userDto: CreateUserDto):  Pair<Boolean, String>
     fun logout(): Boolean

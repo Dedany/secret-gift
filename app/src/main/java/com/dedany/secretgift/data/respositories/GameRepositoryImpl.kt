@@ -1,7 +1,7 @@
 package com.dedany.secretgift.data.respositories
 
+import android.util.Log
 import com.dedany.secretgift.data.dataSources.games.local.GameDbo.GameDbo
-import com.dedany.secretgift.data.dataSources.games.local.GameDbo.GamePlayerDbo
 import com.dedany.secretgift.data.dataSources.games.local.GamesDao
 import com.dedany.secretgift.data.dataSources.games.local.PlayerDbo
 import com.dedany.secretgift.data.dataSources.games.remote.GameRemoteDataSource
@@ -25,9 +25,9 @@ class GameRepositoryImpl @Inject constructor(
 
     override suspend fun getGames(): List<Game> {
         return withContext(Dispatchers.IO) {
-            val gamesDto = remoteDataSource.getGames() // Obtener juegos desde la API
-            val gamesDbo = gamesDto.map { it.toLocal() } // Convertir a entidad local
-            val games = gamesDto.map { it.toGame() } // Convertir a dominio
+            val gamesDto = remoteDataSource.getGames()
+            val gamesDbo = gamesDto.map { it.toLocal() }
+            val games = gamesDto.map { it.toGame() }
 
             localGamesDataSource.saveAllGames(gamesDbo)
             return@withContext games
@@ -37,25 +37,18 @@ class GameRepositoryImpl @Inject constructor(
 
     override suspend fun getGamesByUser(): List<Game> {
         return withContext(Dispatchers.IO) {
-            // Obtener el userId desde las SharedPreferences
-            val userId = userPreferences.getUserId()
+            try {
+                val userId = userPreferences.getUserId()
+                if (userId.isEmpty()) throw Exception("User ID not found in preferences")
 
-            // Verificar si el userId está presente en SharedPreferences
-            if (userId.isEmpty()) {
-                throw Exception("User ID not found in preferences")
+                val gamesDbo = localGamesDataSource.getGamesByUser(userId)
+
+                return@withContext gamesDbo.map { it.toDomain() }
+
+            } catch (e: Exception) {
+                Log.e("getGamesByUser", "Error obteniendo juegos: ${e.message}")
+                return@withContext emptyList()
             }
-
-            // Obtener los juegos desde la API utilizando el userId
-            val gamesDto = remoteDataSource.getGamesByUser() // Obtener juegos desde la API
-
-            // Convertir los DTOs de juegos a objetos de base de datos local
-            val gamesDbo = gamesDto.map { it.toLocal() }
-
-            // Guardar los juegos en la base de datos local
-            localGamesDataSource.saveAllGames(gamesDbo)
-
-            // Convertir los juegos de base de datos a entidades de dominio y devolverlos
-            return@withContext gamesDbo.map { it.toDomain() }
         }
     }
 
@@ -162,14 +155,6 @@ class GameRepositoryImpl @Inject constructor(
             name = this.name,
             email = this.email
         )
-    }
-
-    private suspend fun saveGame(game: GameDbo) {
-        localGamesDataSource.insertGame(game) // Guarda el juego en la tabla de juegos
-        val gamePlayers = game.players.map { player ->
-            GamePlayerDbo(game.id, player.id) // Relación juego-jugador
-        }
-        localGamesDataSource.insertGamePlayers(gamePlayers) // Guarda las relaciones en la tabla intermedia
     }
 
 

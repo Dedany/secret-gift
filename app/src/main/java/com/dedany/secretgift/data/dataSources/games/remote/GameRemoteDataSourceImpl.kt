@@ -20,7 +20,7 @@ class GameRemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getGamesByUser(): List<GameDto> {
-        // Aquí obtenemos el userId desde SharedPreferences
+
         val userId = userPreferences.getUserId()
 
         if (userId.isEmpty()) {
@@ -29,7 +29,7 @@ class GameRemoteDataSourceImpl @Inject constructor(
 
         val response = gamesApi.getGamesByUser(userId)
         return if (response.isSuccessful) {
-            response.body() ?: emptyList() // Si el cuerpo es nulo, devuelve lista vacía
+            response.body() ?: emptyList()
         } else {
             throw Exception("Error fetching games for user $userId: ${response.errorBody()?.string()}")
         }
