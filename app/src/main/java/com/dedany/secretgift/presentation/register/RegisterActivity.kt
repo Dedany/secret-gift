@@ -124,7 +124,6 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
         binding?.adView?.let { adView ->
-            val adSize = AdSize.BANNER
 
             //asigna tamaño
             /*adView.setAdSize(adSize)

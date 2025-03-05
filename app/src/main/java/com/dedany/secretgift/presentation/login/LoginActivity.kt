@@ -135,21 +135,14 @@ class LoginActivity : AppCompatActivity() {
                 Log.d("AdMob", "Adapter: $adapter Status: ${satatus.description}")
             }
         }
-        binding?.adView?.let { adView ->
-           val adSize = AdSize.BANNER
-
+        binding?.adView?.apply {
             //asigna tamaño
-            /*adView.setAdSize(adSize)
-
-            // Configurar el ID
-            adView.adUnitId =
-                getString(R.string.admob_banner_id)*/
 
             // Carga el anuncio
-            val adRequest = AdRequest.Builder().build()
-            adView.loadAd(adRequest)
-        } ?: run {
-            Log.e("AdMob", "adView es nulo.no hay anuncio")
+            val adRequest = AdRequest.Builder().setContentUrl("https://www.amazon.es")
+            loadAd(adRequest.build())
         }
+
+
     }
 }
