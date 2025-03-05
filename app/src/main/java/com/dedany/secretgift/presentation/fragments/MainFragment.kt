@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.FragmentMainBinding
 import com.dedany.secretgift.domain.entities.Game
+import com.dedany.secretgift.domain.entities.RegisteredUser
 import com.dedany.secretgift.presentation.details.DetailsMainActivity
 import com.dedany.secretgift.presentation.game.createGame.CreateGameActivity
 import com.dedany.secretgift.presentation.helpers.Constants
@@ -27,6 +28,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private var binding: FragmentMainBinding? = null
     private var viewModel: MainActivityViewModel? = null
     private var gamesAdapter: GamesAdapter? = null
+    private lateinit var user: RegisteredUser // Variable para almacenar al usuario
 
     private var resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -46,17 +48,22 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             }
         }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentMainBinding.bind(view)
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+
+
+        user = arguments?.getSerializable("user") as? RegisteredUser
+            ?: throw IllegalArgumentException("User not found in arguments!")
+
         setUpAdapters()
         setUpObservers()
         setUpListeners()
 
-        viewModel?.loadGames() // Cargar los juegos cuando el fragmento se ha creado
+
+        viewModel?.loadGames()
     }
 
     private fun setUpAdapters() {
@@ -74,6 +81,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     private fun setUpObservers() {
+        // Observar los juegos cargados en el ViewModel
         viewModel?.games?.observe(viewLifecycleOwner) { games ->
             gamesAdapter?.submitList(games)
         }
@@ -81,17 +89,20 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun setUpListeners() {
         binding?.buttonCreateEvent?.setOnClickListener {
+            // Navegar a la pantalla de crear juego
             val intent = Intent(requireContext(), CreateGameActivity::class.java)
             startActivity(intent)
         }
 
         binding?.btnLogoutMain?.setOnClickListener {
+            // Cerrar sesión y navegar a la pantalla de inicio de sesión
             val intent = Intent(requireContext(), LoginActivity::class.java)
             startActivity(intent)
         }
     }
 
     private fun openGameDetails(game: Game, position: Int) {
+        // Navegar a la pantalla de detalles del juego
         val intent = Intent(requireContext(), DetailsMainActivity::class.java).apply {
             putExtra(Constants.KEY_GAME, game)
             putExtra(Constants.KEY_GAME_POSITION, position)

@@ -15,6 +15,7 @@ data class Game(
     val gameDate : Date,
     val currentPlayer : String,
     val matchedPlayer : String
+
 ): Serializable
 
 

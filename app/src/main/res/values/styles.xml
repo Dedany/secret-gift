@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="LoginTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">#fff</item>
+        <item name="boxStrokeWidth">2dp</item>
+    </style>
+
+    <style name="custom_edit_text">
+        <item name="colorControlActivated">@color/maincolor</item>
+        <item name="android:textSelectHandle">@color/maincolor</item>
+        <item name="android:textSelectHandleRight">@color/maincolor</item>
+        <item name="android:textSelectHandleLeft">@color/maincolor</item>
+        <item name="android:textColorHighlight">@color/maincolor</item>
+        <item name="android:textColor">@color/hintColor</item>
+    </style>
+
+    <style name="custom_text_input_layout">
+        <item name="android:layout_marginHorizontal">@dimen/activity_horizontal_margin</item>
+        <item name="android:textColorHint">@color/hintColor</item>
+       <item name="boxStrokeColor">@color/box_stroke_color</item>
+        <item name="cursorColor">@color/maincolor</item>
+        <item name="hintTextColor">@color/maincolor</item>
+
+    </style>
+
+    <style name="custom_button">
+        <item name="android:backgroundTint">#EF000000</item>
+        <item name="android:textColor">@color/maincolor</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="custom_text_view">
+        <item name="android:layout_marginTop">@dimen/activity_top_margin</item>
+        <item name="android:fontFamily">cursive</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">@dimen/text_size_text_view</item>
+        <item name="android:textColor">@color/maincolor</item>
+    </style>
+
+    <style name="custom_back_image">
+        <item name="android:layout_width">@dimen/layout_width_back_image_view</item>
+        <item name="android:layout_height">@dimen/layout_height_back_image_view</item>
+        <item name="android:src">@drawable/ic_launcher_foreground</item>
+        <item name="tint">@color/maincolor</item>
+        <item name="android:layout_marginTop">@dimen/activity_top_margin</item>
+
+
+    </style>
+</resources>

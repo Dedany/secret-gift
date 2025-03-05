@@ -55,15 +55,12 @@ class DetailsMainActivity : AppCompatActivity() {
             finish()
         }
 
-        binding?.editName?.doOnTextChanged { text, _, _, _ ->
-            viewModel?.setGameName(text.toString())
-        }
     }
 
     @SuppressLint("SetTextI18n")
     private fun setUpObservers() {
         viewModel?.game?.observe(this) { game ->
-            binding?.editName?.setText(game.name)
+            binding?.textName?.text = game.name
         }
         viewModel?.game?.observe(this) { game ->
             binding?.textStatus?.text = game.status

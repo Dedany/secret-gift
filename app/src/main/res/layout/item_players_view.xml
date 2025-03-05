@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.google.android.material.card.MaterialCardView
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     id="@+id/player_card"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
     android:layout_gravity="center_horizontal"
     android:layout_marginVertical="8dp"
-   xmlns:android="http://schemas.android.com/apk/res/android">
+    android:gravity="center_horizontal">
+
     <TextView
         android:id="@+id/player_name"
+        style="@style/custom_text_view"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:paddingHorizontal="8dp"
         android:paddingVertical="4dp"
-        android:layout_height="wrap_content"
-        android:text="Nombre del jugador"
-
-        android:textColor="#835B18"
-        />
+        android:text="Nombre del jugador" />
 
 </com.google.android.material.card.MaterialCardView>

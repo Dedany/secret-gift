@@ -2,11 +2,15 @@ package com.dedany.secretgift.data.dataSources.games.local.GameDbo
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.dedany.secretgift.data.Converters
+import com.dedany.secretgift.data.dataSources.games.local.PlayerDbo
 import com.google.gson.annotations.SerializedName
 import java.time.LocalDate
 import java.util.Date
 
 @Entity(tableName = "games")
+@TypeConverters(Converters::class)
 data class GameDbo(
     @PrimaryKey val id: String,
     val name: String,
@@ -19,7 +23,7 @@ data class GameDbo(
     val status: String,
     @SerializedName("game_code")
     val gameCode: String,
-    //@TypeConverters(Converters::class)val players: ArrayList<UserDbo>
+    val players: List<PlayerDbo>,
     @SerializedName("game_date")
     val gameDate: Date
 )

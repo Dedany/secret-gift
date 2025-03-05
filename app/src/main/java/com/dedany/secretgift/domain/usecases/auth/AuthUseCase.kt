@@ -1,9 +1,9 @@
 package com.dedany.secretgift.domain.usecases.auth
 
 import com.dedany.secretgift.data.dataSources.users.remote.dto.UserDto
+import com.dedany.secretgift.domain.entities.RegisteredUser
 
 interface AuthUseCase {
-
     suspend fun login(email:String, password: String):Boolean
     suspend fun register(
         name: String,
@@ -16,5 +16,4 @@ interface AuthUseCase {
     fun isNameValid(name: String): Boolean
     fun isPasswordMatching(value: String, repeatPassword: String): Boolean
     fun isRegisterFormValid(name: String,  email: String, password: String, repeatPassword: String, termsAndConditions: Boolean): Boolean
-    suspend fun getUsers(): List<UserDto>
 }

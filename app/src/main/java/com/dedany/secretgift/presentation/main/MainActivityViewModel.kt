@@ -22,7 +22,7 @@ class MainActivityViewModel @Inject constructor(private val gamesUseCase: GamesU
 
     fun loadGames() {
         viewModelScope.launch {
-            _games.value = gamesUseCase.getGames()
+            _games.value = gamesUseCase.getGamesByUser()
         }
     }
 
@@ -34,7 +34,6 @@ class MainActivityViewModel @Inject constructor(private val gamesUseCase: GamesU
 
     fun deleteGame(game: Game) {
         viewModelScope.launch {
-            //Operaciones de entrada y salida en segundo plano
             withContext(Dispatchers.IO) {
                 gamesUseCase.deleteGame(game)
             }

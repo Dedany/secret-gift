@@ -51,6 +51,15 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, "Error al iniciar sesion", Toast.LENGTH_SHORT).show()
             }
         }
+
+        viewModel?.registeredUser?.observe(this) { registeredUser ->
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("user", registeredUser)
+
+            startActivity(intent)
+            finish()
+        }
+
         viewModel?.canDoLogin?.observe(this) { isEnabled ->
         }
         viewModel?.isLoginFormValid?.observe(this) { isValid ->

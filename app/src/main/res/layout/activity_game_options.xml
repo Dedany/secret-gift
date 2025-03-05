@@ -8,27 +8,32 @@
 
     <TextView
         android:id="@+id/textView_title_options"
+        style="@style/custom_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_top_margin"
-        android:fontFamily="cursive"
-        android:textSize="24dp"
+        android:layout_marginHorizontal="40dp"
         android:text="SecretGift"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/icon_back"
+        style="@style/custom_back_image"
+        android:layout_marginTop="40dp"
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:textAlignment="center"
-        android:textColor="@color/brown" />
+        />
+
+
 
     <TextView
         android:id="@+id/textView_options"
+        style="@style/custom_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_top_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:fontFamily="cursive"
-        android:gravity="left"
         android:text="Opciones de sala"
-        android:textColor="@color/brown"
-        android:textSize="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView_title_options" />
@@ -56,64 +61,61 @@
 
             <!-- Event Date -->
             <TextView
+                android:id="@+id/textView_event"
+                style="@style/custom_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Fecha de evento:"
-                android:textColor="@color/brown"
+                android:textSize="14dp"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/editText_date_options"
+                style="@style/custom_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="DD/MM/YYYY"
-                android:inputType="date"
-                android:textColor="@color/brown"
-                android:textColorHint="@color/brown" />
+                android:inputType="date" />
 
             <TextView
+                style="@style/custom_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_top_margin"
                 android:text="Numero de participantes:"
-                android:textColor="@color/brown"
+                android:textSize="14dp"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editText_players_options"
+                style="@style/custom_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="E.g.: 5"
-                android:inputType="number"
-                android:textColor="@color/brown"
-                android:textColorHint="@color/brown" />
+                android:inputType="number" />
 
 
             <TextView
+                style="@style/custom_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_top_margin"
                 android:text="Precio máximo:"
-                android:textColor="@color/brown"
+                android:textSize="14dp"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editText_maxPrice_options"
+                style="@style/custom_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="E.g.: 20€"
-                android:inputType="numberDecimal"
-                android:textColor="@color/brown"
-                android:textColorHint="@color/brown" />
+                android:inputType="numberDecimal" />
 
 
             <TextView
+                style="@style/custom_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_top_margin"
                 android:text="Incompatibilidades:"
-                android:textColor="@color/brown"
-                android:textStyle="bold" />
+                android:textSize="24dp" />
 
             <LinearLayout
                 android:id="@+id/layout_incompatibilities"
@@ -138,7 +140,7 @@
                         android:layout_height="wrap_content"
                         android:padding="8dp"
                         android:text="↔"
-                        android:textColor="@color/brown"
+                        android:textColor="@color/maincolor"
                         android:textSize="24sp" />
 
                     <Spinner
@@ -149,10 +151,11 @@
 
                     <Button
                         android:id="@+id/btn_add_incompatibilities"
+                        style="@style/custom_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"
-                        android:backgroundTint="@color/brown"
+                        android:backgroundTint="@color/maincolor"
                         android:text="+"
                         android:textColor="#FFFFFF" />
                 </LinearLayout>
@@ -165,7 +168,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_top_margin"
-                android:backgroundTint="@color/brown"
+                android:backgroundTint="@color/maincolor"
                 android:text="Guardar Cambios"
                 android:textColor="#FFFFFF" />
 
