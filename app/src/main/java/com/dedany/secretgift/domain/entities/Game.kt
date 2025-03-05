@@ -8,11 +8,13 @@ data class Game(
     val ownerId: String,
     val status: String,
     val gameCode: String,
-    val players: List<RegisteredUser> = emptyList(),
+    val players: List<Player> = emptyList(),
     var name: String,
-    val maxCost : Int,
-    val minCost : Int,
-    val gameDate : Date
+    val maxCost : Int?,
+    val minCost : Int?,
+    val gameDate : Date,
+    val currentPlayer : String,
+    val matchedPlayer : String
 ): Serializable
 
 

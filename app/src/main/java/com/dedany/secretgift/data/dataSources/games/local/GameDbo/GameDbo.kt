@@ -13,9 +13,9 @@ data class GameDbo(
     @SerializedName("owner_id")
     val ownerId: String,
     @SerializedName("max_cost")
-    val maxCost: Int,
+    val maxCost: Int?,
     @SerializedName("min_cost")
-    val minCost: Int,
+    val minCost: Int?,
     val status: String,
     @SerializedName("game_code")
     val gameCode: String,

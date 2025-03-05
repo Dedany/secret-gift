@@ -3,24 +3,18 @@ package com.dedany.secretgift.presentation.login
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.semantics.text
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityLoginBinding
-import com.dedany.secretgift.databinding.ActivityMainBinding
-import com.dedany.secretgift.databinding.CodeInputDialogBinding
 import com.dedany.secretgift.presentation.game.viewGame.ViewGameActivity
+import com.dedany.secretgift.presentation.helpers.Constants
 import com.dedany.secretgift.presentation.main.MainActivity
-import com.dedany.secretgift.presentation.main.MainActivityViewModel
 import com.dedany.secretgift.presentation.register.RegisterActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -100,7 +94,7 @@ class LoginActivity : AppCompatActivity() {
             btnConfirm.setOnClickListener {
                 val gameCode = inputCodeField.text.toString()
                 val intent = Intent(this, ViewGameActivity::class.java)
-                intent.putExtra("CODE_EXTRA", gameCode)
+                intent.apply{putExtra(Constants.KEY_GAME, gameCode)}
                 startActivity(intent)
                 dialog.dismiss()
             }

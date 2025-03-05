@@ -11,6 +11,10 @@ class GameRemoteDataSourceImpl @Inject constructor(
     private val gamesApi: SecretGiftApi,
    // private val firestore: FirebaseFirestore
 ):GameRemoteDataSource {
+    override suspend fun getGame(gameCode: String): GameDto {
+       val game = gamesApi.getGameByAccessCode(gameCode).body()
+        return game!!
+    }
 
     override suspend fun getGames(): List<GameDto> {
         val games = gamesApi.getGames().body()?.data ?: emptyList()

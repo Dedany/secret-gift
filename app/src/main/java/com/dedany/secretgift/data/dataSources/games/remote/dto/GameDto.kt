@@ -15,9 +15,9 @@ data class GameDto(
     val ownerId: String,
 
     @SerializedName("max_cost")
-    val maxCost: Int,
+    val maxCost: Int?,
     @SerializedName("min_cost")
-    val minCost: Int,
+    val minCost: Int?,
 
     @SerializedName("status")
     val status: String,
@@ -29,5 +29,11 @@ data class GameDto(
     val players: List<PlayerDto>,
 
     @SerializedName("game_date")
-    val gameDate: Date
+    val gameDate: Date,
+
+    @SerializedName("current_player")
+    val currentPlayer: String,
+
+    @SerializedName("matched_player")
+    val matchedPlayer: String,
 )
