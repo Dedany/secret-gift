@@ -2,6 +2,7 @@ package com.dedany.secretgift.data.respositories
 
 import com.dedany.secretgift.data.dataSources.auth.remote.AuthRemoteDataSource
 import com.dedany.secretgift.data.dataSources.auth.remote.dto.LoginDto
+import com.dedany.secretgift.data.dataSources.games.remote.dto.GameDto
 import com.dedany.secretgift.data.dataSources.users.local.preferences.UserPreferences
 import com.dedany.secretgift.data.dataSources.users.remote.UsersRemoteDataSource
 import com.dedany.secretgift.data.dataSources.users.remote.dto.CreateUserDto
@@ -18,8 +19,7 @@ class AuthRepositoryImpl @Inject constructor(
         val credentials = LoginDto(email, password,null)
         val dto = authRemoteDataSource.login(credentials)
         if (!dto.token.isNullOrEmpty()) {
-            val userId = usersRemoteDataSource.getIdUserByEmail(email)
-            userPreferences.setUserId(userId)
+            userPreferences.setUserEmail(email)
             return true
         }
         return false

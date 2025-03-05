@@ -38,16 +38,20 @@ class GameRepositoryImpl @Inject constructor(
     override suspend fun getGamesByUser(): List<Game> {
         return withContext(Dispatchers.IO) {
             try {
-                val userId = userPreferences.getUserId()
-                if (userId.isEmpty()) throw Exception("User ID not found in preferences")
+                val userEmail = userPreferences.getUserEmail()
 
-                val gamesDbo = localGamesDataSource.getGamesByUser(userId)
+                if (userEmail.isEmpty()) throw Exception("User email not found in preferences")
 
-                return@withContext gamesDbo.map { it.toDomain() }
+                val gamesDto = remoteDataSource.getGames()
+                val filteredGames = gamesDto.filter { game ->
+                    game.players.any { it.email == userEmail }
+                }.map { it.toDomain() }
+
+                return@withContext filteredGames
 
             } catch (e: Exception) {
                 Log.e("getGamesByUser", "Error obteniendo juegos: ${e.message}")
-                return@withContext emptyList()
+                return@withContext emptyList<Game>()
             }
         }
     }
@@ -81,7 +85,7 @@ class GameRepositoryImpl @Inject constructor(
     }
 
 
-    private fun GameDbo.toDomain(): Game {
+    private fun GameDto.toDomain(): Game {
         return Game(
             id = this.id,
             name = this.name,
