@@ -4,26 +4,19 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityLoginBinding
-import com.dedany.secretgift.databinding.ActivityMainBinding
-import com.dedany.secretgift.databinding.CodeInputDialogBinding
 import com.dedany.secretgift.presentation.game.viewGame.ViewGameActivity
 import com.dedany.secretgift.presentation.main.MainActivity
-import com.dedany.secretgift.presentation.main.MainActivityViewModel
 import com.dedany.secretgift.presentation.register.RegisterActivity
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,7 +25,6 @@ class LoginActivity : AppCompatActivity() {
 
     private var binding: ActivityLoginBinding? = null
     private var viewModel: LoginViewModel? = null
-    private var loginAdapter: LoginAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,13 +38,6 @@ class LoginActivity : AppCompatActivity() {
         initListeners()
         initAd()
     }
-
-    /*private fun setAdapter(){
-        loginAdapter = LoginAdapter(){
-            viewModel?.loadListCode()
-        }
-
-        binding?.recyclerView?.adapter = loginAdapter*/
 
     private fun initObservers() {
         viewModel?.isLoginSuccess?.observe(this) { isSuccess ->

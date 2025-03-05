@@ -10,20 +10,20 @@ class GameRemoteDataSourceImpl @Inject constructor(
     private val userPreferences: UserPreferences
 ) : GameRemoteDataSource {
 
-        override suspend fun getGamesByUser(): List<GameDto> {
+    override suspend fun getGamesByUser(): List<GameDto> {
 
-            val userId = userPreferences.getUserId()
+        val userId = userPreferences.getUserId()
 
-            if (userId.isEmpty()) {
-                throw Exception("User ID not found in preferences")
-            }
-            val response = gamesApi.getGamesByUser(userId)
+        if (userId.isEmpty()) {
+            throw Exception("User ID not found in preferences")
+        }
+        val response = gamesApi.getGamesByUser(userId)
 
-            if (response.isSuccessful) {
-                return response.body()?.data ?: emptyList()
-            } else {
-                throw Exception("Error fetching games by user: ${response.errorBody()?.string()}")
-            }
+        if (response.isSuccessful) {
+            return response.body()?.data ?: emptyList()
+        } else {
+            throw Exception("Error fetching games by user: ${response.errorBody()?.string()}")
         }
     }
+}
 

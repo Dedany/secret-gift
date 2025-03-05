@@ -1,11 +1,8 @@
 package com.dedany.secretgift.data.respositories
 
-import android.util.Log
 import com.dedany.secretgift.data.dataSources.auth.remote.AuthRemoteDataSource
 import com.dedany.secretgift.data.dataSources.auth.remote.dto.LoginDto
-import com.dedany.secretgift.data.dataSources.games.remote.dto.GameDto
 import com.dedany.secretgift.data.dataSources.users.local.preferences.UserPreferences
-import com.dedany.secretgift.data.dataSources.users.remote.UsersRemoteDataSource
 import com.dedany.secretgift.data.dataSources.users.remote.dto.CreateUserDto
 import com.dedany.secretgift.data.dataSources.users.remote.dto.UserEmailDto
 import com.dedany.secretgift.domain.repositories.AuthRepository
@@ -20,39 +17,18 @@ class AuthRepositoryImpl @Inject constructor(
         val credentials = LoginDto(email, password, null)
         val response = authRemoteDataSource.login(credentials)
 
-        if (response.token.isNullOrEmpty()) {
-            Log.e("AuthRepository", "Login failed: token is empty")
-            return false
-        }
+        if (response.token.isNullOrEmpty()) return false
 
-        val userEmailDto = UserEmailDto(email)
-        val userResponse = authRemoteDataSource.getUserByEmail(userEmailDto)
+        val userResponse = authRemoteDataSource.getUserByEmail(UserEmailDto(email))
 
-        if (userResponse.isSuccessful) {
-            val playerDto = userResponse.body()
-
-            Log.d("AuthRepository", "User fetched: $playerDto")
-
-            if (playerDto?.userId.isNullOrEmpty()) {
-                Log.e("AuthRepository", "User ID is null or empty")
-                throw Exception("User ID is null or empty")
+        userResponse.body()?.takeIf { it.userId.isNotEmpty() }?.let { playerDto ->
+            userPreferences.apply {
+                setUserEmail(email)
+                setUserId(playerDto.userId)
             }
-
-            // Guardar en preferencias
-            userPreferences.setUserEmail(email)
-            userPreferences.setUserId(playerDto!!.userId)
-
-            Log.d("AuthRepository", "User ID saved: ${playerDto.userId}")
-
             return true
-        } else {
-            val errorMessage = userResponse.errorBody()?.string()
-            Log.e("AuthRepository", "Error fetching user by email: $errorMessage")
-            throw Exception("Error fetching user by email: $errorMessage")
-        }
+        } ?: return false
     }
-
-
 
     override suspend fun register(name: String, email: String, password: String): Boolean {
         val dto = CreateUserDto(

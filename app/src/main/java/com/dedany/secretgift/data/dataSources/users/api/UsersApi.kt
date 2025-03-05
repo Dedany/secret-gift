@@ -11,6 +11,7 @@ import retrofit2.http.POST
 interface UsersApi {
     @POST("user/create")
     suspend fun signUpUser(@Body user: CreateUserDto): CreateUserDto
+
     @POST("user/login")
     suspend fun getUserByEmail(@Body email: UserEmailDto): Response<PlayerDto>
 

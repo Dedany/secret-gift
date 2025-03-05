@@ -19,7 +19,4 @@ class DetailsMainViewModel : ViewModel() {
     fun setPositionValue(position: Int) {
         _position.value = position
     }
-
-
-
 }

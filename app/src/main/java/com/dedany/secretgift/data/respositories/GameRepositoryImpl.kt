@@ -6,12 +6,9 @@ import com.dedany.secretgift.data.dataSources.games.local.GamesDao
 import com.dedany.secretgift.data.dataSources.games.local.PlayerDbo
 import com.dedany.secretgift.data.dataSources.games.remote.GameRemoteDataSource
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameDto
-import com.dedany.secretgift.data.dataSources.games.remote.dto.GameRuleDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.PlayerDto
-import com.dedany.secretgift.data.dataSources.users.local.preferences.UserPreferences
 import com.dedany.secretgift.domain.entities.Game
 import com.dedany.secretgift.domain.entities.RegisteredUser
-import com.dedany.secretgift.domain.entities.Rule
 import com.dedany.secretgift.domain.repositories.GamesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -33,6 +30,7 @@ class GameRepositoryImpl @Inject constructor(
             }
         }
     }
+
     override suspend fun deleteGame(game: Game) {
         val gameDbo = game.toGameDbo()
         localGamesDataSource.delete(gameDbo)
@@ -50,7 +48,7 @@ class GameRepositoryImpl @Inject constructor(
             gameDate = this.gameDate,
             players = this.players.map { it.toRegisteredUser() },
 
-        )
+            )
     }
 
 

@@ -14,23 +14,13 @@ class UsersRepositoryImpl @Inject constructor(
 ) : UsersRepository {
 
     override suspend fun getRegisteredUser(): RegisteredUser {
-        val email = userPreferences.getUserEmail()
 
-        if (email.isNotEmpty()) {
-            val response = usersRemoteDataSource.getUserByEmail(email = UserEmailDto(email))
-            if (response.isSuccessful) {
-                val playerDto = response.body()
-                if (playerDto != null) {
-                    return playerDto.toLocal()
-                } else {
-                    throw Exception("No user data found in response")
-                }
-            } else {
-                throw Exception("Error: ${response.message()}")
-            }
-        } else {
-            throw Exception("User not found")
-        }
+        val email = userPreferences.getUserEmail().takeIf { it.isNotEmpty() }
+            ?: throw Exception("User not found")
+
+        val response = usersRemoteDataSource.getUserByEmail(UserEmailDto(email))
+
+        return response.body()?.toLocal() ?: throw Exception("No user data found in response")
     }
 
 

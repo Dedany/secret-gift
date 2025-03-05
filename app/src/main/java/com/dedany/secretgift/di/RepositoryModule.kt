@@ -39,12 +39,15 @@ object RepositoryModule {
         authRemoteDataSource: AuthRemoteDataSource,
         userPreferences: UserPreferences,
     ): AuthRepository {
-        return AuthRepositoryImpl(authRemoteDataSource,userPreferences)
+        return AuthRepositoryImpl(authRemoteDataSource, userPreferences)
     }
 
     @Provides
     @Singleton
-    fun provideUsersRepository(usersRemoteDataSource: UsersRemoteDataSource,userPreferences: UserPreferences): UsersRepository {
-        return UsersRepositoryImpl(usersRemoteDataSource,userPreferences)
+    fun provideUsersRepository(
+        usersRemoteDataSource: UsersRemoteDataSource,
+        userPreferences: UserPreferences
+    ): UsersRepository {
+        return UsersRepositoryImpl(usersRemoteDataSource, userPreferences)
     }
 }

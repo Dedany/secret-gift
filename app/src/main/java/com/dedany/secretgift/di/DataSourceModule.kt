@@ -1,10 +1,10 @@
 package com.dedany.secretgift.di
 
+import com.dedany.secretgift.data.dataSources.auth.remote.AuthRemoteDataSource
+import com.dedany.secretgift.data.dataSources.auth.remote.AuthRemoteDataSourceImpl
 import com.dedany.secretgift.data.dataSources.games.remote.GameRemoteDataSource
 import com.dedany.secretgift.data.dataSources.games.remote.GameRemoteDataSourceImpl
 import com.dedany.secretgift.data.dataSources.games.remote.api.SecretGiftApi
-import com.dedany.secretgift.data.dataSources.auth.remote.AuthRemoteDataSource
-import com.dedany.secretgift.data.dataSources.auth.remote.AuthRemoteDataSourceImpl
 import com.dedany.secretgift.data.dataSources.users.api.UsersApi
 import com.dedany.secretgift.data.dataSources.users.local.preferences.UserPreferences
 import com.dedany.secretgift.data.dataSources.users.remote.UsersRemoteDataSource
@@ -14,7 +14,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import retrofit2.Retrofit
 import javax.inject.Singleton
 
 
@@ -24,8 +23,11 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideGameRemoteDataSource(secretGiftApi: SecretGiftApi,userPreferences: UserPreferences): GameRemoteDataSource {
-        return GameRemoteDataSourceImpl(secretGiftApi,userPreferences)
+    fun provideGameRemoteDataSource(
+        secretGiftApi: SecretGiftApi,
+        userPreferences: UserPreferences
+    ): GameRemoteDataSource {
+        return GameRemoteDataSourceImpl(secretGiftApi, userPreferences)
     }
 
     @Provides
@@ -36,9 +38,10 @@ object DataSourceModule {
     ): AuthRemoteDataSource {
         return AuthRemoteDataSourceImpl(auth, user)
     }
+
     @Provides
     @Singleton
     fun provideUsersRemoteDataSource(usersApi: UsersApi): UsersRemoteDataSource {
-        return UsersRemoteDataSourceImpl(usersApi) //
+        return UsersRemoteDataSourceImpl(usersApi)
     }
 }
