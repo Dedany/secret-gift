@@ -57,7 +57,7 @@ class LoginActivity : AppCompatActivity() {
     private fun initObservers() {
         viewModel?.isLoginSuccess?.observe(this) { isSuccess ->
             if (isSuccess) {
-
+                Toast.makeText(this, "Sesión iniciada", Toast.LENGTH_SHORT).show()
 
             } else {
                 Toast.makeText(this, "Error al iniciar sesión", Toast.LENGTH_SHORT).show()

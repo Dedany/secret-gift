@@ -34,6 +34,7 @@ class LoginViewModel @Inject constructor(
     private var email: String = ""
     private var password: String = ""
     private var code: String = ""
+
     fun setEmail(text: String) {
         email = text
         _canDoLogin.value = authUseCase.isLoginFormValid(email, password)
