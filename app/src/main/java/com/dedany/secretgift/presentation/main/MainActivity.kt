@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initAd()
-        // Obtener el usuario del Intent
         user = intent.getCustomSerializable<RegisteredUser>("user") as? RegisteredUser ?: run {
             Log.e("MainActivity", "El usuario es nulo")
             return
@@ -36,9 +35,11 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             val mainFragment = MainFragment()
+            val profileFragment = ProfileFragment()
             val bundle = Bundle()
             bundle.putSerializable("user", user)  // Pasar el usuario al fragmento
             mainFragment.arguments = bundle
+            profileFragment.arguments = bundle
 
             supportFragmentManager.beginTransaction()
                 .replace(binding.fragmentContainer.id, mainFragment)
@@ -62,8 +63,13 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.navigation_profile -> {
+                    val profileFragment = ProfileFragment()
+                    val bundle = Bundle()
+                    bundle.putSerializable("user", user)  // Pasar el usuario al fragmento
+                    profileFragment.arguments = bundle
+
                     supportFragmentManager.beginTransaction()
-                        .replace(binding.fragmentContainer.id, ProfileFragment())
+                        .replace(binding.fragmentContainer.id, profileFragment)
                         .commit()
                     true
                 }
@@ -71,6 +77,7 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
     }
 
     fun initAd() {

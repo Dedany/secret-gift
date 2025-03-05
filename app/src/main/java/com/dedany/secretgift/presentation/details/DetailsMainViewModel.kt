@@ -20,9 +20,6 @@ class DetailsMainViewModel : ViewModel() {
         _position.value = position
     }
 
-    fun setGameName(game: String) {
-        _game.value?.name = game
-    }
 
 
 }

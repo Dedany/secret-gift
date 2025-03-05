@@ -33,12 +33,10 @@ class GameRepositoryImpl @Inject constructor(
             }
         }
     }
-
     override suspend fun deleteGame(game: Game) {
         val gameDbo = game.toGameDbo()
         localGamesDataSource.delete(gameDbo)
     }
-
 
     private fun GameDto.toDomain(): Game {
         return Game(
