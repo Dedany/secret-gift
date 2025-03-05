@@ -9,9 +9,4 @@ data class PlayerDto (
     val id: String,
     val name: String,
     val email: String,
-    @SerializedName("player_code")
-    val playerCode: String,
-    @SerializedName("linked_to")
-    val linkedTo: String,
-
 )
