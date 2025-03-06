@@ -36,17 +36,3 @@ object PreferencesModule {
 }
 
 
-
-/*
-
-@Qualifier
-@Retention(AnnotationRetention.BINARY)
-annotation class UserPreferences
-
-
-
-    @Singleton
-    @Provides
-    fun provideAppSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
-        return context.getSharedPreferences(PREFERENCES_NAME_APP, Context.MODE_PRIVATE)
-    }*/

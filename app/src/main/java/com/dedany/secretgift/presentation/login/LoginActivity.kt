@@ -3,6 +3,7 @@ package com.dedany.secretgift.presentation.login
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -16,6 +17,8 @@ import com.dedany.secretgift.presentation.game.viewGame.ViewGameActivity
 import com.dedany.secretgift.presentation.helpers.Constants
 import com.dedany.secretgift.presentation.main.MainActivity
 import com.dedany.secretgift.presentation.register.RegisterActivity
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,7 +26,6 @@ class LoginActivity : AppCompatActivity() {
 
     private var binding: ActivityLoginBinding? = null
     private var viewModel: LoginViewModel? = null
-    private var loginAdapter: LoginAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,16 +34,11 @@ class LoginActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
         setContentView(binding?.root)
 
+
         initObservers()
         initListeners()
+        initAd()
     }
-
-    /*private fun setAdapter(){
-        loginAdapter = LoginAdapter(){
-            viewModel?.loadListCode()
-        }
-
-        binding?.recyclerView?.adapter = loginAdapter*/
 
     private fun initObservers() {
         viewModel?.isLoginSuccess?.observe(this) { isSucces ->
@@ -115,8 +112,25 @@ class LoginActivity : AppCompatActivity() {
             inputCodeField.doOnTextChanged { text, _, _, _ ->
                 viewModel?.setCode(text.toString())
             }
-
         }
+    }
+
+    fun initAd() {
+        //iniciar adMob
+        MobileAds.initialize(this) { initialAd ->
+            val statusMap = initialAd.adapterStatusMap
+            for ((adapter, satatus) in statusMap) {
+                Log.d("AdMob", "Adapter: $adapter Status: ${satatus.description}")
+            }
+        }
+        binding?.adView?.apply {
+            //asigna tamaño
+
+            // Carga el anuncio
+            val adRequest = AdRequest.Builder().setContentUrl("https://www.amazon.es")
+            loadAd(adRequest.build())
+        }
+
 
     }
 }

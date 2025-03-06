@@ -1,12 +1,10 @@
 package com.dedany.secretgift.presentation.main
 
-import android.content.ClipData.Item
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.dedany.secretgift.databinding.ItemGameListBinding
 import com.dedany.secretgift.domain.entities.Game
 
@@ -15,16 +13,15 @@ class GamesAdapter(
     private val onGameDelete: (Game, Int) -> Unit
 ) : ListAdapter<Game, GamesAdapter.GameViewHolder>(ListAdapterCallback()) {
 
-    inner class GameViewHolder(private val binding: ItemGameListBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class GameViewHolder(private val binding: ItemGameListBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(game: Game, position: Int) {
             binding.tvGameName.text = game.name
 
-            // Evento para eliminar
             binding.ibMainDelete.setOnClickListener {
                 onGameDelete(game, position)
             }
 
-            // Evento para ver detalles
             binding.root.setOnClickListener {
                 onGameClick(game, position)
             }
@@ -42,7 +39,8 @@ class GamesAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameViewHolder {
-        val binding = ItemGameListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemGameListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return GameViewHolder(binding)
     }
 

@@ -3,6 +3,7 @@ package com.dedany.secretgift.data.repositories
 import com.dedany.secretgift.data.dataSources.games.remote.dto.PlayerDto
 import com.dedany.secretgift.data.dataSources.users.local.preferences.UserPreferences
 import com.dedany.secretgift.data.dataSources.users.remote.UsersRemoteDataSource
+import com.dedany.secretgift.data.dataSources.users.remote.dto.UserEmailDto
 import com.dedany.secretgift.domain.entities.RegisteredUser
 import com.dedany.secretgift.domain.repositories.UsersRepository
 import javax.inject.Inject
@@ -13,22 +14,21 @@ class UsersRepositoryImpl @Inject constructor(
 ) : UsersRepository {
 
     override suspend fun getRegisteredUser(): RegisteredUser {
-        val userId = userPreferences.getUserId()
 
-        if (userId.isNotEmpty()) {
-            val registeredUser = usersRemoteDataSource.getUserById(userId)
+        val email = userPreferences.getUserEmail().takeIf { it.isNotEmpty() }
+            ?: throw Exception("User not found")
 
-            return registeredUser.toLocal()
-        } else {
-            throw Exception("User not found")
-        }
+        val response = usersRemoteDataSource.getUserByEmail(UserEmailDto(email))
+
+        return response.body()?.toLocal() ?: throw Exception("No user data found in response")
     }
+
 
     private fun PlayerDto.toLocal(): RegisteredUser {
         return RegisteredUser(
-            id = this.id,
+            id = this.userId,
             email = this.email,
-            name = this.name,
+            name = this.name
         )
     }
 }

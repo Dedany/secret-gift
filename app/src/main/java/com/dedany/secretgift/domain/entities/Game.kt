@@ -14,8 +14,9 @@ data class Game(
     val minCost : Int?,
     val gameDate : Date,
     val currentPlayer : String,
-    val matchedPlayer : String
-
+    val matchedPlayer : String,
+    val rules: List<Rule> = emptyList()
 ): Serializable
+
 
 

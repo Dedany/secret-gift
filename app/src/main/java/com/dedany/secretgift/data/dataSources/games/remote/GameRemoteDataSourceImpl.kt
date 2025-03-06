@@ -30,15 +30,6 @@ class GameRemoteDataSourceImpl @Inject constructor(
     }
 
 
-    override suspend fun getGames(): List<GameDto> {
-        val response = gamesApi.getGames()
-        return if (response.isSuccessful) {
-            response.body()?.data ?: emptyList() // Si el cuerpo es nulo, devuelve lista vacía
-        } else {
-            throw Exception("Error fetching games: ${response.errorBody()?.string()}")
-        }
-    }
-
     override suspend fun getGamesByUser(): List<GameDto> {
 
         val userId = userPreferences.getUserId()
@@ -46,12 +37,13 @@ class GameRemoteDataSourceImpl @Inject constructor(
         if (userId.isEmpty()) {
             throw Exception("User ID not found in preferences")
         }
-
         val response = gamesApi.getGamesByUser(userId)
-        return if (response.isSuccessful) {
-            response.body() ?: emptyList()
+
+        if (response.isSuccessful) {
+            return response.body()?.data ?: emptyList()
         } else {
-            throw Exception("Error fetching games for user $userId: ${response.errorBody()?.string()}")
+            throw Exception("Error fetching games by user: ${response.errorBody()?.string()}")
         }
     }
 }
+

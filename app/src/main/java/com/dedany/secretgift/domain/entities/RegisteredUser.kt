@@ -7,4 +7,4 @@ data class RegisteredUser(
     val id: String,
     val name: String,
     val email: String,
-): Serializable
+) : Serializable

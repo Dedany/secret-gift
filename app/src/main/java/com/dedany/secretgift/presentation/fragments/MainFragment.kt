@@ -52,7 +52,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentMainBinding.bind(view)
-        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+        viewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
 
 
         user = arguments?.getSerializable("user") as? RegisteredUser
@@ -71,7 +71,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             onGameClick = { game, position ->
                 openGameDetails(game, position)
             },
-            onGameDelete = { game, position ->
+            onGameDelete = { game, _ ->
                 viewModel?.deleteGame(game)
             }
         )

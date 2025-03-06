@@ -6,7 +6,6 @@ import androidx.room.TypeConverters
 import com.dedany.secretgift.data.Converters
 import com.dedany.secretgift.data.dataSources.games.local.PlayerDbo
 import com.google.gson.annotations.SerializedName
-import java.time.LocalDate
 import java.util.Date
 
 @Entity(tableName = "games")

@@ -98,9 +98,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linear_email">
+        app:layout_constraintTop_toBottomOf="@id/linear_email"
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/text_id"
@@ -123,16 +126,5 @@
             android:textColor="#F4F1F1" />
     </LinearLayout>
 
-    <!-- Botón de acción (si lo necesitas) -->
-    <Button
-        android:id="@+id/button_save"
-        style="@style/custom_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:text="GUARDAR CAMBIOS"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linear_id" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
