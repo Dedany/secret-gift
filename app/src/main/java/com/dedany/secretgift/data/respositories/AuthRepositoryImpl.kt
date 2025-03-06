@@ -2,27 +2,32 @@ package com.dedany.secretgift.data.respositories
 
 import com.dedany.secretgift.data.dataSources.auth.remote.AuthRemoteDataSource
 import com.dedany.secretgift.data.dataSources.auth.remote.dto.LoginDto
-import com.dedany.secretgift.data.dataSources.games.remote.dto.GameDto
 import com.dedany.secretgift.data.dataSources.users.local.preferences.UserPreferences
-import com.dedany.secretgift.data.dataSources.users.remote.UsersRemoteDataSource
 import com.dedany.secretgift.data.dataSources.users.remote.dto.CreateUserDto
+import com.dedany.secretgift.data.dataSources.users.remote.dto.UserEmailDto
 import com.dedany.secretgift.domain.repositories.AuthRepository
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
     private val authRemoteDataSource: AuthRemoteDataSource,
     private val userPreferences: UserPreferences,
-    private val usersRemoteDataSource: UsersRemoteDataSource
 ) :
     AuthRepository {
-    override suspend fun login(email: String,password: String): Boolean {
-        val credentials = LoginDto(email, password,null)
-        val dto = authRemoteDataSource.login(credentials)
-        if (!dto.token.isNullOrEmpty()) {
-            userPreferences.setUserEmail(email)
+    override suspend fun login(email: String, password: String): Boolean {
+        val credentials = LoginDto(email, password, null)
+        val response = authRemoteDataSource.login(credentials)
+
+        if (response.token.isNullOrEmpty()) return false
+
+        val userResponse = authRemoteDataSource.getUserByEmail(UserEmailDto(email))
+
+        userResponse.body()?.takeIf { it.userId.isNotEmpty() }?.let { playerDto ->
+            userPreferences.apply {
+                setUserEmail(email)
+                setUserId(playerDto.userId)
+            }
             return true
-        }
-        return false
+        } ?: return false
     }
 
     override suspend fun register(name: String, email: String, password: String): Boolean {
@@ -38,8 +43,5 @@ class AuthRepositoryImpl @Inject constructor(
     override fun logout(): Boolean {
         return authRemoteDataSource.logout()
     }
-
-
-
 
 }

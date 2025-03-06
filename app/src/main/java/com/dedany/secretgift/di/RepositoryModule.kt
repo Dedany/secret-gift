@@ -27,10 +27,9 @@ object RepositoryModule {
     fun provideGamesRepository(
         remoteGamesDataSource: GameRemoteDataSource,
         localGameDataSource: GamesDao,
-        userPreferences: UserPreferences,
     ): GamesRepository {
         return GameRepositoryImpl(
-            remoteGamesDataSource, localGameDataSource,userPreferences
+            remoteGamesDataSource, localGameDataSource
         )
     }
 
@@ -39,14 +38,16 @@ object RepositoryModule {
     fun provideAuthRepository(
         authRemoteDataSource: AuthRemoteDataSource,
         userPreferences: UserPreferences,
-        usersRemoteDataSource: UsersRemoteDataSource
     ): AuthRepository {
-        return AuthRepositoryImpl(authRemoteDataSource,userPreferences,usersRemoteDataSource)
+        return AuthRepositoryImpl(authRemoteDataSource, userPreferences)
     }
 
     @Provides
     @Singleton
-    fun provideUsersRepository(usersRemoteDataSource: UsersRemoteDataSource,userPreferences: UserPreferences): UsersRepository {
-        return UsersRepositoryImpl(usersRemoteDataSource,userPreferences)
+    fun provideUsersRepository(
+        usersRemoteDataSource: UsersRemoteDataSource,
+        userPreferences: UserPreferences
+    ): UsersRepository {
+        return UsersRepositoryImpl(usersRemoteDataSource, userPreferences)
     }
 }

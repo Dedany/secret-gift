@@ -28,7 +28,7 @@
             android:name=".presentation.game.viewGame.ViewGameActivity"
             android:exported="true" />
 
-        <!-- LoginActivity con el intent-filter correctamente ubicado -->
+
         <activity
             android:name=".presentation.login.LoginActivity"
             android:exported="true">

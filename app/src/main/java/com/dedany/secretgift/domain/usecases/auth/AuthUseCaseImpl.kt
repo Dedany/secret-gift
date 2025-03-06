@@ -1,7 +1,5 @@
 package com.dedany.secretgift.domain.usecases.auth
 
-import com.dedany.secretgift.data.dataSources.users.remote.dto.UserDto
-import com.dedany.secretgift.domain.entities.RegisteredUser
 import com.dedany.secretgift.domain.repositories.AuthRepository
 import javax.inject.Inject
 
@@ -9,7 +7,7 @@ class AuthUseCaseImpl @Inject constructor(
     private val repository: AuthRepository
 ) : AuthUseCase {
     override suspend fun login(email: String, password: String): Boolean {
-        return repository.login(email,password)
+        return repository.login(email, password)
     }
 
     override suspend fun register(name: String, email: String, password: String): Boolean {

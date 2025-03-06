@@ -53,9 +53,12 @@ dependencies {
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.storage.ktx)
+    implementation(libs.play.services.ads.lite)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.androidx.fragment.ktx)  // o la última versión disponible
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)  // o la última versión disponible
 
     //Mockk
     testImplementation("io.mockk:mockk:1.13.16")
@@ -87,5 +90,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
 
     //AdMob
-    implementation ("com.google.android.gms:play-services-ads:24.0.0")
-    }
+    implementation("com.google.android.gms:play-services-ads:24.0.0")
+
+
+}

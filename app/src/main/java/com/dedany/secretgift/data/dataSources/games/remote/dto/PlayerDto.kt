@@ -4,9 +4,8 @@ import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "players")
-data class PlayerDto (
-    @SerializedName("_id")
-    val id: String,
-    val name: String,
-    val email: String,
+data class PlayerDto(
+    @SerializedName("user_id") val userId: String,
+    @SerializedName("user_name") val name: String,
+    @SerializedName("user_email") val email: String
 )

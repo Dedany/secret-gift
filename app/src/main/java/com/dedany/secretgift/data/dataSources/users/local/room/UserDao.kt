@@ -4,6 +4,6 @@ import androidx.room.Query
 
 interface UserDao {
 
-    @Query ("SELECT * FROM users")
+    @Query("SELECT * FROM users")
     fun getAllUsers(): List<UserDbo>
 }
