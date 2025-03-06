@@ -34,4 +34,7 @@ data class GameDto(
 
     @SerializedName("matched_player")
     val matchedPlayer: String,
+
+    @SerializedName("rules")
+    val rules: List<GameRuleDto>
 )

@@ -46,9 +46,9 @@ class ViewGameActivity : AppCompatActivity() {
 
         viewModel?.isLoading?.observe(this){
             if (it){
-                binding?.progressBar?.show()
+                //TODO: show loading
             }else{
-                binding?.progressBar?.hide()
+               //TODO: hide loading
             }
         }
 

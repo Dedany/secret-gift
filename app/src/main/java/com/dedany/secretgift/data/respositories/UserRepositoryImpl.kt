@@ -26,7 +26,7 @@ class UsersRepositoryImpl @Inject constructor(
 
     private fun PlayerDto.toLocal(): RegisteredUser {
         return RegisteredUser(
-            id = this.userId,
+            id = this.id,
             email = this.email,
             name = this.name
         )

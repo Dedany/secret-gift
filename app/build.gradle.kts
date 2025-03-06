@@ -91,7 +91,7 @@ dependencies {
 
     implementation (libs.androidx.fragment.ktx)
 
-}
+
     //AdMob
     implementation ("com.google.android.gms:play-services-ads:24.0.0")
     }

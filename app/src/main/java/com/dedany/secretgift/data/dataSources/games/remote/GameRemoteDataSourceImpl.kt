@@ -40,7 +40,7 @@ class GameRemoteDataSourceImpl @Inject constructor(
         val response = gamesApi.getGamesByUser(userId)
 
         if (response.isSuccessful) {
-            return response.body()?.data ?: emptyList()
+            return response.body() ?: emptyList()
         } else {
             throw Exception("Error fetching games by user: ${response.errorBody()?.string()}")
         }

@@ -12,10 +12,7 @@ class GamesUseCaseImpl @Inject constructor(
         return game
     }
 
-    override suspend fun getGames(): List<Game> {
-        val games = repository.getGames()
-        return games
-    }
+
 
     override suspend fun getGamesByUser(): List<Game> {
         val games = repository.getGamesByUser()
