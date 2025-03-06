@@ -8,7 +8,7 @@ import com.dedany.secretgift.data.dataSources.games.remote.GameRemoteDataSource
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.PlayerDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameRuleDto
-import com.dedany.secretgift.data.dataSources.games.remote.dto.PlayerDto
+
 import com.dedany.secretgift.data.dataSources.users.local.preferences.UserPreferences
 import com.dedany.secretgift.domain.entities.Game
 import com.dedany.secretgift.domain.entities.Player
@@ -105,7 +105,7 @@ class GameRepositoryImpl @Inject constructor(
 
             currentPlayer = "",
             matchedPlayer = "",
-            players = this.players.map { it.toRegisteredUser() },
+//            players = this.players.map { it.toRegisteredUser() },
 
         )
     }
@@ -121,7 +121,7 @@ class GameRepositoryImpl @Inject constructor(
             status = this.status,
             gameCode = this.gameCode,
             gameDate = this.gameDate,
-            players = this.players.map { it.toPlayerDbo() } // Conversión correcta
+            players = listOf() // Conversión correcta
         )
     }
 
@@ -141,7 +141,7 @@ class GameRepositoryImpl @Inject constructor(
 
 
              // Conversión correcta
-            rules = this.rules.map { it.toGameRule() }
+//            rules = this.rules.map { it.toGameRule() }
         )
     }
 

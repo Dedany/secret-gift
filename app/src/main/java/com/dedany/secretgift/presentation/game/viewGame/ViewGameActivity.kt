@@ -2,6 +2,7 @@ package com.dedany.secretgift.presentation.game.viewGame
 
 import android.os.Bundle
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -42,6 +43,20 @@ class ViewGameActivity : AppCompatActivity() {
     }
 
     private fun setObservers() {
+
+        viewModel?.isLoading?.observe(this){
+            if (it){
+                binding?.progressBar?.show()
+            }else{
+                binding?.progressBar?.hide()
+            }
+        }
+
+        viewModel?.gameCodeError?.observe(this) { errorMessage ->
+            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+            finish()
+        }
+
         viewModel?.game?.observe(this) { gameData ->
            binding?.tvGameName?.text = gameData.name
             binding?.currentPlayerName?.text = gameData.currentPlayer
