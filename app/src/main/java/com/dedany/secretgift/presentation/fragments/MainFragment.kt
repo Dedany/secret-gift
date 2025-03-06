@@ -72,7 +72,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 openGameDetails(game, position)
             },
             onGameDelete = { game, _ ->
-                //viewModel?.deleteGame(game)
+                //viewModel?.deleteLocalGame(game)
             }
         )
 

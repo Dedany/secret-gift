@@ -2,6 +2,7 @@ package com.dedany.secretgift.di
 
 import com.dedany.secretgift.data.dataSources.auth.remote.AuthRemoteDataSource
 import com.dedany.secretgift.data.dataSources.games.local.GamesDao
+import com.dedany.secretgift.data.dataSources.games.local.LocalDataSource
 import com.dedany.secretgift.data.dataSources.games.remote.GameRemoteDataSource
 import com.dedany.secretgift.data.dataSources.users.local.preferences.UserPreferences
 import com.dedany.secretgift.data.dataSources.users.remote.UsersRemoteDataSource
@@ -26,7 +27,7 @@ object RepositoryModule {
     @Singleton
     fun provideGamesRepository(
         remoteGamesDataSource: GameRemoteDataSource,
-        localGameDataSource: GamesDao,
+        localGameDataSource: LocalDataSource,
     ): GamesRepository {
         return GameRepositoryImpl(
             remoteGamesDataSource, localGameDataSource

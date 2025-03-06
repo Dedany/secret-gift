@@ -30,10 +30,10 @@ class MainActivityViewModel @Inject constructor(private val gamesUseCase: GamesU
 //        }
 //    }
 //
-//    fun deleteGame(game: CreateGame) {
+//    fun deleteLocalGame(game: CreateGame) {
 //        viewModelScope.launch {
 //            withContext(Dispatchers.IO) {
-//                gamesUseCase.deleteGame(game)
+//                gamesUseCase.deleteLocalGame(game)
 //            }
 //            //Actualiza la lista
 //            val updatedGames = _games.value?.toMutableList()?.apply {

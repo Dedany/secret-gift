@@ -14,7 +14,29 @@ class GamesUseCaseImpl @Inject constructor(
         return games
     }
 
-    override suspend fun deleteGame(game: LocalGame) {
+    override suspend fun deleteLocalGame(game: LocalGame) {
+        repository.deleteLocalGame(game)
+    }
+
+    override suspend fun createLocalGame(game: LocalGame) {
+        repository.createLocalGame(game)
+    }
+
+    override suspend fun updateLocalGame(game: LocalGame) {
+        repository.updateLocalGame(game)
+    }
+
+    override suspend fun createGame(game: Game) {
+        repository.createGame(game)
+    }
+
+    override suspend fun updateGame(game: Game) {
+        repository.updateGame(game)
+    }
+
+    override suspend fun deleteGame(game: Game) {
         repository.deleteGame(game)
     }
+
+
 }

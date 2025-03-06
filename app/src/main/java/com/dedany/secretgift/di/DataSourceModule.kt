@@ -2,6 +2,9 @@ package com.dedany.secretgift.di
 
 import com.dedany.secretgift.data.dataSources.auth.remote.AuthRemoteDataSource
 import com.dedany.secretgift.data.dataSources.auth.remote.AuthRemoteDataSourceImpl
+import com.dedany.secretgift.data.dataSources.games.local.GamesDao
+import com.dedany.secretgift.data.dataSources.games.local.LocalDataSource
+import com.dedany.secretgift.data.dataSources.games.local.LocalDataSourceImpl
 import com.dedany.secretgift.data.dataSources.games.remote.GameRemoteDataSource
 import com.dedany.secretgift.data.dataSources.games.remote.GameRemoteDataSourceImpl
 import com.dedany.secretgift.data.dataSources.games.remote.api.SecretGiftApi
@@ -43,5 +46,11 @@ object DataSourceModule {
     @Singleton
     fun provideUsersRemoteDataSource(usersApi: UsersApi): UsersRemoteDataSource {
         return UsersRemoteDataSourceImpl(usersApi)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLocalDataSource(gamesDao: GamesDao): LocalDataSource {
+        return LocalDataSourceImpl(gamesDao)
     }
 }
