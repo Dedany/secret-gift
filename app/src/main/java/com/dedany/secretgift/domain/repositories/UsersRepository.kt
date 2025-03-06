@@ -1,8 +1,8 @@
 package com.dedany.secretgift.domain.repositories
 
-import com.dedany.secretgift.domain.entities.RegisteredUser
+import com.dedany.secretgift.domain.entities.User
 
 interface UsersRepository {
 
-    suspend fun getRegisteredUser(): RegisteredUser
+    suspend fun getRegisteredUser(): User
 }

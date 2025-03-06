@@ -22,9 +22,8 @@
 
         <activity
             android:name=".presentation.register.RegisterActivity"
-            android:exported="true">
+            android:exported="true" />
 
-        </activity>
         <activity
             android:name=".presentation.game.viewGame.ViewGameActivity"
             android:exported="true"></activity>
@@ -43,10 +42,7 @@
 
         <activity
             android:name=".presentation.main.MainActivity"
-            android:exported="true">
-
-        </activity>
-
+            android:exported="true" />
 
         <activity
             android:name=".presentation.details.DetailsMainActivity"

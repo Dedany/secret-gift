@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.FragmentMainBinding
 import com.dedany.secretgift.domain.entities.Game
-import com.dedany.secretgift.domain.entities.RegisteredUser
+import com.dedany.secretgift.domain.entities.User
 import com.dedany.secretgift.presentation.details.DetailsMainActivity
 import com.dedany.secretgift.presentation.game.createGame.CreateGameActivity
 import com.dedany.secretgift.presentation.helpers.Constants
@@ -28,7 +28,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private var binding: FragmentMainBinding? = null
     private var viewModel: MainActivityViewModel? = null
     private var gamesAdapter: GamesAdapter? = null
-    private lateinit var user: RegisteredUser // Variable para almacenar al usuario
+    private lateinit var user: User // Variable para almacenar al usuario
 
     private var resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -39,7 +39,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                         val position = result.data?.extras?.getInt(Constants.KEY_GAME_POSITION)
                         position?.let {
                             game?.let {
-                                viewModel?.updateGamesList(position, game)
+                                //viewModel?.updateGamesList(position, game)
                                 gamesAdapter?.notifyDataSetChanged()
                             }
                         }
@@ -55,7 +55,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         viewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
 
 
-        user = arguments?.getSerializable("user") as? RegisteredUser
+        user = arguments?.getSerializable("user") as? User
             ?: throw IllegalArgumentException("User not found in arguments!")
 
         setUpAdapters()
@@ -72,7 +72,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 openGameDetails(game, position)
             },
             onGameDelete = { game, _ ->
-                viewModel?.deleteGame(game)
+                //viewModel?.deleteGame(game)
             }
         )
 

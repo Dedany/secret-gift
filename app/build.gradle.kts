@@ -57,8 +57,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation (libs.androidx.fragment.ktx)  // o la última versión disponible
-    implementation (libs.androidx.lifecycle.viewmodel.ktx)  // o la última versión disponible
+    implementation(libs.androidx.fragment.ktx)  // o la última versión disponible
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)  // o la última versión disponible
 
     //Mockk
     testImplementation("io.mockk:mockk:1.13.16")
@@ -93,5 +93,7 @@ dependencies {
 
 
     //AdMob
-    implementation ("com.google.android.gms:play-services-ads:24.0.0")
-    }
+    implementation("com.google.android.gms:play-services-ads:24.0.0")
+
+
+}

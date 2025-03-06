@@ -5,14 +5,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.dedany.secretgift.data.dataSources.games.local.GameDbo.GameDbo
-import com.dedany.secretgift.data.dataSources.games.local.GameDbo.GamePlayers
+import com.dedany.secretgift.data.dataSources.games.local.gameDbo.GameDbo
 import com.dedany.secretgift.data.dataSources.games.local.GamesDao
-import com.dedany.secretgift.data.dataSources.games.local.PlayerDbo
 
 @Database(
-    entities = [GameDbo::class, PlayerDbo::class, GamePlayers::class], // Entidades definidas correctamente
-    version = 2,
+    entities = [GameDbo::class], // Entidades definidas correctamente
+    version = 1,
     exportSchema = false
 )
 @TypeConverters(Converters::class) // Converters si tienes tipos de datos personalizados
