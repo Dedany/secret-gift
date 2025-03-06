@@ -1,6 +1,6 @@
 package com.dedany.secretgift.domain.usecases.games
 
-import com.dedany.secretgift.domain.entities.CreateGame
+import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.Game
 import com.dedany.secretgift.domain.repositories.GamesRepository
 import javax.inject.Inject
@@ -14,7 +14,7 @@ class GamesUseCaseImpl @Inject constructor(
         return games
     }
 
-    override suspend fun deleteGame(game: CreateGame) {
+    override suspend fun deleteGame(game: LocalGame) {
         repository.deleteGame(game)
     }
 }

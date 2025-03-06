@@ -10,7 +10,7 @@ import com.dedany.secretgift.data.dataSources.games.remote.dto.GameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.PlayerDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameRuleDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.UserRegisteredDto
-import com.dedany.secretgift.domain.entities.CreateGame
+import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.Game
 import com.dedany.secretgift.domain.entities.Player
 import com.dedany.secretgift.domain.entities.Rule
@@ -37,7 +37,7 @@ class GameRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteGame(game: CreateGame) {
+    override suspend fun deleteGame(game: LocalGame) {
         val gameDbo = game.toDbo()
         localGamesDataSource.delete(gameDbo)
     }
@@ -53,22 +53,33 @@ class GameRepositoryImpl @Inject constructor(
             minCost = this.minCost,
             gameDate = this.gameDate,
             players = this.players.map { it.toDomain() },
-
-            )
+        )
     }
 
 
-    private fun CreateGame.toDbo(): GameDbo {
+    private fun LocalGame.toDbo(): GameDbo {
         return GameDbo(
+            id = this.id,
             name = this.name,
             ownerId = this.ownerId,
             maxCost = this.maxCost,
             minCost = this.minCost,
-            status = this.status,
-            gameCode = this.gameCode,
             gameDate = this.gameDate,
             players = this.players.map { it.toDbo() },
             rules = this.rules.map { it.toDbo() }
+        )
+    }
+
+    private fun GameDbo.toDomain(): LocalGame {
+        return LocalGame(
+            id = this.id,
+            name = this.name,
+            ownerId = this.ownerId,
+            maxCost = this.maxCost,
+            minCost = this.minCost,
+            gameDate = this.gameDate,
+            players = this.players.map { it.toDomain() },
+            rules = this.rules.map { it.toDomain() }
         )
     }
 

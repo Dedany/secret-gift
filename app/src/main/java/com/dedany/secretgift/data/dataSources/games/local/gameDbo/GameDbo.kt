@@ -8,7 +8,8 @@ import java.util.Date
 @Entity(tableName = "games")
 
 data class GameDbo(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     @SerializedName("game_name")
     val name: String,
 
@@ -16,15 +17,9 @@ data class GameDbo(
     val ownerId: String,
 
     @SerializedName("max_cost")
-    val maxCost: Int,
+    val maxCost: Int?,
     @SerializedName("min_cost")
-    val minCost: Int,
-
-    @SerializedName("status")
-    val status: String,
-
-    @SerializedName("game_code")
-    val gameCode: String,
+    val minCost: Int?,
 
     val players: List<PlayerDbo>,
 
