@@ -86,4 +86,6 @@ dependencies {
     //Kotlin Livecycle
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
 
+    implementation (libs.androidx.fragment.ktx)
+
 }
