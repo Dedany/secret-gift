@@ -25,6 +25,15 @@ class GameRepositoryImpl @Inject constructor(
     private val localGamesDataSource: GamesDao,
 ) : GamesRepository {
 
+    override suspend fun getGame(gameCode: String): Game {
+        return withContext(Dispatchers.IO) {
+            val gameDto = remoteDataSource.getGame(gameCode)
+            val game = gameDto.toDomain()
+            return@withContext game
+        }
+    }
+
+
     override suspend fun getGamesByUser(): List<Game> {
         return withContext(Dispatchers.IO) {
             try {
@@ -53,6 +62,9 @@ class GameRepositoryImpl @Inject constructor(
             minCost = this.minCost,
             gameDate = this.gameDate,
             players = this.players.map { it.toDomain() },
+            currentPlayer = this.currentPlayer,
+            matchedPlayer = this.matchedPlayer,
+            rules = this.rules.map { it.toDomain() },
         )
     }
 
@@ -67,21 +79,11 @@ class GameRepositoryImpl @Inject constructor(
             gameDate = this.gameDate,
             players = this.players.map { it.toDbo() },
             rules = this.rules.map { it.toDbo() }
+
         )
     }
 
-    private fun GameDbo.toDomain(): LocalGame {
-        return LocalGame(
-            id = this.id,
-            name = this.name,
-            ownerId = this.ownerId,
-            maxCost = this.maxCost,
-            minCost = this.minCost,
-            gameDate = this.gameDate,
-            players = this.players.map { it.toDomain() },
-            rules = this.rules.map { it.toDomain() }
-        )
-    }
+
 
     private fun UserRegisteredDto.toRegisteredUser(): User {
         return User(

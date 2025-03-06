@@ -21,10 +21,10 @@ class AuthRepositoryImpl @Inject constructor(
 
         val userResponse = authRemoteDataSource.getUserByEmail(UserEmailDto(email))
 
-        userResponse.body()?.takeIf { it.id.isNotEmpty() }?.let { playerDto ->
+        userResponse.body()?.takeIf { it.userId.isNotEmpty() }?.let { playerDto ->
             userPreferences.apply {
                 setUserEmail(email)
-                setUserId(playerDto.id)
+                setUserId(playerDto.userId)
             }
             return true
         } ?: return false
