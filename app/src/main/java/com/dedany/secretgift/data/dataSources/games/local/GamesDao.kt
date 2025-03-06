@@ -2,8 +2,9 @@ package com.dedany.secretgift.data.dataSources.games.local
 
 import androidx.room.Dao
 import androidx.room.Delete
+import androidx.room.Insert
 import androidx.room.Query
-import com.dedany.secretgift.data.dataSources.games.local.GameDbo.GameDbo
+import com.dedany.secretgift.data.dataSources.games.local.gameDbo.GameDbo
 
 @Dao
 interface GamesDao {
@@ -13,4 +14,7 @@ interface GamesDao {
 
     @Delete
     fun delete(game: GameDbo)
+
+    @Insert
+    fun createGame(game: GameDbo)
 }

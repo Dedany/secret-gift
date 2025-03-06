@@ -49,7 +49,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        viewModel?.registeredUser?.observe(this) { registeredUser ->
+        viewModel?.user?.observe(this) { registeredUser ->
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("user", registeredUser)
 

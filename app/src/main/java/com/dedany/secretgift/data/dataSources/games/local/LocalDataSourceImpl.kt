@@ -1,6 +1,6 @@
 package com.dedany.secretgift.data.dataSources.games.local
 
-import com.dedany.secretgift.data.dataSources.games.local.GameDbo.GameDbo
+import com.dedany.secretgift.data.dataSources.games.local.gameDbo.GameDbo
 import javax.inject.Inject
 
 class LocalDataSourceImpl @Inject constructor(

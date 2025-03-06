@@ -1,6 +1,6 @@
 package com.dedany.secretgift.data.dataSources.users.remote
 
-import com.dedany.secretgift.data.dataSources.games.remote.dto.PlayerDto
+import com.dedany.secretgift.data.dataSources.games.remote.dto.UserRegisteredDto
 import com.dedany.secretgift.data.dataSources.users.api.UsersApi
 import com.dedany.secretgift.data.dataSources.users.remote.dto.CreateUserDto
 import com.dedany.secretgift.data.dataSources.users.remote.dto.UserEmailDto
@@ -14,7 +14,7 @@ class UsersRemoteDataSourceImpl @Inject constructor(
         return usersApi.signUpUser(user)
     }
 
-    override suspend fun getUserByEmail(email: UserEmailDto): Response<PlayerDto> {
+    override suspend fun getUserByEmail(email: UserEmailDto): Response<UserRegisteredDto> {
         return usersApi.getUserByEmail(email)
     }
 

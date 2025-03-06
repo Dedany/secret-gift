@@ -1,7 +1,7 @@
 package com.dedany.secretgift.domain.usecases.users
 
-import com.dedany.secretgift.domain.entities.RegisteredUser
+import com.dedany.secretgift.domain.entities.User
 
 interface UsersUseCase {
-    suspend fun getRegisteredUser(): RegisteredUser
+    suspend fun getRegisteredUser(): User
 }

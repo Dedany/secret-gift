@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dedany.secretgift.domain.entities.RegisteredUser
+import com.dedany.secretgift.domain.entities.User
 import com.dedany.secretgift.domain.usecases.auth.AuthUseCase
 import com.dedany.secretgift.domain.usecases.users.UsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,8 +24,8 @@ class LoginViewModel @Inject constructor(
     private var _canDoLogin: MutableLiveData<Boolean> = MutableLiveData(false)
     val canDoLogin: LiveData<Boolean> = _canDoLogin
 
-    private val _registeredUser: MutableLiveData<RegisteredUser> = MutableLiveData()
-    val registeredUser: LiveData<RegisteredUser> = _registeredUser
+    private val _user: MutableLiveData<User> = MutableLiveData()
+    val user: LiveData<User> = _user
 
     private var _isLoginFormValid: MutableLiveData<Boolean> = MutableLiveData()
     val isLoginFormValid: LiveData<Boolean> = _isLoginFormValid
@@ -55,7 +55,7 @@ class LoginViewModel @Inject constructor(
                 val isSuccess = authUseCase.login(email, password)
                 _isLoginSuccess.value = isSuccess
                 if (isSuccess) {
-                    _registeredUser.value = usersUseCase.getRegisteredUser()
+                    _user.value = usersUseCase.getRegisteredUser()
                 }
             }
         }

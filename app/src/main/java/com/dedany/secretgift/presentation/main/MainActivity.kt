@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityMainBinding
-import com.dedany.secretgift.domain.entities.RegisteredUser
+import com.dedany.secretgift.domain.entities.User
 import com.dedany.secretgift.presentation.fragments.MainFragment
 import com.dedany.secretgift.presentation.fragments.ProfileFragment
 import com.dedany.secretgift.presentation.helpers.getCustomSerializable
@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var user: RegisteredUser  // Variable para almacenar al usuario
+    private lateinit var user: User  // Variable para almacenar al usuario
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initAd()
-        user = intent.getCustomSerializable<RegisteredUser>("user") as? RegisteredUser ?: run {
+        user = intent.getCustomSerializable<User>("user") as? User ?: run {
             Log.e("MainActivity", "El usuario es nulo")
             return
         }

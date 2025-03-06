@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dedany.secretgift.domain.entities.CreateGame
 import com.dedany.secretgift.domain.entities.Game
 import com.dedany.secretgift.domain.usecases.games.GamesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,22 +27,22 @@ class MainActivityViewModel @Inject constructor(private val gamesUseCase: GamesU
         }
     }
 
-    fun updateGamesList(position: Int, games: Game) {
-        _games.value?.get(position)?.apply {
-            name = games.name
-        }
-    }
-
-    fun deleteGame(game: Game) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                gamesUseCase.deleteGame(game)
-            }
-            //Actualiza la lista
-            val updatedGames = _games.value?.toMutableList()?.apply {
-                remove(game)
-            }
-            _games.value = updatedGames
-        }
-    }
+//    fun updateGamesList(position: Int, games: Game) {
+//        _games.value?.get(position)?.apply {
+//            name = games.name
+//        }
+//    }
+//
+//    fun deleteGame(game: CreateGame) {
+//        viewModelScope.launch {
+//            withContext(Dispatchers.IO) {
+//                gamesUseCase.deleteGame(game)
+//            }
+//            //Actualiza la lista
+//            val updatedGames = _games.value?.toMutableList()?.apply {
+//                remove(game)
+//            }
+//            _games.value = updatedGames
+//        }
+//    }
 }

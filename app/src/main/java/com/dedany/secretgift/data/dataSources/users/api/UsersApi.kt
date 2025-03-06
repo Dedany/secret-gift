@@ -1,6 +1,6 @@
 package com.dedany.secretgift.data.dataSources.users.api
 
-import com.dedany.secretgift.data.dataSources.games.remote.dto.PlayerDto
+import com.dedany.secretgift.data.dataSources.games.remote.dto.UserRegisteredDto
 import com.dedany.secretgift.data.dataSources.users.remote.dto.CreateUserDto
 import com.dedany.secretgift.data.dataSources.users.remote.dto.UserEmailDto
 import retrofit2.Response
@@ -13,6 +13,6 @@ interface UsersApi {
     suspend fun signUpUser(@Body user: CreateUserDto): CreateUserDto
 
     @POST("user/login")
-    suspend fun getUserByEmail(@Body email: UserEmailDto): Response<PlayerDto>
+    suspend fun getUserByEmail(@Body email: UserEmailDto): Response<UserRegisteredDto>
 
 }

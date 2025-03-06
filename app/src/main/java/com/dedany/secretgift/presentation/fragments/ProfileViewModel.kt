@@ -3,7 +3,7 @@ package com.dedany.secretgift.presentation.fragments
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dedany.secretgift.domain.entities.RegisteredUser
+import com.dedany.secretgift.domain.entities.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -19,7 +19,7 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
     private val _userId = MutableLiveData<String>()
     val userId: LiveData<String> = _userId
 
-    fun setUserData(user: RegisteredUser) {
+    fun setUserData(user: User) {
         _userName.value = user.name
         _userEmail.value = user.email
         _userId.value = user.id

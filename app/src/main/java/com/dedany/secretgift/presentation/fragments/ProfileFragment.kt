@@ -6,9 +6,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.FragmentProfileBinding
-import com.dedany.secretgift.domain.entities.RegisteredUser
+import com.dedany.secretgift.domain.entities.User
 import dagger.hilt.android.AndroidEntryPoint
-import androidx.lifecycle.ViewModelProvider
 
 
 @AndroidEntryPoint
@@ -16,7 +15,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private var binding: FragmentProfileBinding? = null
     private val viewModel: ProfileViewModel by viewModels()
-    private lateinit var user: RegisteredUser
+    private lateinit var user: User
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -24,7 +23,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         binding = FragmentProfileBinding.bind(view)
 
         // Obtenemos el usuario del Bundle
-        user = arguments?.getSerializable("user") as? RegisteredUser ?: return
+        user = arguments?.getSerializable("user") as? User ?: return
 
         // Configurarmos los datos del usuario en el ViewModel
         viewModel.setUserData(user)

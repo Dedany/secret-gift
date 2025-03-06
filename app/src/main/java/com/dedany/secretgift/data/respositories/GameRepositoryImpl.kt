@@ -1,14 +1,20 @@
 package com.dedany.secretgift.data.respositories
 
 import android.util.Log
-import com.dedany.secretgift.data.dataSources.games.local.GameDbo.GameDbo
 import com.dedany.secretgift.data.dataSources.games.local.GamesDao
-import com.dedany.secretgift.data.dataSources.games.local.PlayerDbo
+import com.dedany.secretgift.data.dataSources.games.local.gameDbo.GameDbo
+import com.dedany.secretgift.data.dataSources.games.local.gameDbo.PlayerDbo
+import com.dedany.secretgift.data.dataSources.games.local.gameDbo.RuleDbo
 import com.dedany.secretgift.data.dataSources.games.remote.GameRemoteDataSource
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.PlayerDto
+import com.dedany.secretgift.data.dataSources.games.remote.dto.GameRuleDto
+import com.dedany.secretgift.data.dataSources.games.remote.dto.UserRegisteredDto
+import com.dedany.secretgift.domain.entities.CreateGame
 import com.dedany.secretgift.domain.entities.Game
-import com.dedany.secretgift.domain.entities.RegisteredUser
+import com.dedany.secretgift.domain.entities.Player
+import com.dedany.secretgift.domain.entities.Rule
+import com.dedany.secretgift.domain.entities.User
 import com.dedany.secretgift.domain.repositories.GamesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -31,8 +37,8 @@ class GameRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteGame(game: Game) {
-        val gameDbo = game.toGameDbo()
+    override suspend fun deleteGame(game: CreateGame) {
+        val gameDbo = game.toDbo()
         localGamesDataSource.delete(gameDbo)
     }
 
@@ -46,15 +52,14 @@ class GameRepositoryImpl @Inject constructor(
             maxCost = this.maxCost,
             minCost = this.minCost,
             gameDate = this.gameDate,
-            players = this.players.map { it.toRegisteredUser() },
+            players = this.players.map { it.toDomain() },
 
             )
     }
 
 
-    private fun Game.toGameDbo(): GameDbo {
+    private fun CreateGame.toDbo(): GameDbo {
         return GameDbo(
-            id = this.id,
             name = this.name,
             ownerId = this.ownerId,
             maxCost = this.maxCost,
@@ -62,25 +67,61 @@ class GameRepositoryImpl @Inject constructor(
             status = this.status,
             gameCode = this.gameCode,
             gameDate = this.gameDate,
-            players = this.players.map { it.toPlayerDbo() } // Conversión correcta
+            players = this.players.map { it.toDbo() },
+            rules = this.rules.map { it.toDbo() }
         )
     }
 
-    private fun PlayerDto.toRegisteredUser(): RegisteredUser {
-        return RegisteredUser(
+    private fun UserRegisteredDto.toRegisteredUser(): User {
+        return User(
             id = this.userId,
             name = this.name,
             email = this.email
         )
     }
 
-
-    private fun RegisteredUser.toPlayerDbo(): PlayerDbo {
+    private fun Player.toDbo(): PlayerDbo {
         return PlayerDbo(
-            id = this.id,
             name = this.name,
-            email = this.email,
+            email = this.email
+        )
+    }
+
+    private fun PlayerDbo.toDomain(): Player {
+        return Player(
+            name = this.name,
+            email = this.email
+        )
+    }
+
+    private fun PlayerDto.toDomain(): Player {
+        return Player(
+            name = this.name,
+            email = this.email
+        )
+    }
+
+    private fun GameRuleDto.toDomain(): Rule {
+        return Rule(
+            playerOne = this.playerOne,
+            playerTwo = this.playerTwo
+        )
+    }
+
+    private fun RuleDbo.toDomain(): Rule {
+        return Rule(
+            playerOne = this.playerOne,
+            playerTwo = this.playerTwo
+        )
+    }
+
+    private fun Rule.toDbo(): RuleDbo {
+        return RuleDbo(
+            playerOne = this.playerOne,
+            playerTwo = this.playerTwo
         )
     }
 
 }
+
+
