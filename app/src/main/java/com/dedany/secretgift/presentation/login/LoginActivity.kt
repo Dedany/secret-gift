@@ -108,8 +108,15 @@ class LoginActivity : AppCompatActivity() {
             btnCancel.setOnClickListener {
                 dialog.dismiss()
             }
-
+            inputCodeField.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    inputCodeField.hint = ""
+                } else {
+                    inputCodeField.hint = getString(R.string.game_code)
+                }
+            }
             inputCodeField.doOnTextChanged { text, _, _, _ ->
+//                viewModel?.setCode("")
                 viewModel?.setCode(text.toString())
             }
         }
