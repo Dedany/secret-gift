@@ -4,6 +4,9 @@ import com.dedany.secretgift.data.dataSources.games.remote.dto.GameDto
 
 interface GameRemoteDataSource {
     suspend fun getGame(gameCode: String): GameDto
-
     suspend fun getGamesByUser(): List<GameDto>
+    suspend fun createGame(game: GameDto)
+    suspend fun deleteGame(game: GameDto)
+    suspend fun updateGame(game: GameDto)
+
 }

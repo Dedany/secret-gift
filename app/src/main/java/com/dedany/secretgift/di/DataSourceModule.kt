@@ -35,6 +35,12 @@ object DataSourceModule {
 
     @Provides
     @Singleton
+    fun provideLocalDataSource(gamesDao: GamesDao): LocalDataSource {
+        return LocalDataSourceImpl(gamesDao)
+    }
+
+    @Provides
+    @Singleton
     fun provideAuthRemoteDataSource(
         auth: FirebaseAuth,
         user: UsersRemoteDataSource,
@@ -46,11 +52,5 @@ object DataSourceModule {
     @Singleton
     fun provideUsersRemoteDataSource(usersApi: UsersApi): UsersRemoteDataSource {
         return UsersRemoteDataSourceImpl(usersApi)
-    }
-
-    @Provides
-    @Singleton
-    fun provideLocalDataSource(gamesDao: GamesDao): LocalDataSource {
-        return LocalDataSourceImpl(gamesDao)
     }
 }

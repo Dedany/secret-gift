@@ -6,10 +6,10 @@ data class PlayerDto(
 
 
     @SerializedName("_id")
-    val id: String,
+    val id: String? = null,
     @SerializedName("player_name")
     val name: String,
     val email: String,
     @SerializedName("player_code")
-    val playerCode: String
+    val playerCode: String? = null
 )

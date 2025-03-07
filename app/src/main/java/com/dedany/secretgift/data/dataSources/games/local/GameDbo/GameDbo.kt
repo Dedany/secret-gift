@@ -8,7 +8,6 @@ import com.google.gson.annotations.SerializedName
 import java.util.Date
 
 @Entity(tableName = "games")
-@TypeConverters(Converters::class)
 data class GameDbo(
 
     @PrimaryKey(autoGenerate = true)

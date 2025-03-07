@@ -3,12 +3,13 @@ package com.dedany.secretgift.presentation.game.createGame
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.dedany.secretgift.domain.usecases.games.GamesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class CreateGameViewModel @Inject constructor(
-
+private val gamesUseCase: GamesUseCase
 ) : ViewModel() {
 
     private var _isGameNameValid: MutableLiveData<Boolean> = MutableLiveData()

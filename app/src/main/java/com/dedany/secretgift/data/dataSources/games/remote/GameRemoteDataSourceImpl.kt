@@ -45,5 +45,17 @@ class GameRemoteDataSourceImpl @Inject constructor(
             throw Exception("Error fetching games by user: ${response.errorBody()?.string()}")
         }
     }
+
+    override suspend fun createGame(game: GameDto) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteGame(game: GameDto) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun updateGame(game: GameDto) {
+        TODO("Not yet implemented")
+    }
 }
 

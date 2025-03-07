@@ -55,6 +55,7 @@ class CreateGameActivity : AppCompatActivity() {
             val gameName = binding?.edNameRoom?.text.toString()
             viewModel?.nameGameIsValid()
 
+
             }
         }
     }

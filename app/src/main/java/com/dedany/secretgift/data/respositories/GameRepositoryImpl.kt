@@ -2,6 +2,7 @@ package com.dedany.secretgift.data.respositories
 
 import android.util.Log
 import com.dedany.secretgift.data.dataSources.games.local.GamesDao
+import com.dedany.secretgift.data.dataSources.games.local.LocalDataSource
 import com.dedany.secretgift.data.dataSources.games.local.gameDbo.GameDbo
 import com.dedany.secretgift.data.dataSources.games.local.gameDbo.PlayerDbo
 import com.dedany.secretgift.data.dataSources.games.local.gameDbo.RuleDbo
@@ -22,7 +23,7 @@ import javax.inject.Inject
 
 class GameRepositoryImpl @Inject constructor(
     private val remoteDataSource: GameRemoteDataSource,
-    private val localGamesDataSource: GamesDao,
+    private val localDataSource: LocalDataSource,
 ) : GamesRepository {
 
     override suspend fun getGame(gameCode: String): Game {
@@ -48,30 +49,33 @@ class GameRepositoryImpl @Inject constructor(
 
     override suspend fun deleteLocalGame(game: LocalGame) {
         val gameDbo = game.toDbo()
-        localGamesDataSource.deleteLocalGame(gameDbo)
+        localDataSource.deleteGame(gameDbo)
     }
 
     override suspend fun createLocalGame(game: LocalGame) {
         val gameDbo = game.toDbo()
-        localGamesDataSource.createLocalGame(gameDbo)
+        localDataSource.createGame(gameDbo)
     }
 
     override suspend fun updateLocalGame(game: LocalGame) {
         val gameDbo = game.toDbo()
-        localGamesDataSource.updateLocalGame(gameDbo)
+        localDataSource.updateGame(gameDbo)
     }
 
 
     override suspend fun createGame(game: Game) {
         val gameDto = game.toDto()
+        remoteDataSource.createGame(gameDto)
     }
 
     override suspend fun updateGame(game: Game) {
         val gameDto = game.toDto()
+        remoteDataSource.updateGame(gameDto)
     }
 
     override suspend fun deleteGame(game: Game) {
         val gameDto = game.toDto()
+        remoteDataSource.deleteGame(gameDto)
     }
 
 
@@ -137,6 +141,13 @@ class GameRepositoryImpl @Inject constructor(
         )
     }
 
+    private fun Player.toDto(): PlayerDto {
+        return PlayerDto(
+            name = this.name,
+            email = this.email,
+        )
+    }
+
     private fun PlayerDbo.toDomain(): Player {
         return Player(
             name = this.name,
@@ -151,6 +162,7 @@ class GameRepositoryImpl @Inject constructor(
         )
     }
 
+
     private fun GameRuleDto.toDomain(): Rule {
         return Rule(
             playerOne = this.playerOne,
@@ -160,6 +172,12 @@ class GameRepositoryImpl @Inject constructor(
 
     private fun RuleDbo.toDomain(): Rule {
         return Rule(
+            playerOne = this.playerOne,
+            playerTwo = this.playerTwo
+        )
+    }
+    private fun Rule.toDto(): GameRuleDto {
+        return GameRuleDto(
             playerOne = this.playerOne,
             playerTwo = this.playerTwo
         )
@@ -189,22 +207,9 @@ class GameRepositoryImpl @Inject constructor(
 
         )}
 
-    private fun Player.toDto(): PlayerDto {
-        return PlayerDto(
-          //  id = this.id,
-            name = this.name,
-            email = this.email,
-          //  playerCode = this.playerCode
 
-        )
-    }
 
-    private fun Rule.toDto(): GameRuleDto {
-        return GameRuleDto(
-            playerOne = this.playerOne,
-            playerTwo = this.playerTwo
-        )
-    }
+
 }
 
 
