@@ -30,12 +30,12 @@ class MainActivity : AppCompatActivity() {
             Log.e("MainActivity", "El usuario es nulo")
             return
         }
+        val mainFragment = MainFragment()
+        val profileFragment = ProfileFragment()
 
 
 
         if (savedInstanceState == null) {
-            val mainFragment = MainFragment()
-            val profileFragment = ProfileFragment()
             val bundle = Bundle()
             bundle.putSerializable("user", user)  // Pasar el usuario al fragmento
             mainFragment.arguments = bundle
@@ -51,7 +51,6 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationMain.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
-                    val mainFragment = MainFragment()
                     val bundle = Bundle()
                     bundle.putSerializable("user", user)  // Pasar el usuario al fragmento
                     mainFragment.arguments = bundle
@@ -63,7 +62,6 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.navigation_profile -> {
-                    val profileFragment = ProfileFragment()
                     val bundle = Bundle()
                     bundle.putSerializable("user", user)  // Pasar el usuario al fragmento
                     profileFragment.arguments = bundle

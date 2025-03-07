@@ -3,7 +3,9 @@ package com.dedany.secretgift.presentation.fragments
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -51,7 +53,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding = FragmentMainBinding.bind(view)
         viewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
 
 
@@ -64,6 +65,16 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
 
         viewModel?.loadGames()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        binding = FragmentMainBinding.inflate(inflater, container, false)
+        return binding?.root
     }
 
     private fun setUpAdapters() {
@@ -108,10 +119,5 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             putExtra(Constants.KEY_GAME_POSITION, position)
         }
         resultLauncher.launch(intent)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
     }
 }
