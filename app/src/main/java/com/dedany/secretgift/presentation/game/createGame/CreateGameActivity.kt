@@ -2,6 +2,7 @@ package com.dedany.secretgift.presentation.game.createGame
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
@@ -50,6 +51,14 @@ class CreateGameActivity : AppCompatActivity() {
             if (isSuccess) {
                 Toast.makeText(this, "Nombre del grupo creado correctamente", Toast.LENGTH_SHORT)
                     .show()
+
+            } else {
+                Toast.makeText(this, "necesita un mínimo de 4 letras", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        viewModel?.isGameSavedSuccess?.observe(this) { isSuccess ->
+            if (isSuccess) {
                 startActivity(Intent(this, MainActivity::class.java))
             } else {
                 Toast.makeText(this, "necesita un mínimo de 4 letras", Toast.LENGTH_SHORT).show()
@@ -76,11 +85,14 @@ class CreateGameActivity : AppCompatActivity() {
         binding?.edNameRoom?.doOnTextChanged { text, start, before, count ->
             viewModel?.setName(text.toString())
         }
+        binding?.edNameRoom?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                viewModel?.checkName()
+            }
+        }
+
         binding?.btnCreateGame?.setOnClickListener {
-            val gameName = binding?.edNameRoom?.text.toString()
-            viewModel?.nameGameIsValid()
-
-
+            viewModel?.createGame()
             }
         binding?.btnGameSettings?.setOnClickListener {
             val intent = Intent(this, SettingsActivity::class.java)
