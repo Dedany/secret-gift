@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="150dp"
-    android:background="@drawable/app_background"
+
+    android:background="@drawable/background_with_border"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -10,22 +11,26 @@
         android:id="@+id/inputCodeField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:hint="@string/game_code"
         android:inputType="text"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textColorHint="#EBDFDF" />
+        android:textColorHint="@color/editColor"
+        android:textSize="14sp" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="@dimen/activity_top_margin"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_confirm"
             style="@style/custom_button"
-            android:layout_width="0dp"
+            android:layout_marginHorizontal="4dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="#EF000000"
@@ -35,7 +40,8 @@
         <Button
             android:id="@+id/btn_cancel"
             style="@style/custom_button"
-            android:layout_width="0dp"
+            android:layout_width="120dp"
+            android:layout_marginHorizontal="4dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="#EF000000"
