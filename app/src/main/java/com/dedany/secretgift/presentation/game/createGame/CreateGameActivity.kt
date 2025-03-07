@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -20,6 +21,14 @@ class CreateGameActivity : AppCompatActivity() {
 
     private var binding: ActivityCreateGameBinding? = null
     private var viewModel: CreateGameViewModel? = null
+    private var gameSettingsViewModel: GameSettingsViewModel? = null
+
+    private val settingsActivityResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                observeGameSettings()
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +44,7 @@ class CreateGameActivity : AppCompatActivity() {
 
     }
 
+
     private fun initObservers() {
         viewModel?.isGameNameValid?.observe(this) { isSuccess ->
             if (isSuccess) {
@@ -44,6 +54,21 @@ class CreateGameActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "necesita un mínimo de 4 letras", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun observeGameSettings() {
+        gameSettingsViewModel?.eventDate?.observe(this) { eventDate ->
+            Toast.makeText(this, "Fecha del evento: $eventDate", Toast.LENGTH_SHORT).show()
+        }
+        gameSettingsViewModel?.numPlayers?.observe(this) { numPlayers ->
+            Toast.makeText(this, "Número de participantes: $numPlayers", Toast.LENGTH_SHORT).show()
+        }
+        gameSettingsViewModel?.maxPrice?.observe(this) { maxPrice ->
+            Toast.makeText(this, "Precio máximo: $maxPrice", Toast.LENGTH_SHORT).show()
+        }
+        gameSettingsViewModel?.incompatibilities?.observe(this) { incompatibilities ->
+            Toast.makeText(this, "Incompatibilidades: $incompatibilities", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -57,6 +82,12 @@ class CreateGameActivity : AppCompatActivity() {
 
 
             }
+        binding?.btnGameSettings?.setOnClickListener {
+            val intent = Intent(this, SettingsActivity::class.java)
+            settingsActivityResultLauncher.launch(intent)
         }
+        }
+
+
     }
 
