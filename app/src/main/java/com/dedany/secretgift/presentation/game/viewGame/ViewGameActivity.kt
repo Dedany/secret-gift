@@ -103,7 +103,7 @@ class ViewGameActivity : AppCompatActivity() {
            binding?.tvGameName?.text = gameData.name
             binding?.currentPlayerName?.text = gameData.currentPlayer
             binding?.matchedPlayerName?.text = gameData.matchedPlayer
-            binding?.tvPlayersNumber?.text = gameData.players.size.toString()
+            binding?.tvPlayersNumber?.text = (gameData.players.size+1).toString()
             binding?.tvMinMoney?.text = gameData.minCost.toString()
             binding?.tvMaxMoney?.text = gameData.maxCost.toString()
             playersAdapter?.submitList(gameData.players)
