@@ -89,6 +89,9 @@ dependencies {
     //Kotlin Livecycle
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
 
+    implementation (libs.androidx.fragment.ktx)
+
+
     //AdMob
     implementation("com.google.android.gms:play-services-ads:24.0.0")
 

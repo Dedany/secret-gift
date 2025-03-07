@@ -10,10 +10,13 @@ data class Game(
     val gameCode: String,
     val players: List<Player> = emptyList(),
     var name: String,
-    val maxCost: Int,
-    val minCost: Int,
-    val gameDate: Date,
+    val maxCost : Int?,
+    val minCost : Int?,
+    val gameDate : Date,
+    val currentPlayer : String,
+    val matchedPlayer : String,
     val rules: List<Rule> = emptyList()
-) : Serializable
+): Serializable
+
 
 

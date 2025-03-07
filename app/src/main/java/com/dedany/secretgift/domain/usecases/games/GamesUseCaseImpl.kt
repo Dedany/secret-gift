@@ -8,6 +8,12 @@ import javax.inject.Inject
 class GamesUseCaseImpl @Inject constructor(
     private val repository: GamesRepository,
 ) : GamesUseCase {
+    override suspend fun getGame(gameCode: String): Game {
+        val game = repository.getGame(gameCode)
+        return game
+    }
+
+
 
     override suspend fun getGamesByUser(): List<Game> {
         val games = repository.getGamesByUser()

@@ -4,6 +4,7 @@ import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.Game
 
 interface GamesRepository {
+    suspend fun getGame(gameCode: String): Game
 
     suspend fun getGamesByUser(): List<Game>
     suspend fun deleteLocalGame(game: LocalGame)

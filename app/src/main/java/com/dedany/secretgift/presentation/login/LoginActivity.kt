@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityLoginBinding
 import com.dedany.secretgift.presentation.game.viewGame.ViewGameActivity
+import com.dedany.secretgift.presentation.helpers.Constants
 import com.dedany.secretgift.presentation.main.MainActivity
 import com.dedany.secretgift.presentation.register.RegisterActivity
 import com.google.android.gms.ads.AdRequest
@@ -40,12 +41,11 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initObservers() {
-        viewModel?.isLoginSuccess?.observe(this) { isSuccess ->
-            if (isSuccess) {
-                Toast.makeText(this, "Sesión iniciada", Toast.LENGTH_SHORT).show()
-
+        viewModel?.isLoginSuccess?.observe(this) { isSucces ->
+            if (isSucces) {
+                startActivity(Intent(this, MainActivity::class.java))
             } else {
-                Toast.makeText(this, "Error al iniciar sesión", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Error al iniciar sesion", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -98,7 +98,11 @@ class LoginActivity : AppCompatActivity() {
             val inputCodeField = dialog.findViewById<EditText>(R.id.inputCodeField)
 
             btnConfirm.setOnClickListener {
-                startActivity(Intent(this, ViewGameActivity::class.java))
+                val gameCode = inputCodeField.text.toString()
+                val intent = Intent(this, ViewGameActivity::class.java)
+                intent.apply{putExtra(Constants.KEY_GAME, gameCode)}
+                startActivity(intent)
+                dialog.dismiss()
             }
 
             btnCancel.setOnClickListener {

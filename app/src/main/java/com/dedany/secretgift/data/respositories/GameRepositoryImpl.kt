@@ -2,7 +2,6 @@ package com.dedany.secretgift.data.respositories
 
 import android.util.Log
 import com.dedany.secretgift.data.dataSources.games.local.GamesDao
-import com.dedany.secretgift.data.dataSources.games.local.LocalDataSource
 import com.dedany.secretgift.data.dataSources.games.local.gameDbo.GameDbo
 import com.dedany.secretgift.data.dataSources.games.local.gameDbo.PlayerDbo
 import com.dedany.secretgift.data.dataSources.games.local.gameDbo.RuleDbo
@@ -19,14 +18,21 @@ import com.dedany.secretgift.domain.entities.User
 import com.dedany.secretgift.domain.repositories.GamesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.util.Date
 import javax.inject.Inject
 
 class GameRepositoryImpl @Inject constructor(
     private val remoteDataSource: GameRemoteDataSource,
-    private val localGamesDataSource: LocalDataSource
-
+    private val localGamesDataSource: GamesDao,
 ) : GamesRepository {
+
+    override suspend fun getGame(gameCode: String): Game {
+        return withContext(Dispatchers.IO) {
+            val gameDto = remoteDataSource.getGame(gameCode)
+            val game = gameDto.toDomain()
+            return@withContext game
+        }
+    }
+
 
     override suspend fun getGamesByUser(): List<Game> {
         return withContext(Dispatchers.IO) {
@@ -42,17 +48,17 @@ class GameRepositoryImpl @Inject constructor(
 
     override suspend fun deleteLocalGame(game: LocalGame) {
         val gameDbo = game.toDbo()
-        localGamesDataSource.deleteGame(gameDbo)
+        localGamesDataSource.deleteLocalGame(gameDbo)
     }
 
     override suspend fun createLocalGame(game: LocalGame) {
         val gameDbo = game.toDbo()
-        localGamesDataSource.createGame(gameDbo)
+        localGamesDataSource.createLocalGame(gameDbo)
     }
 
     override suspend fun updateLocalGame(game: LocalGame) {
         val gameDbo = game.toDbo()
-        localGamesDataSource.createGame(gameDbo)
+        localGamesDataSource.updateLocalGame(gameDbo)
     }
 
 
@@ -80,6 +86,9 @@ class GameRepositoryImpl @Inject constructor(
             minCost = this.minCost,
             gameDate = this.gameDate,
             players = this.players.map { it.toDomain() },
+            currentPlayer = this.currentPlayer,
+            matchedPlayer = this.matchedPlayer,
+            rules = this.rules.map { it.toDomain() },
         )
     }
 
@@ -174,14 +183,19 @@ class GameRepositoryImpl @Inject constructor(
             minCost = this.minCost,
             gameDate = this.gameDate,
             players = this.players.map { it.toDto() },
-            rules = this.rules.map { it.toDto() }
+            rules = this.rules.map { it.toDto() },
+            matchedPlayer = this.matchedPlayer,
+            currentPlayer = this.currentPlayer
 
         )}
 
     private fun Player.toDto(): PlayerDto {
         return PlayerDto(
+          //  id = this.id,
             name = this.name,
-            email = this.email
+            email = this.email,
+          //  playerCode = this.playerCode
+
         )
     }
 

@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/app_background">
 
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -56,6 +57,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:id="@+id/tv_game_name"
                             android:layout_gravity="center"
                             android:fontFamily="cursive"
                             android:gravity="center"
@@ -74,7 +76,7 @@
                         app:strokeWidth="2dp">
 
                         <TextView
-                            android:id="@+id/main_player_name"
+                            android:id="@+id/current_player_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -142,7 +144,7 @@
                 app:strokeWidth="2dp">
 
                 <TextView
-                    android:id="@+id/main_player_target"
+                    android:id="@+id/matched_player_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -229,6 +231,7 @@
                     android:src="@drawable/baseline_calendar_month_24" />
 
                 <TextView
+                    android:id="@+id/tv_game_date"
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

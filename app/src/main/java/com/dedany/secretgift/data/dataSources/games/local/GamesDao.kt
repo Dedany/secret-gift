@@ -11,14 +11,14 @@ import com.dedany.secretgift.data.dataSources.games.local.gameDbo.GameDbo
 interface GamesDao {
 
     @Query("SELECT * FROM games")
-    fun getGames(): List<GameDbo>
+    suspend fun getGames(): List<GameDbo>
 
     @Delete
-    fun delete(game: GameDbo)
+    suspend fun deleteLocalGame(game: GameDbo)
 
     @Insert
-    fun createGame(game: GameDbo)
+    suspend fun createLocalGame(game: GameDbo)
 
     @Update
-    fun updateGame(game: GameDbo)
+    suspend fun updateLocalGame(game: GameDbo)
 }
