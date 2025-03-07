@@ -31,7 +31,7 @@
     </style>
 
     <style name="custom_text_view">
-        <item name="android:layout_marginTop">@dimen/activity_top_margin</item>
+
         <item name="android:fontFamily">cursive</item>
         <item name="android:gravity">center</item>
         <item name="android:textAlignment">center</item>

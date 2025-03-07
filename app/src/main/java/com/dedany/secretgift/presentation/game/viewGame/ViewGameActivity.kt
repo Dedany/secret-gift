@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityViewGameBinding
 import com.dedany.secretgift.presentation.helpers.Constants
@@ -22,6 +23,8 @@ import java.util.Locale
 class ViewGameActivity : AppCompatActivity() {
     private var binding: ActivityViewGameBinding? = null
     private var viewModel: ViewGameViewModel? = null
+    private lateinit var playersAdapter: PlayersAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge(
@@ -49,9 +52,18 @@ class ViewGameActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[ViewGameViewModel::class.java]
         setContentView(binding?.root)
 
-
+        setAdapter()
         loadGame()
         setObservers()
+    }
+
+    private fun setAdapter() {
+        playersAdapter = PlayersAdapter()
+        binding?.playersRecyclerView?.apply {
+            layoutManager = LinearLayoutManager(this@ViewGameActivity)
+            adapter = playersAdapter
+        }
+
     }
 
     private fun loadGame() {
@@ -94,6 +106,7 @@ class ViewGameActivity : AppCompatActivity() {
             binding?.tvPlayersNumber?.text = gameData.players.size.toString()
             binding?.tvMinMoney?.text = gameData.minCost.toString()
             binding?.tvMaxMoney?.text = gameData.maxCost.toString()
+            playersAdapter?.submitList(gameData.players)
 
             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             binding?.tvGameDate?.text = dateFormat.format(gameData.gameDate)
