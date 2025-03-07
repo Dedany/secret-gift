@@ -32,7 +32,9 @@ class ViewGameViewModel @Inject constructor(
     fun fetchGaMeData(gameCode: String) {
             viewModelScope.launch {
                 try {
+                    _isLoading.value=true
                 _game.value = useCase.getGame(gameCode)
+                    _isLoading.value=false
                 } catch (e: ErrorDto) {
                     _gameCodeError.value=e.errorMessage
                 }
