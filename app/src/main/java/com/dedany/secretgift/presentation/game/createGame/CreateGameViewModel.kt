@@ -21,6 +21,9 @@ class CreateGameViewModel @Inject constructor(
     private var _isGameNameValid: MutableLiveData<Boolean> = MutableLiveData()
     val isGameNameValid: LiveData<Boolean> = _isGameNameValid
 
+    private val _showConfirmationDialog = MutableLiveData<Boolean>()
+    val showConfirmationDialog: LiveData<Boolean> get() = _showConfirmationDialog
+
     private var _isGameSavedSuccess: MutableLiveData<Boolean> = MutableLiveData()
     val isGameSavedSuccess: LiveData<Boolean> = _isGameSavedSuccess
 
@@ -43,6 +46,12 @@ class CreateGameViewModel @Inject constructor(
         _player.value = playerList
     }
 
+    fun onSaveGameClicked() {
+        _showConfirmationDialog.value = true
+    }
+    fun onDialogDismissed() {
+        _showConfirmationDialog.value = false
+    }
     fun createGame() {
         viewModelScope.launch {
             checkName()
@@ -56,5 +65,11 @@ class CreateGameViewModel @Inject constructor(
             }
         }
 
+    }
+
+    fun saveGame() {
+        viewModelScope.launch {
+
+        }
     }
 }

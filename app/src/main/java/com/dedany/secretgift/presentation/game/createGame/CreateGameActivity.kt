@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -64,6 +65,11 @@ class CreateGameActivity : AppCompatActivity() {
                 Toast.makeText(this, "necesita un mínimo de 4 letras", Toast.LENGTH_SHORT).show()
             }
         }
+        viewModel?.showConfirmationDialog?.observe(this) { showDialog ->
+            if (showDialog) {
+                showConfirmationDialog()
+            }
+        }
     }
 
     private fun observeGameSettings() {
@@ -94,11 +100,26 @@ class CreateGameActivity : AppCompatActivity() {
         binding?.btnCreateGame?.setOnClickListener {
             viewModel?.createGame()
             }
+        binding?.btnSaveGame?.setOnClickListener {
+            viewModel?.onSaveGameClicked()
+        }
         binding?.btnGameSettings?.setOnClickListener {
             val intent = Intent(this, SettingsActivity::class.java)
             settingsActivityResultLauncher.launch(intent)
         }
         }
+    private fun showConfirmationDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Guardar Juego")
+            .setMessage("Una vez guardado el juego, no podrás modificarlo. ¿Estás seguro de que quieres guardar?")
+            .setPositiveButton("Guardar") { _, _ ->
+                viewModel?.saveGame()
+            }
+            .setNegativeButton("Cancelar") { _, _ ->
+                viewModel?.onDialogDismissed()
+            }
+            .show()
+    }
 
 
     }
