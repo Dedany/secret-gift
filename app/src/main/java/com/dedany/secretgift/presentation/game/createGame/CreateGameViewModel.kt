@@ -27,10 +27,14 @@ class CreateGameViewModel @Inject constructor(
     private var _isGameSavedSuccess: MutableLiveData<Boolean> = MutableLiveData()
     val isGameSavedSuccess: LiveData<Boolean> = _isGameSavedSuccess
 
+    private var _isGameCreatedSuccess: MutableLiveData<Boolean> = MutableLiveData()
+    val isGameCreatedSuccess: LiveData<Boolean> = _isGameCreatedSuccess
+
     private var _player: MutableLiveData<List<Player>> = MutableLiveData()
     val player: LiveData<List<Player>> = _player
 
     private var gameName: String = ""
+    private var gameId: Int = 0
     private val playerList = mutableListOf<Player>()
 
     fun checkName() {
@@ -41,6 +45,10 @@ class CreateGameViewModel @Inject constructor(
         gameName = name
     }
 
+    fun setGameId(id: Int) {
+        this.gameId = id
+    }
+
     fun deletePlayer(player: Player) {
         playerList.remove(player)
         _player.value = playerList
@@ -49,16 +57,20 @@ class CreateGameViewModel @Inject constructor(
     fun onSaveGameClicked() {
         _showConfirmationDialog.value = true
     }
+
     fun onDialogDismissed() {
         _showConfirmationDialog.value = false
     }
+
     fun createGame() {
         viewModelScope.launch {
             checkName()
             if (_isGameNameValid.value == true /*&& playerList.isNotEmpty()*/) {
                 val ownerId = useCase.getRegisteredUser().id
-                gamesUseCase.createLocalGame(LocalGame(ownerId= ownerId, name =gameName))
-                _isGameSavedSuccess.value = true
+                val localGame = LocalGame(ownerId = ownerId, name = gameName)
+                gamesUseCase.createLocalGame(localGame)
+                setGameId(localGame.id)
+                _isGameCreatedSuccess.value = true
             } else {
 
 
@@ -69,7 +81,12 @@ class CreateGameViewModel @Inject constructor(
 
     fun saveGame() {
         viewModelScope.launch {
-
+            try {
+                val gameSaved = gamesUseCase.createGame(gameId)
+                _isGameSavedSuccess.value = gameSaved
+            } catch (e: Exception) {
+                _isGameSavedSuccess.value = false
+            }
         }
     }
 }

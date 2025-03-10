@@ -62,9 +62,10 @@ class CreateGameActivity : AppCompatActivity() {
             if (isSuccess) {
                 startActivity(Intent(this, MainActivity::class.java))
             } else {
-                Toast.makeText(this, "necesita un mínimo de 4 letras", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Error al guardar el juego", Toast.LENGTH_SHORT).show()
             }
         }
+
         viewModel?.showConfirmationDialog?.observe(this) { showDialog ->
             if (showDialog) {
                 showConfirmationDialog()

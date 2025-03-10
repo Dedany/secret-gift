@@ -34,6 +34,14 @@ class GameRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getLocalGame(gameId: Int): LocalGame {
+        return withContext(Dispatchers.IO) {
+            val gameDbo = localDataSource.getGame(gameId)
+            val game = gameDbo.toDomain()
+            return@withContext game
+        }
+    }
+
 
     override suspend fun getGamesByUser(): List<Game> {
         return withContext(Dispatchers.IO) {

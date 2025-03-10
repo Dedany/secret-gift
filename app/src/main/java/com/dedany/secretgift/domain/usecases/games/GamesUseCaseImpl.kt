@@ -13,6 +13,9 @@ class GamesUseCaseImpl @Inject constructor(
         return game
     }
 
+    override suspend fun getLocalGame(gameId: Int): LocalGame {
+        return repository.getLocalGame(gameId)
+    }
 
 
     override suspend fun getGamesByUser(): List<Game> {
@@ -32,8 +35,9 @@ class GamesUseCaseImpl @Inject constructor(
         repository.updateLocalGame(game)
     }
 
-    override suspend fun createGame(game: Game) {
-        repository.createGame(game)
+    override suspend fun createGame(gameId: Int): Boolean {
+        val localGame = getLocalGame(gameId)
+
     }
 
     override suspend fun updateGame(game: Game) {
