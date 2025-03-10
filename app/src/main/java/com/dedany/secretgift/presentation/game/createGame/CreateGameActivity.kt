@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -23,7 +24,7 @@ class CreateGameActivity : AppCompatActivity() {
 
     private var binding: ActivityCreateGameBinding? = null
     private var viewModel: CreateGameViewModel? = null
-    private var gameSettingsViewModel: GameSettingsViewModel? = null
+
 
     private val settingsActivityResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -74,18 +75,12 @@ class CreateGameActivity : AppCompatActivity() {
     }
 
     private fun observeGameSettings() {
-        gameSettingsViewModel?.eventDate?.observe(this) { eventDate ->
-            Toast.makeText(this, "Fecha del evento: $eventDate", Toast.LENGTH_SHORT).show()
-        }
-        gameSettingsViewModel?.numPlayers?.observe(this) { numPlayers ->
-            Toast.makeText(this, "Número de participantes: $numPlayers", Toast.LENGTH_SHORT).show()
-        }
-        gameSettingsViewModel?.maxPrice?.observe(this) { maxPrice ->
-            Toast.makeText(this, "Precio máximo: $maxPrice", Toast.LENGTH_SHORT).show()
-        }
-        gameSettingsViewModel?.incompatibilities?.observe(this) { incompatibilities ->
-            Toast.makeText(this, "Incompatibilidades: $incompatibilities", Toast.LENGTH_SHORT).show()
-        }
+        val gameSettingsViewModel: GameSettingsViewModel by viewModels()
+
+        val eventDate = gameSettingsViewModel.eventDate.value ?: ""
+        val numPlayers = gameSettingsViewModel.numPlayers.value ?: ""
+        val maxPrice = gameSettingsViewModel.maxPrice.value ?: ""
+        val incompatibilities = gameSettingsViewModel.incompatibilities.value ?: emptyList<Pair<String, String>>()
     }
 
     private fun initListeners() {
@@ -124,4 +119,6 @@ class CreateGameActivity : AppCompatActivity() {
 
 
     }
+
+
 
