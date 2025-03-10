@@ -6,6 +6,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -22,7 +24,7 @@ class CreateGameActivity : AppCompatActivity() {
 
     private var binding: ActivityCreateGameBinding? = null
     private var viewModel: CreateGameViewModel? = null
-    private var gameSettingsViewModel: GameSettingsViewModel? = null
+
 
     private val settingsActivityResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -61,24 +63,24 @@ class CreateGameActivity : AppCompatActivity() {
             if (isSuccess) {
                 startActivity(Intent(this, MainActivity::class.java))
             } else {
-                Toast.makeText(this, "necesita un mínimo de 4 letras", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Error al guardar el juego", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        viewModel?.showConfirmationDialog?.observe(this) { showDialog ->
+            if (showDialog) {
+                showConfirmationDialog()
             }
         }
     }
 
     private fun observeGameSettings() {
-        gameSettingsViewModel?.eventDate?.observe(this) { eventDate ->
-            Toast.makeText(this, "Fecha del evento: $eventDate", Toast.LENGTH_SHORT).show()
-        }
-        gameSettingsViewModel?.numPlayers?.observe(this) { numPlayers ->
-            Toast.makeText(this, "Número de participantes: $numPlayers", Toast.LENGTH_SHORT).show()
-        }
-        gameSettingsViewModel?.maxPrice?.observe(this) { maxPrice ->
-            Toast.makeText(this, "Precio máximo: $maxPrice", Toast.LENGTH_SHORT).show()
-        }
-        gameSettingsViewModel?.incompatibilities?.observe(this) { incompatibilities ->
-            Toast.makeText(this, "Incompatibilidades: $incompatibilities", Toast.LENGTH_SHORT).show()
-        }
+        val gameSettingsViewModel: GameSettingsViewModel by viewModels()
+
+        val eventDate = gameSettingsViewModel.eventDate.value ?: ""
+        val numPlayers = gameSettingsViewModel.numPlayers.value ?: ""
+        val maxPrice = gameSettingsViewModel.maxPrice.value ?: ""
+        val incompatibilities = gameSettingsViewModel.incompatibilities.value ?: emptyList<Pair<String, String>>()
     }
 
     private fun initListeners() {
@@ -94,12 +96,29 @@ class CreateGameActivity : AppCompatActivity() {
         binding?.btnCreateGame?.setOnClickListener {
             viewModel?.createGame()
             }
+        binding?.btnSaveGame?.setOnClickListener {
+            viewModel?.onSaveGameClicked()
+        }
         binding?.btnGameSettings?.setOnClickListener {
             val intent = Intent(this, SettingsActivity::class.java)
             settingsActivityResultLauncher.launch(intent)
         }
         }
+    private fun showConfirmationDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Guardar Juego")
+            .setMessage("Una vez guardado el juego, no podrás modificarlo. ¿Estás seguro de que quieres guardar?")
+            .setPositiveButton("Guardar") { _, _ ->
+                viewModel?.saveGame()
+            }
+            .setNegativeButton("Cancelar") { _, _ ->
+                viewModel?.onDialogDismissed()
+            }
+            .show()
+    }
 
 
     }
+
+
 

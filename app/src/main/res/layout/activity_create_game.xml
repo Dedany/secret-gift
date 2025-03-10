@@ -136,14 +136,28 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btn_create_game"
+    android:id="@+id/btn_create_game"
+    style="@style/custom_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="32dp"
+    android:layout_marginStart="60dp"
+    android:text="Generar evento"
+    app:layout_constraintBottom_toBottomOf="parent"
+
+    app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_save_game"
         style="@style/custom_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:text="Generar evento"
+        android:text="Guardar evento"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginStart="100dp"
+        app:layout_constraintStart_toStartOf="@id/btn_create_game" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

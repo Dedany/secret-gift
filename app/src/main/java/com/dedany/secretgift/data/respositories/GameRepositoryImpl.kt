@@ -34,6 +34,14 @@ class GameRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getLocalGame(gameId: Int): LocalGame {
+        return withContext(Dispatchers.IO) {
+            val gameDbo = localDataSource.getGame(gameId)
+            val game = gameDbo.toDomain()
+            return@withContext game
+        }
+    }
+
 
     override suspend fun getGamesByUser(): List<Game> {
         return withContext(Dispatchers.IO) {
@@ -178,15 +186,15 @@ class GameRepositoryImpl @Inject constructor(
     }
     private fun Rule.toDto(): GameRuleDto {
         return GameRuleDto(
-            playerOne = this.playerOne,
-            playerTwo = this.playerTwo
+            playerOne = this.playerOne.toString(),
+            playerTwo = this.playerTwo.toString()
         )
     }
 
     private fun Rule.toDbo(): RuleDbo {
         return RuleDbo(
-            playerOne = this.playerOne,
-            playerTwo = this.playerTwo
+            playerOne = this.playerOne.toString(),
+            playerTwo = this.playerTwo.toString()
         )
     }
 
