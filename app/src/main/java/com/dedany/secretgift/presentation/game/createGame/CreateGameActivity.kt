@@ -1,8 +1,11 @@
 package com.dedany.secretgift.presentation.game.createGame
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
@@ -15,8 +18,11 @@ import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityCreateGameBinding
+import com.dedany.secretgift.presentation.game.viewGame.ViewGameActivity
+import com.dedany.secretgift.presentation.helpers.Constants
 import com.dedany.secretgift.presentation.login.LoginViewModel
 import com.dedany.secretgift.presentation.main.MainActivity
+import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,7 +30,7 @@ class CreateGameActivity : AppCompatActivity() {
 
     private var binding: ActivityCreateGameBinding? = null
     private var viewModel: CreateGameViewModel? = null
-
+    private var gameSettingsViewModel: GameSettingsViewModel? = null
 
     private val settingsActivityResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -43,7 +49,6 @@ class CreateGameActivity : AppCompatActivity() {
 
         initObservers()
         initListeners()
-
 
     }
 
@@ -81,6 +86,7 @@ class CreateGameActivity : AppCompatActivity() {
         val numPlayers = gameSettingsViewModel.numPlayers.value ?: ""
         val maxPrice = gameSettingsViewModel.maxPrice.value ?: ""
         val incompatibilities = gameSettingsViewModel.incompatibilities.value ?: emptyList<Pair<String, String>>()
+
     }
 
     private fun initListeners() {
@@ -95,7 +101,7 @@ class CreateGameActivity : AppCompatActivity() {
 
         binding?.btnCreateGame?.setOnClickListener {
             viewModel?.createGame()
-            }
+        }
         binding?.btnSaveGame?.setOnClickListener {
             viewModel?.onSaveGameClicked()
         }
@@ -103,7 +109,40 @@ class CreateGameActivity : AppCompatActivity() {
             val intent = Intent(this, SettingsActivity::class.java)
             settingsActivityResultLauncher.launch(intent)
         }
+        binding?.btnAdd?.setOnClickListener {
+            val dialog = Dialog(this)
+            dialog.setContentView(R.layout.register_game_player)
+            dialog.show()
+
+            val btnConfirm = dialog.findViewById<Button>(R.id.btn_confirm)
+            val btnCancel = dialog.findViewById<Button>(R.id.btn_cancel)
+            val nameEditText = dialog.findViewById<TextInputEditText>(R.id.name_edit_text)
+            val emailEditText = dialog.findViewById<TextInputEditText>(R.id.email_edit_text)
+
+
+            btnConfirm.setOnClickListener {
+                val name = nameEditText.text.toString()
+                val email = emailEditText.text.toString()
+
+                if (name.isNotEmpty() && email.isNotEmpty()) {
+                    viewModel?.addPlayer(name, email)
+                    dialog.dismiss()
+                } else {
+                    Toast.makeText(this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+            nameEditText.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    nameEditText.hint = ""
+                } else {
+                    nameEditText.hint =
+                        getString(R.string.name)
+                }
+            }
         }
+    }
+
     private fun showConfirmationDialog() {
         AlertDialog.Builder(this)
             .setTitle("Guardar Juego")
@@ -117,8 +156,5 @@ class CreateGameActivity : AppCompatActivity() {
             .show()
     }
 
-
     }
-
-
 

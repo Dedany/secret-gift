@@ -8,9 +8,10 @@ import androidx.room.TypeConverters
 import com.dedany.secretgift.data.dataSources.games.local.gameDbo.GameDbo
 
 import com.dedany.secretgift.data.dataSources.games.local.GamesDao
+import com.dedany.secretgift.data.dataSources.games.local.gameDbo.PlayerDbo
 
 @Database(
-    entities = [GameDbo::class], // Entidades definidas correctamente
+    entities = [GameDbo::class, PlayerDbo::class], // Entidades definidas correctamente
     version = 1,
     exportSchema = false
 )

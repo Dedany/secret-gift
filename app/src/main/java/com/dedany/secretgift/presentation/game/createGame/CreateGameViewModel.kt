@@ -27,6 +27,9 @@ class CreateGameViewModel @Inject constructor(
     private var _isGameSavedSuccess: MutableLiveData<Boolean> = MutableLiveData()
     val isGameSavedSuccess: LiveData<Boolean> = _isGameSavedSuccess
 
+    private var _email: MutableLiveData<String> = MutableLiveData()
+    val email: LiveData<String> = _email
+
     private var _isGameCreatedSuccess: MutableLiveData<Boolean> = MutableLiveData()
     val isGameCreatedSuccess: LiveData<Boolean> = _isGameCreatedSuccess
 
@@ -36,6 +39,7 @@ class CreateGameViewModel @Inject constructor(
     private var gameName: String = ""
     private var gameId: Int = 0
     private val playerList = mutableListOf<Player>()
+    private var playerEmail: String= ""
 
     fun checkName() {
         _isGameNameValid.value = gameName.isNotEmpty() && gameName.length > 3
@@ -43,6 +47,9 @@ class CreateGameViewModel @Inject constructor(
 
     fun setName(name: String) {
         gameName = name
+    }
+    fun setEmail(email: String) {
+        playerEmail = email
     }
 
     fun setGameId(id: Int) {
@@ -62,7 +69,7 @@ class CreateGameViewModel @Inject constructor(
         _showConfirmationDialog.value = false
     }
 
-    fun createGame() {
+    fun createGame() {  //NOMBRE DEL JUEGO EN ROOM
         viewModelScope.launch {
             checkName()
             if (_isGameNameValid.value == true /*&& playerList.isNotEmpty()*/) {
@@ -78,8 +85,13 @@ class CreateGameViewModel @Inject constructor(
         }
 
     }
+    fun addPlayer(name: String,email: String){  //AÑADIR JUGADORES A LA LISTA
+        val newPlayer = Player(name = name, email = email)
+        playerList.add(newPlayer)
+        _player.value = playerList
+    }
 
-    fun saveGame() {
+    fun saveGame() { //API
         viewModelScope.launch {
             try {
                 val gameSaved = gamesUseCase.createGame(gameId)
@@ -89,4 +101,5 @@ class CreateGameViewModel @Inject constructor(
             }
         }
     }
+
 }

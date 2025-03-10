@@ -55,6 +55,11 @@ class GameRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun createLocalPlayer(player: Player) {
+        val player = player.toDbo()
+        localDataSource.createPlayer(player)
+    }
+
     override suspend fun deleteLocalGame(game: LocalGame) {
         val gameDbo = game.toDbo()
         localDataSource.deleteGame(gameDbo)
