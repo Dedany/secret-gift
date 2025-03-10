@@ -178,15 +178,15 @@ class GameRepositoryImpl @Inject constructor(
     }
     private fun Rule.toDto(): GameRuleDto {
         return GameRuleDto(
-            playerOne = this.playerOne,
-            playerTwo = this.playerTwo
+            playerOne = this.playerOne.toString(),
+            playerTwo = this.playerTwo.toString()
         )
     }
 
     private fun Rule.toDbo(): RuleDbo {
         return RuleDbo(
-            playerOne = this.playerOne,
-            playerTwo = this.playerTwo
+            playerOne = this.playerOne.toString(),
+            playerTwo = this.playerTwo.toString()
         )
     }
 

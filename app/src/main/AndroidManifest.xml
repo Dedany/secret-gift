@@ -45,6 +45,10 @@
             android:exported="true" />
 
         <activity
+            android:name=".presentation.game.createGame.SettingsActivity"
+            android:exported="true" />
+
+        <activity
             android:name=".presentation.details.DetailsMainActivity"
             android:exported="true" />
 

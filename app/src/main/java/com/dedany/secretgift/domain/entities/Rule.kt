@@ -1,6 +1,6 @@
 package com.dedany.secretgift.domain.entities
 
 data class Rule(
-    val playerOne: String,
-    val playerTwo: String
+    var playerOne: String? = null,
+    var playerTwo: String? = null
 )
