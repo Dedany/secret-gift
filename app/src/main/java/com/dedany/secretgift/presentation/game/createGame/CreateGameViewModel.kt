@@ -33,32 +33,51 @@ class CreateGameViewModel @Inject constructor(
     private var _isGameCreatedSuccess: MutableLiveData<Boolean> = MutableLiveData()
     val isGameCreatedSuccess: LiveData<Boolean> = _isGameCreatedSuccess
 
-    private var _player: MutableLiveData<List<Player>> = MutableLiveData()
-    val player: LiveData<List<Player>> = _player
+    private var _players: MutableLiveData<List<Player>> = MutableLiveData(listOf())
+    val players: LiveData<List<Player>> = _players
 
     private var gameName: String = ""
     private var gameId: Int = 0
-    private val playerList = mutableListOf<Player>()
-    private var playerEmail: String= ""
+    private var playerList = mutableListOf<Player>()
+    private var playerEmail: String = ""
 
     fun checkName() {
         _isGameNameValid.value = gameName.isNotEmpty() && gameName.length > 3
     }
 
+    //NOMBRE DEL JUEGO
     fun setName(name: String) {
         gameName = name
+        createGame()
     }
+
+    //CORREO DEL JUGADOR
     fun setEmail(email: String) {
         playerEmail = email
     }
 
+    //ID JUEGO
     fun setGameId(id: Int) {
         this.gameId = id
     }
 
+    //ELIMINAR JUGADOR
     fun deletePlayer(player: Player) {
         playerList.remove(player)
-        _player.value = playerList
+        _players.value = playerList.toList()
+        createGame()
+    }
+
+    //EDITAR JUGADOR
+    fun editPlayer(player: Player, newName: String) {
+        val playerIndex = playerList.indexOf(player)
+        if (playerIndex != -1) {
+            playerList[playerIndex].name = newName
+            _players.value = playerList.toList()
+        }
+
+        createGame()
+
     }
 
     fun onSaveGameClicked() {
@@ -71,26 +90,22 @@ class CreateGameViewModel @Inject constructor(
 
     fun createGame() {  //NOMBRE DEL JUEGO EN ROOM
         viewModelScope.launch {
-            checkName()
-            if (_isGameNameValid.value == true /*&& playerList.isNotEmpty()*/) {
-                val ownerId = useCase.getRegisteredUser().id
-                val localGame = LocalGame(ownerId = ownerId, name = gameName)
-                gamesUseCase.createLocalGame(localGame)
-                setGameId(localGame.id)
-                _isGameCreatedSuccess.value = true
-            } else {
-
-
-            }
+            val ownerId = useCase.getRegisteredUser().id
+            val localGame = LocalGame(id = gameId, ownerId = ownerId, name = gameName, players = playerList)
+            val gamedbo = gamesUseCase.createLocalGame(localGame)
+            //setGameId(gamedbo.id)
+            _isGameCreatedSuccess.value = true
         }
 
     }
-    fun addPlayer(name: String,email: String){  //AÑADIR JUGADORES A LA LISTA
+
+    //AÑADIR JUGADORES A LA LISTA
+    fun addPlayer(name: String, email: String) {
         val newPlayer = Player(name = name, email = email)
         playerList.add(newPlayer)
-        _player.value = playerList
-    }
+        _players.value = playerList.toList()
 
+    }
     fun saveGame() { //API
         viewModelScope.launch {
             try {
@@ -102,4 +117,15 @@ class CreateGameViewModel @Inject constructor(
         }
     }
 
+    //CARGAR JUGADOR
+    fun loadPlayer() {
+        viewModelScope.launch {
+            try {
+                val game = gamesUseCase.getLocalGame(gameId)
+                _players.value = game.players
+            } catch (e: Exception) {
+                _players.value = emptyList()
+            }
+        }
+    }
 }

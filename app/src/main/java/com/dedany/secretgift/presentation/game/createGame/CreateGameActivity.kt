@@ -5,23 +5,19 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityCreateGameBinding
-import com.dedany.secretgift.presentation.game.viewGame.ViewGameActivity
-import com.dedany.secretgift.presentation.helpers.Constants
-import com.dedany.secretgift.presentation.login.LoginViewModel
+import com.dedany.secretgift.domain.entities.Player
 import com.dedany.secretgift.presentation.main.MainActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,6 +27,7 @@ class CreateGameActivity : AppCompatActivity() {
     private var binding: ActivityCreateGameBinding? = null
     private var viewModel: CreateGameViewModel? = null
     private var gameSettingsViewModel: GameSettingsViewModel? = null
+    private var playerAdapter: PlayerAdapter? = null
 
     private val settingsActivityResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -47,14 +44,29 @@ class CreateGameActivity : AppCompatActivity() {
         setContentView(binding?.root)
 
 
+        setAdapters()
         initObservers()
         initListeners()
 
     }
 
+    private fun setAdapters(){
+        playerAdapter = PlayerAdapter(
+            onDeleteClick = {player ->
+                viewModel?.deletePlayer(player)
+            },
+            onEditClick = { player ->
+             //   val newName =getNewNameForPlayer()
+             //   viewModel?.editPlayer(player ,newName)
+            }
+        )
+        binding?.recyclerView?.adapter = playerAdapter
+    }
+
 
     private fun initObservers() {
         viewModel?.isGameNameValid?.observe(this) { isSuccess ->
+
             if (isSuccess) {
                 Toast.makeText(this, "Nombre del grupo creado correctamente", Toast.LENGTH_SHORT)
                     .show()
@@ -76,6 +88,10 @@ class CreateGameActivity : AppCompatActivity() {
             if (showDialog) {
                 showConfirmationDialog()
             }
+        }
+
+        viewModel?.players?.observe(this) { players ->
+            playerAdapter?.submitList(players)
         }
     }
 

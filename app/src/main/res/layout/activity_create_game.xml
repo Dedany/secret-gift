@@ -9,8 +9,9 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/btn_create_game"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintBottom_toTopOf="@id/btn_game_settings"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="#00ffffff">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
@@ -23,7 +24,8 @@
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                app:layout_scrollFlags="scroll|snap">
+                app:layout_scrollFlags="scroll|snap"
+                android:background="#00ffffff">
 
 
 
@@ -105,15 +107,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_add_people" />
 
+
             <androidx.recyclerview.widget.RecyclerView
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:id="@+id/recyclerView"
-                android:layout_width="413dp"
-                android:layout_height="261dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_marginTop="32dp"
                 android:paddingHorizontal="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btn_add"
+                app:layout_constraintBottom_toBottomOf="parent"
                 tools:listitem="@layout/item_element_list" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

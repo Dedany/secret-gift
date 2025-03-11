@@ -10,9 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dedany.secretgift.databinding.ItemPlayersViewBinding
 import com.dedany.secretgift.domain.entities.Player
 
-import com.dedany.secretgift.domain.entities.User
-
-class PlayersAdapter : ListAdapter<Player, PlayersAdapter.PlayerViewHolder>(PlayerDiffCallback()) {
+class PlayersAdapter : ListAdapter<Player, PlayersAdapter.PlayerViewHolder>(PlayersDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerViewHolder {
         val binding = ItemPlayersViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -32,7 +30,7 @@ class PlayersAdapter : ListAdapter<Player, PlayersAdapter.PlayerViewHolder>(Play
     }
 }
 
-class PlayerDiffCallback : DiffUtil.ItemCallback<Player>() {
+class PlayersDiffCallback : DiffUtil.ItemCallback<Player>() {
     override fun areItemsTheSame(oldItem: Player, newItem: Player): Boolean {
         return oldItem.email == newItem.email
     }

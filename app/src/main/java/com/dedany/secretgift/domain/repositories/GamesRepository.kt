@@ -9,7 +9,6 @@ interface GamesRepository {
     suspend fun getGame(gameCode: String): Game
     suspend fun getLocalGame(gameId: Int): LocalGame
     suspend fun getGamesByUser(): List<Game>
-    suspend fun createLocalPlayer(player: Player)
     suspend fun deleteLocalGame(game: LocalGame)
     suspend fun createLocalGame(game: LocalGame)
     suspend fun updateLocalGame(game: LocalGame)

@@ -23,9 +23,6 @@ interface GamesDao {
     @Insert
     suspend fun createLocalGame(game: GameDbo)
 
-    @Insert
-    suspend fun createPlayer(player: PlayerDbo)
-
     @Update
     suspend fun updateLocalGame(game: GameDbo)
 }

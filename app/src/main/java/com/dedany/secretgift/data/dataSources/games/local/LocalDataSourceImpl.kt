@@ -12,7 +12,7 @@ class LocalDataSourceImpl @Inject constructor(
         return gamesDao.getGames()
     }
 
-    override suspend fun getGame(gameId: Int): GameDbo {
+    override suspend fun getLocalGame(gameId: Int): GameDbo {
         return gamesDao.getGame(gameId)
     }
 
@@ -26,10 +26,6 @@ class LocalDataSourceImpl @Inject constructor(
 
     override suspend fun updateGame(game: GameDbo) {
        gamesDao.updateLocalGame(game)
-    }
-
-    override suspend fun createPlayer(player: PlayerDbo) {
-        gamesDao.createPlayer(player)
     }
 }
 

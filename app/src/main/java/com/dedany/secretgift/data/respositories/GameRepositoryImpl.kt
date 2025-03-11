@@ -1,7 +1,6 @@
 package com.dedany.secretgift.data.respositories
 
 import android.util.Log
-import com.dedany.secretgift.data.dataSources.games.local.GamesDao
 import com.dedany.secretgift.data.dataSources.games.local.LocalDataSource
 import com.dedany.secretgift.data.dataSources.games.local.gameDbo.GameDbo
 import com.dedany.secretgift.data.dataSources.games.local.gameDbo.PlayerDbo
@@ -28,17 +27,26 @@ class GameRepositoryImpl @Inject constructor(
 
     override suspend fun getGame(gameCode: String): Game {
         return withContext(Dispatchers.IO) {
-            val gameDto = remoteDataSource.getGame(gameCode)
-            val game = gameDto.toDomain()
-            return@withContext game
+
+            try {
+                val gameDto = remoteDataSource.getGame(gameCode)
+                return@withContext gameDto.toDomain()
+            } catch (e: Exception) {
+                Log.e("getGame", "Error obteniendo juego: ${e.message}")
+                throw e
+            }
         }
     }
 
     override suspend fun getLocalGame(gameId: Int): LocalGame {
         return withContext(Dispatchers.IO) {
-            val gameDbo = localDataSource.getGame(gameId)
-            val game = gameDbo.toDomain()
-            return@withContext game
+            try {
+                val gameDbo = localDataSource.getLocalGame(gameId)
+                return@withContext gameDbo.toDomain()
+            } catch (e: Exception) {
+                Log.e("getLocalGame", "Error obteniendo juego de borrador: ${e.message}")
+                throw e
+            }
         }
     }
 
@@ -55,40 +63,28 @@ class GameRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun createLocalPlayer(player: Player) {
-        val player = player.toDbo()
-        localDataSource.createPlayer(player)
-    }
-
     override suspend fun deleteLocalGame(game: LocalGame) {
-        val gameDbo = game.toDbo()
-        localDataSource.deleteGame(gameDbo)
+        localDataSource.deleteGame(game.toDbo())
     }
 
     override suspend fun createLocalGame(game: LocalGame) {
-        val gameDbo = game.toDbo()
-        localDataSource.createGame(gameDbo)
+        localDataSource.createGame(game.toDbo())
     }
 
     override suspend fun updateLocalGame(game: LocalGame) {
-        val gameDbo = game.toDbo()
-        localDataSource.updateGame(gameDbo)
+        localDataSource.updateGame(game.toDbo())
     }
 
-
     override suspend fun createGame(game: Game) {
-        val gameDto = game.toDto()
-        remoteDataSource.createGame(gameDto)
+        remoteDataSource.createGame(game.toDto())
     }
 
     override suspend fun updateGame(game: Game) {
-        val gameDto = game.toDto()
-        remoteDataSource.updateGame(gameDto)
+        remoteDataSource.updateGame(game.toDto())
     }
 
     override suspend fun deleteGame(game: Game) {
-        val gameDto = game.toDto()
-        remoteDataSource.deleteGame(gameDto)
+        remoteDataSource.deleteGame(game.toDto())
     }
 
 
@@ -121,8 +117,6 @@ class GameRepositoryImpl @Inject constructor(
             players = this.players.map { it.toDbo() },
             rules = this.rules.map { it.toDbo() }
         )
-
-
     }
 
 
@@ -189,6 +183,7 @@ class GameRepositoryImpl @Inject constructor(
             playerTwo = this.playerTwo
         )
     }
+
     private fun Rule.toDto(): GameRuleDto {
         return GameRuleDto(
             playerOne = this.playerOne.toString(),
@@ -218,9 +213,8 @@ class GameRepositoryImpl @Inject constructor(
             matchedPlayer = this.matchedPlayer,
             currentPlayer = this.currentPlayer
 
-        )}
-
-
+        )
+    }
 
 
 }
