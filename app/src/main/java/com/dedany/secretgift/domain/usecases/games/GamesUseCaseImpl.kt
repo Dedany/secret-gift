@@ -37,7 +37,7 @@ class GamesUseCaseImpl @Inject constructor(
 
     override suspend fun createGame(gameId: Int): Boolean {
         val localGame = getLocalGame(gameId)
-
+        return true
     }
 
     override suspend fun updateGame(game: Game) {

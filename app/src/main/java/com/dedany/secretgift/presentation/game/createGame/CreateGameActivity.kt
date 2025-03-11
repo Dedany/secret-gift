@@ -54,8 +54,6 @@ class CreateGameActivity : AppCompatActivity() {
                 Toast.makeText(this, "Nombre del grupo creado correctamente", Toast.LENGTH_SHORT)
                     .show()
 
-            } else {
-                Toast.makeText(this, "necesita un mínimo de 4 letras", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -66,7 +64,12 @@ class CreateGameActivity : AppCompatActivity() {
                 Toast.makeText(this, "Error al guardar el juego", Toast.LENGTH_SHORT).show()
             }
         }
+        viewModel?.insufficientDataMessage?.observe(this) { message ->
+            if (message.isNotEmpty()) {
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+            }
 
+        }
         viewModel?.showConfirmationDialog?.observe(this) { showDialog ->
             if (showDialog) {
                 showConfirmationDialog()
