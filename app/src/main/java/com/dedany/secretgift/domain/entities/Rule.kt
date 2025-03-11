@@ -1,6 +1,8 @@
 package com.dedany.secretgift.domain.entities
 
+import java.io.Serializable
+
 data class Rule(
-    var playerOne: String? = null,
-    var playerTwo: String? = null
-)
+    var playerOne: String,
+    var playerTwo: String
+): Serializable

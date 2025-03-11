@@ -2,6 +2,7 @@ package com.dedany.secretgift.data.dataSources.games.remote
 
 import com.dedany.secretgift.data.dataSources.errorHandler.ErrorDto
 import com.dedany.secretgift.data.dataSources.games.remote.api.SecretGiftApi
+import com.dedany.secretgift.data.dataSources.games.remote.dto.CreateGameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameDto
 import com.dedany.secretgift.data.dataSources.users.local.preferences.UserPreferences
 import com.google.gson.Gson
@@ -46,8 +47,14 @@ class GameRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun createGame(game: GameDto) {
-        TODO("Not yet implemented")
+    override suspend fun createGame(game: CreateGameDto):Boolean {
+       val response = gamesApi.createGame(game)
+        if (response.isSuccessful) {
+            return true
+        } else {
+            throw Exception("Error creando el juego: ${response.errorBody()?.string()}")
+
+        }
     }
 
     override suspend fun deleteGame(game: GameDto) {

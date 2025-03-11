@@ -11,17 +11,16 @@ data class CreateGameDto(
     val ownerId: String,
 
     @SerializedName("max_cost")
-    val maxCost: Int,
+    val maxCost: Int?,
     @SerializedName("min_cost")
-    val minCost: Int,
+    val minCost: Int?,
 
     @SerializedName("status")
     val status: String,
 
-    @SerializedName("game_code")
-    val gameCode: String,
 
-    val players: List<UserRegisteredDto>,
+
+    val players: List<CreatePlayerDto>,
 
     @SerializedName("game_date")
     val gameDate: Date,

@@ -1,16 +1,19 @@
 package com.dedany.secretgift.data.respositories
 
 import android.util.Log
-import com.dedany.secretgift.data.dataSources.games.local.GamesDao
 import com.dedany.secretgift.data.dataSources.games.local.LocalDataSource
 import com.dedany.secretgift.data.dataSources.games.local.gameDbo.GameDbo
 import com.dedany.secretgift.data.dataSources.games.local.gameDbo.PlayerDbo
 import com.dedany.secretgift.data.dataSources.games.local.gameDbo.RuleDbo
 import com.dedany.secretgift.data.dataSources.games.remote.GameRemoteDataSource
+import com.dedany.secretgift.data.dataSources.games.remote.dto.CreateGameDto
+import com.dedany.secretgift.data.dataSources.games.remote.dto.CreatePlayerDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.PlayerDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameRuleDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.UserRegisteredDto
+import com.dedany.secretgift.domain.entities.CreateGame
+import com.dedany.secretgift.domain.entities.CreatePlayer
 import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.Game
 import com.dedany.secretgift.domain.entities.Player
@@ -71,19 +74,19 @@ class GameRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun createGame(game: Game) {
+    override suspend fun createGame(game: CreateGame): Boolean {
         val gameDto = game.toDto()
-        remoteDataSource.createGame(gameDto)
+        return remoteDataSource.createGame(gameDto)
     }
 
     override suspend fun updateGame(game: Game) {
-        val gameDto = game.toDto()
-        remoteDataSource.updateGame(gameDto)
+//        val gameDto = game.toDto()
+//        remoteDataSource.updateGame(gameDto)
     }
 
     override suspend fun deleteGame(game: Game) {
-        val gameDto = game.toDto()
-        remoteDataSource.deleteGame(gameDto)
+//        val gameDto = game.toDto()
+//        remoteDataSource.deleteGame(gameDto)
     }
 
 
@@ -169,7 +172,13 @@ class GameRepositoryImpl @Inject constructor(
             email = this.email
         )
     }
-
+    private fun CreatePlayer.toDto(): CreatePlayerDto {
+        return CreatePlayerDto(
+            name = this.name,
+            email = this.email,
+            linkedTo = this.linkedTo
+        )
+    }
 
     private fun GameRuleDto.toDomain(): Rule {
         return Rule(
@@ -198,22 +207,21 @@ class GameRepositoryImpl @Inject constructor(
         )
     }
 
-    private fun Game.toDto(): GameDto {
-        return GameDto(
-            id = this.id,
+    private fun CreateGame.toDto(): CreateGameDto {
+        return CreateGameDto(
+
             name = this.name,
             ownerId = this.ownerId,
             status = this.status,
-            gameCode = this.gameCode,
             maxCost = this.maxCost,
             minCost = this.minCost,
             gameDate = this.gameDate,
             players = this.players.map { it.toDto() },
             rules = this.rules.map { it.toDto() },
-            matchedPlayer = this.matchedPlayer,
-            currentPlayer = this.currentPlayer
 
-        )}
+
+        )
+    }
 
 
 
