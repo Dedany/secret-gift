@@ -104,14 +104,9 @@ class CreateGameViewModel @Inject constructor(
         if (_isGameNameValid.value == true) {
             viewModelScope.launch {
                 try {
-                    val existingGame = gamesUseCase.getLocalGamesByName(gameName)
-
-                    if (existingGame.id == 0) {
-                        createGame()
-                    } else {
-                        gameId = existingGame.id
-                        updateGame()
-                    }
+                    val existingGame = gamesUseCase.getLocalGamesById(gameId)
+                    gameId = existingGame.id
+                    updateGame()
                 } catch (e: Exception) {
                     Log.e("CreateGameViewModel", "Error buscando el juego: ${e.message}")
                     createGame()
@@ -119,6 +114,7 @@ class CreateGameViewModel @Inject constructor(
             }
         }
     }
+
 
     private fun createGame() {
         if (gameName.isNotEmpty() && gameName.length > 3 && checkMinimumPlayers()) {

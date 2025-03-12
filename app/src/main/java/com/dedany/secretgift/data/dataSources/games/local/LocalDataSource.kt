@@ -7,7 +7,7 @@ interface LocalDataSource {
 
     suspend fun getGames(): List<GameDbo>
     suspend fun getLocalGame(gameId: Int): GameDbo
-    suspend fun getLocalGameByName(name: String): GameDbo?
+    suspend fun getLocalGameById(id: Int): GameDbo?
     suspend fun deleteGame(game: GameDbo)
     suspend fun createGame(game: GameDbo): Long
     suspend fun updateGame(game: GameDbo): Int

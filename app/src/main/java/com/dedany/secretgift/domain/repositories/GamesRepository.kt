@@ -8,7 +8,7 @@ import com.dedany.secretgift.domain.entities.Game
 interface GamesRepository {
     suspend fun getGame(gameCode: String): Game
     suspend fun getLocalGame(gameId: Int): LocalGame
-    suspend fun getLocalGameByName(name: String): LocalGame
+    suspend fun getLocalGameById(id: Int): LocalGame
     suspend fun getGamesByUser(): List<Game>
     suspend fun deleteLocalGame(game: LocalGame)
     suspend fun createLocalGame(game: LocalGame): Long

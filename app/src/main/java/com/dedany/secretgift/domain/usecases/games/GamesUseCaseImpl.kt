@@ -22,8 +22,8 @@ class GamesUseCaseImpl @Inject constructor(
         return repository.getLocalGame(gameId)
     }
 
-    override suspend fun getLocalGamesByName(gameName: String): LocalGame {
-        return repository.getLocalGameByName(gameName)
+    override suspend fun getLocalGamesById(id: Int): LocalGame {
+        return repository.getLocalGameById(id)
     }
 
 

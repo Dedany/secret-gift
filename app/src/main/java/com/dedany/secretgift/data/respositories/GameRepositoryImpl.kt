@@ -54,19 +54,19 @@ class GameRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getLocalGameByName(name: String): LocalGame {
+    override suspend fun getLocalGameById(id: Int): LocalGame {
         return withContext(Dispatchers.IO) {
             try {
-                val gameDbo = localDataSource.getLocalGameByName(name) // Método en el LocalDataSource
+                val gameDbo = localDataSource.getLocalGameById(id) // Método en el LocalDataSource
                 if (gameDbo != null) {
                     return@withContext gameDbo.toDomain() // Convierte a dominio si no es null
                 } else {
                     // Maneja el caso en que no se encontró el juego
-                    Log.e("getGameByName", "Juego no encontrado con el nombre: $name")
-                    throw Exception("Juego no encontrado con el nombre: $name")
+                    Log.e("getGameById", "Juego no encontrado con el id: $id")
+                    throw Exception("Juego no encontrado con el id: $id")
                 }
             } catch (e: Exception) {
-                Log.e("getGameByName", "Error obteniendo juego por nombre: ${e.message}")
+                Log.e("getGameById", "Error obteniendo juego por id: ${e.message}")
                 throw e
             }
         }
