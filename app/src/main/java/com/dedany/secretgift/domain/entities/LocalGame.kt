@@ -9,6 +9,6 @@ data class LocalGame(
     var name: String,
     val maxCost: Int?=null,
     val minCost: Int?=null,
-    val gameDate: Date? = null,
+    val gameDate: Date? = Date(),
     val rules: List<Rule> = emptyList()
 )

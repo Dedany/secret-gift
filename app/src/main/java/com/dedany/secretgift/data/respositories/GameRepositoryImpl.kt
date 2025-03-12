@@ -6,10 +6,14 @@ import com.dedany.secretgift.data.dataSources.games.local.gameDbo.GameDbo
 import com.dedany.secretgift.data.dataSources.games.local.gameDbo.PlayerDbo
 import com.dedany.secretgift.data.dataSources.games.local.gameDbo.RuleDbo
 import com.dedany.secretgift.data.dataSources.games.remote.GameRemoteDataSource
+import com.dedany.secretgift.data.dataSources.games.remote.dto.CreateGameDto
+import com.dedany.secretgift.data.dataSources.games.remote.dto.CreatePlayerDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.PlayerDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameRuleDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.UserRegisteredDto
+import com.dedany.secretgift.domain.entities.CreateGame
+import com.dedany.secretgift.domain.entities.CreatePlayer
 import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.Game
 import com.dedany.secretgift.domain.entities.Player
@@ -94,17 +98,23 @@ class GameRepositoryImpl @Inject constructor(
         return localDataSource.updateGame(game.toDbo())
     }
 
+    override suspend fun createGame(game: CreateGame): Boolean {
+        val gameDto = game.toDto()
+        return remoteDataSource.createGame(gameDto)
+    }
 
     override suspend fun createGame(game: Game) {
-        remoteDataSource.createGame(game.toDto())
+        TODO("Not yet implemented")
     }
 
     override suspend fun updateGame(game: Game) {
-        remoteDataSource.updateGame(game.toDto())
+//        val gameDto = game.toDto()
+//        remoteDataSource.updateGame(gameDto)
     }
 
     override suspend fun deleteGame(game: Game) {
-        remoteDataSource.deleteGame(game.toDto())
+//        val gameDto = game.toDto()
+//        remoteDataSource.deleteGame(gameDto)
     }
 
 
@@ -188,7 +198,13 @@ class GameRepositoryImpl @Inject constructor(
             email = this.email
         )
     }
-
+    private fun CreatePlayer.toDto(): CreatePlayerDto {
+        return CreatePlayerDto(
+            name = this.name,
+            email = this.email,
+            linkedTo = this.linkedTo
+        )
+    }
 
     private fun GameRuleDto.toDomain(): Rule {
         return Rule(
@@ -218,25 +234,23 @@ class GameRepositoryImpl @Inject constructor(
         )
     }
 
-    private fun Game.toDto(): GameDto {
-        return GameDto(
-            id = this.id,
+    private fun CreateGame.toDto(): CreateGameDto {
+        return CreateGameDto(
+
             name = this.name,
             ownerId = this.ownerId,
             status = this.status,
-            gameCode = this.gameCode,
             maxCost = this.maxCost,
             minCost = this.minCost,
             gameDate = this.gameDate,
             players = this.players.map { it.toDto() },
             rules = this.rules.map { it.toDto() },
-            matchedPlayer = this.matchedPlayer,
-            currentPlayer = this.currentPlayer
+
 
         )
     }
-
-
 }
+
+
 
 

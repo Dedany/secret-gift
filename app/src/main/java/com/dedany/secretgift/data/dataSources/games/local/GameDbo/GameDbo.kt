@@ -22,6 +22,6 @@ data class GameDbo(
     val minCost: Int?,
     val players: List<PlayerDbo>,
     @SerializedName("game_date")
-    val gameDate: Date?,
-    val rules: List<RuleDbo>
+    val gameDate: Date?= Date(),
+    val rules: List<RuleDbo> = emptyList()
 )
