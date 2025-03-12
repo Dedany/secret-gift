@@ -14,7 +14,7 @@ interface GamesRepository {
     suspend fun createLocalGame(game: LocalGame): Long
     suspend fun updateLocalGame(game: LocalGame): Int
     suspend fun createGame(game: CreateGame):Boolean
-    suspend fun createGame(game: Game)
+
     suspend fun updateGame(game: Game)
     suspend fun deleteGame(game: Game)
 }
