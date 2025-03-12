@@ -109,7 +109,6 @@ class CreateGameViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if (checkGame()) {
-
                     val isGameSaved = gamesUseCase.createGame(gameId)
                     _isGameSavedSuccess.value = isGameSaved
                 }

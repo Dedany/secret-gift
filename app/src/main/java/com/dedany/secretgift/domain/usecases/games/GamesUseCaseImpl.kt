@@ -55,48 +55,130 @@ class GamesUseCaseImpl @Inject constructor(
         repository.deleteGame(game)
     }
 
-    private fun generatePairings(
-        players: List<Player>,
-        rules: List<Rule>?
-    ): List<Pair<Player, Player>> {
-        //  Create copia mutable de players
-        val availablePlayers = players.toMutableList()
-        val pairings = mutableListOf<Pair<Player, Player>>()
 
-        //  Crea un set de parejas no permitidas
-        val forbiddenPairs = rules?.map { Pair(it.playerOne, it.playerTwo) }?.toSet() ?: emptySet()
+    fun canAssignGift(
+        participants: List<Player>,
+        restrictions: Map<String, Set<String>>
+    ): Boolean {
+        val total = participants.size
 
-        //  Reordena al azar la lista de jugadores
-        availablePlayers.shuffle()
-
-        //  Itera mientras quedan jugadores por emparejar
-        for (i in availablePlayers.indices) {
-            val player1 = availablePlayers[i]
-            var player2: Player? = null
-
-            //  Encuentra pareja para player1 que cumpla con las reglas
-            val suitablePartners = availablePlayers.filter {
-                it != player1 && !forbiddenPairs.contains(Pair(player1.name, it.name)) && !forbiddenPairs.contains(Pair(it.name, player1.name))
+        for (participant in participants) {
+            val possibleReceivers = participants.toMutableSet().apply { remove(participant) }
+            restrictions[participant.name]?.let { participantRestrictions ->
+                possibleReceivers.removeAll {
+                    it.name in participantRestrictions
+                }
             }
-
-            //  Si no se encuentra pareja válida, retorna lista vacía
-            if (suitablePartners.isEmpty()) {
-
-                println("No hay pareja válida para ${player1.name}")
-                return emptyList()
-            }
-
-            //  Elije pareja al azar de los jugadores válidos
-            player2 = suitablePartners.random()
-
-            // Añade emparejamiento a la lista
-            pairings.add(Pair(player1, player2))
+            if (possibleReceivers.isEmpty()) return false
         }
 
-
-        return pairings
+        return total > 2 && participants.all { participant ->
+            participants.any {
+                it != participant && !(restrictions[participant.name]?.contains(it.name) ?: false)
+            }
+        }
     }
-    private fun convertToCreateGame(localGame: LocalGame, pairings: List<Pair<Player, Player>>): CreateGame {
+
+    private fun backtrack(
+        participants: List<Player>,
+        remaining: List<Player>,
+        assigned: MutableMap<Player, Player>,
+        restrictions: Map<String, Set<String>>
+    ): Boolean {
+        if (remaining.isEmpty()) return true
+
+        val giver = remaining.first()
+        val possibleReceivers = participants.filter {
+            it != giver && it !in assigned.values && !(restrictions[giver.name]?.contains(it.name)
+                ?: false)
+        }
+
+        for (receiver in possibleReceivers) {
+            assigned[giver] = receiver
+            if (backtrack(participants, remaining.drop(1), assigned, restrictions)) return true
+            assigned.remove(giver)
+        }
+
+        return false
+    }
+
+    private fun assignGifts(
+        participants: List<Player>,
+        restrictions: Map<String, Set<String>>
+    ): Map<Player, Player> {
+        val assignments = mutableMapOf<Player, Player>()
+        backtrack(participants, participants.shuffled(), assignments, restrictions)
+        return assignments
+    }
+
+    private fun generatePairings(
+        players: List<Player>,
+        rules: List<Rule> = emptyList()
+    ): List<Pair<Player, Player>> {
+        val restrictions: MutableMap<String, Set<String>> = mutableMapOf()
+        rules.forEach { rule ->
+            restrictions[rule.playerOne] =
+                rules.filter { it.playerOne == rule.playerOne }.map { it.playerTwo }.toSet()
+        }
+
+        val assignments = assignGifts(players, restrictions)
+        return assignments.map { Pair(it.key, it.value) }
+
+//        //  Crea copia mutable de players
+//        val availablePlayers = players.toMutableList()
+//        val pairings = mutableListOf<Pair<Player, Player>>()
+//        val alreadySelectedPlayers = mutableListOf<String>()
+//
+//        //  Crea un set de parejas no permitidas
+//        val forbiddenPairs = rules?.map { Pair(it.playerOne, it.playerTwo) }?.toSet() ?: emptySet()
+//
+//        //  Reordena al azar la lista de jugadores
+//        availablePlayers.shuffle()
+//
+//        //  Itera mientras quedan jugadores por emparejar
+//        for (i in availablePlayers.indices) {
+//            val player1 = availablePlayers[i]
+//            var player2: Player? = null
+//
+//            //  Encuentra pareja para player1 que cumpla con las reglas
+//            val suitablePartners = availablePlayers.filter {
+//                it != player1 &&
+//                        !forbiddenPairs.contains(
+//                            Pair(
+//                                player1.name,
+//                                it.name
+//                            )
+//                        ) && !forbiddenPairs.contains(Pair(it.name, player1.name)) &&
+//                        pairings.map { it.second }.contains(it).not()
+//            }
+//
+//            //  Si no se encuentra pareja válida, retorna lista vacía
+//            if (suitablePartners.isEmpty()) {
+//
+//                println("No hay pareja válida para ${player1.name}")
+//                return emptyList()
+//            }
+//
+//            //  Elije pareja al azar de los jugadores válidos
+//            player2 = suitablePartners.random()
+//
+//            // Añade emparejamiento a la lista
+//            pairings.add(Pair(player1, player2))
+//            alreadySelectedPlayers.add(player2.name)
+//            if (availablePlayers.size % 2 != 0) {
+//                alreadySelectedPlayers.add(player1.name)
+//            }
+//
+//        }
+//
+//
+//        return pairings
+    }
+
+    private fun convertToCreateGame(
+        localGame: LocalGame,
+        pairings: List<Pair<Player, Player>>
+    ): CreateGame {
         val createPlayers = mutableListOf<CreatePlayer>()
         for ((player1, player2) in pairings) {
             createPlayers.add(CreatePlayer(player1.name, player1.email, player2.name))
