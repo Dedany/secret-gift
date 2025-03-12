@@ -9,19 +9,20 @@ import com.dedany.secretgift.data.dataSources.games.remote.GameRemoteDataSource
 import com.dedany.secretgift.data.dataSources.games.remote.dto.CreateGameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.CreatePlayerDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameDto
-import com.dedany.secretgift.data.dataSources.games.remote.dto.PlayerDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameRuleDto
+import com.dedany.secretgift.data.dataSources.games.remote.dto.PlayerDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.UserRegisteredDto
 import com.dedany.secretgift.domain.entities.CreateGame
 import com.dedany.secretgift.domain.entities.CreatePlayer
-import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.Game
+import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.Player
 import com.dedany.secretgift.domain.entities.Rule
 import com.dedany.secretgift.domain.entities.User
 import com.dedany.secretgift.domain.repositories.GamesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.Date
 import javax.inject.Inject
 
 class GameRepositoryImpl @Inject constructor(
@@ -103,9 +104,7 @@ class GameRepositoryImpl @Inject constructor(
         return remoteDataSource.createGame(gameDto)
     }
 
-    override suspend fun createGame(game: Game) {
-        TODO("Not yet implemented")
-    }
+
 
     override suspend fun updateGame(game: Game) {
 //        val gameDto = game.toDto()
@@ -143,7 +142,7 @@ class GameRepositoryImpl @Inject constructor(
             ownerId = this.ownerId,
             maxCost = this.maxCost,
             minCost = this.minCost,
-            gameDate = this.gameDate,
+            gameDate = this.gameDate ?: Date(),
             players = this.players.map { it.toDbo() },
             rules = this.rules.map { it.toDbo() }
         )
@@ -247,10 +246,10 @@ class GameRepositoryImpl @Inject constructor(
             rules = this.rules.map { it.toDto() },
 
 
-        )
+            )
     }
-}
 
 
+        }
 
 
