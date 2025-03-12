@@ -22,6 +22,7 @@ import com.dedany.secretgift.domain.entities.User
 import com.dedany.secretgift.domain.repositories.GamesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.Date
 import javax.inject.Inject
 
 class GameRepositoryImpl @Inject constructor(
@@ -120,7 +121,7 @@ class GameRepositoryImpl @Inject constructor(
             ownerId = this.ownerId,
             maxCost = this.maxCost,
             minCost = this.minCost,
-            gameDate = this.gameDate,
+            gameDate = this.gameDate ?: Date(),
             players = this.players.map { it.toDbo() },
             rules = this.rules.map { it.toDbo() }
         )
@@ -229,9 +230,9 @@ class GameRepositoryImpl @Inject constructor(
 
 
         }
-    }
 
 
-}
+
+
 
 
