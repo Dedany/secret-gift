@@ -1,9 +1,10 @@
 package com.dedany.secretgift.data.dataSources.games.local.gameDbo
 
-import java.io.Serializable
 
+import androidx.room.PrimaryKey
+import java.io.Serializable
 
 data class PlayerDbo(
     val name: String,
-    val email: String
+    @PrimaryKey val email: String
 ) : Serializable

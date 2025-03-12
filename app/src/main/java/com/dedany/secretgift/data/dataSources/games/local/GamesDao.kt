@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.dedany.secretgift.data.dataSources.games.local.gameDbo.GameDbo
+import com.dedany.secretgift.data.dataSources.games.local.gameDbo.PlayerDbo
 
 @Dao
 interface GamesDao {

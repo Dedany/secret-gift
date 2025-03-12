@@ -31,17 +31,26 @@ class GameRepositoryImpl @Inject constructor(
 
     override suspend fun getGame(gameCode: String): Game {
         return withContext(Dispatchers.IO) {
-            val gameDto = remoteDataSource.getGame(gameCode)
-            val game = gameDto.toDomain()
-            return@withContext game
+
+            try {
+                val gameDto = remoteDataSource.getGame(gameCode)
+                return@withContext gameDto.toDomain()
+            } catch (e: Exception) {
+                Log.e("getGame", "Error obteniendo juego: ${e.message}")
+                throw e
+            }
         }
     }
 
     override suspend fun getLocalGame(gameId: Int): LocalGame {
         return withContext(Dispatchers.IO) {
-            val gameDbo = localDataSource.getGame(gameId)
-            val game = gameDbo.toDomain()
-            return@withContext game
+            try {
+                val gameDbo = localDataSource.getLocalGame(gameId)
+                return@withContext gameDbo.toDomain()
+            } catch (e: Exception) {
+                Log.e("getLocalGame", "Error obteniendo juego de borrador: ${e.message}")
+                throw e
+            }
         }
     }
 
@@ -59,20 +68,16 @@ class GameRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteLocalGame(game: LocalGame) {
-        val gameDbo = game.toDbo()
-        localDataSource.deleteGame(gameDbo)
+        localDataSource.deleteGame(game.toDbo())
     }
 
     override suspend fun createLocalGame(game: LocalGame) {
-        val gameDbo = game.toDbo()
-        localDataSource.createGame(gameDbo)
+        localDataSource.createGame(game.toDbo())
     }
 
     override suspend fun updateLocalGame(game: LocalGame) {
-        val gameDbo = game.toDbo()
-        localDataSource.updateGame(gameDbo)
+        localDataSource.updateGame(game.toDbo())
     }
-
 
     override suspend fun createGame(game: CreateGame): Boolean {
         val gameDto = game.toDto()
@@ -119,8 +124,6 @@ class GameRepositoryImpl @Inject constructor(
             players = this.players.map { it.toDbo() },
             rules = this.rules.map { it.toDbo() }
         )
-
-
     }
 
 
@@ -193,6 +196,7 @@ class GameRepositoryImpl @Inject constructor(
             playerTwo = this.playerTwo
         )
     }
+
     private fun Rule.toDto(): GameRuleDto {
         return GameRuleDto(
             playerOne = this.playerOne.toString(),
@@ -224,6 +228,8 @@ class GameRepositoryImpl @Inject constructor(
     }
 
 
+        }
+    }
 
 
 }
