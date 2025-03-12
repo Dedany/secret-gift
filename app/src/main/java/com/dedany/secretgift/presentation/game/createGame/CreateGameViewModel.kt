@@ -61,6 +61,7 @@ class CreateGameViewModel @Inject constructor(
     fun setName(name: String) {
         gameName = name
         checkName()
+        createOrUpdateGame()
     }
 
     //CORREO DEL JUGADOR
@@ -88,7 +89,7 @@ class CreateGameViewModel @Inject constructor(
             _players.value = playerList.toList()
         }
 
-        createGame()
+        createOrUpdateGame()
 
     }
 
@@ -165,6 +166,7 @@ class CreateGameViewModel @Inject constructor(
         val newPlayer = Player(name = name, email = email)
         playerList.add(newPlayer)
         _players.value = playerList.toList()
+        createOrUpdateGame()
 
     }
 
