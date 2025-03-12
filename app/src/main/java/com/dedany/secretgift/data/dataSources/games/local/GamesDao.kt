@@ -17,12 +17,14 @@ interface GamesDao {
     @Query("SELECT * FROM games WHERE id = :gameId")
     suspend fun getGame(gameId: Int): GameDbo
 
+    @Query("SELECT * FROM games WHERE name = :name LIMIT 1")
+    suspend fun getLocalGameByName(name: String): GameDbo?
     @Delete
     suspend fun deleteLocalGame(game: GameDbo)
 
     @Insert
-    suspend fun createLocalGame(game: GameDbo)
+    suspend fun createLocalGame(game: GameDbo): Long
 
     @Update
-    suspend fun updateLocalGame(game: GameDbo)
+    suspend fun updateLocalGame(game: GameDbo): Int
 }

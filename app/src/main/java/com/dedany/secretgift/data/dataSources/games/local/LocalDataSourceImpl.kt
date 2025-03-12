@@ -16,16 +16,20 @@ class LocalDataSourceImpl @Inject constructor(
         return gamesDao.getGame(gameId)
     }
 
+    override suspend fun getLocalGameByName(name: String): GameDbo? {
+        return gamesDao.getLocalGameByName(name)
+    }
+
     override suspend fun deleteGame(game: GameDbo) {
         gamesDao.deleteLocalGame(game)
     }
 
-    override suspend fun createGame(game: GameDbo) {
-        gamesDao.createLocalGame(game)
+    override suspend fun createGame(game: GameDbo): Long {
+        return gamesDao.createLocalGame(game)
     }
 
-    override suspend fun updateGame(game: GameDbo) {
-       gamesDao.updateLocalGame(game)
+    override suspend fun updateGame(game: GameDbo): Int {
+       return gamesDao.updateLocalGame(game)
     }
 }
 

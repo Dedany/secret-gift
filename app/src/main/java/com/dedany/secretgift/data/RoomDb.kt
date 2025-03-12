@@ -12,7 +12,7 @@ import com.dedany.secretgift.data.dataSources.games.local.gameDbo.PlayerDbo
 
 @Database(
     entities = [GameDbo::class], // Entidades definidas correctamente
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(Converters::class) // Converters si tienes tipos de datos personalizados

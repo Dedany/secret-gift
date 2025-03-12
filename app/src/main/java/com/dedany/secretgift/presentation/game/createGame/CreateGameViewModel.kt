@@ -1,5 +1,7 @@
 package com.dedany.secretgift.presentation.game.createGame
 
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -33,6 +35,9 @@ class CreateGameViewModel @Inject constructor(
     private var _isGameCreatedSuccess: MutableLiveData<Boolean> = MutableLiveData()
     val isGameCreatedSuccess: LiveData<Boolean> = _isGameCreatedSuccess
 
+    private val _createdGame = MutableLiveData<LocalGame?>()
+    val createdGame: LiveData<LocalGame?> = _createdGame
+
     private var _players: MutableLiveData<List<Player>> = MutableLiveData(listOf())
     val players: LiveData<List<Player>> = _players
 
@@ -48,7 +53,7 @@ class CreateGameViewModel @Inject constructor(
     //NOMBRE DEL JUEGO
     fun setName(name: String) {
         gameName = name
-        createGame()
+        checkName()
     }
 
     //CORREO DEL JUGADOR
@@ -88,16 +93,62 @@ class CreateGameViewModel @Inject constructor(
         _showConfirmationDialog.value = false
     }
 
-    fun createGame() {  //NOMBRE DEL JUEGO EN ROOM
+    fun createOrUpdateGame() {
+        if (_isGameNameValid.value == true) {
+            viewModelScope.launch {
+                try {
+                    // Buscar juego existente por nombre
+                    val existingGame = gamesUseCase.getLocalGamesByName(gameName)
+
+                    if (existingGame.id == 0) { // Si no existe, creamos uno nuevo
+                        createGame()
+                    } else {
+                        gameId = existingGame.id
+                        updateGame() // Si existe, actualizamos el juego
+                    }
+                } catch (e: Exception) {
+
+                    Log.e("CreateGameViewModel", "Error buscando el juego: ${e.message}")
+                    createGame()
+                }
+            }
+        }
+    }
+
+
+    fun createGame() {
+        if (gameName.isNotEmpty() && gameName.length > 3) {
+            viewModelScope.launch {
+                val ownerId = useCase.getRegisteredUser().id
+                val localGame = LocalGame(ownerId = ownerId, name = gameName, players = playerList)
+
+                val gameId = gamesUseCase.createLocalGame(localGame).toInt()
+                setGameId(gameId)
+
+                val updatedGame = localGame.copy(id = gameId)
+                _createdGame.value = updatedGame
+
+                _isGameCreatedSuccess.value = true
+            }
+        }
+    }
+    private fun updateGame() {
         viewModelScope.launch {
             val ownerId = useCase.getRegisteredUser().id
-            val localGame = LocalGame(id = gameId, ownerId = ownerId, name = gameName, players = playerList)
-            val gamedbo = gamesUseCase.createLocalGame(localGame)
-            //setGameId(gamedbo.id)
-            _isGameCreatedSuccess.value = true
-        }
+            val updatedGame = LocalGame(id = gameId, ownerId = ownerId, name = gameName, players = playerList)
 
+
+            val result = gamesUseCase.updateLocalGame(updatedGame)
+
+            if (result > 0) {
+                _createdGame.value = updatedGame
+                _isGameCreatedSuccess.value = true
+            } else {
+                _isGameCreatedSuccess.value = false
+            }
+        }
     }
+
 
     //AÑADIR JUGADORES A LA LISTA
     fun addPlayer(name: String, email: String) {
@@ -106,6 +157,7 @@ class CreateGameViewModel @Inject constructor(
         _players.value = playerList.toList()
 
     }
+
     fun saveGame() { //API
         viewModelScope.launch {
             try {

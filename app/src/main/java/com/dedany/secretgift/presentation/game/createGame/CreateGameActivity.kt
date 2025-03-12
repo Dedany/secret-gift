@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityCreateGameBinding
 import com.dedany.secretgift.domain.entities.Player
+import com.dedany.secretgift.presentation.game.viewGame.PlayersAdapter
 import com.dedany.secretgift.presentation.main.MainActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
@@ -96,12 +97,11 @@ class CreateGameActivity : AppCompatActivity() {
     }
 
     private fun observeGameSettings() {
-        val gameSettingsViewModel: GameSettingsViewModel by viewModels()
 
-        val eventDate = gameSettingsViewModel.eventDate.value ?: ""
-        val numPlayers = gameSettingsViewModel.numPlayers.value ?: ""
-        val maxPrice = gameSettingsViewModel.maxPrice.value ?: ""
-        val incompatibilities = gameSettingsViewModel.incompatibilities.value ?: emptyList<Pair<String, String>>()
+        val eventDate = gameSettingsViewModel?.eventDate?.value ?: ""
+        val numPlayers = gameSettingsViewModel?.numPlayers?.value ?: ""
+        val maxPrice = gameSettingsViewModel?.maxPrice?.value ?: ""
+        val incompatibilities = gameSettingsViewModel?.incompatibilities?.value ?: emptyList<Pair<String, String>>()
 
     }
 
@@ -116,7 +116,7 @@ class CreateGameActivity : AppCompatActivity() {
         }
 
         binding?.btnCreateGame?.setOnClickListener {
-            viewModel?.createGame()
+            viewModel?.createOrUpdateGame()
         }
         binding?.btnSaveGame?.setOnClickListener {
             viewModel?.onSaveGameClicked()
