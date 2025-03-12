@@ -24,7 +24,7 @@ class GameSettingsViewModel : ViewModel() {
 
     fun addNewRule() {
         val rules = _rules.value ?: emptyList()
-        _rules.value = rules.plus(Rule())
+        _rules.value = rules.plus(Rule("F1","F2"))
     }
 
     fun removeRuleAt(position: Int) {

@@ -66,7 +66,6 @@ class SettingsActivity : AppCompatActivity() {
             gameSettingsViewModel.setMaxPrice(maxPrice)
             gameSettingsViewModel.setIncompatibilities(incompatibilities)
 
-            // Volver a la actividad anterior
             setResult(RESULT_OK)
             finish()
         }

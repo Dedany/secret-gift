@@ -1,5 +1,6 @@
 package com.dedany.secretgift.presentation.game.createGame
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -59,8 +60,7 @@ class CreateGameViewModel @Inject constructor(
     //NOMBRE DEL JUEGO
     fun setName(name: String) {
         gameName = name
-
-        createGame()
+        checkName()
     }
 
     //CORREO DEL JUGADOR
@@ -100,6 +100,49 @@ class CreateGameViewModel @Inject constructor(
         _showConfirmationDialog.value = false
     }
 
+    fun createOrUpdateGame() {
+        if (_isGameNameValid.value == true) {
+            viewModelScope.launch {
+                try {
+                    val existingGame = gamesUseCase.getLocalGamesById(gameId)
+                    gameId = existingGame.id
+                    updateGame()
+                } catch (e: Exception) {
+                    Log.e("CreateGameViewModel", "Error buscando el juego: ${e.message}")
+                    createGame()
+                }
+            }
+        }
+    }
+
+
+    private fun createGame() {
+        if (gameName.isNotEmpty() && gameName.length > 3 && checkMinimumPlayers()) {
+            viewModelScope.launch {
+                val ownerId = useCase.getRegisteredUser().id
+                val localGame = LocalGame(ownerId = ownerId, name = gameName, players = playerList)
+
+                val gameId = gamesUseCase.createLocalGame(localGame).toInt()
+                this@CreateGameViewModel.gameId = gameId
+                _isGameCreatedSuccess.value = true
+            }
+        }
+    }
+
+    private fun updateGame() {
+        viewModelScope.launch {
+            val ownerId = useCase.getRegisteredUser().id
+            val updatedGame = LocalGame(id = gameId, ownerId = ownerId, name = gameName, players = playerList)
+
+            val result = gamesUseCase.updateLocalGame(updatedGame)
+
+            if (result > 0) {
+                _isGameCreatedSuccess.value = true
+            } else {
+                _isGameCreatedSuccess.value = false
+            }
+        }
+    }
     fun checkMinimumPlayers(): Boolean {
         if (playerList.size < 3) {
             _insufficientDataMessage.value = "Necesitas al menos 3 jugadores"
@@ -116,16 +159,6 @@ class CreateGameViewModel @Inject constructor(
     }
 
 
-    fun createGame() {  //NOMBRE DEL JUEGO EN ROOM
-        viewModelScope.launch {
-            val ownerId = useCase.getRegisteredUser().id
-            val localGame = LocalGame(id = gameId, ownerId = ownerId, name = gameName, players = playerList)
-            val gamedbo = gamesUseCase.createLocalGame(localGame)
-            //setGameId(gamedbo.id)
-            _isGameCreatedSuccess.value = true
-        }
-
-    }
 
     //AÑADIR JUGADORES A LA LISTA
     fun addPlayer(name: String, email: String) {

@@ -35,7 +35,7 @@ class MainActivityViewModel @Inject constructor(
     fun loadUser() {
         viewModelScope.launch {
             val registeredUser = usersUseCase.getRegisteredUser()
-            _user.postValue(registeredUser)
+            _user.value = registeredUser
     }
 }}
 

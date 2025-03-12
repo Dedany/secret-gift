@@ -9,13 +9,13 @@ import com.dedany.secretgift.data.dataSources.games.remote.GameRemoteDataSource
 import com.dedany.secretgift.data.dataSources.games.remote.dto.CreateGameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.CreatePlayerDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameDto
-import com.dedany.secretgift.data.dataSources.games.remote.dto.PlayerDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameRuleDto
+import com.dedany.secretgift.data.dataSources.games.remote.dto.PlayerDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.UserRegisteredDto
 import com.dedany.secretgift.domain.entities.CreateGame
 import com.dedany.secretgift.domain.entities.CreatePlayer
-import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.Game
+import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.Player
 import com.dedany.secretgift.domain.entities.Rule
 import com.dedany.secretgift.domain.entities.User
@@ -55,6 +55,25 @@ class GameRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getLocalGameById(id: Int): LocalGame {
+        return withContext(Dispatchers.IO) {
+            try {
+                val gameDbo = localDataSource.getLocalGameById(id) // Método en el LocalDataSource
+                if (gameDbo != null) {
+                    return@withContext gameDbo.toDomain() // Convierte a dominio si no es null
+                } else {
+                    // Maneja el caso en que no se encontró el juego
+                    Log.e("getGameById", "Juego no encontrado con el id: $id")
+                    throw Exception("Juego no encontrado con el id: $id")
+                }
+            } catch (e: Exception) {
+                Log.e("getGameById", "Error obteniendo juego por id: ${e.message}")
+                throw e
+            }
+        }
+    }
+
+
 
     override suspend fun getGamesByUser(): List<Game> {
         return withContext(Dispatchers.IO) {
@@ -72,18 +91,20 @@ class GameRepositoryImpl @Inject constructor(
         localDataSource.deleteGame(game.toDbo())
     }
 
-    override suspend fun createLocalGame(game: LocalGame) {
-        localDataSource.createGame(game.toDbo())
+    override suspend fun createLocalGame(game: LocalGame): Long {
+        return localDataSource.createGame(game.toDbo())
     }
 
-    override suspend fun updateLocalGame(game: LocalGame) {
-        localDataSource.updateGame(game.toDbo())
+    override suspend fun updateLocalGame(game: LocalGame) : Int{
+        return localDataSource.updateGame(game.toDbo())
     }
 
     override suspend fun createGame(game: CreateGame): Boolean {
         val gameDto = game.toDto()
         return remoteDataSource.createGame(gameDto)
     }
+
+
 
     override suspend fun updateGame(game: Game) {
 //        val gameDto = game.toDto()
@@ -230,9 +251,5 @@ class GameRepositoryImpl @Inject constructor(
 
 
         }
-
-
-
-
 
 
