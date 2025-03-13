@@ -18,6 +18,7 @@
         android:background="@color/brown"
         android:backgroundTint="#00FFFFFF"
         android:elevation="4dp"
+          android:fontFamily="@font/cursive_serif_book"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -53,12 +54,14 @@
             android:layout_margin="20dp"
             android:gravity="center_vertical"
             android:text="Nombre:"
+              android:fontFamily="@font/cursive_serif_book"
             android:textColor="@color/maincolor"
             android:textSize="14sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/text_name"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -84,6 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:gravity="center_vertical"
+              android:fontFamily="@font/cursive_serif_book"
             android:text="Estado:"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -114,6 +118,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
+              android:fontFamily="@font/cursive_serif_book"
             android:gravity="center_vertical"
             android:text="Código de Juego:"
             android:textSize="14sp"

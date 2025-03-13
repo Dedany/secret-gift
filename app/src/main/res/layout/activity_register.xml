@@ -30,7 +30,7 @@
         <TextView
             android:id="@+id/tv_register"
             style="@style/custom_text_view"
-            android:fontFamily="@font/gourdie_cursiv2"
+              android:fontFamily="@font/cursive_serif_book"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/activity_button_margin_right"
