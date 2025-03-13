@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.Player
-import com.dedany.secretgift.domain.entities.SavePlayer
 import com.dedany.secretgift.domain.usecases.games.GamesUseCase
 import com.dedany.secretgift.domain.usecases.users.UsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -47,7 +46,7 @@ class CreateGameViewModel @Inject constructor(
     private var gameId: Int = 0
     private var playerList = mutableListOf<Player>()
     private var playerEmail: String = ""
-    private var savePlayerList = listOf<SavePlayer>()
+
     //Settings
     private var eventDate: String = ""
     private var numPlayers: String = ""
@@ -55,13 +54,13 @@ class CreateGameViewModel @Inject constructor(
     private var incompatibilities: List<Pair<String, String>> = emptyList()
 
     fun checkName() {
-   if(gameName.isNotEmpty() && gameName.length > 3) {
+        if (gameName.isNotEmpty() && gameName.length > 3) {
 
-       _isGameNameValid.value = true
-   } else {
-       _isGameNameValid.value = false
-       _insufficientDataMessage.value = "El nombre del juego necesita un mínimo de 4 letras"
-   }
+            _isGameNameValid.value = true
+        } else {
+            _isGameNameValid.value = false
+            _insufficientDataMessage.value = "El nombre del juego necesita un mínimo de 4 letras"
+        }
     }
 
     //NOMBRE DEL JUEGO
@@ -134,8 +133,6 @@ class CreateGameViewModel @Inject constructor(
     }
 
 
-
-
     private fun createGame() {
         if (gameName.isNotEmpty() && gameName.length > 3 && checkMinimumPlayers()) {
             viewModelScope.launch {
@@ -152,7 +149,8 @@ class CreateGameViewModel @Inject constructor(
     private fun updateGame() {
         viewModelScope.launch {
             val ownerId = useCase.getRegisteredUser().id
-            val updatedGame = LocalGame(id = gameId, ownerId = ownerId, name = gameName, players = playerList)
+            val updatedGame =
+                LocalGame(id = gameId, ownerId = ownerId, name = gameName, players = playerList)
 
             val result = gamesUseCase.updateLocalGame(updatedGame)
 
@@ -163,12 +161,13 @@ class CreateGameViewModel @Inject constructor(
             }
         }
     }
+
     fun checkMinimumPlayers(): Boolean {
         if (playerList.size < 3) {
             _insufficientDataMessage.value = "Necesitas al menos 3 jugadores"
             return false
         } else {
-        return true
+            return true
         }
     }
 
@@ -179,7 +178,6 @@ class CreateGameViewModel @Inject constructor(
     }
 
 
-
     //AÑADIR JUGADORES A LA LISTA
     fun addPlayer(name: String, email: String) {
         val newPlayer = Player(name = name, email = email)
@@ -188,7 +186,13 @@ class CreateGameViewModel @Inject constructor(
         createOrUpdateGame()
 
     }
-    fun setGameSettings(eventDate: String, numPlayers: String, maxPrice: String, incompatibilities: List<Pair<String, String>>) {
+
+    fun setGameSettings(
+        eventDate: String,
+        numPlayers: String,
+        maxPrice: String,
+        incompatibilities: List<Pair<String, String>>
+    ) {
         this.eventDate = eventDate
         this.numPlayers = numPlayers
         this.maxPrice = maxPrice
@@ -200,18 +204,17 @@ class CreateGameViewModel @Inject constructor(
             try {
                 if (checkGame()) {
                     val ownerId = useCase.getRegisteredUser().id
-                    convertPlayersToSavePlayers()
+
                     val isGameSaved = gamesUseCase.saveGameToBackend(
                         gameId,
                         ownerId,
                         gameName,
-                        savePlayerList,
+                        playerList,
                         eventDate,
                         numPlayers,
                         maxPrice,
                         incompatibilities
                     )
-
 
                     _isGameSavedSuccess.value = isGameSaved
                 }
@@ -235,22 +238,4 @@ class CreateGameViewModel @Inject constructor(
         }
     }
 
-    fun convertPlayersToSavePlayers() {
-        savePlayerList = playerList.map { player ->
-            // Aquí es necesario determinar cómo obtener 'linkedTo'.
-            // Si no tienes esta información en el objeto Player, deberás agregar lógica para obtenerla.
-            SavePlayer(
-                name = player.name,
-                email = player.email,
-                linkedTo = getLinkedTo(player)
-            )
-        }
-    }
-
-    fun getLinkedTo(player: Player): String {
-        // Lógica para determinar qué jugador está vinculado a este jugador (es decir, 'linkedTo')
-        // Ejemplo de cómo se podría hacer si tienes una lista de incompatibilidades o alguna otra estructura.
-
-        return "" // Retorna el valor adecuado o una cadena vacía si no hay vinculación.
-    }
 }

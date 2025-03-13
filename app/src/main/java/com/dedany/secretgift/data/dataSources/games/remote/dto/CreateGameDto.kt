@@ -12,6 +12,7 @@ data class CreateGameDto(
 
     @SerializedName("max_cost")
     val maxCost: Int?,
+
     //@SerializedName("min_cost")
     //val minCost: Int?,
 
