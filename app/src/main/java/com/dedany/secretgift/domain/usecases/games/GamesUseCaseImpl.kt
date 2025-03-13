@@ -44,6 +44,19 @@ class GamesUseCaseImpl @Inject constructor(
         return repository.updateLocalGame(game)
     }
 
+    override suspend fun saveGameToBackend(
+        gameId: Int,
+        ownerId: String,
+        gameName: String,
+        players: List<Player>,
+        eventDate: String,
+        numPlayers: String,
+        maxPrice: String,
+        incompatibilities: List<Pair<String, String>>
+    ): Boolean {
+        return repository.saveGameToBackend(gameId,ownerId, gameName, players, eventDate, numPlayers, maxPrice, incompatibilities)
+    }
+
     override suspend fun createGame(gameId: Int): Boolean {
         val localGame = getLocalGame(gameId)
         val pairings = generatePairings(localGame.players, localGame.rules)

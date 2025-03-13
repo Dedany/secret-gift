@@ -1,9 +1,10 @@
 package com.dedany.secretgift.data.dataSources.games.remote.dto
 
+import com.dedany.secretgift.domain.entities.Player
 import com.google.gson.annotations.SerializedName
 import java.util.Date
 
-data class CreateGameDto(
+data class SaveGameDto(
     @SerializedName("game_name")
     val name: String,
 

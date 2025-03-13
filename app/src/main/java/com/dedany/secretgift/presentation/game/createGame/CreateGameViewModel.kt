@@ -47,14 +47,20 @@ class CreateGameViewModel @Inject constructor(
     private var playerList = mutableListOf<Player>()
     private var playerEmail: String = ""
 
-    fun checkName() {
-   if(gameName.isNotEmpty() && gameName.length > 3) {
+    //Settings
+    private var eventDate: String = ""
+    private var numPlayers: String = ""
+    private var maxPrice: String = ""
+    private var incompatibilities: List<Pair<String, String>> = emptyList()
 
-       _isGameNameValid.value = true
-   } else {
-       _isGameNameValid.value = false
-       _insufficientDataMessage.value = "El nombre del juego necesita un mínimo de 4 letras"
-   }
+    fun checkName() {
+        if (gameName.isNotEmpty() && gameName.length > 3) {
+
+            _isGameNameValid.value = true
+        } else {
+            _isGameNameValid.value = false
+            _insufficientDataMessage.value = "El nombre del juego necesita un mínimo de 4 letras"
+        }
     }
 
     //NOMBRE DEL JUEGO
@@ -78,7 +84,7 @@ class CreateGameViewModel @Inject constructor(
     fun deletePlayer(player: Player) {
         playerList.remove(player)
         _players.value = playerList.toList()
-        createGame()
+        createOrUpdateGame()
     }
 
     //EDITAR JUGADOR
@@ -127,8 +133,6 @@ class CreateGameViewModel @Inject constructor(
     }
 
 
-
-
     private fun createGame() {
         if (gameName.isNotEmpty() && gameName.length > 3 && checkMinimumPlayers()) {
             viewModelScope.launch {
@@ -145,7 +149,8 @@ class CreateGameViewModel @Inject constructor(
     private fun updateGame() {
         viewModelScope.launch {
             val ownerId = useCase.getRegisteredUser().id
-            val updatedGame = LocalGame(id = gameId, ownerId = ownerId, name = gameName, players = playerList)
+            val updatedGame =
+                LocalGame(id = gameId, ownerId = ownerId, name = gameName, players = playerList)
 
             val result = gamesUseCase.updateLocalGame(updatedGame)
 
@@ -156,12 +161,13 @@ class CreateGameViewModel @Inject constructor(
             }
         }
     }
+
     fun checkMinimumPlayers(): Boolean {
         if (playerList.size < 3) {
             _insufficientDataMessage.value = "Necesitas al menos 3 jugadores"
             return false
         } else {
-        return true
+            return true
         }
     }
 
@@ -170,7 +176,6 @@ class CreateGameViewModel @Inject constructor(
         checkMinimumPlayers()
         return _isGameNameValid.value == true && checkMinimumPlayers()
     }
-
 
 
     //AÑADIR JUGADORES A LA LISTA
@@ -182,18 +187,44 @@ class CreateGameViewModel @Inject constructor(
 
     }
 
+    fun setGameSettings(
+        eventDate: String,
+        numPlayers: String,
+        maxPrice: String,
+        incompatibilities: List<Pair<String, String>>
+    ) {
+        this.eventDate = eventDate
+        this.numPlayers = numPlayers
+        this.maxPrice = maxPrice
+        this.incompatibilities = incompatibilities
+    }
+
     fun saveGame() {
         viewModelScope.launch {
             try {
                 if (checkGame()) {
-                    val isGameSaved = gamesUseCase.createGame(gameId)
+                    val ownerId = useCase.getRegisteredUser().id
+
+                    val isGameSaved = gamesUseCase.saveGameToBackend(
+                        gameId,
+                        ownerId,
+                        gameName,
+                        playerList,
+                        eventDate,
+                        numPlayers,
+                        maxPrice,
+                        incompatibilities
+                    )
+
                     _isGameSavedSuccess.value = isGameSaved
                 }
             } catch (e: Exception) {
+                Log.e("CreateGameViewModel", "Error al guardar el juego: ${e.message}")
                 _isGameSavedSuccess.value = false
             }
         }
     }
+
 
     //CARGAR JUGADOR
     fun loadPlayer() {
@@ -206,4 +237,5 @@ class CreateGameViewModel @Inject constructor(
             }
         }
     }
+
 }

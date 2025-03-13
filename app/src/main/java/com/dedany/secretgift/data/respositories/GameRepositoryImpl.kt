@@ -11,6 +11,8 @@ import com.dedany.secretgift.data.dataSources.games.remote.dto.CreatePlayerDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameRuleDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.PlayerDto
+import com.dedany.secretgift.data.dataSources.games.remote.dto.SaveGameDto
+import com.dedany.secretgift.data.dataSources.games.remote.dto.SavePlayerDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.UserRegisteredDto
 import com.dedany.secretgift.domain.entities.CreateGame
 import com.dedany.secretgift.domain.entities.CreatePlayer
@@ -22,7 +24,9 @@ import com.dedany.secretgift.domain.entities.User
 import com.dedany.secretgift.domain.repositories.GamesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 class GameRepositoryImpl @Inject constructor(
@@ -60,7 +64,7 @@ class GameRepositoryImpl @Inject constructor(
             try {
                 val gameDbo = localDataSource.getLocalGameById(id) // Método en el LocalDataSource
                 if (gameDbo != null) {
-                    return@withContext gameDbo.toDomain() // Convierte a dominio si no es null
+                    return@withContext gameDbo.toDomain()
                 } else {
                     // Maneja el caso en que no se encontró el juego
                     Log.e("getGameById", "Juego no encontrado con el id: $id")
@@ -102,6 +106,36 @@ class GameRepositoryImpl @Inject constructor(
     override suspend fun createGame(game: CreateGame): Boolean {
         val gameDto = game.toDto()
         return remoteDataSource.createGame(gameDto)
+    }
+
+    override suspend fun saveGameToBackend(
+        gameId: Int,
+        ownerId: String,
+        gameName: String,
+        players: List<Player>,
+        eventDate: String,
+        numPlayers: String,
+        maxPrice: String,
+        incompatibilities: List<Pair<String, String>>
+    ): Boolean {
+        return try {
+            val gameDto = SaveGameDto(
+                name = gameName,
+                ownerId = ownerId,
+                status = "Active",
+                maxCost = maxPrice.toInt(),
+                gameDate = eventDate.toDate(),
+                players = players.map { it.toDto() },
+                rules = incompatibilities.map {
+                    GameRuleDto(playerOne = it.first, playerTwo = it.second)
+                }
+            )
+            remoteDataSource.saveGame(gameDto)
+            true
+        } catch (e: Exception) {
+            Log.e("saveGameToBackend", "Error saving game: ${e.message}")
+            false
+        }
     }
 
 
@@ -177,12 +211,14 @@ class GameRepositoryImpl @Inject constructor(
         )
     }
 
-    private fun Player.toDto(): PlayerDto {
-        return PlayerDto(
+    private fun Player.toDto(): CreatePlayerDto {
+        return CreatePlayerDto(
             name = this.name,
             email = this.email,
         )
     }
+
+
 
     private fun PlayerDbo.toDomain(): Player {
         return Player(
@@ -197,13 +233,7 @@ class GameRepositoryImpl @Inject constructor(
             email = this.email
         )
     }
-    private fun CreatePlayer.toDto(): CreatePlayerDto {
-        return CreatePlayerDto(
-            name = this.name,
-            email = this.email,
-            linkedTo = this.linkedTo
-        )
-    }
+
 
     private fun GameRuleDto.toDomain(): Rule {
         return Rule(
@@ -233,6 +263,7 @@ class GameRepositoryImpl @Inject constructor(
         )
     }
 
+
     private fun CreateGame.toDto(): CreateGameDto {
         return CreateGameDto(
 
@@ -240,13 +271,28 @@ class GameRepositoryImpl @Inject constructor(
             ownerId = this.ownerId,
             status = this.status,
             maxCost = this.maxCost,
-            minCost = this.minCost,
             gameDate = this.gameDate,
             players = this.players.map { it.toDto() },
             rules = this.rules.map { it.toDto() },
 
 
         )
+    }
+
+    private fun CreatePlayer.toDto(): CreatePlayerDto {
+        return CreatePlayerDto(
+            name = this.name,
+            email = this.email,
+            linkedTo = null
+        )
+    }
+    private fun String.toDate(): Date? {
+        return try {
+            val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            formatter.parse(this)
+        } catch (e: Exception) {
+            null
+        }
     }
 
 
