@@ -85,7 +85,7 @@ class CreateGameViewModel @Inject constructor(
     fun deletePlayer(player: Player) {
         playerList.remove(player)
         _players.value = playerList.toList()
-        createGame()
+        createOrUpdateGame()
     }
 
     //EDITAR JUGADOR
