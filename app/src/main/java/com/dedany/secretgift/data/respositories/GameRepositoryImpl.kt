@@ -20,7 +20,6 @@ import com.dedany.secretgift.domain.entities.Game
 import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.Player
 import com.dedany.secretgift.domain.entities.Rule
-import com.dedany.secretgift.domain.entities.SavePlayer
 import com.dedany.secretgift.domain.entities.User
 import com.dedany.secretgift.domain.repositories.GamesRepository
 import kotlinx.coroutines.Dispatchers
@@ -113,7 +112,7 @@ class GameRepositoryImpl @Inject constructor(
         gameId: Int,
         ownerId: String,
         gameName: String,
-        players: List<SavePlayer>,
+        players: List<Player>,
         eventDate: String,
         numPlayers: String,
         maxPrice: String,
@@ -212,21 +211,14 @@ class GameRepositoryImpl @Inject constructor(
         )
     }
 
-    private fun Player.toDto(): PlayerDto {
-        return PlayerDto(
+    private fun Player.toDto(): CreatePlayerDto {
+        return CreatePlayerDto(
             name = this.name,
             email = this.email,
         )
     }
 
 
-    private fun SavePlayer.toDto(): SavePlayerDto {
-        return SavePlayerDto(
-            name = this.name,
-            email = this.email,
-            linkedTo = this.linkedTo
-        )
-    }
 
     private fun PlayerDbo.toDomain(): Player {
         return Player(
