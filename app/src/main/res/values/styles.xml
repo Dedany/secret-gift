@@ -14,6 +14,7 @@
         <item name="android:textSelectHandleLeft">@color/maincolor</item>
         <item name="android:textColorHighlight">@color/maincolor</item>
         <item name="android:textColor">@color/hintColor</item>
+
     </style>
 
     <style name="custom_text_input_layout">
