@@ -2,7 +2,7 @@
     <string name="app_name">SecretGift</string>
     <string name="menu_home">Home</string>
     <string name="menu_profile">Profile</string>
-    <string name="btn_log">LOGEAR</string>
+    <string name="btn_log">INGRESAR</string>
     <string name="btn_event">CONSULTAR EVENTO</string>
     <string name="link_create_user"><u>No tengo cuenta</u></string>
     <string name="register">REGISTRAR</string>
@@ -18,5 +18,10 @@
     <string name="admob_banner_ad_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="game_player">INTRODUCE LOS DATOS DEL NUEVO JUGADOR</string>
     <string name="add_player">Añadir Participante:</string>
+    <string name="game_settings">Opciones de sala</string>
+    <string name="game_date">Fecha de evento:</string>
+    <string name="players_number">Número de participantes:</string>
+    <string name="max_cost">Precio máximo:</string>
+    <string name="game_info">Datos de la sala</string>
 
 </resources>

@@ -9,6 +9,8 @@
     <color name="deleteColor">#96E08989</color>
     <color name="maincolor">#C38217</color>
     <color name="hintColor">#FFFFFFFF</color>
+    <color name="box_stroke_color">#A0382A07</color>
+    <color name="linked_player_color">#EBDFDF</color>
     <color name="transparent">#00000000</color>"
 
 </resources>

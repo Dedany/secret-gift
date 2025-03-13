@@ -71,7 +71,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/tv_game_name"
                             android:layout_gravity="center"
-                            android:fontFamily="cursive"
+                            style="@style/custom_text_view"
                             android:gravity="center"
                             android:text="Mi amigo invisible"
                             android:textColor="@color/maincolor"
@@ -89,15 +89,9 @@
 
                         <TextView
                             android:id="@+id/current_player_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:paddingHorizontal="12dp"
-                            android:paddingVertical="2dp"
+                           style="@style/custom_linked_player"
                             android:text="Jugador 1"
-                            android:textColor="#EBDFDF"
-                            android:textSize="24sp" />
+                            />
                     </com.google.android.material.card.MaterialCardView>
 
                 </LinearLayout>
@@ -135,8 +129,8 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:paddingHorizontal="8dp"
-                    android:paddingVertical="2dp"
-                    android:text="te ha tocado"
+                    android:paddingVertical="4dp"
+                    android:text="regalas a:"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
             </com.google.android.material.card.MaterialCardView>
@@ -157,15 +151,9 @@
 
                 <TextView
                     android:id="@+id/matched_player_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="2dp"
+                    style="@style/custom_linked_player"
                     android:text="Jugador 2"
-                    android:textColor="#EBDFDF"
-                    android:textSize="24sp" />
+                    />
             </com.google.android.material.card.MaterialCardView>
 
             <TextView

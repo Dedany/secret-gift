@@ -6,10 +6,10 @@
     <dimen name="activity_top_margin">24dp</dimen>
     <dimen name="button_horizontal_margin">48dp</dimen>
     <dimen name="activity_button_margin">24dp</dimen>
-    <dimen name="activity_button_margin_right">30dp</dimen>
+    <dimen name="activity_button_margin_right">50dp</dimen>
     <dimen name="layout_width_back_image_view">30dp</dimen>
     <dimen name="layout_height_back_image_view">30dp</dimen>
-    <dimen name="text_size_text_view">30dp</dimen>
+    <dimen name="text_size_text_view">30sp</dimen>
 
 
 </resources>

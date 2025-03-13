@@ -8,28 +8,37 @@
     tools:context=".presentation.main.MainActivity">
 
     <!-- Toolbar -->
-    <androidx.appcompat.widget.Toolbar
+    <Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:background="@color/maincolor"
-        android:backgroundTint="#00FFFFFF"
-        android:layout_marginTop="@dimen/activity_top_margin"
-        android:elevation="4dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="Detalles del Usuario"
-        app:titleTextColor="@color/maincolor" />
 
-    <ImageView
-        android:id="@+id/icon_back"
-        style="@style/custom_back_image"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="66dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/icon_back"
+            style="@style/custom_back_image"
+
+            android:layout_marginHorizontal="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_game_name"
+            android:layout_gravity="center"
+            style="@style/custom_text_view"
+            android:gravity="center"
+            android:text="Detalles del usuario"
+            android:textColor="@color/maincolor"
+            android:textSize="@dimen/text_size_text_view" />
+    </Toolbar>
 
     <!-- LinearLayout para el nombre -->
 
@@ -51,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:text="Nombre:"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
@@ -80,7 +89,7 @@
             android:layout_margin="20dp"
             android:text="Correo Electrónico:"
             android:textColor="@color/maincolor"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
@@ -114,7 +123,7 @@
             android:gravity="center_vertical"
             android:text="ID de Usuario:"
             android:textColor="@color/maincolor"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView

@@ -81,6 +81,7 @@
     <TextView
         android:id="@+id/tv_link_create_user"
         style="@style/custom_button"
+        android:fontFamily="@font/cursive_serif_book"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_top_margin"

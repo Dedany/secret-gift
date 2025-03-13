@@ -17,6 +17,7 @@
 
         <TextView
             android:id="@+id/tv_game_name"
+            android:fontFamily="@font/cursive_serif_book"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginHorizontal="@dimen/activity_top_margin"

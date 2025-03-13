@@ -7,6 +7,7 @@
     </style>
 
     <style name="custom_edit_text">
+        <item name="android:fontFamily">@font/cursive_serif_book</item>
         <item name="colorControlActivated">@color/maincolor</item>
         <item name="android:textSelectHandle">@color/maincolor</item>
         <item name="android:textSelectHandleRight">@color/maincolor</item>
@@ -32,7 +33,7 @@
 
     <style name="custom_text_view">
 
-        <item name="android:fontFamily">cursive</item>
+        <item name="android:fontFamily">@font/cursive_serif_book</item>
         <item name="android:gravity">center</item>
         <item name="android:textAlignment">center</item>
         <item name="android:textSize">@dimen/text_size_text_view</item>
@@ -45,6 +46,17 @@
         <item name="android:src">@drawable/ic_launcher_foreground</item>
         <item name="tint">@color/maincolor</item>
 
+    </style>
+    <style name="custom_linked_player">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/cursive_serif_book</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/linked_player_color</item>
+        <item name="android:paddingHorizontal">12dp</item>
+        <item name="android:paddingVertical">6dp</item>
 
 
     </style>
