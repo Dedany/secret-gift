@@ -51,14 +51,14 @@ class CreateGameActivity : AppCompatActivity() {
 
     }
 
-    private fun setAdapters(){
+    private fun setAdapters() {
         playerAdapter = PlayerAdapter(
-            onDeleteClick = {player ->
+            onDeleteClick = { player ->
                 viewModel?.deletePlayer(player)
             },
             onEditClick = { player ->
-             //   val newName =getNewNameForPlayer()
-             //   viewModel?.editPlayer(player ,newName)
+                //   val newName =getNewNameForPlayer()
+                //   viewModel?.editPlayer(player ,newName)
             }
         )
         binding?.recyclerView?.adapter = playerAdapter
@@ -109,12 +109,11 @@ class CreateGameActivity : AppCompatActivity() {
     }
 
     private fun initListeners() {
-       // binding?.edNameRoom?.doOnTextChanged { text, start, before, count ->
-          //  viewModel?.setName(text.toString())
         binding?.edNameRoom?.doOnTextChanged { text, _, _, _ ->
             val isNotEmpty = !text.isNullOrEmpty()
-            binding?.tvAddPeople?.visibility = if(isNotEmpty)View.VISIBLE else View.GONE
-            binding?.btnAdd?.visibility = if(isNotEmpty)View.VISIBLE else View.GONE
+            binding?.tvAddPeople?.visibility = if (isNotEmpty) View.VISIBLE else View.GONE
+            binding?.btnAdd?.visibility = if (isNotEmpty) View.VISIBLE else View.GONE
+            viewModel?.setName(text.toString())
         }
         binding?.edNameRoom?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
@@ -122,9 +121,6 @@ class CreateGameActivity : AppCompatActivity() {
             }
         }
 
-        binding?.btnCreateGame?.setOnClickListener {
-            viewModel?.createOrUpdateGame()
-        }
         binding?.btnSaveGame?.setOnClickListener {
             viewModel?.onSaveGameClicked()
         }
@@ -155,6 +151,10 @@ class CreateGameActivity : AppCompatActivity() {
                         .show()
                 }
             }
+
+            btnCancel.setOnClickListener {
+                dialog.dismiss()
+            }
             nameEditText.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
                     nameEditText.hint = ""
@@ -169,7 +169,7 @@ class CreateGameActivity : AppCompatActivity() {
     private fun showConfirmationDialog() {
         AlertDialog.Builder(this)
             .setTitle("Guardar Juego")
-            .setMessage("Una vez guardado el juego, no podrás modificarlo. ¿Estás seguro de que quieres guardar?")
+            .setMessage("Una vez enviado el juego, no podrás modificarlo. ¿Estás seguro de que quieres enviar?")
             .setPositiveButton("Guardar") { _, _ ->
                 viewModel?.saveGame()
             }
@@ -179,5 +179,5 @@ class CreateGameActivity : AppCompatActivity() {
             .show()
     }
 
-    }
+}
 
