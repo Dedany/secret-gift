@@ -3,6 +3,7 @@ package com.dedany.secretgift.data.dataSources.games.remote.api
 import com.dedany.secretgift.data.dataSources.games.remote.dto.CreateGameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GamesDataDto
+import com.dedany.secretgift.data.dataSources.games.remote.dto.SaveGameDto
 
 
 import retrofit2.Response
@@ -22,5 +23,8 @@ interface SecretGiftApi {
 
    @POST("/room/create")
    suspend fun createGame(@Body request: CreateGameDto): Response<GameDto>
+
+    @POST("/room/save")
+    suspend fun saveGame(@Body request: SaveGameDto): Response<Void>
 
 }

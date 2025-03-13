@@ -6,6 +6,7 @@ import com.dedany.secretgift.domain.entities.Game
 import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.Player
 import com.dedany.secretgift.domain.entities.Rule
+import com.dedany.secretgift.domain.entities.SavePlayer
 import com.dedany.secretgift.domain.repositories.GamesRepository
 import java.util.Date
 import javax.inject.Inject
@@ -42,6 +43,19 @@ class GamesUseCaseImpl @Inject constructor(
 
     override suspend fun updateLocalGame(game: LocalGame) : Int {
         return repository.updateLocalGame(game)
+    }
+
+    override suspend fun saveGameToBackend(
+        gameId: Int,
+        ownerId: String,
+        gameName: String,
+        players: List<SavePlayer>,
+        eventDate: String,
+        numPlayers: String,
+        maxPrice: String,
+        incompatibilities: List<Pair<String, String>>
+    ): Boolean {
+        return repository.saveGameToBackend(gameId,ownerId, gameName, players, eventDate, numPlayers, maxPrice, incompatibilities)
     }
 
     override suspend fun createGame(gameId: Int): Boolean {

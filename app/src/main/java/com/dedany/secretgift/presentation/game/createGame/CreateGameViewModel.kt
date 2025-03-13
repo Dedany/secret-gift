@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.Player
+import com.dedany.secretgift.domain.entities.SavePlayer
 import com.dedany.secretgift.domain.usecases.games.GamesUseCase
 import com.dedany.secretgift.domain.usecases.users.UsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -46,6 +47,12 @@ class CreateGameViewModel @Inject constructor(
     private var gameId: Int = 0
     private var playerList = mutableListOf<Player>()
     private var playerEmail: String = ""
+    private var savePlayerList = listOf<SavePlayer>()
+    //Settings
+    private var eventDate: String = ""
+    private var numPlayers: String = ""
+    private var maxPrice: String = ""
+    private var incompatibilities: List<Pair<String, String>> = emptyList()
 
     fun checkName() {
    if(gameName.isNotEmpty() && gameName.length > 3) {
@@ -181,19 +188,40 @@ class CreateGameViewModel @Inject constructor(
         createOrUpdateGame()
 
     }
+    fun setGameSettings(eventDate: String, numPlayers: String, maxPrice: String, incompatibilities: List<Pair<String, String>>) {
+        this.eventDate = eventDate
+        this.numPlayers = numPlayers
+        this.maxPrice = maxPrice
+        this.incompatibilities = incompatibilities
+    }
 
     fun saveGame() {
         viewModelScope.launch {
             try {
                 if (checkGame()) {
-                    val isGameSaved = gamesUseCase.createGame(gameId)
+                    val ownerId = useCase.getRegisteredUser().id
+                    convertPlayersToSavePlayers()
+                    val isGameSaved = gamesUseCase.saveGameToBackend(
+                        gameId,
+                        ownerId,
+                        gameName,
+                        savePlayerList,
+                        eventDate,
+                        numPlayers,
+                        maxPrice,
+                        incompatibilities
+                    )
+
+
                     _isGameSavedSuccess.value = isGameSaved
                 }
             } catch (e: Exception) {
+                Log.e("CreateGameViewModel", "Error al guardar el juego: ${e.message}")
                 _isGameSavedSuccess.value = false
             }
         }
     }
+
 
     //CARGAR JUGADOR
     fun loadPlayer() {
@@ -205,5 +233,24 @@ class CreateGameViewModel @Inject constructor(
                 _players.value = emptyList()
             }
         }
+    }
+
+    fun convertPlayersToSavePlayers() {
+        savePlayerList = playerList.map { player ->
+            // Aquí es necesario determinar cómo obtener 'linkedTo'.
+            // Si no tienes esta información en el objeto Player, deberás agregar lógica para obtenerla.
+            SavePlayer(
+                name = player.name,
+                email = player.email,
+                linkedTo = getLinkedTo(player)
+            )
+        }
+    }
+
+    fun getLinkedTo(player: Player): String {
+        // Lógica para determinar qué jugador está vinculado a este jugador (es decir, 'linkedTo')
+        // Ejemplo de cómo se podría hacer si tienes una lista de incompatibilidades o alguna otra estructura.
+
+        return "" // Retorna el valor adecuado o una cadena vacía si no hay vinculación.
     }
 }

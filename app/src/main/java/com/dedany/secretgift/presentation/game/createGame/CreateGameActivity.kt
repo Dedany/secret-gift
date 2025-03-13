@@ -104,8 +104,8 @@ class CreateGameActivity : AppCompatActivity() {
         val eventDate = gameSettingsViewModel?.eventDate?.value ?: ""
         val numPlayers = gameSettingsViewModel?.numPlayers?.value ?: ""
         val maxPrice = gameSettingsViewModel?.maxPrice?.value ?: ""
-        val incompatibilities = gameSettingsViewModel?.incompatibilities?.value ?: emptyList<Pair<String, String>>()
-
+        val incompatibilities = gameSettingsViewModel?.incompatibilities?.value ?: emptyList()
+        viewModel?.setGameSettings(eventDate, numPlayers, maxPrice, incompatibilities)
     }
 
     private fun initListeners() {

@@ -2,7 +2,7 @@ package com.dedany.secretgift.data.dataSources.games.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class CreatePlayerDto(
+data class SavePlayerDto(
     @SerializedName("player_name")
     val name: String,
     val email: String,
