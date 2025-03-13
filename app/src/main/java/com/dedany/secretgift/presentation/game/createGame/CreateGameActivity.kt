@@ -109,8 +109,12 @@ class CreateGameActivity : AppCompatActivity() {
     }
 
     private fun initListeners() {
-        binding?.edNameRoom?.doOnTextChanged { text, start, before, count ->
-            viewModel?.setName(text.toString())
+       // binding?.edNameRoom?.doOnTextChanged { text, start, before, count ->
+          //  viewModel?.setName(text.toString())
+        binding?.edNameRoom?.doOnTextChanged { text, _, _, _ ->
+            val isNotEmpty = !text.isNullOrEmpty()
+            binding?.tvAddPeople?.visibility = if(isNotEmpty)View.VISIBLE else View.GONE
+            binding?.btnAdd?.visibility = if(isNotEmpty)View.VISIBLE else View.GONE
         }
         binding?.edNameRoom?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
