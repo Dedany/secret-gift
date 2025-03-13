@@ -61,6 +61,7 @@ class CreateGameViewModel @Inject constructor(
     fun setName(name: String) {
         gameName = name
         checkName()
+        createOrUpdateGame()
     }
 
     //CORREO DEL JUGADOR
@@ -88,7 +89,7 @@ class CreateGameViewModel @Inject constructor(
             _players.value = playerList.toList()
         }
 
-        createGame()
+        createOrUpdateGame()
 
     }
 
@@ -104,16 +105,28 @@ class CreateGameViewModel @Inject constructor(
         if (_isGameNameValid.value == true) {
             viewModelScope.launch {
                 try {
-                    val existingGame = gamesUseCase.getLocalGamesById(gameId)
-                    gameId = existingGame.id
-                    updateGame()
+                    // Verifica si el ID del juego es válido para determinar si es nuevo o existente
+                    if (gameId != 0) {
+                        val existingGame = gamesUseCase.getLocalGamesById(gameId)
+                        // Si el juego existe, se actualiza
+                        if (existingGame.id != 0) {
+                            updateGame()
+                        } else {
+                            // Si no, se crea
+                            createGame()
+                        }
+                    } else {
+                        createGame()
+                    }
                 } catch (e: Exception) {
-                    Log.e("CreateGameViewModel", "Error buscando el juego: ${e.message}")
-                    createGame()
+                    Log.e("CreateGameViewModel", "Error: ${e.message}")
+                    _insufficientDataMessage.value = "Ocurrió un error al procesar el juego"
                 }
             }
         }
     }
+
+
 
 
     private fun createGame() {
@@ -122,8 +135,8 @@ class CreateGameViewModel @Inject constructor(
                 val ownerId = useCase.getRegisteredUser().id
                 val localGame = LocalGame(ownerId = ownerId, name = gameName, players = playerList)
 
-                val gameId = gamesUseCase.createLocalGame(localGame).toInt()
-                this@CreateGameViewModel.gameId = gameId
+                val newGameId = gamesUseCase.createLocalGame(localGame).toInt()
+                gameId = newGameId
                 _isGameCreatedSuccess.value = true
             }
         }
@@ -165,6 +178,7 @@ class CreateGameViewModel @Inject constructor(
         val newPlayer = Player(name = name, email = email)
         playerList.add(newPlayer)
         _players.value = playerList.toList()
+        createOrUpdateGame()
 
     }
 
