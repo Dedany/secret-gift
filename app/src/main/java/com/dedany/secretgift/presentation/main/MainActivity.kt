@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             viewModel.loadUser()
-            viewModel.loadGames()
+            viewModel.loadLocalGames()
         } else {
             restoreFragments() // Si la actividad se recrea, restauramos los fragmentos
         }

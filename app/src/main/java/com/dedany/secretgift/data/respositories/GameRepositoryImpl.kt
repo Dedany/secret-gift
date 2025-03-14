@@ -14,6 +14,7 @@ import com.dedany.secretgift.data.dataSources.games.remote.dto.PlayerDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.SaveGameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.SavePlayerDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.UserRegisteredDto
+import com.dedany.secretgift.data.dataSources.users.local.preferences.UserPreferences
 import com.dedany.secretgift.domain.entities.CreateGame
 import com.dedany.secretgift.domain.entities.CreatePlayer
 import com.dedany.secretgift.domain.entities.Game
@@ -32,6 +33,7 @@ import javax.inject.Inject
 class GameRepositoryImpl @Inject constructor(
     private val remoteDataSource: GameRemoteDataSource,
     private val localDataSource: LocalDataSource,
+    private val userPreferences: UserPreferences
 ) : GamesRepository {
 
     override suspend fun getGame(gameCode: String): Game {
@@ -87,6 +89,19 @@ class GameRepositoryImpl @Inject constructor(
             } catch (e: Exception) {
                 Log.e("getGamesByUser", "Error obteniendo juegos: ${e.message}")
                 return@withContext emptyList<Game>()
+            }
+        }
+    }
+
+    override suspend fun getLocalGamesByUser(): List<LocalGame> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val userId = userPreferences.getUserId()
+                val gamesDbo = localDataSource.getLocalGamesByUser(userId)
+                return@withContext gamesDbo.map { it.toDomain() }
+            } catch (e: Exception) {
+                Log.e("getGamesByUser", "Error obteniendo juegos: ${e.message}")
+                return@withContext emptyList<LocalGame>()
             }
         }
     }

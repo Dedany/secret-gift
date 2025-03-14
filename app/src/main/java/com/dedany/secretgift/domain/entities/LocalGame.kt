@@ -1,5 +1,6 @@
 package com.dedany.secretgift.domain.entities
 
+import java.io.Serializable
 import java.util.Date
 
 data class LocalGame(
@@ -11,4 +12,4 @@ data class LocalGame(
     val minCost: Int?=null,
     val gameDate: Date? = Date(),
     val rules: List<Rule> = emptyList()
-)
+):Serializable

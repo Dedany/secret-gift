@@ -28,9 +28,10 @@ object RepositoryModule {
     fun provideGamesRepository(
         remoteGamesDataSource: GameRemoteDataSource,
         localGameDataSource: LocalDataSource,
+        userPreferences: UserPreferences
     ): GamesRepository {
         return GameRepositoryImpl(
-            remoteGamesDataSource, localGameDataSource
+            remoteGamesDataSource, localGameDataSource,userPreferences
         )
     }
 

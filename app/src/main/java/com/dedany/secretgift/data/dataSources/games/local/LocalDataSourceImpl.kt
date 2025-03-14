@@ -31,5 +31,9 @@ class LocalDataSourceImpl @Inject constructor(
     override suspend fun updateGame(game: GameDbo): Int {
        return gamesDao.updateLocalGame(game)
     }
+
+    override suspend fun getLocalGamesByUser(userId: String): List<GameDbo> {
+        return gamesDao.getLocalGamesByUser(userId)
+    }
 }
 

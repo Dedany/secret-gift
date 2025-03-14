@@ -16,4 +16,5 @@ interface GamesUseCase {
     suspend fun createGame(gameId: Int): Boolean
     suspend fun updateGame(game: Game)
     suspend fun deleteGame(game: Game)
+    suspend fun getLocalGamesByUser(): List<LocalGame>
 }
