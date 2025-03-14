@@ -3,21 +3,26 @@ package com.dedany.secretgift.presentation.game.createGame
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import com.google.android.gms.ads.AdView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityCreateGameBinding
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.dedany.secretgift.domain.entities.Player
 import com.dedany.secretgift.presentation.game.viewGame.PlayersAdapter
 import com.dedany.secretgift.presentation.main.MainActivity
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,6 +53,7 @@ class CreateGameActivity : AppCompatActivity() {
         setAdapters()
         initObservers()
         initListeners()
+        initAd()
 
     }
 
@@ -66,14 +72,6 @@ class CreateGameActivity : AppCompatActivity() {
 
 
     private fun initObservers() {
-        viewModel?.isGameNameValid?.observe(this) { isSuccess ->
-
-            if (isSuccess) {
-                Toast.makeText(this, "Nombre del grupo creado correctamente", Toast.LENGTH_SHORT)
-                    .show()
-
-            }
-        }
 
         viewModel?.isGameSavedSuccess?.observe(this) { isSuccess ->
             if (isSuccess) {
@@ -120,6 +118,9 @@ class CreateGameActivity : AppCompatActivity() {
                 viewModel?.checkName()
             }
         }
+        binding?.iconBack?.setOnClickListener {
+            finish()
+        }
 
         binding?.btnSaveGame?.setOnClickListener {
             viewModel?.onSaveGameClicked()
@@ -144,6 +145,7 @@ class CreateGameActivity : AppCompatActivity() {
                 val email = emailEditText.text.toString()
 
                 if (name.isNotEmpty() && email.isNotEmpty()) {
+
                     viewModel?.addPlayer(name, email)
                     dialog.dismiss()
                 } else {
@@ -177,6 +179,26 @@ class CreateGameActivity : AppCompatActivity() {
                 viewModel?.onDialogDismissed()
             }
             .show()
+    }
+
+    fun initAd() {
+        //iniciar adMob
+        MobileAds.initialize(this) { initialAd ->
+            val statusMap = initialAd.adapterStatusMap
+            for ((adapter, satatus) in statusMap) {
+                Log.d("AdMob", "Adapter: $adapter Status: ${satatus.description}")
+            }
+        }
+
+       /*binding?.adView?.apply {
+            //asigna tamaño
+
+            // Carga el anuncio
+            val adRequest = AdRequest.Builder().setContentUrl("https://www.amazon.es")
+            loadAd(adRequest.build())
+        }*/
+
+
     }
 
 }

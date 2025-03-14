@@ -18,7 +18,6 @@
         <ImageView
             android:id="@+id/icon_back"
             style="@style/custom_back_image"
-
             android:layout_marginHorizontal="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

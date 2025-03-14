@@ -1,4 +1,5 @@
 package com.dedany.secretgift.presentation.game.createGame
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -27,7 +28,10 @@ class PlayerAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(player: Player) {
-            binding.tvName.text = player.name
+
+            val formattedName = FormatPlayerName(player.name)
+            Log.d("PlayerAdapter", "Formatted Name: $formattedName")
+            binding.tvName.text = formattedName
             binding.ibDelete.setOnClickListener { onDeleteClick(player) }
             binding.ibEdit.setOnClickListener { onEditClick(player) }
         }
@@ -43,3 +47,15 @@ class PlayerDiffCallback : DiffUtil.ItemCallback<Player>() {
         return oldItem == newItem
     }
 }
+
+
+    fun FormatPlayerName(playerName: String): String {
+        return if (playerName.contains(" ")) {
+            val words =playerName.split(" ")
+            "${words[0]}\n${words[1]}"
+        }else{
+            playerName
+        }
+    }
+
+

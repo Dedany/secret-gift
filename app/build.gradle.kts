@@ -95,5 +95,7 @@ dependencies {
     //AdMob
     implementation("com.google.android.gms:play-services-ads:24.0.0")
 
+    //flexbox
+    implementation("com.google.android.flexbox:flexbox:3.0.0")
 
 }

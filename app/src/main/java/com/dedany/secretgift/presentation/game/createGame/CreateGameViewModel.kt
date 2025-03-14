@@ -54,12 +54,12 @@ class CreateGameViewModel @Inject constructor(
     private var incompatibilities: List<Pair<String, String>> = emptyList()
 
     fun checkName() {
-        if (gameName.isNotEmpty() && gameName.length > 3) {
+        if (gameName.isNotEmpty() && gameName.length > 1) {
 
             _isGameNameValid.value = true
         } else {
             _isGameNameValid.value = false
-            _insufficientDataMessage.value = "El nombre del juego necesita un mínimo de 4 letras"
+            _insufficientDataMessage.value = "El nombre del juego necesita un mínimo de 1 letras"
         }
     }
 
@@ -98,6 +98,8 @@ class CreateGameViewModel @Inject constructor(
         createOrUpdateGame()
 
     }
+
+
 
     fun onSaveGameClicked() {
         _showConfirmationDialog.value = true
@@ -186,6 +188,8 @@ class CreateGameViewModel @Inject constructor(
         createOrUpdateGame()
 
     }
+
+
 
     fun setGameSettings(
         eventDate: String,

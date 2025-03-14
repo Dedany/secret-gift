@@ -76,6 +76,8 @@ class RegisterViewModel @Inject constructor(
         }
     }
 
+
+
     fun setPassword(text: String) {
         _password.value = text
         checkPasswordFormat(text)

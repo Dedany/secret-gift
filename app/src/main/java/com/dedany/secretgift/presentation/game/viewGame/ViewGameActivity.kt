@@ -30,10 +30,11 @@ class ViewGameActivity : AppCompatActivity() {
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.dark(
                 resources.getColor(R.color.transparent, null),
-
-            )
+                )
         )
         binding = ActivityViewGameBinding.inflate(layoutInflater)
+
+
         binding?.let {
             ViewCompat.setOnApplyWindowInsetsListener(it.root) { v, insets ->
                 val bars = insets.getInsets(
@@ -48,6 +49,10 @@ class ViewGameActivity : AppCompatActivity() {
                 WindowInsetsCompat.CONSUMED
             }
         }
+        binding?.iconBack?.setOnClickListener {
+            finish()
+        }
+
 
         viewModel = ViewModelProvider(this)[ViewGameViewModel::class.java]
         setContentView(binding?.root)
@@ -68,7 +73,7 @@ class ViewGameActivity : AppCompatActivity() {
 
     private fun loadGame() {
         val intent = intent
-        if (intent.hasExtra(Constants.KEY_GAME)){
+        if (intent.hasExtra(Constants.KEY_GAME)) {
             val gameCode = intent.getStringExtra(Constants.KEY_GAME)
             if (gameCode != null) {
                 viewModel?.fetchGaMeData(gameCode)
@@ -82,15 +87,15 @@ class ViewGameActivity : AppCompatActivity() {
 
     private fun setObservers() {
 
-        viewModel?.isLoading?.observe(this){
-            if (it){
-                binding?.loader?.isVisible=true
-                binding?.coordinatorLayout?.isVisible=false
-                binding?.viewGameSettings?.isVisible=false
-            }else{
-                binding?.loader?.isVisible=false
-                binding?.coordinatorLayout?.isVisible=true
-                binding?.viewGameSettings?.isVisible=true
+        viewModel?.isLoading?.observe(this) {
+            if (it) {
+                binding?.loader?.isVisible = true
+                binding?.coordinatorLayout?.isVisible = false
+                binding?.viewGameSettings?.isVisible = false
+            } else {
+                binding?.loader?.isVisible = false
+                binding?.coordinatorLayout?.isVisible = true
+                binding?.viewGameSettings?.isVisible = true
             }
         }
 
@@ -100,10 +105,10 @@ class ViewGameActivity : AppCompatActivity() {
         }
 
         viewModel?.game?.observe(this) { gameData ->
-           binding?.tvGameName?.text = gameData.name
+            binding?.tvGameName?.text = gameData.name
             binding?.currentPlayerName?.text = gameData.currentPlayer
             binding?.matchedPlayerName?.text = gameData.matchedPlayer
-            binding?.tvPlayersNumber?.text = (gameData.players.size+1).toString()
+            binding?.tvPlayersNumber?.text = (gameData.players.size + 1).toString()
             binding?.tvMinMoney?.text = gameData.minCost.toString()
             binding?.tvMaxMoney?.text = gameData.maxCost.toString()
             playersAdapter?.submitList(gameData.players)
