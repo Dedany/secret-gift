@@ -23,5 +23,7 @@
     <string name="players_number">Número de participantes:</string>
     <string name="max_cost">Precio máximo:</string>
     <string name="game_info">Datos de la sala</string>
+    <string name="game_settings_button">Ajustes de Sala</string>
+    <string name="create_game">Crear Sala</string>
 
 </resources>
