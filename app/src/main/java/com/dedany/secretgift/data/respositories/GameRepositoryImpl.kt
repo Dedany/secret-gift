@@ -108,35 +108,7 @@ class GameRepositoryImpl @Inject constructor(
         return remoteDataSource.createGame(gameDto)
     }
 
-    override suspend fun saveGameToBackend(
-        gameId: Int,
-        ownerId: String,
-        gameName: String,
-        players: List<Player>,
-        eventDate: String,
-        numPlayers: String,
-        maxPrice: String,
-        incompatibilities: List<Pair<String, String>>
-    ): Boolean {
-        return try {
-            val gameDto = SaveGameDto(
-                name = gameName,
-                ownerId = ownerId,
-                status = "Active",
-                maxCost = maxPrice.toInt(),
-                gameDate = eventDate.toDate(),
-                players = players.map { it.toDto() },
-                rules = incompatibilities.map {
-                    GameRuleDto(playerOne = it.first, playerTwo = it.second)
-                }
-            )
-            remoteDataSource.saveGame(gameDto)
-            true
-        } catch (e: Exception) {
-            Log.e("saveGameToBackend", "Error saving game: ${e.message}")
-            false
-        }
-    }
+
 
 
 
@@ -211,12 +183,7 @@ class GameRepositoryImpl @Inject constructor(
         )
     }
 
-    private fun Player.toDto(): CreatePlayerDto {
-        return CreatePlayerDto(
-            name = this.name,
-            email = this.email,
-        )
-    }
+
 
 
 
@@ -283,7 +250,7 @@ class GameRepositoryImpl @Inject constructor(
         return CreatePlayerDto(
             name = this.name,
             email = this.email,
-            linkedTo = null
+            linkedTo = this.linkedTo
         )
     }
     private fun String.toDate(): Date? {

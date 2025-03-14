@@ -24,7 +24,6 @@ interface SecretGiftApi {
    @POST("/room/create")
    suspend fun createGame(@Body request: CreateGameDto): Response<GameDto>
 
-    @POST("/room/save")
-    suspend fun saveGame(@Body request: SaveGameDto): Response<Void>
+
 
 }
