@@ -10,6 +10,6 @@ interface GameRemoteDataSource {
     suspend fun createGame(game: CreateGameDto):Boolean
     suspend fun deleteGame(game: GameDto)
     suspend fun updateGame(game: GameDto)
-    suspend fun saveGame(game: SaveGameDto): Boolean
+
 
 }

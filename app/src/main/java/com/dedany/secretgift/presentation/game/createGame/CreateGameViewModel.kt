@@ -172,11 +172,19 @@ class CreateGameViewModel @Inject constructor(
             return true
         }
     }
-
+    private fun checkEventDate(): Boolean {
+        if (eventDate.isEmpty()) {
+            _insufficientDataMessage.value = "La fecha del evento es obligatoria"
+            return false
+        }
+        return true
+    }
+    //COMPRUEBA LOS CAMPOS OBLIGATORIOS ANTES DE MANDAR AL BACKEND
     fun checkGame(): Boolean {
         checkName()
         checkMinimumPlayers()
-        return _isGameNameValid.value == true && checkMinimumPlayers()
+        checkEventDate()
+        return _isGameNameValid.value == true && checkMinimumPlayers() && checkEventDate()
     }
 
 
@@ -206,19 +214,9 @@ class CreateGameViewModel @Inject constructor(
     fun saveGame() {
         viewModelScope.launch {
             try {
-                if (checkGame()) {
-                    val ownerId = useCase.getRegisteredUser().id
+                if (true) {
 
-                    val isGameSaved = gamesUseCase.saveGameToBackend(
-                        gameId,
-                        ownerId,
-                        gameName,
-                        playerList,
-                        eventDate,
-                        numPlayers,
-                        maxPrice,
-                        incompatibilities
-                    )
+                    val isGameSaved = gamesUseCase.createGame(gameId)
 
                     _isGameSavedSuccess.value = isGameSaved
                 }
