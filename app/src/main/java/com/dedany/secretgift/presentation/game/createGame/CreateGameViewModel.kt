@@ -56,6 +56,19 @@ class CreateGameViewModel @Inject constructor(
     private var incompatibilities: List<Pair<String, String>> = emptyList()
 
 
+    fun addCreatingUserToPlayers() {
+        viewModelScope.launch {
+            try {
+                val user = useCase.getRegisteredUser()
+                val creatingPlayer = Player(name = user.name, email = user.email)
+                playerList.add(creatingPlayer)
+                _players.value = playerList.toList()
+            } catch (e: Exception) {
+                Log.e("CreateGameViewModel", "Error adding creating user: ${e.message}")
+                _insufficientDataMessage.value = "Error al añadir el usuario creador"
+            }
+        }
+    }
     fun checkName() {
         if (gameName.isNotEmpty() && gameName.length > 1) {
 

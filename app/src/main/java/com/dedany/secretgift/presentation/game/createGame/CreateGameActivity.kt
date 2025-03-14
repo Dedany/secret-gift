@@ -53,6 +53,7 @@ class CreateGameActivity : AppCompatActivity() {
         binding = ActivityCreateGameBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[CreateGameViewModel::class.java]
         setContentView(binding?.root)
+        viewModel?.addCreatingUserToPlayers()
 
 
         setAdapters()

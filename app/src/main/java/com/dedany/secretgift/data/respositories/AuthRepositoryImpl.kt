@@ -25,6 +25,7 @@ class AuthRepositoryImpl @Inject constructor(
             userPreferences.apply {
                 setUserEmail(email)
                 setUserId(playerDto.userId)
+                setUserName(playerDto.name)
             }
             return true
         } ?: return false
