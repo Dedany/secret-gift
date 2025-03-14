@@ -78,9 +78,13 @@ class RegisterActivity : AppCompatActivity() {
             }
 
         }
+
     }
 
     private fun initListeners() {
+        binding?.iconBack?.setOnClickListener {
+            finish()}
+
         with(binding) {
             this?.nameEditText?.doOnTextChanged  { text, start, before, count ->
                 clearErrorState(this.nameLayout)
