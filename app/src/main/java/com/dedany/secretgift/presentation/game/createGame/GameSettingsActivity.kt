@@ -12,14 +12,14 @@ import java.util.Calendar
 
 class GameSettingsActivity : AppCompatActivity() {
 
-    private val calendar = Calendar.getInstance()  // Calendar para manejar fechas
+    private val calendar = Calendar.getInstance()
     private lateinit var binding: ActivityGameOptionsBinding
     private val gameSettingsViewModel: GameSettingsViewModel by viewModels()
     private lateinit var rulesAdapter: RulesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityGameOptionsBinding.inflate(layoutInflater)  // Inflar el layout
+        binding = ActivityGameOptionsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         initAdapters()
@@ -38,6 +38,7 @@ class GameSettingsActivity : AppCompatActivity() {
 
     private fun initListeners() {
 
+        //Datapicker
         binding.editTextEventDate.setOnClickListener {
             val year = calendar.get(Calendar.YEAR)
             val month = calendar.get(Calendar.MONTH)
@@ -46,7 +47,7 @@ class GameSettingsActivity : AppCompatActivity() {
             val datePickerDialog = DatePickerDialog(this, { _, year, month, dayOfMonth ->
                 calendar.set(year, month, dayOfMonth)
                 val selectedDate = "$dayOfMonth-${month + 1}-$year"
-                binding.editTextEventDate.setText(selectedDate)  // Actualiza el EditText
+                binding.editTextEventDate.setText(selectedDate)
             }, year, month, day)
             datePickerDialog.show()
         }
@@ -62,7 +63,7 @@ class GameSettingsActivity : AppCompatActivity() {
             intent.putExtra("EVENT_DATE", eventDate)
             intent.putExtra("MAX_PRICE", maxPrice)
             intent.putExtra("MIN_PRICE", minPrice)
-            //intent.putExtra("INCOMPATIBILITIES", incompatibilities)
+            //rules
 
             setResult(RESULT_OK, intent)
             finish()
@@ -93,7 +94,7 @@ class GameSettingsActivity : AppCompatActivity() {
                 }
             }
         } else {
-            emptyList()  // Si no hay reglas, devuelve una lista vacía
+            emptyList()
         }
     }
 

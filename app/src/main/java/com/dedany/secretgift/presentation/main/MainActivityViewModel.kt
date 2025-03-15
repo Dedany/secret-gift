@@ -1,6 +1,5 @@
 package com.dedany.secretgift.presentation.main
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -29,6 +28,7 @@ class MainActivityViewModel @Inject constructor(
 
     private val _user: MutableLiveData<User> = MutableLiveData()
     val user: LiveData<User> = _user
+
 
     fun loadGames() {
         viewModelScope.launch {

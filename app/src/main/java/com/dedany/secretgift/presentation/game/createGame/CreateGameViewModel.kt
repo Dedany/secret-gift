@@ -166,7 +166,6 @@ class CreateGameViewModel @Inject constructor(
         viewModelScope.launch {
             val ownerId = useCase.getRegisteredUser().id
 
-            // Asegúrate de que maxCost, minCost y gameDate tengan valores válidos
             val updatedGame = LocalGame(
                 id = gameId,
                 ownerId = ownerId,

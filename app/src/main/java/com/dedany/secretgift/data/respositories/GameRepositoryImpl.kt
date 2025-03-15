@@ -11,8 +11,6 @@ import com.dedany.secretgift.data.dataSources.games.remote.dto.CreatePlayerDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameRuleDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.PlayerDto
-import com.dedany.secretgift.data.dataSources.games.remote.dto.SaveGameDto
-import com.dedany.secretgift.data.dataSources.games.remote.dto.SavePlayerDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.UserRegisteredDto
 import com.dedany.secretgift.data.dataSources.users.local.preferences.UserPreferences
 import com.dedany.secretgift.domain.entities.CreateGame
@@ -80,11 +78,11 @@ class GameRepositoryImpl @Inject constructor(
     }
 
 
-
     override suspend fun getGamesByUser(): List<Game> {
         return withContext(Dispatchers.IO) {
             try {
-                val gamesDto = remoteDataSource.getGamesByUser()
+                val userId = userPreferences.getUserId()
+                val gamesDto = remoteDataSource.getGamesByUser(userId)
                 return@withContext gamesDto.map { it.toDomain() }
             } catch (e: Exception) {
                 Log.e("getGamesByUser", "Error obteniendo juegos: ${e.message}")
@@ -114,7 +112,7 @@ class GameRepositoryImpl @Inject constructor(
         return localDataSource.createGame(game.toDbo())
     }
 
-    override suspend fun updateLocalGame(game: LocalGame) : Int{
+    override suspend fun updateLocalGame(game: LocalGame): Int {
         return localDataSource.updateGame(game.toDbo())
     }
 
@@ -122,9 +120,6 @@ class GameRepositoryImpl @Inject constructor(
         val gameDto = game.toDto()
         return remoteDataSource.createGame(gameDto)
     }
-
-
-
 
 
     override suspend fun updateGame(game: Game) {
@@ -199,9 +194,6 @@ class GameRepositoryImpl @Inject constructor(
     }
 
 
-
-
-
     private fun PlayerDbo.toDomain(): Player {
         return Player(
             name = this.name,
@@ -258,7 +250,7 @@ class GameRepositoryImpl @Inject constructor(
             rules = this.rules.map { it.toDto() },
 
 
-        )
+            )
     }
 
     private fun CreatePlayer.toDto(): CreatePlayerDto {
@@ -268,6 +260,7 @@ class GameRepositoryImpl @Inject constructor(
             linkedTo = this.linkedTo
         )
     }
+
     private fun String.toDate(): Date? {
         return try {
             val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -278,6 +271,6 @@ class GameRepositoryImpl @Inject constructor(
     }
 
 
-        }
+}
 
 
