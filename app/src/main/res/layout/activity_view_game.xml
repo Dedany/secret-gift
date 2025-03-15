@@ -1,29 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/app_background">
-<ProgressBar
-    android:id="@+id/loader"
-    android:layout_width="match_parent"
-    android:layout_height="100dp"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"
 
-    android:indeterminateTint="@color/brown"
-    >
+    <ProgressBar
+        android:id="@+id/loader"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:indeterminateTint="@color/brown"
+        app:layout_constraintBottom_toBottomOf="parent"
 
-</ProgressBar>
+        app:layout_constraintTop_toTopOf="parent">
+
+    </ProgressBar>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        ads:layout_constraintVertical_bias="0.0"
         app:layout_constraintBottom_toTopOf="@id/view_game_settings"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
@@ -35,8 +39,7 @@
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
-
+                android:layout_height="100dp"
                 android:backgroundTint="#00FFFFFF"
                 app:layout_scrollFlags="scroll|snap">
 
@@ -59,6 +62,7 @@
                         <ImageView
                             android:id="@+id/icon_back"
                             style="@style/custom_back_image"
+
                             android:layout_marginHorizontal="20dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -66,9 +70,9 @@
                             />
 
                         <TextView
+                            android:id="@+id/tv_game_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/tv_game_name"
                             android:layout_gravity="center"
                             android:fontFamily="cursive"
                             android:gravity="center"
@@ -76,28 +80,6 @@
                             android:textColor="@color/maincolor"
                             android:textSize="@dimen/text_size_text_view" />
                     </Toolbar>
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:backgroundTint="#327167"
-                        app:cardCornerRadius="16dp"
-                        app:strokeColor="#835B18"
-                        app:strokeWidth="2dp">
-
-                        <TextView
-                            android:id="@+id/current_player_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:paddingHorizontal="12dp"
-                            android:paddingVertical="2dp"
-                            android:text="Jugador 1"
-                            android:textColor="#EBDFDF"
-                            android:textSize="24sp" />
-                    </com.google.android.material.card.MaterialCardView>
 
                 </LinearLayout>
 
@@ -107,26 +89,60 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="32dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/player_one"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+              android:layout_marginHorizontal="8dp"
+                android:backgroundTint="#327167"
+                app:cardCornerRadius="16dp"
+                app:layout_constraintBottom_toBottomOf="@id/mc_conector"
+                app:layout_constraintEnd_toStartOf="@id/mc_conector"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/mc_conector"
+                app:strokeColor="#835B18"
+                app:strokeWidth="2dp">
+
+                <TextView
+                    android:id="@+id/current_player_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:breakStrategy="simple"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:minLines="2"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="2dp"
+                    android:text="Jugador 1"
+                    android:textAlignment="center"
+                    android:textColor="#EBDFDF"
+                    android:textSize="22sp" />
+            </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/mc_conector"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-
-
+                android:layout_marginHorizontal="8dp"
                 android:backgroundTint="#A29F67"
+                ads:layout_constraintBottom_toTopOf="@+id/tv_participants"
+                ads:layout_constraintEnd_toEndOf="@id/tv_participants"
+                ads:layout_constraintStart_toStartOf="@id/tv_participants"
+                ads:layout_constraintTop_toTopOf="parent"
                 app:cardCornerRadius="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
 
+
+                >
                 <TextView
                     android:id="@+id/conector"
                     android:layout_width="wrap_content"
@@ -137,43 +153,46 @@
                     android:paddingVertical="2dp"
                     android:text="te ha tocado"
                     android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/mc_asigned_player"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="8dp"
                 android:backgroundTint="#327167"
                 app:cardCornerRadius="16dp"
+                app:layout_constraintBottom_toBottomOf="@id/mc_conector"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/mc_conector"
+                app:layout_constraintStart_toEndOf="@id/mc_conector"
+                app:layout_constraintTop_toTopOf="@id/mc_conector"
                 app:strokeColor="#835B18"
                 app:strokeWidth="2dp">
 
                 <TextView
                     android:id="@+id/matched_player_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
+                    android:ellipsize="end"
                     android:gravity="center"
+                    android:maxLines="2"
+                    android:minLines="2"
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="2dp"
                     android:text="Jugador 2"
                     android:textColor="#EBDFDF"
-                    android:textSize="24sp" />
+                    android:textSize="22sp" />
             </com.google.android.material.card.MaterialCardView>
 
             <TextView
-                android:id="@+id/players_list"
+                android:id="@+id/tv_participants"
                 style="@style/custom_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="PARTICIPANTES"
                 android:layout_marginTop="@dimen/activity_top_margin"
+                android:text="PARTICIPANTES"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -189,7 +208,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/players_list"
+                app:layout_constraintTop_toBottomOf="@+id/tv_participants"
                 tools:itemCount="15"
                 tools:listitem="@layout/item_players_view">
 
@@ -204,11 +223,11 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/view_game_settings"
         android:layout_width="match_parent"
-        android:layout_height="205dp"
-        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+        android:layout_height="120dp"
         android:layout_gravity="bottom"
+        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="8dp"
         android:backgroundTint="#A05F5540"
         android:orientation="vertical"
         app:cardCornerRadius="16dp"
@@ -216,7 +235,7 @@
         app:contentPaddingLeft="32dp"
         app:contentPaddingRight="32dp"
         app:contentPaddingTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:strokeColor="#835B18"
@@ -224,7 +243,7 @@
 
         <LinearLayout
             android:id="@+id/view_game_settings_layout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:divider="?android:attr/dividerHorizontal"
@@ -236,6 +255,7 @@
                 android:id="@+id/game_date_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:orientation="horizontal"
                 android:padding="8dp">
 
@@ -256,89 +276,93 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:justifyContent="space_around">
 
-            <LinearLayout
-                android:id="@+id/players_number_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/group_profile_users_icon_icons_com_73540"
-                    android:textColor="@color/hintColor" />
-
-                <TextView
-                    android:id="@+id/tv_players_number"
+                <LinearLayout
+                    android:id="@+id/players_number_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginStart="8dp"
-                    android:text="7"
-                    android:textColor="@color/hintColor"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                    android:orientation="horizontal"
+                    android:padding="8dp">
 
-            <LinearLayout
-                android:id="@+id/min_money_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/baseline_monetization_on_24" />
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/group_profile_users_icon_icons_com_73540"
+                        android:textColor="@color/hintColor" />
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/baseline_keyboard_double_arrow_down_24" />
+                    <TextView
+                        android:id="@+id/tv_players_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="8dp"
+                        android:text="7"
+                        android:textColor="@color/hintColor"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tv_min_money"
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginStart="8dp"
-                    android:text="--"
-                    android:textColor="#EBDFDF"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                    android:orientation="horizontal"
+                    android:padding="8dp">
 
-            <LinearLayout
-                android:id="@+id/max_money_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="20dp"
+                        android:src="@drawable/baseline_euro_24" />
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/baseline_monetization_on_24"
-                    android:textColor="@color/hintColor" />
+                    <TextView
+                        android:id="@+id/tv_min_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="8dp"
+                        android:text="5"
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/baseline_keyboard_double_arrow_up_24" />
+                        android:textColor="#EBDFDF"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tv_max_money"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="8dp"
-                    android:text="25"
-                    android:textColor="@color/hintColor"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/baseline_arrow_right_alt_24" />
+
+                    <TextView
+                        android:id="@+id/tv_max_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="8dp"
+                        android:text="25"
+                        android:textColor="@color/hintColor"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+            </com.google.android.flexbox.FlexboxLayout>
         </LinearLayout>
 
-
     </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="@dimen/activity_ads_margin"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
