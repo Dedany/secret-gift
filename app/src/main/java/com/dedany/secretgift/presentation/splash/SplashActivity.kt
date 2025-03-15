@@ -1,4 +1,4 @@
-package com.dedany.secretgift.presentation.main
+package com.dedany.secretgift.presentation.splash
 
 import android.content.Intent
 import android.os.Bundle
