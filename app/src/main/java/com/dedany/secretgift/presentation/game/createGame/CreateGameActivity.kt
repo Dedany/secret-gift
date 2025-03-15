@@ -10,20 +10,13 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import com.google.android.gms.ads.AdView
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityCreateGameBinding
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds
-import com.dedany.secretgift.domain.entities.Player
-import com.dedany.secretgift.presentation.game.viewGame.PlayersAdapter
 import com.dedany.secretgift.presentation.main.MainActivity
-
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,13 +25,25 @@ class CreateGameActivity : AppCompatActivity() {
 
     private var binding: ActivityCreateGameBinding? = null
     private var viewModel: CreateGameViewModel? = null
-    private var gameSettingsViewModel: GameSettingsViewModel? = null
     private var playerAdapter: PlayerAdapter? = null
 
     private val settingsActivityResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
-                observeGameSettings()
+                val eventDate = result.data?.getStringExtra("EVENT_DATE")
+                val maxPrice = result.data?.getStringExtra("MAX_PRICE")
+                val minPrice = result.data?.getStringExtra("MIN_PRICE")
+                val incompatibilities: List<Pair<String, String>>? =
+                    result.data?.getSerializableExtra("INCOMPATIBILITIES") as? List<Pair<String, String>>
+
+                // Pasar los valores al ViewModel
+                viewModel?.setGameSettings(
+                    eventDate ?: "",
+                    maxPrice ?: "",
+                    minPrice ?: "",
+                    incompatibilities ?: emptyList()
+                )
+                viewModel?.createOrUpdateGame()
             }
         }
 
@@ -48,6 +53,7 @@ class CreateGameActivity : AppCompatActivity() {
         binding = ActivityCreateGameBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[CreateGameViewModel::class.java]
         setContentView(binding?.root)
+        viewModel?.addCreatingUserToPlayers()
 
 
         setAdapters()
@@ -97,14 +103,6 @@ class CreateGameActivity : AppCompatActivity() {
         }
     }
 
-    private fun observeGameSettings() {
-
-        val eventDate = gameSettingsViewModel?.eventDate?.value ?: ""
-        val numPlayers = gameSettingsViewModel?.numPlayers?.value ?: ""
-        val maxPrice = gameSettingsViewModel?.maxPrice?.value ?: ""
-        val incompatibilities = gameSettingsViewModel?.incompatibilities?.value ?: emptyList()
-        viewModel?.setGameSettings(eventDate, numPlayers, maxPrice, incompatibilities)
-    }
 
     private fun initListeners() {
         binding?.edNameRoom?.doOnTextChanged { text, _, _, _ ->
@@ -126,7 +124,7 @@ class CreateGameActivity : AppCompatActivity() {
             viewModel?.onSaveGameClicked()
         }
         binding?.btnGameSettings?.setOnClickListener {
-            val intent = Intent(this, SettingsActivity::class.java)
+            val intent = Intent(this, GameSettingsActivity::class.java)
             settingsActivityResultLauncher.launch(intent)
         }
         binding?.btnAdd?.setOnClickListener {
@@ -190,13 +188,13 @@ class CreateGameActivity : AppCompatActivity() {
             }
         }
 
-       /*binding?.adView?.apply {
-            //asigna tamaño
+        /*binding?.adView?.apply {
+             //asigna tamaño
 
-            // Carga el anuncio
-            val adRequest = AdRequest.Builder().setContentUrl("https://www.amazon.es")
-            loadAd(adRequest.build())
-        }*/
+             // Carga el anuncio
+             val adRequest = AdRequest.Builder().setContentUrl("https://www.amazon.es")
+             loadAd(adRequest.build())
+         }*/
 
 
     }

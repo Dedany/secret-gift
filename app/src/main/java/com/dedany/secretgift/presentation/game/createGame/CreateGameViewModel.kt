@@ -11,6 +11,9 @@ import com.dedany.secretgift.domain.usecases.games.GamesUseCase
 import com.dedany.secretgift.domain.usecases.users.UsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -47,12 +50,25 @@ class CreateGameViewModel @Inject constructor(
     private var playerList = mutableListOf<Player>()
     private var playerEmail: String = ""
 
-    //Settings
-    private var eventDate: String = ""
-    private var numPlayers: String = ""
-    private var maxPrice: String = ""
+    private var eventDate: Date = Date()
+    private var maxPrice: Int = 0
+    private var minPrice: Int = 0
     private var incompatibilities: List<Pair<String, String>> = emptyList()
 
+
+    fun addCreatingUserToPlayers() {
+        viewModelScope.launch {
+            try {
+                val user = useCase.getRegisteredUser()
+                val creatingPlayer = Player(name = user.name, email = user.email)
+                playerList.add(creatingPlayer)
+                _players.value = playerList.toList()
+            } catch (e: Exception) {
+                Log.e("CreateGameViewModel", "Error adding creating user: ${e.message}")
+                _insufficientDataMessage.value = "Error al añadir el usuario creador"
+            }
+        }
+    }
     fun checkName() {
         if (gameName.isNotEmpty() && gameName.length > 1) {
 
@@ -98,8 +114,6 @@ class CreateGameViewModel @Inject constructor(
         createOrUpdateGame()
 
     }
-
-
 
     fun onSaveGameClicked() {
         _showConfirmationDialog.value = true
@@ -151,8 +165,17 @@ class CreateGameViewModel @Inject constructor(
     private fun updateGame() {
         viewModelScope.launch {
             val ownerId = useCase.getRegisteredUser().id
-            val updatedGame =
-                LocalGame(id = gameId, ownerId = ownerId, name = gameName, players = playerList)
+
+            // Asegúrate de que maxCost, minCost y gameDate tengan valores válidos
+            val updatedGame = LocalGame(
+                id = gameId,
+                ownerId = ownerId,
+                name = gameName,
+                players = playerList,
+                maxCost = maxPrice,
+                minCost = minPrice,
+                gameDate = eventDate
+            )
 
             val result = gamesUseCase.updateLocalGame(updatedGame)
 
@@ -164,6 +187,7 @@ class CreateGameViewModel @Inject constructor(
         }
     }
 
+
     fun checkMinimumPlayers(): Boolean {
         if (playerList.size < 3) {
             _insufficientDataMessage.value = "Necesitas al menos 3 jugadores"
@@ -173,10 +197,17 @@ class CreateGameViewModel @Inject constructor(
         }
     }
 
+    private fun checkEventDate(): Boolean {
+
+        return true
+    }
+
+    //COMPRUEBA LOS CAMPOS OBLIGATORIOS ANTES DE MANDAR AL BACKEND
     fun checkGame(): Boolean {
         checkName()
         checkMinimumPlayers()
-        return _isGameNameValid.value == true && checkMinimumPlayers()
+        checkEventDate()
+        return _isGameNameValid.value == true && checkMinimumPlayers() && checkEventDate()
     }
 
 
@@ -190,35 +221,40 @@ class CreateGameViewModel @Inject constructor(
     }
 
 
-
+    // Métodos para almacenar y configurar los valores recibidos de GameSettingsViewModel
     fun setGameSettings(
         eventDate: String,
-        numPlayers: String,
         maxPrice: String,
+        minPrice: String,
         incompatibilities: List<Pair<String, String>>
     ) {
-        this.eventDate = eventDate
-        this.numPlayers = numPlayers
-        this.maxPrice = maxPrice
+
+        this.eventDate = parseDate(eventDate)
+        this.maxPrice = maxPrice.toIntOrNull() ?: 0
+        this.minPrice = minPrice.toIntOrNull() ?: 0
         this.incompatibilities = incompatibilities
+
+        Log.d(
+            "CreateGameViewModel",
+            "Fecha del evento: $eventDate, Max Price: $maxPrice, Min Price: $minPrice"
+        )
+    }
+
+    private fun parseDate(dateString: String): Date {
+        return try {
+            val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+            dateFormat.parse(dateString) ?: Date()
+        } catch (e: Exception) {
+            Date() // Retorna la fecha actual si el formato es inválido
+        }
     }
 
     fun saveGame() {
         viewModelScope.launch {
             try {
-                if (checkGame()) {
-                    val ownerId = useCase.getRegisteredUser().id
+                if (true) {
 
-                    val isGameSaved = gamesUseCase.saveGameToBackend(
-                        gameId,
-                        ownerId,
-                        gameName,
-                        playerList,
-                        eventDate,
-                        numPlayers,
-                        maxPrice,
-                        incompatibilities
-                    )
+                    val isGameSaved = gamesUseCase.createGame(gameId)
 
                     _isGameSavedSuccess.value = isGameSaved
                 }
@@ -243,3 +279,12 @@ class CreateGameViewModel @Inject constructor(
     }
 
 }
+
+/*    private fun checkEventDate(): Boolean {
+        if (eventDate.isEmpty()) {
+            _insufficientDataMessage.value = "La fecha del evento es obligatoria"
+            return false
+        }
+
+        return true
+    }*/

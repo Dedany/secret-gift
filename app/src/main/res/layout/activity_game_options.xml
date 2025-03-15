@@ -90,34 +90,18 @@
                 android:hint="DD/MM/YYYY"
                 android:inputType="date" />
 
-            <TextView
-                style="@style/custom_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/cursive_serif_book"
-                android:text="@string/players_number"
-                android:textSize="20sp"
-                />
-
-            <EditText
-                android:id="@+id/editText_players_options"
-                style="@style/custom_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="E.g.: 5"
-                android:inputType="number" />
 
             <TextView
                 style="@style/custom_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/cursive_serif_book"
-                android:text="@string/max_cost"
+                android:text="@string/min_cost"
                 android:textSize="20sp"
                  />
 
             <EditText
-                android:id="@+id/editText_maxPrice_options"
+                android:id="@+id/editText_minPrice_options"
                 style="@style/custom_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -134,7 +118,7 @@
                  />
 
             <EditText
-                android:id="@+id/editText_minPrice_options"
+                android:id="@+id/editText_maxPrice_options"
                 style="@style/custom_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

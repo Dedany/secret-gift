@@ -3,6 +3,7 @@ package com.dedany.secretgift.data.dataSources.users.local.preferences
 import android.content.SharedPreferences
 import javax.inject.Inject
 
+private const val USER_NAME = "userName"
 private const val USER_EMAIL = "userEmail"
 private const val USER_ID = "userId"  // Nueva clave para el ID del usuario
 
@@ -20,6 +21,12 @@ class UserPreferences @Inject constructor(
         sharedPreferences.edit()?.putString(USER_EMAIL, userEmail)?.apply()
     }
 
+    fun getUserName(): String {
+        return sharedPreferences.getString(USER_NAME, "").orEmpty()
+    }
+    fun setUserName(userName: String) {
+        sharedPreferences.edit()?.putString(USER_NAME, userName)?.apply()
+    }
 
     fun getUserId(): String {
         return sharedPreferences.getString(USER_ID, "").orEmpty()

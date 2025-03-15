@@ -66,14 +66,7 @@ class GameRemoteDataSourceImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun saveGame(game: SaveGameDto): Boolean {
-        val response = gamesApi.saveGame(game)
-        return if (response.isSuccessful) {
-            true
-        } else {
-            throw Exception("Error guardando el juego: ${response.errorBody()?.string()}")
-        }
-    }
+
 
 }
 
