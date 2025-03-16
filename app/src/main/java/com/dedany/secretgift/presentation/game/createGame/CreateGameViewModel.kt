@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.Player
+import com.dedany.secretgift.domain.entities.Rule
 import com.dedany.secretgift.domain.usecases.games.GamesUseCase
 import com.dedany.secretgift.domain.usecases.users.UsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -56,7 +57,7 @@ class CreateGameViewModel @Inject constructor(
     private var eventDate: Date = Date()
     private var maxPrice: Int = 0
     private var minPrice: Int = 0
-    private var incompatibilities: List<Pair<String, String>> = emptyList()
+    private var rules: List<Rule> = listOf()
 
 
     fun addCreatingUserToPlayers() {
@@ -176,7 +177,8 @@ class CreateGameViewModel @Inject constructor(
                 players = playerList,
                 maxCost = maxPrice,
                 minCost = minPrice,
-                gameDate = eventDate
+                gameDate = eventDate,
+                rules = rules
             )
 
             val result = gamesUseCase.updateLocalGame(updatedGame)
@@ -228,13 +230,13 @@ class CreateGameViewModel @Inject constructor(
         eventDate: String,
         maxPrice: String,
         minPrice: String,
-        incompatibilities: List<Pair<String, String>>
+        rules : List<Rule>
     ) {
 
         this.eventDate = parseDate(eventDate)
         this.maxPrice = maxPrice.toIntOrNull() ?: 0
         this.minPrice = minPrice.toIntOrNull() ?: 0
-        this.incompatibilities = incompatibilities
+        this.rules = rules
 
         Log.d(
             "CreateGameViewModel",

@@ -15,6 +15,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityCreateGameBinding
+import com.dedany.secretgift.domain.entities.Rule
 import com.dedany.secretgift.presentation.main.MainActivity
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.textfield.TextInputEditText
@@ -33,15 +34,14 @@ class CreateGameActivity : AppCompatActivity() {
                 val eventDate = result.data?.getStringExtra("EVENT_DATE")
                 val maxPrice = result.data?.getStringExtra("MAX_PRICE")
                 val minPrice = result.data?.getStringExtra("MIN_PRICE")
-                val incompatibilities: List<Pair<String, String>>? =
-                    result.data?.getSerializableExtra("INCOMPATIBILITIES") as? List<Pair<String, String>>
+                val rules: List<Rule> = result.data?.getSerializableExtra("RULES") as? List<Rule> ?: emptyList()
 
                 // Pasar los valores al ViewModel
                 viewModel?.setGameSettings(
                     eventDate ?: "",
                     maxPrice ?: "",
                     minPrice ?: "",
-                    incompatibilities ?: emptyList()
+                    rules
                 )
                 viewModel?.createOrUpdateGame()
             }

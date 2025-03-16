@@ -59,10 +59,14 @@ class GameSettingsActivity : AppCompatActivity() {
             val minPrice = binding.editTextMinPriceOptions.text.toString()
             val incompatibilities = getIncompatibilities()
 
+            val rules = incompatibilities.map { Rule(it.first, it.second) }
+            gameSettingsViewModel.setRules(rules)
+
             val intent = Intent(this, CreateGameActivity::class.java)
             intent.putExtra("EVENT_DATE", eventDate)
             intent.putExtra("MAX_PRICE", maxPrice)
             intent.putExtra("MIN_PRICE", minPrice)
+            intent.putExtra("RULES", ArrayList(rules))
             //rules
 
             setResult(RESULT_OK, intent)

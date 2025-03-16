@@ -8,9 +8,6 @@ import com.dedany.secretgift.domain.entities.Rule
 class GameSettingsViewModel : ViewModel() {
 
 
-    private val _incompatibilities = MutableLiveData<List<Pair<String, String>>>()
-    val incompatibilities: LiveData<List<Pair<String, String>>> = _incompatibilities
-
     private val _rules = MutableLiveData<List<Rule>>(listOf())
     val rules: LiveData<List<Rule>> = _rules
 
@@ -24,6 +21,8 @@ class GameSettingsViewModel : ViewModel() {
         rules.removeAt(position)
         _rules.value = rules
     }
-
+    fun setRules(newRules: List<Rule>) {
+        _rules.value = newRules
+    }
 
 }
