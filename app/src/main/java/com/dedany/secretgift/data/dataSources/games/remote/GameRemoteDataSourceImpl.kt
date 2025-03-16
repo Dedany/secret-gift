@@ -4,7 +4,8 @@ import com.dedany.secretgift.data.dataSources.errorHandler.ErrorDto
 import com.dedany.secretgift.data.dataSources.games.remote.api.SecretGiftApi
 import com.dedany.secretgift.data.dataSources.games.remote.dto.CreateGameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameDto
-import com.dedany.secretgift.data.dataSources.games.remote.dto.SaveGameDto
+import com.dedany.secretgift.data.dataSources.games.remote.dto.GameSummaryDto
+import com.dedany.secretgift.data.dataSources.games.remote.dto.OwnedGamesSummaryDataDto
 import com.dedany.secretgift.data.dataSources.users.local.preferences.UserPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -32,7 +33,7 @@ class GameRemoteDataSourceImpl @Inject constructor(
     }
 
 
-    override suspend fun getGamesByUser(): List<GameDto> {
+    override suspend fun getGamesByUser(): List<GameSummaryDto> {
 
         val userId = userPreferences.getUserId()
 

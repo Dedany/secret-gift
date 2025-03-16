@@ -3,6 +3,7 @@ package com.dedany.secretgift.domain.usecases.games
 import com.dedany.secretgift.domain.entities.CreateGame
 import com.dedany.secretgift.domain.entities.CreatePlayer
 import com.dedany.secretgift.domain.entities.Game
+import com.dedany.secretgift.domain.entities.GameSummary
 import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.Player
 import com.dedany.secretgift.domain.entities.Rule
@@ -27,7 +28,7 @@ class GamesUseCaseImpl @Inject constructor(
     }
 
 
-    override suspend fun getGamesByUser(): List<Game> {
+    override suspend fun getGamesByUser(): List<GameSummary> {
         val games = repository.getGamesByUser()
         return games
     }

@@ -2,12 +2,13 @@ package com.dedany.secretgift.domain.usecases.games
 
 import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.Game
+import com.dedany.secretgift.domain.entities.GameSummary
 import com.dedany.secretgift.domain.entities.Player
 
 interface GamesUseCase {
     suspend fun getGame(gameCode: String): Game
     suspend fun getLocalGame(gameId: Int): LocalGame
-    suspend fun getGamesByUser(): List<Game>
+    suspend fun getGamesByUser(): List<GameSummary>
     suspend fun getLocalGamesById(id: Int): LocalGame
     suspend fun deleteLocalGame(game: LocalGame)
     suspend fun createLocalGame(game: LocalGame): Long

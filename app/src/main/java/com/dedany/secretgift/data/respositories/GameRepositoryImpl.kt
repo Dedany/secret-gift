@@ -10,14 +10,14 @@ import com.dedany.secretgift.data.dataSources.games.remote.dto.CreateGameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.CreatePlayerDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameRuleDto
+import com.dedany.secretgift.data.dataSources.games.remote.dto.GameSummaryDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.PlayerDto
-import com.dedany.secretgift.data.dataSources.games.remote.dto.SaveGameDto
-import com.dedany.secretgift.data.dataSources.games.remote.dto.SavePlayerDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.UserRegisteredDto
 import com.dedany.secretgift.data.dataSources.users.local.preferences.UserPreferences
 import com.dedany.secretgift.domain.entities.CreateGame
 import com.dedany.secretgift.domain.entities.CreatePlayer
 import com.dedany.secretgift.domain.entities.Game
+import com.dedany.secretgift.domain.entities.GameSummary
 import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.Player
 import com.dedany.secretgift.domain.entities.Rule
@@ -80,15 +80,14 @@ class GameRepositoryImpl @Inject constructor(
     }
 
 
-
-    override suspend fun getGamesByUser(): List<Game> {
+    override suspend fun getGamesByUser(): List<GameSummary> {
         return withContext(Dispatchers.IO) {
             try {
-                val gamesDto = remoteDataSource.getGamesByUser()
-                return@withContext gamesDto.map { it.toDomain() }
+                val gamesSummaryDto = remoteDataSource.getGamesByUser()
+                return@withContext gamesSummaryDto.map { it.toDomain() }
             } catch (e: Exception) {
                 Log.e("getGamesByUser", "Error obteniendo juegos: ${e.message}")
-                return@withContext emptyList<Game>()
+                return@withContext emptyList<GameSummary>()
             }
         }
     }
@@ -114,7 +113,7 @@ class GameRepositoryImpl @Inject constructor(
         return localDataSource.createGame(game.toDbo())
     }
 
-    override suspend fun updateLocalGame(game: LocalGame) : Int{
+    override suspend fun updateLocalGame(game: LocalGame): Int {
         return localDataSource.updateGame(game.toDbo())
     }
 
@@ -122,9 +121,6 @@ class GameRepositoryImpl @Inject constructor(
         val gameDto = game.toDto()
         return remoteDataSource.createGame(gameDto)
     }
-
-
-
 
 
     override suspend fun updateGame(game: Game) {
@@ -199,9 +195,6 @@ class GameRepositoryImpl @Inject constructor(
     }
 
 
-
-
-
     private fun PlayerDbo.toDomain(): Player {
         return Player(
             name = this.name,
@@ -258,7 +251,7 @@ class GameRepositoryImpl @Inject constructor(
             rules = this.rules.map { it.toDto() },
 
 
-        )
+            )
     }
 
     private fun CreatePlayer.toDto(): CreatePlayerDto {
@@ -268,6 +261,7 @@ class GameRepositoryImpl @Inject constructor(
             linkedTo = this.linkedTo
         )
     }
+
     private fun String.toDate(): Date? {
         return try {
             val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -277,7 +271,15 @@ class GameRepositoryImpl @Inject constructor(
         }
     }
 
-
-        }
+    private fun GameSummaryDto.toDomain(): GameSummary {
+        return GameSummary(
+            id = this.id,
+            name = this.name,
+            status = this.status,
+            accessCode = this.accessCode,
+            date = this.gameDate
+        )
+    }
+}
 
 

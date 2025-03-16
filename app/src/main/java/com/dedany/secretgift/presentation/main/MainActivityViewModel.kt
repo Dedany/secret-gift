@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dedany.secretgift.domain.entities.Game
+import com.dedany.secretgift.domain.entities.GameSummary
 import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.User
 import com.dedany.secretgift.domain.usecases.games.GamesUseCase
@@ -21,8 +22,8 @@ class MainActivityViewModel @Inject constructor(
     private val usersUseCase: UsersUseCase
 ) : ViewModel() {
 
-    private val _games: MutableLiveData<List<Game>?> = MutableLiveData()
-    val games: LiveData<List<Game>?> = _games
+    private val _games: MutableLiveData<List<GameSummary>?> = MutableLiveData()
+    val games: LiveData<List<GameSummary>?> = _games
 
     private val _localGames: MutableLiveData<List<LocalGame>?> = MutableLiveData()
     val localGames: LiveData<List<LocalGame>?> = _localGames

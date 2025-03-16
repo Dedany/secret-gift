@@ -3,7 +3,7 @@ package com.dedany.secretgift.data.dataSources.games.remote.api
 import com.dedany.secretgift.data.dataSources.games.remote.dto.CreateGameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GamesDataDto
-import com.dedany.secretgift.data.dataSources.games.remote.dto.SaveGameDto
+import com.dedany.secretgift.data.dataSources.games.remote.dto.OwnedGamesSummaryDataDto
 
 
 import retrofit2.Response
@@ -15,8 +15,8 @@ import retrofit2.http.Path
 
 interface SecretGiftApi {
 
-    @GET("user/rooms/{user_id}")
-    suspend fun getGamesByUser(@Path("user_id") userId: String): Response<GamesDataDto>
+    @GET("user/owned/{user_id}")
+    suspend fun getGamesByUser(@Path("user_id") userId: String): Response<OwnedGamesSummaryDataDto>
 
     @GET("room/")
     suspend fun getGameByAccessCode(@Query("accessCode") accessCode: String): Response<GameDto>

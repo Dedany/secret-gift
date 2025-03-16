@@ -16,7 +16,6 @@ import com.dedany.secretgift.databinding.FragmentMainBinding
 import com.dedany.secretgift.domain.entities.Game
 import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.User
-import com.dedany.secretgift.presentation.details.DetailsMainActivity
 import com.dedany.secretgift.presentation.game.createGame.CreateGameActivity
 import com.dedany.secretgift.presentation.game.viewGame.ViewGameActivity
 import com.dedany.secretgift.presentation.helpers.Constants
@@ -83,7 +82,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun setUpAdapters() {
         localGamesAdapter = LocalGamesAdapter(
             onGameClick = { game, position ->
-                openGameDetails(game, position)
+                openLocalGameDetails(game, position)
             },
             onGameDelete = { game, _ ->
                 //viewModel?.deleteLocalGame(game)
@@ -119,7 +118,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
     }
 
-    private fun openGameDetails(game: LocalGame, position: Int) {
+    private fun openLocalGameDetails(game: LocalGame, position: Int) {
         // Navegar a la pantalla de detalles del juego
         val intent = Intent(requireContext(), ViewGameActivity::class.java).apply {
             putExtra(Constants.KEY_GAME, game)
