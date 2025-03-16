@@ -15,6 +15,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityCreateGameBinding
+import com.dedany.secretgift.domain.entities.Rule
 import com.dedany.secretgift.presentation.main.MainActivity
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.textfield.TextInputEditText
@@ -33,15 +34,14 @@ class CreateGameActivity : AppCompatActivity() {
                 val eventDate = result.data?.getStringExtra("EVENT_DATE")
                 val maxPrice = result.data?.getStringExtra("MAX_PRICE")
                 val minPrice = result.data?.getStringExtra("MIN_PRICE")
-                val incompatibilities: List<Pair<String, String>>? =
-                    result.data?.getSerializableExtra("INCOMPATIBILITIES") as? List<Pair<String, String>>
+                val rules: List<Rule> = result.data?.getSerializableExtra("RULES") as? List<Rule> ?: emptyList()
 
                 // Pasar los valores al ViewModel
                 viewModel?.setGameSettings(
                     eventDate ?: "",
                     maxPrice ?: "",
                     minPrice ?: "",
-                    incompatibilities ?: emptyList()
+                    rules
                 )
                 viewModel?.createOrUpdateGame()
             }
@@ -98,6 +98,13 @@ class CreateGameActivity : AppCompatActivity() {
             }
         }
 
+        viewModel?.emailDataMessage?.observe(this) { message ->
+            if (message.isNotEmpty()) {
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+            }
+
+        }
+
         viewModel?.players?.observe(this) { players ->
             playerAdapter?.submitList(players)
         }
@@ -127,6 +134,7 @@ class CreateGameActivity : AppCompatActivity() {
             val intent = Intent(this, GameSettingsActivity::class.java)
             settingsActivityResultLauncher.launch(intent)
         }
+
         binding?.btnAdd?.setOnClickListener {
             val dialog = Dialog(this)
             dialog.setContentView(R.layout.register_game_player)
@@ -137,20 +145,29 @@ class CreateGameActivity : AppCompatActivity() {
             val nameEditText = dialog.findViewById<TextInputEditText>(R.id.name_edit_text)
             val emailEditText = dialog.findViewById<TextInputEditText>(R.id.email_edit_text)
 
-
             btnConfirm.setOnClickListener {
-                val name = nameEditText.text.toString()
-                val email = emailEditText.text.toString()
+                val name = nameEditText.text.toString().trim()
+                val email = emailEditText.text.toString().trim()
 
                 if (name.isNotEmpty() && email.isNotEmpty()) {
+                    if (viewModel?.validateEmail(email) == true) {
+                        val existingPlayers = viewModel?.players?.value ?: emptyList()
+                        val emailExists = existingPlayers.any { it.email == email }
 
-                    viewModel?.addPlayer(name, email)
-                    dialog.dismiss()
+                        if (emailExists) {
+                            Toast.makeText(this, "El email ya está registrado", Toast.LENGTH_SHORT)
+                                .show()
+                        } else {
+                            viewModel?.addPlayer(name, email)
+                            dialog.dismiss()
+                        }
+                    }
                 } else {
                     Toast.makeText(this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT)
                         .show()
                 }
             }
+
 
             btnCancel.setOnClickListener {
                 dialog.dismiss()

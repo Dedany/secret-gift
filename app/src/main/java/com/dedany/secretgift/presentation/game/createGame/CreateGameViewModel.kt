@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.Player
+import com.dedany.secretgift.domain.entities.Rule
 import com.dedany.secretgift.domain.usecases.games.GamesUseCase
 import com.dedany.secretgift.domain.usecases.users.UsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -40,6 +41,9 @@ class CreateGameViewModel @Inject constructor(
     private var _insufficientDataMessage: MutableLiveData<String> = MutableLiveData("")
     val insufficientDataMessage: LiveData<String> = _insufficientDataMessage
 
+    private var _emailDataMessage: MutableLiveData<String> = MutableLiveData("")
+    val emailDataMessage: LiveData<String> = _emailDataMessage
+
     private var _player: MutableLiveData<List<Player>> = MutableLiveData()
     val player: LiveData<List<Player>> = _player
     private var _players: MutableLiveData<List<Player>> = MutableLiveData(listOf())
@@ -53,7 +57,7 @@ class CreateGameViewModel @Inject constructor(
     private var eventDate: Date = Date()
     private var maxPrice: Int = 0
     private var minPrice: Int = 0
-    private var incompatibilities: List<Pair<String, String>> = emptyList()
+    private var rules: List<Rule> = listOf()
 
 
     fun addCreatingUserToPlayers() {
@@ -166,7 +170,6 @@ class CreateGameViewModel @Inject constructor(
         viewModelScope.launch {
             val ownerId = useCase.getRegisteredUser().id
 
-            // Asegúrate de que maxCost, minCost y gameDate tengan valores válidos
             val updatedGame = LocalGame(
                 id = gameId,
                 ownerId = ownerId,
@@ -174,7 +177,8 @@ class CreateGameViewModel @Inject constructor(
                 players = playerList,
                 maxCost = maxPrice,
                 minCost = minPrice,
-                gameDate = eventDate
+                gameDate = eventDate,
+                rules = rules
             )
 
             val result = gamesUseCase.updateLocalGame(updatedGame)
@@ -226,13 +230,13 @@ class CreateGameViewModel @Inject constructor(
         eventDate: String,
         maxPrice: String,
         minPrice: String,
-        incompatibilities: List<Pair<String, String>>
+        rules : List<Rule>
     ) {
 
         this.eventDate = parseDate(eventDate)
         this.maxPrice = maxPrice.toIntOrNull() ?: 0
         this.minPrice = minPrice.toIntOrNull() ?: 0
-        this.incompatibilities = incompatibilities
+        this.rules = rules
 
         Log.d(
             "CreateGameViewModel",
@@ -278,6 +282,23 @@ class CreateGameViewModel @Inject constructor(
         }
     }
 
+    fun validateEmail(email: String): Boolean {
+        if (email.isEmpty()) {
+            _emailDataMessage.value = "El correo electrónico no puede estar vacío"
+            return false
+        }
+
+        if (!isValidEmail(email)) {
+            _emailDataMessage.value = "Por favor, ingresa un correo electrónico válido"
+            return false
+        }
+
+        return true
+    }
+
+    private fun isValidEmail(email: String): Boolean {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
 }
 
 /*    private fun checkEventDate(): Boolean {

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".App"
@@ -16,6 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SecretGift"
         tools:targetApi="31">
+        <activity
+            android:name=".presentation.splash.SplashActivity"
+            android:exported="true" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/admob_banner_id" />
@@ -23,35 +32,24 @@
         <activity
             android:name=".presentation.register.RegisterActivity"
             android:exported="true" />
-
         <activity
             android:name=".presentation.game.viewGame.ViewGameActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".presentation.login.LoginActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
+            android:exported="true"/>
         <activity
             android:name=".presentation.game.createGame.CreateGameActivity"
             android:exported="true" />
-
         <activity
             android:name=".presentation.main.MainActivity"
             android:exported="true" />
-
         <activity
             android:name=".presentation.game.createGame.GameSettingsActivity"
             android:exported="true" />
-
         <activity
             android:name=".presentation.details.DetailsMainActivity"
             android:exported="true" />
-
     </application>
 
 </manifest>

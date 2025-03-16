@@ -11,7 +11,6 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import okhttp3.ResponseBody
 import java.lang.reflect.Type
-
 import javax.inject.Inject
 
 class GameRemoteDataSourceImpl @Inject constructor(
@@ -19,16 +18,15 @@ class GameRemoteDataSourceImpl @Inject constructor(
     private val userPreferences: UserPreferences
 ):GameRemoteDataSource {
     override suspend fun getGame(gameCode: String): GameDto {
-       val response = gamesApi.getGameByAccessCode(gameCode)
+        val response = gamesApi.getGameByAccessCode(gameCode)
         if (response.isSuccessful) {
             return response.body()!!
-        }
-      else {
+        } else {
             val bodyError: ResponseBody? = response.errorBody()
             val type: Type = object : TypeToken<ErrorDto>() {}.type
             val errorDto: ErrorDto = Gson().fromJson(bodyError?.string(), type)
             throw errorDto
-      }
+        }
 
     }
 
@@ -49,8 +47,8 @@ class GameRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun createGame(game: CreateGameDto):Boolean {
-       val response = gamesApi.createGame(game)
+    override suspend fun createGame(game: CreateGameDto): Boolean {
+        val response = gamesApi.createGame(game)
         if (response.isSuccessful) {
             return true
         } else {
@@ -66,7 +64,6 @@ class GameRemoteDataSourceImpl @Inject constructor(
     override suspend fun updateGame(game: GameDto) {
         TODO("Not yet implemented")
     }
-
 
 
 }

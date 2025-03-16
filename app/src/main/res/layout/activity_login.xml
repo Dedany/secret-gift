@@ -111,6 +111,7 @@
         ads:adUnitId="@string/admob_banner_ad_id"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="@dimen/activity_ads_margin"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

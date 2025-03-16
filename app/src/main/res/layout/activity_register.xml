@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/register_main"
     android:layout_width="match_parent"
@@ -23,16 +23,15 @@
             style="@style/custom_back_image"
             android:layout_marginHorizontal="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_register"
             style="@style/custom_text_view"
-              android:fontFamily="@font/cursive_serif_book"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/activity_button_margin_right"
+            android:fontFamily="@font/cursive_serif_book"
             android:text="Registro de Usuario"
 
             />
@@ -127,12 +126,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/confirm_password_layout" />
 
+
     <TextView
         android:id="@+id/tv_checkbox_error"
-android:layout_marginEnd="48dp"
-        android:layout_marginStart="80dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="48dp"
         android:textColor="@color/errorColor"
         android:textSize="12dp"
         app:layout_constraintEnd_toEndOf="parent"

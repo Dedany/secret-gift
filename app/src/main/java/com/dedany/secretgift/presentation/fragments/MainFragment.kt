@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.FragmentMainBinding
@@ -69,6 +68,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         viewModel?.loadLocalGames()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel?.loadLocalGames()
+        viewModel?.loadGames()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -85,19 +90,31 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 openLocalGameDetails(game, position)
             },
             onGameDelete = { game, _ ->
+                viewModel?.deleteLocalGame(game)
+            }
+        )
+
+        gamesAdapter = GamesAdapter(
+            onGameClick = { game, position ->
+                openApiGameDetails(game, position)
+            },
+            onGameDelete = { game, _ ->
                 //viewModel?.deleteLocalGame(game)
             }
         )
 
+
         binding?.recyclerViewMain?.adapter = localGamesAdapter
         binding?.recyclerViewMain?.layoutManager = LinearLayoutManager(requireContext())
+        binding?.recyclerViewMainApiGames?.adapter = gamesAdapter
+        binding?.recyclerViewMainApiGames?.layoutManager = LinearLayoutManager(requireContext())
     }
 
     private fun setUpObservers() {
-        // Observar los juegos cargados en el ViewModel
-        //viewModel?.games?.observe(viewLifecycleOwner) { games ->
-          //  gamesAdapter?.submitList(games)
-        //}
+
+        viewModel?.games?.observe(viewLifecycleOwner) { games ->
+            gamesAdapter?.submitList(games)
+        }
 
         viewModel?.localGames?.observe(viewLifecycleOwner) { localGames ->
             localGamesAdapter?.submitList(localGames)
@@ -106,7 +123,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun setUpListeners() {
         binding?.buttonCreateEvent?.setOnClickListener {
-            // Navegar a la pantalla de crear juego
             val intent = Intent(requireContext(), CreateGameActivity::class.java)
             startActivity(intent)
         }
@@ -118,8 +134,16 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
     }
 
+
     private fun openLocalGameDetails(game: LocalGame, position: Int) {
-        // Navegar a la pantalla de detalles del juego
+        val intent = Intent(requireContext(), ViewGameActivity::class.java).apply {
+            putExtra(Constants.KEY_GAME, game)
+            putExtra(Constants.KEY_GAME_POSITION, position)
+        }
+        resultLauncher.launch(intent)
+    }
+
+    private fun openApiGameDetails(game: Game, position: Int) {
         val intent = Intent(requireContext(), ViewGameActivity::class.java).apply {
             putExtra(Constants.KEY_GAME, game)
             putExtra(Constants.KEY_GAME_POSITION, position)

@@ -19,7 +19,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainActivityViewModel by viewModels()
-
     private lateinit var mainFragment: MainFragment
     private lateinit var profileFragment: ProfileFragment
 
@@ -35,13 +34,15 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             viewModel.loadUser()
             viewModel.loadLocalGames()
+            viewModel.loadGames()
         } else {
-            restoreFragments() // Si la actividad se recrea, restauramos los fragmentos
+            restoreFragments()
         }
 
         setupBottomNavigation()
 
     }
+
 
     private fun observeViewModel() {
         viewModel.user.observe(this) { user ->
@@ -61,10 +62,11 @@ class MainActivity : AppCompatActivity() {
                 arguments = Bundle().apply { putSerializable("user", user) }
             }
 
-        profileFragment = supportFragmentManager.findFragmentByTag("ProfileFragment") as? ProfileFragment
-            ?: ProfileFragment().apply {
-                arguments = Bundle().apply { putSerializable("user", user) }
-            }
+        profileFragment =
+            supportFragmentManager.findFragmentByTag("ProfileFragment") as? ProfileFragment
+                ?: ProfileFragment().apply {
+                    arguments = Bundle().apply { putSerializable("user", user) }
+                }
 
         // Añadimos los fragmentos solo si no existen ya
         if (!mainFragment.isAdded) {
@@ -84,8 +86,9 @@ class MainActivity : AppCompatActivity() {
     private fun restoreFragments() {
         mainFragment = supportFragmentManager.findFragmentByTag("MainFragment") as? MainFragment
             ?: MainFragment()
-        profileFragment = supportFragmentManager.findFragmentByTag("ProfileFragment") as? ProfileFragment
-            ?: ProfileFragment()
+        profileFragment =
+            supportFragmentManager.findFragmentByTag("ProfileFragment") as? ProfileFragment
+                ?: ProfileFragment()
     }
 
     private fun setupBottomNavigation() {
@@ -95,10 +98,12 @@ class MainActivity : AppCompatActivity() {
                     showFragment(mainFragment)
                     true
                 }
+
                 R.id.navigation_profile -> {
                     showFragment(profileFragment)
                     true
                 }
+
                 else -> false
             }
         }

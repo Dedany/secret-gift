@@ -9,9 +9,9 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="#00ffffff"
         app:layout_constraintBottom_toTopOf="@id/btn_game_settings"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="#00ffffff">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
@@ -24,9 +24,8 @@
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                app:layout_scrollFlags="scroll|snap"
-                android:background="#00ffffff">
-
+                android:background="#00ffffff"
+                app:layout_scrollFlags="scroll|snap">
 
 
                 <TextView
@@ -34,8 +33,8 @@
                     style="@style/custom_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                      android:fontFamily="@font/cursive_serif_bold"
                     android:layout_marginTop="@dimen/activity_top_margin"
+                    android:fontFamily="@font/cursive_serif_bold"
                     android:text="SecretGift" />
 
                 <ImageView
@@ -54,8 +53,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="64dp"
                     android:layout_marginTop="102dp"
+                    android:fontFamily="@font/cursive_serif_book"
                     android:text="Nombre de la Sala:"
-                      android:fontFamily="@font/cursive_serif_book"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_secretgift" />
@@ -92,13 +91,13 @@
                 style="@style/custom_text_view"
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/cursive_serif_book"
                 android:text="@string/add_player"
                 android:textSize="20sp"
-                  android:fontFamily="@font/cursive_serif_book"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/app_bar"
-                android:visibility="gone"
                 tools:ignore="NotSibling" />
 
             <ImageView
@@ -107,23 +106,23 @@
                 android:layout_height="48dp"
                 android:contentDescription="Añadir participantes"
                 android:src="@drawable/icon_add"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_add_people"
-                android:visibility="gone"/>
+                app:layout_constraintTop_toBottomOf="@id/tv_add_people" />
 
 
             <androidx.recyclerview.widget.RecyclerView
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginTop="32dp"
                 android:paddingHorizontal="24dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btn_add"
-                app:layout_constraintBottom_toBottomOf="parent"
                 tools:listitem="@layout/item_element_list" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

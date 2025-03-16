@@ -1,6 +1,7 @@
 package com.dedany.secretgift.presentation.game.viewGame
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.SystemBarStyle
@@ -15,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityViewGameBinding
 import com.dedany.secretgift.presentation.helpers.Constants
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -60,6 +63,7 @@ class ViewGameActivity : AppCompatActivity() {
         setAdapter()
         loadGame()
         setObservers()
+        initAd()
     }
 
     private fun setAdapter() {
@@ -115,6 +119,24 @@ class ViewGameActivity : AppCompatActivity() {
 
             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             binding?.tvGameDate?.text = dateFormat.format(gameData.gameDate)
+        }
+
+
+    }
+    fun initAd() {
+        //iniciar adMob
+        MobileAds.initialize(this) { initialAd ->
+            val statusMap = initialAd.adapterStatusMap
+            for ((adapter, satatus) in statusMap) {
+                Log.d("AdMob", "Adapter: $adapter Status: ${satatus.description}")
+            }
+        }
+        binding?.adView?.apply {
+            //asigna tamaño
+
+            // Carga el anuncio
+            val adRequest = AdRequest.Builder().setContentUrl("https://www.amazon.es")
+            loadAd(adRequest.build())
         }
 
 
