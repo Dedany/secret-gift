@@ -40,6 +40,9 @@ class CreateGameViewModel @Inject constructor(
     private var _insufficientDataMessage: MutableLiveData<String> = MutableLiveData("")
     val insufficientDataMessage: LiveData<String> = _insufficientDataMessage
 
+    private var _emailDataMessage: MutableLiveData<String> = MutableLiveData("")
+    val emailDataMessage: LiveData<String> = _emailDataMessage
+
     private var _player: MutableLiveData<List<Player>> = MutableLiveData()
     val player: LiveData<List<Player>> = _player
     private var _players: MutableLiveData<List<Player>> = MutableLiveData(listOf())
@@ -277,6 +280,23 @@ class CreateGameViewModel @Inject constructor(
         }
     }
 
+    fun validateEmail(email: String): Boolean {
+        if (email.isEmpty()) {
+            _emailDataMessage.value = "El correo electrónico no puede estar vacío"
+            return false
+        }
+
+        if (!isValidEmail(email)) {
+            _emailDataMessage.value = "Por favor, ingresa un correo electrónico válido"
+            return false
+        }
+
+        return true
+    }
+
+    private fun isValidEmail(email: String): Boolean {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
 }
 
 /*    private fun checkEventDate(): Boolean {
