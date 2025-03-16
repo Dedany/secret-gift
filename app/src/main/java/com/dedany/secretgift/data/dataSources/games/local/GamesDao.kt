@@ -24,7 +24,7 @@ interface GamesDao {
     suspend fun getLocalGamesByUser(userId: String): List<GameDbo>
 
     @Delete
-    suspend fun deleteLocalGame(game: GameDbo)
+    suspend fun deleteGame(game: GameDbo)
 
     @Insert
     suspend fun createLocalGame(game: GameDbo): Long
