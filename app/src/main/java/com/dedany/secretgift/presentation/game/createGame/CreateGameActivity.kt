@@ -57,8 +57,12 @@ class CreateGameActivity : AppCompatActivity() {
         setContentView(binding?.root)
         val gameId = intent.getIntExtra(Constants.KEY_GAME_ID, -1)
         if (gameId != -1) {
-            viewModel!!.loadLocalGameById(gameId)
+            viewModel?.loadLocalGameById(gameId)
+            viewModel?.updateGame()
+        } else {
+            viewModel?.createOrUpdateGame()
         }
+
 
         // Configurar adaptadores
         setAdapters()

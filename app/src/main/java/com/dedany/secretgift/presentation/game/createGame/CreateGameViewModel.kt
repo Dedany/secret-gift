@@ -165,7 +165,7 @@ class CreateGameViewModel @Inject constructor(
     }
 
 
-    private fun createGame() {
+    fun createGame() {
         if (gameName.isNotEmpty() && gameName.length > 3 && checkMinimumPlayers()) {
             viewModelScope.launch {
                 val ownerId = useCase.getRegisteredUser().id
@@ -178,7 +178,7 @@ class CreateGameViewModel @Inject constructor(
         }
     }
 
-    private fun updateGame() {
+    fun updateGame() {
         viewModelScope.launch {
             val ownerId = useCase.getRegisteredUser().id
 
@@ -225,9 +225,18 @@ class CreateGameViewModel @Inject constructor(
         checkEventDate()
         return _isGameNameValid.value == true && checkMinimumPlayers() && checkEventDate()
     }
-    fun loadLocalGameById(id: Int){
+
+    fun loadLocalGameById(id: Int) {
         viewModelScope.launch {
             _localGame.value = gamesUseCase.getLocalGame(id)
+
+            val game = _localGame.value
+            if (game != null) {
+                gameId = game.id
+                playerList = game.players.toMutableList()
+            } else {
+                Log.e("UpdateGame", "No se encontró el juego con ID $id")
+            }
         }
     }
 
@@ -251,8 +260,8 @@ class CreateGameViewModel @Inject constructor(
         val newPlayer = Player(name = name, email = email)
         playerList.add(newPlayer)
         _players.value = playerList.toList()
-        createOrUpdateGame()
 
+        createOrUpdateGame()
     }
 
 

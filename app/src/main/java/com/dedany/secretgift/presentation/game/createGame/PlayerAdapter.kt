@@ -18,7 +18,7 @@ class PlayerAdapter(
 
     private var ownerEmail: String? = null
 
-    @SuppressLint("NotifyDataSetChanged")
+
     fun setOwnerEmail(ownerEmail: String) {
         this.ownerEmail = ownerEmail
         notifyDataSetChanged()
