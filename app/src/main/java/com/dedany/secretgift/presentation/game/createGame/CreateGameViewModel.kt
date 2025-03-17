@@ -217,12 +217,28 @@ class CreateGameViewModel @Inject constructor(
 
     //AÑADIR JUGADORES A LA LISTA
     fun addPlayer(name: String, email: String) {
+
+        val existingPlayers = _players.value ?: emptyList()
+
+        val nameExists = existingPlayers.any { it.name.equals(name, ignoreCase = true) }
+        val emailExists = existingPlayers.any { it.email == email }
+
+        if (nameExists) {
+            _emailDataMessage.value = "El nombre ya está registrado"
+            return
+        }
+        if (emailExists) {
+            _emailDataMessage.value = "El email ya está registrado"
+            return
+        }
+
         val newPlayer = Player(name = name, email = email)
         playerList.add(newPlayer)
         _players.value = playerList.toList()
         createOrUpdateGame()
 
     }
+
 
 
     // Métodos para almacenar y configurar los valores recibidos de GameSettingsViewModel

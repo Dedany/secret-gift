@@ -149,22 +149,39 @@ class CreateGameActivity : AppCompatActivity() {
                 val name = nameEditText.text.toString().trim()
                 val email = emailEditText.text.toString().trim()
 
-                if (name.isNotEmpty() && email.isNotEmpty()) {
-                    if (viewModel?.validateEmail(email) == true) {
-                        val existingPlayers = viewModel?.players?.value ?: emptyList()
-                        val emailExists = existingPlayers.any { it.email == email }
+                if (name.isEmpty() || email.isEmpty()) {
+                    Toast.makeText(this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT)
+                        .show()
+                    return@setOnClickListener
+                }
 
-                        if (emailExists) {
+                if (viewModel?.validateEmail(email) == true) {
+                    val existingPlayers = viewModel?.players?.value ?: emptyList()
+                    val nameExists = existingPlayers.any { it.name.equals(name, ignoreCase = true) }
+                    val emailExists = existingPlayers.any { it.email == email }
+
+                    when {
+                        nameExists -> {
+                            Toast.makeText(this, "El nombre ya está registrado", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+
+                        emailExists -> {
                             Toast.makeText(this, "El email ya está registrado", Toast.LENGTH_SHORT)
                                 .show()
-                        } else {
+                        }
+
+                        else -> {
                             viewModel?.addPlayer(name, email)
                             dialog.dismiss()
                         }
                     }
                 } else {
-                    Toast.makeText(this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(
+                        this,
+                        viewModel?.emailDataMessage?.value ?: "Email inválido",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
