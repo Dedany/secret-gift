@@ -100,7 +100,7 @@ class LoginActivity : AppCompatActivity() {
             btnConfirm.setOnClickListener {
                 val gameCode = inputCodeField.text.toString()
                 val intent = Intent(this, ViewGameActivity::class.java)
-                intent.apply{putExtra(Constants.KEY_GAME, gameCode)}
+                intent.apply{putExtra(Constants.KEY_ACCESS_CODE, gameCode)}
                 startActivity(intent)
                 dialog.dismiss()
             }

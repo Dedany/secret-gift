@@ -38,8 +38,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
                 RESULT_OK -> {
-                    if (result.data?.hasExtra(Constants.KEY_GAME) == true) {
-                        val game = result.data?.getCustomSerializable<Game>(Constants.KEY_GAME)
+                    if (result.data?.hasExtra(Constants.KEY_ACCESS_CODE) == true) {
+                        val game = result.data?.getCustomSerializable<Game>(Constants.KEY_ACCESS_CODE)
                         val position = result.data?.extras?.getInt(Constants.KEY_GAME_POSITION)
                         position?.let {
                             game?.let {
@@ -95,8 +95,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         )
 
         gamesAdapter = GamesAdapter(
-            onGameClick = { game, position ->
-                openApiGameDetails(game, position)
+            onGameClick = { accessCode ->
+                openApiGameDetails(accessCode)
             },
             onGameDelete = { game, _ ->
                 //viewModel?.deleteLocalGame(game)
@@ -136,17 +136,16 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
 
     private fun openLocalGameDetails(game: LocalGame, position: Int) {
-        val intent = Intent(requireContext(), ViewGameActivity::class.java).apply {
-            putExtra(Constants.KEY_GAME, game)
-            putExtra(Constants.KEY_GAME_POSITION, position)
-        }
-        resultLauncher.launch(intent)
+//        val intent = Intent(requireContext(), ViewGameActivity::class.java).apply {
+//            putExtra(Constants.KEY_GAME, game)
+//            putExtra(Constants.KEY_GAME_POSITION, position)
+//        }
+//        resultLauncher.launch(intent)
     }
 
-    private fun openApiGameDetails(game: Game, position: Int) {
+    private fun openApiGameDetails(accessCode: String) {
         val intent = Intent(requireContext(), ViewGameActivity::class.java).apply {
-            putExtra(Constants.KEY_GAME, game)
-            putExtra(Constants.KEY_GAME_POSITION, position)
+            putExtra(Constants.KEY_ACCESS_CODE, accessCode)
         }
         resultLauncher.launch(intent)
     }

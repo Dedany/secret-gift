@@ -2,7 +2,6 @@ package com.dedany.secretgift.presentation.game.viewGame
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
@@ -77,8 +76,8 @@ class ViewGameActivity : AppCompatActivity() {
 
     private fun loadGame() {
         val intent = intent
-        if (intent.hasExtra(Constants.KEY_GAME)) {
-            val gameCode = intent.getStringExtra(Constants.KEY_GAME)
+        if (intent.hasExtra(Constants.KEY_ACCESS_CODE)) {
+            val gameCode = intent.getStringExtra(Constants.KEY_ACCESS_CODE)
             if (gameCode != null) {
                 viewModel?.fetchGaMeData(gameCode)
             } else {

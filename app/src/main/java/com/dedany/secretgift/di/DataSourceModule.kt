@@ -27,9 +27,10 @@ object DataSourceModule {
     @Provides
     @Singleton
     fun provideGameRemoteDataSource(
-        secretGiftApi: SecretGiftApi
+        secretGiftApi: SecretGiftApi,
+        userPreferences: UserPreferences
     ): GameRemoteDataSource {
-        return GameRemoteDataSourceImpl(secretGiftApi)
+        return GameRemoteDataSourceImpl(secretGiftApi, userPreferences)
     }
 
     @Provides

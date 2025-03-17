@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.dedany.secretgift.databinding.ActivityDetailsMainBinding
 import com.dedany.secretgift.domain.entities.Game
@@ -30,8 +29,8 @@ class DetailsMainActivity : AppCompatActivity() {
 
 
     private fun getIntentData() {
-        if (intent.hasExtra(Constants.KEY_GAME)) {
-            (intent?.getCustomSerializable<Game>(Constants.KEY_GAME))?.let {
+        if (intent.hasExtra(Constants.KEY_ACCESS_CODE)) {
+            (intent?.getCustomSerializable<Game>(Constants.KEY_ACCESS_CODE))?.let {
                 viewModel?.setGameValue(it)
             }
         }
@@ -47,7 +46,7 @@ class DetailsMainActivity : AppCompatActivity() {
     private fun setUpListeners() {
         binding?.buttonSave?.setOnClickListener {
             intent.apply {
-                putExtra(Constants.KEY_GAME, viewModel?.game?.value)
+                putExtra(Constants.KEY_ACCESS_CODE, viewModel?.game?.value)
                 putExtra(Constants.KEY_GAME_POSITION, viewModel?.position?.value)
 
             }
