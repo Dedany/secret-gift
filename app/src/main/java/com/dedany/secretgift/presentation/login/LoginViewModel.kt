@@ -9,6 +9,7 @@ import com.dedany.secretgift.domain.usecases.auth.AuthUseCase
 import com.dedany.secretgift.domain.usecases.users.UsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 
@@ -36,7 +37,7 @@ class LoginViewModel @Inject constructor(
     private var code: String = ""
 
     fun setEmail(text: String) {
-        email = text
+        email = text.lowercase(Locale.getDefault()).trim()
         _canDoLogin.value = authUseCase.isLoginFormValid(email, password)
 
 
