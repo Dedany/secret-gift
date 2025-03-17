@@ -49,6 +49,9 @@ class CreateGameViewModel @Inject constructor(
     private var _players: MutableLiveData<List<Player>> = MutableLiveData(listOf())
     val players: LiveData<List<Player>> = _players
 
+    private val _localGame: MutableLiveData<LocalGame> = MutableLiveData()
+    val localGame: LiveData<LocalGame> = _localGame
+
 
     private val _ownerId = MutableLiveData<String>()
     val ownerId: LiveData<String> get() = _ownerId
@@ -222,7 +225,11 @@ class CreateGameViewModel @Inject constructor(
         checkEventDate()
         return _isGameNameValid.value == true && checkMinimumPlayers() && checkEventDate()
     }
-
+    fun loadLocalGameById(id: Int){
+        viewModelScope.launch {
+            _localGame.value = gamesUseCase.getLocalGame(id)
+        }
+    }
 
     //AÑADIR JUGADORES A LA LISTA
     fun addPlayer(name: String, email: String) {

@@ -18,7 +18,7 @@ interface GamesDao {
     suspend fun getGame(gameId: Int): GameDbo
 
     @Query("SELECT * FROM games WHERE id = :id LIMIT 1")
-    suspend fun getLocalGameById(id: Int): GameDbo?
+    suspend fun getLocalGameById(id: Int): GameDbo
 
     @Query("SELECT * FROM games WHERE ownerId = :userId")
     suspend fun getLocalGamesByUser(userId: String): List<GameDbo>

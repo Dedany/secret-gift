@@ -12,10 +12,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityCreateGameBinding
 import com.dedany.secretgift.domain.entities.Rule
+import com.dedany.secretgift.presentation.helpers.Constants
 import com.dedany.secretgift.presentation.main.MainActivity
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.textfield.TextInputEditText
@@ -53,17 +55,17 @@ class CreateGameActivity : AppCompatActivity() {
         binding = ActivityCreateGameBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[CreateGameViewModel::class.java]
         setContentView(binding?.root)
-        viewModel?.fetchOwnerEmail()
-        viewModel?.addCreatingUserToPlayers()
+        val gameId = intent.getIntExtra(Constants.KEY_GAME_ID, -1)
+        if (gameId != -1) {
+            viewModel!!.loadLocalGameById(gameId)
+        }
 
-
+        // Configurar adaptadores
         setAdapters()
         initObservers()
         initListeners()
         initAd()
-
     }
-
     private fun setAdapters() {
         playerAdapter = PlayerAdapter(
             onDeleteClick = { player ->
@@ -79,6 +81,15 @@ class CreateGameActivity : AppCompatActivity() {
 
 
     private fun initObservers() {
+
+        viewModel?.localGame?.observe(this, Observer { game ->
+            game?.let {
+                binding?.edNameRoom?.setText(it.name)
+                playerAdapter?.submitList(it.players)
+            }
+        })
+
+
         viewModel?.ownerId?.observe(this) { ownerId ->
             playerAdapter?.setOwnerEmail(ownerId)
         }

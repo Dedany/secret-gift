@@ -31,6 +31,7 @@ class MainActivityViewModel @Inject constructor(
     val user: LiveData<User> = _user
 
 
+
     fun loadGames() {
         viewModelScope.launch {
             _games.value = gamesUseCase.getGamesByUser()

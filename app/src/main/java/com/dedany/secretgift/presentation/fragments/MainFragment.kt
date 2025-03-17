@@ -87,8 +87,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun setUpAdapters() {
         localGamesAdapter = LocalGamesAdapter(
-            onGameClick = { game, position ->
-                openLocalGameDetails(game, position)
+            onGameClick = { game, _ ->
+                openLocalGameDetails(game.id)
             },
             onGameDelete = { game, _ ->
                 viewModel?.deleteLocalGame(game)
@@ -129,19 +129,17 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
 
         binding?.btnLogoutMain?.setOnClickListener {
-            // Cerrar sesión y navegar a la pantalla de inicio de sesión
             val intent = Intent(requireContext(), LoginActivity::class.java)
             startActivity(intent)
         }
     }
 
 
-    private fun openLocalGameDetails(game: LocalGame, position: Int) {
-//        val intent = Intent(requireContext(), ViewGameActivity::class.java).apply {
-//            putExtra(Constants.KEY_GAME, game)
-//            putExtra(Constants.KEY_GAME_POSITION, position)
-//        }
-//        resultLauncher.launch(intent)
+    private fun openLocalGameDetails(gameId: Int) {
+        val intent = Intent(requireContext(), CreateGameActivity::class.java).apply {
+            putExtra(Constants.KEY_GAME_ID, gameId)
+        }
+        resultLauncher.launch(intent)
     }
 
     private fun openApiGameDetails(accessCode: String) {
