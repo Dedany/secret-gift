@@ -1,6 +1,8 @@
 package com.dedany.secretgift.presentation.game.createGame
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -13,6 +15,14 @@ class PlayerAdapter(
     private val onDeleteClick: (Player) -> Unit,
     private val onEditClick: (Player) -> Unit
 ) : ListAdapter<Player, PlayerAdapter.PlayerViewHolder>(PlayerDiffCallback()) {
+
+    private var ownerEmail: String? = null
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setOwnerEmail(ownerEmail: String) {
+        this.ownerEmail = ownerEmail
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerViewHolder {
         val binding = ItemElementListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -29,9 +39,8 @@ class PlayerAdapter(
 
         fun bind(player: Player) {
 
-            val formattedName = FormatPlayerName(player.name)
-            Log.d("PlayerAdapter", "Formatted Name: $formattedName")
-            binding.tvName.text = formattedName
+            binding.tvName.text = player.name
+            binding.ibDelete.visibility = if (player.email == ownerEmail) View.GONE else View.VISIBLE
             binding.ibDelete.setOnClickListener { onDeleteClick(player) }
             binding.ibEdit.setOnClickListener { onEditClick(player) }
         }
@@ -49,13 +58,6 @@ class PlayerDiffCallback : DiffUtil.ItemCallback<Player>() {
 }
 
 
-    fun FormatPlayerName(playerName: String): String {
-        return if (playerName.contains(" ")) {
-            val words =playerName.split(" ")
-            "${words[0]}\n${words[1]}"
-        }else{
-            playerName
-        }
-    }
+
 
 

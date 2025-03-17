@@ -53,6 +53,7 @@ class CreateGameActivity : AppCompatActivity() {
         binding = ActivityCreateGameBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[CreateGameViewModel::class.java]
         setContentView(binding?.root)
+        viewModel?.fetchOwnerEmail()
         viewModel?.addCreatingUserToPlayers()
 
 
@@ -78,7 +79,9 @@ class CreateGameActivity : AppCompatActivity() {
 
 
     private fun initObservers() {
-
+        viewModel?.ownerId?.observe(this) { ownerId ->
+            playerAdapter?.setOwnerEmail(ownerId)
+        }
         viewModel?.isGameSavedSuccess?.observe(this) { isSuccess ->
             if (isSuccess) {
                 startActivity(Intent(this, MainActivity::class.java))

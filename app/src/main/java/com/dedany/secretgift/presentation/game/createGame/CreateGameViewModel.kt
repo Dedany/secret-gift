@@ -49,6 +49,10 @@ class CreateGameViewModel @Inject constructor(
     private var _players: MutableLiveData<List<Player>> = MutableLiveData(listOf())
     val players: LiveData<List<Player>> = _players
 
+
+    private val _ownerId = MutableLiveData<String>()
+    val ownerId: LiveData<String> get() = _ownerId
+
     private var gameName: String = ""
     private var gameId: Int = 0
     private var playerList = mutableListOf<Player>()
@@ -59,6 +63,11 @@ class CreateGameViewModel @Inject constructor(
     private var minPrice: Int = 0
     private var rules: List<Rule> = listOf()
 
+    fun fetchOwnerEmail() {
+        viewModelScope.launch {
+            _ownerId.value = useCase.getRegisteredUser().email
+        }
+    }
 
     fun addCreatingUserToPlayers() {
         viewModelScope.launch {
