@@ -7,7 +7,7 @@ import java.util.Date
 data class GameSummaryDto(
 
     var id: String,
-    @SerializedName("game_name")
+
     val name: String,
     @SerializedName("game_status")
     val status: String,

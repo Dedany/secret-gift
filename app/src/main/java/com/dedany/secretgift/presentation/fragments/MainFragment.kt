@@ -66,6 +66,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         setUpListeners()
 
         viewModel?.loadLocalGames()
+        viewModel?.loadGames()
     }
 
     override fun onResume() {
