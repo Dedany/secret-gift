@@ -105,8 +105,8 @@ class GameRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteLocalGame(game: LocalGame) {
-        localDataSource.deleteGame(game.toDbo())
+    override suspend fun deleteLocalGame(gameId: Int):Boolean {
+       return localDataSource.deleteGame(gameId)
     }
 
     override suspend fun createLocalGame(game: LocalGame): Long {

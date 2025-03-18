@@ -10,7 +10,7 @@ interface GamesUseCase {
     suspend fun getLocalGame(gameId: Int): LocalGame
     suspend fun getGamesByUser(): List<GameSummary>
     suspend fun getLocalGamesById(id: Int): LocalGame
-    suspend fun deleteLocalGame(game: LocalGame)
+    suspend fun deleteLocalGame(gameId:Int): Boolean
     suspend fun createLocalGame(game: LocalGame): Long
     suspend fun updateLocalGame(game: LocalGame) : Int
     suspend fun createGame(gameId: Int): Boolean
