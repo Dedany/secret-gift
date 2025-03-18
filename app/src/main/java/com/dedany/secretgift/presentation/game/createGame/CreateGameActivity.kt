@@ -63,8 +63,7 @@ class CreateGameActivity : AppCompatActivity() {
         binding = ActivityCreateGameBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[CreateGameViewModel::class.java]
         setContentView(binding?.root)
-        viewModel?.fetchOwnerEmail()
-        viewModel?.addCreatingUserToPlayers()
+
 
         val gameId = intent.getIntExtra(Constants.KEY_GAME_ID, -1)
 
@@ -278,5 +277,5 @@ class CreateGameActivity : AppCompatActivity() {
              val adRequest = AdRequest.Builder().setContentUrl("https://www.amazon.es")
              loadAd(adRequest.build())
          }*/
-}
     }
+}
