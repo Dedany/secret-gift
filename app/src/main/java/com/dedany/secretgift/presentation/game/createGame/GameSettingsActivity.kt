@@ -7,8 +7,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.dedany.secretgift.databinding.ActivityGameOptionsBinding
 import com.dedany.secretgift.domain.entities.Rule
+import com.dedany.secretgift.presentation.helpers.Constants
 import java.util.Calendar
-
 
 class GameSettingsActivity : AppCompatActivity() {
 
@@ -22,23 +22,43 @@ class GameSettingsActivity : AppCompatActivity() {
         binding = ActivityGameOptionsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val gameId = intent.getIntExtra(Constants.KEY_GAME_ID, -1)
+
+        val eventDate = intent.getStringExtra("EVENT_DATE") ?: ""
+        val maxPrice = intent.getStringExtra("MAX_PRICE") ?: ""
+        val minPrice = intent.getStringExtra("MIN_PRICE") ?: ""
+
+        gameSettingsViewModel.setEventDate(eventDate)
+        gameSettingsViewModel.setMaxPrice(maxPrice)
+        gameSettingsViewModel.setMinPrice(minPrice)
+
         initAdapters()
         initObservers()
         initListeners()
     }
 
-
     private fun initObservers() {
 
+        gameSettingsViewModel.eventDate.observe(this) { eventDate ->
+            binding.editTextEventDate.setText(eventDate)
+        }
+
+        // Observa el cambio del precio máximo
+        gameSettingsViewModel.maxPrice.observe(this) { maxPrice ->
+            binding.editTextMaxPriceOptions.setText(maxPrice)
+        }
+
+        // Observa el cambio del precio mínimo
+        gameSettingsViewModel.minPrice.observe(this) { minPrice ->
+            binding.editTextMinPriceOptions.setText(minPrice)
+        }
         gameSettingsViewModel.rules.observe(this) { rules ->
             rulesAdapter.submitList(rules)
         }
     }
 
-
     private fun initListeners() {
-
-        //Datapicker
+        // DataPicker
         binding.editTextEventDate.setOnClickListener {
             val year = calendar.get(Calendar.YEAR)
             val month = calendar.get(Calendar.MONTH)
@@ -48,11 +68,12 @@ class GameSettingsActivity : AppCompatActivity() {
                 calendar.set(year, month, dayOfMonth)
                 val selectedDate = "$dayOfMonth-${month + 1}-$year"
                 binding.editTextEventDate.setText(selectedDate)
+                gameSettingsViewModel.setEventDate(selectedDate)  // Actualiza el ViewModel
             }, year, month, day)
             datePickerDialog.show()
         }
 
-
+        // Guardar cambios
         binding.btnSaveChanges.setOnClickListener {
             val eventDate = binding.editTextEventDate.text.toString()
             val maxPrice = binding.editTextMaxPriceOptions.text.toString()
@@ -62,33 +83,31 @@ class GameSettingsActivity : AppCompatActivity() {
             val rules = incompatibilities.map { Rule(it.first, it.second) }
             gameSettingsViewModel.setRules(rules)
 
-            val intent = Intent(this, CreateGameActivity::class.java)
-            intent.putExtra("EVENT_DATE", eventDate)
-            intent.putExtra("MAX_PRICE", maxPrice)
-            intent.putExtra("MIN_PRICE", minPrice)
-            intent.putExtra("RULES", ArrayList(rules))
-            //rules
+            val intent = Intent(this, CreateGameActivity::class.java).apply {
+                putExtra("EVENT_DATE", eventDate)
+                putExtra("MAX_PRICE", maxPrice)
+                putExtra("MIN_PRICE", minPrice)
+                putExtra("RULES", ArrayList(rules))
+            }
 
             setResult(RESULT_OK, intent)
             finish()
         }
 
-
+        // Regresar
         binding.iconBack.setOnClickListener {
             setResult(RESULT_CANCELED)
             finish()  // Cierra la actividad
         }
 
-
+        // Añadir incompatibilidad
         binding.btnAddIncompatibilities.setOnClickListener {
             gameSettingsViewModel.addNewRule()
         }
     }
 
-
     private fun getIncompatibilities(): List<Pair<String, String>> {
-        val adapter = binding.recyclerViewRules.adapter as RulesAdapter
-        val rules = adapter.currentList
+        val rules = rulesAdapter.currentList
         return if (rules.isNotEmpty()) {
             rules.mapNotNull { rule ->
                 if (rule.playerOne != null && rule.playerTwo != null) {
@@ -104,11 +123,9 @@ class GameSettingsActivity : AppCompatActivity() {
 
     // Inicializa el adaptador para las reglas de incompatibilidad
     private fun initAdapters() {
-
-        rulesAdapter =
-            RulesAdapter(listOf("Player 1", "Player 2", "Player 3", "Player 4", "Player 5")) {
-                gameSettingsViewModel.removeRuleAt(it)
-            }
+        rulesAdapter = RulesAdapter(listOf("Player 1", "Player 2", "Player 3", "Player 4", "Player 5")) {
+            gameSettingsViewModel.removeRuleAt(it)
+        }
         binding.recyclerViewRules.adapter = rulesAdapter
         rulesAdapter.submitList(
             listOf(

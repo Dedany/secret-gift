@@ -55,21 +55,24 @@ class CreateGameActivity : AppCompatActivity() {
         binding = ActivityCreateGameBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[CreateGameViewModel::class.java]
         setContentView(binding?.root)
+
         val gameId = intent.getIntExtra(Constants.KEY_GAME_ID, -1)
+
         if (gameId != -1) {
+            viewModel?.setGameId(gameId)
             viewModel?.loadLocalGameById(gameId)
             viewModel?.updateGame()
         } else {
+            viewModel?.addCreatingUserToPlayers()  // Se ejecuta solo si es un nuevo juego
             viewModel?.createOrUpdateGame()
         }
 
-
-        // Configurar adaptadores
         setAdapters()
         initObservers()
         initListeners()
         initAd()
     }
+
     private fun setAdapters() {
         playerAdapter = PlayerAdapter(
             onDeleteClick = { player ->
@@ -92,7 +95,6 @@ class CreateGameActivity : AppCompatActivity() {
                 playerAdapter?.submitList(it.players)
             }
         })
-
 
         viewModel?.ownerId?.observe(this) { ownerId ->
             playerAdapter?.setOwnerEmail(ownerId)
@@ -148,8 +150,19 @@ class CreateGameActivity : AppCompatActivity() {
         binding?.btnSaveGame?.setOnClickListener {
             viewModel?.onSaveGameClicked()
         }
+
         binding?.btnGameSettings?.setOnClickListener {
-            val intent = Intent(this, GameSettingsActivity::class.java)
+            val gameId = viewModel?.getGameId() ?: -1
+            val eventDate = viewModel?.eventDate ?: ""
+            val maxPrice = viewModel?.maxPrice ?: ""
+            val minPrice = viewModel?.minPrice ?: ""
+
+            val intent = Intent(this, GameSettingsActivity::class.java).apply {
+                putExtra(Constants.KEY_GAME_ID, gameId)
+                putExtra("EVENT_DATE", eventDate)
+                putExtra("MAX_PRICE", maxPrice)
+                putExtra("MIN_PRICE", minPrice)
+            }
             settingsActivityResultLauncher.launch(intent)
         }
 
