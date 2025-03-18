@@ -8,8 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.dedany.secretgift.databinding.ActivityGameOptionsBinding
 import com.dedany.secretgift.domain.entities.Rule
 import com.dedany.secretgift.presentation.helpers.Constants
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 
+
+@AndroidEntryPoint
 class GameSettingsActivity : AppCompatActivity() {
 
     private val calendar = Calendar.getInstance()
@@ -22,15 +25,11 @@ class GameSettingsActivity : AppCompatActivity() {
         binding = ActivityGameOptionsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val gameId = intent.getIntExtra(Constants.KEY_GAME_ID, -1)
+        val gameId = intent.getIntExtra(Constants.KEY_GAME_ID, -1) // Obtener el ID del juego desde el Intent
 
-        val eventDate = intent.getStringExtra("EVENT_DATE") ?: ""
-        val maxPrice = intent.getStringExtra("MAX_PRICE") ?: ""
-        val minPrice = intent.getStringExtra("MIN_PRICE") ?: ""
-
-        gameSettingsViewModel.setEventDate(eventDate)
-        gameSettingsViewModel.setMaxPrice(maxPrice)
-        gameSettingsViewModel.setMinPrice(minPrice)
+        if (gameId != -1) {
+            gameSettingsViewModel.getLocalGameById(gameId)
+        }
 
         initAdapters()
         initObservers()
@@ -38,20 +37,22 @@ class GameSettingsActivity : AppCompatActivity() {
     }
 
     private fun initObservers() {
-
+        // Observar la fecha del evento
         gameSettingsViewModel.eventDate.observe(this) { eventDate ->
             binding.editTextEventDate.setText(eventDate)
         }
 
-        // Observa el cambio del precio máximo
+        // Observar el precio máximo
         gameSettingsViewModel.maxPrice.observe(this) { maxPrice ->
             binding.editTextMaxPriceOptions.setText(maxPrice)
         }
 
-        // Observa el cambio del precio mínimo
+        // Observar el precio mínimo
         gameSettingsViewModel.minPrice.observe(this) { minPrice ->
             binding.editTextMinPriceOptions.setText(minPrice)
         }
+
+        // Observar las reglas de incompatibilidad
         gameSettingsViewModel.rules.observe(this) { rules ->
             rulesAdapter.submitList(rules)
         }
@@ -127,11 +128,5 @@ class GameSettingsActivity : AppCompatActivity() {
             gameSettingsViewModel.removeRuleAt(it)
         }
         binding.recyclerViewRules.adapter = rulesAdapter
-        rulesAdapter.submitList(
-            listOf(
-                Rule("Player 1", "Player 2"),
-                Rule("Player 3", "Player 4")
-            )
-        )  // Establece una lista de reglas predeterminadas
     }
 }
