@@ -116,17 +116,23 @@ class CreateGameViewModel @Inject constructor(
         createOrUpdateGame()
     }
 
-    //EDITAR JUGADOR
-    fun editPlayer(player: Player, newName: String) {
-        val playerIndex = playerList.indexOf(player)
+//EDITAR JUGADOR
+    fun editPlayer(oldplayer: Player, newName : String, newEmail : String) {
+        val playerIndex = playerList.indexOf(oldplayer)
         if (playerIndex != -1) {
-            playerList[playerIndex].name = newName
+            playerList[playerIndex] = Player(
+                name = newName,
+                email = newEmail
+            )
             _players.value = playerList.toList()
+
+
         }
 
         createOrUpdateGame()
 
     }
+
 
     fun onSaveGameClicked() {
         _showConfirmationDialog.value = true
