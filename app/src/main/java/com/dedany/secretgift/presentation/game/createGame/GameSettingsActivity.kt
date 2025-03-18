@@ -41,14 +41,9 @@ class GameSettingsActivity : AppCompatActivity() {
         // Filtrar jugadores disponibles para incompatibilidades
         val playersList = intent.getSerializableExtra("PLAYERS_LIST") as? List<Player> ?: emptyList()
 
-        val availablePlayers = playersList.filterNot { player ->
-            gameSettingsViewModel.rules.value?.any { rule ->
-                rule.playerOne == player.name || rule.playerTwo == player.name
-            } == true
-        }
+        val auxPlayersList = playersList.subList(1,playersList.size)
 
-        // Inicializamos el adaptador con la lista filtrada de jugadores
-        rulesAdapter = RulesAdapter(availablePlayers.map { it.name }) {
+        rulesAdapter = RulesAdapter(playersList.map { it.name }, auxPlayersList.map{ it.name }) {
             gameSettingsViewModel.removeRuleAt(it)
         }
 

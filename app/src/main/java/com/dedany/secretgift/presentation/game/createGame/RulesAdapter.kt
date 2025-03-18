@@ -16,8 +16,10 @@ import com.dedany.secretgift.domain.entities.Rule
 
 class RulesAdapter(
     private val players: List<String>,
+    private val auxPlayers: List<String>,
     private val onRemoveClick: (Int) -> Unit
 ) : ListAdapter<Rule, RulesAdapter.RuleViewHolder>(DiffCallback()) {
+
 
     inner class RuleViewHolder(private val binding: ItemRuleBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -39,7 +41,7 @@ class RulesAdapter(
         }
 
         private val spinnerPlayerTwoAdapter = object : ArrayAdapter<String>(
-            itemView.context, android.R.layout.simple_spinner_item, players
+            itemView.context, android.R.layout.simple_spinner_item, auxPlayers
         ) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent) as TextView
@@ -64,20 +66,17 @@ class RulesAdapter(
             }
             binding.spinnerPlayer2.onItemSelectedListener = object : OnItemSelectedListener {
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    rule.playerTwo = players[p2]
+                    rule.playerTwo = auxPlayers[p2]
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {}
             }
+
             binding.spinnerPlayer1.adapter = spinnerPlayerOneAdapter
             binding.spinnerPlayer2.adapter = spinnerPlayerTwoAdapter
 
-            if (rule.playerOne != null) {
-                binding.spinnerPlayer1.setSelection(players.indexOf(rule.playerOne))
-            }
-            if (rule.playerTwo != null) {
-                binding.spinnerPlayer2.setSelection(players.indexOf(rule.playerTwo))
-            }
+            binding.spinnerPlayer1.setSelection(players.indexOf(rule.playerOne))
+            binding.spinnerPlayer2.setSelection(auxPlayers.size-1)
 
             binding.btnRemove.setOnClickListener {
                 onRemoveClick(adapterPosition)
