@@ -3,9 +3,9 @@
     android:layout_width="wrap_content"
     android:layout_height="280dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     android:background="@drawable/background_with_border"
     android:orientation="vertical"
+    android:layout_marginHorizontal="16dp"
     android:padding="16dp">
 
 
@@ -54,8 +54,6 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/activity_top_margin"
         android:orientation="horizontal">
-
-
 
         <Button
             android:id="@+id/btn_confirm"
