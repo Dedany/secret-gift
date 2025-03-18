@@ -84,7 +84,6 @@ class CreateGameViewModel @Inject constructor(
                 isUserAdded = true
             } catch (e: Exception) {
                 Log.e("CreateGameViewModel", "Error adding creating user: ${e.message}")
-                _insufficientDataMessage.value = "Error al añadir el usuario creador"
             }
         }
     }
@@ -94,7 +93,7 @@ class CreateGameViewModel @Inject constructor(
             _isGameNameValid.value = true
         } else {
             _isGameNameValid.value = false
-            _insufficientDataMessage.value = "El nombre del juego necesita un mínimo de 1 letras"
+
         }
     }
 
@@ -220,12 +219,7 @@ class CreateGameViewModel @Inject constructor(
 
 
     fun checkMinimumPlayers(): Boolean {
-        if (playerList.size < 3) {
-            _insufficientDataMessage.value = "Necesitas al menos 3 jugadores"
-            return false
-        } else {
-            return true
-        }
+        return playerList.size >= 3
     }
 
     private fun checkEventDate(): Boolean {
