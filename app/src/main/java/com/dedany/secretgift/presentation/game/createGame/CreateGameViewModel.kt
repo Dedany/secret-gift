@@ -128,7 +128,9 @@ class CreateGameViewModel @Inject constructor(
         _players.value = playerList.toList()
         createOrUpdateGame()
     }
-
+    fun getPlayersList(): List<Player> {
+        return _players.value ?: emptyList()
+    }
 //EDITAR JUGADOR
     fun editPlayer(oldplayer: Player, newName : String, newEmail : String) {
         val playerIndex = playerList.indexOf(oldplayer)
