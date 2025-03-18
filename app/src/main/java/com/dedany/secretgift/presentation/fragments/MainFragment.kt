@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -97,8 +98,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             onGameClick = { game, _ ->
                 openLocalGameDetails(game.id)
             },
-            onGameDelete = { game, _ ->
-                viewModel?.deleteLocalGame(game)
+            onGameDelete = { gameId,position ->
+                viewModel?.deleteLocalGame(gameId)
             }
         )
 
@@ -126,6 +127,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         viewModel?.localGames?.observe(viewLifecycleOwner) { localGames ->
             localGamesAdapter?.submitList(localGames)
+        }
+
+        viewModel?.deletedGameMessage?.observe(viewLifecycleOwner) { message ->
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
         }
     }
 

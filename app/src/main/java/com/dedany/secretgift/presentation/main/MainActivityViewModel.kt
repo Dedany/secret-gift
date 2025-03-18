@@ -30,6 +30,9 @@ class MainActivityViewModel @Inject constructor(
     private val _user: MutableLiveData<User> = MutableLiveData()
     val user: LiveData<User> = _user
 
+    private var _deletedGameMessage: MutableLiveData<String> = MutableLiveData()
+    val deletedGameMessage: LiveData<String> = _deletedGameMessage
+
 
 
     fun loadGames() {
@@ -50,10 +53,16 @@ class MainActivityViewModel @Inject constructor(
             _user.value = registeredUser
     }
     }
-    fun deleteLocalGame(game: LocalGame){
+    fun deleteLocalGame(gameId: Int) {
         viewModelScope.launch {
-            gamesUseCase.deleteLocalGame(game)
-            loadLocalGames()
+            val isDeleted = gamesUseCase.deleteLocalGame(gameId)
+
+            if (isDeleted) {
+                _deletedGameMessage.value = "Juego borrado correctamente"
+                loadLocalGames()
+            } else {
+                _deletedGameMessage.value = "Error al borrar el juego"
+            }
         }
     }
 }
@@ -64,16 +73,4 @@ class MainActivityViewModel @Inject constructor(
 //        }
 //    }
 //
-//    fun deleteLocalGame(game: CreateGame) {
-//        viewModelScope.launch {
-//            withContext(Dispatchers.IO) {
-//                gamesUseCase.deleteLocalGame(game)
-//            }
-//            //Actualiza la lista
-//            val updatedGames = _games.value?.toMutableList()?.apply {
-//                remove(game)
-//            }
-//            _games.value = updatedGames
-//        }
-//    }
 

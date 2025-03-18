@@ -33,8 +33,8 @@ class GamesUseCaseImpl @Inject constructor(
         return games
     }
 
-    override suspend fun deleteLocalGame(game: LocalGame) {
-        repository.deleteLocalGame(game)
+    override suspend fun deleteLocalGame(gameId:Int): Boolean {
+        return repository.deleteLocalGame(gameId)
     }
 
     override suspend fun createLocalGame(game: LocalGame): Long {

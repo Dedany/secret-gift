@@ -23,8 +23,8 @@ interface GamesDao {
     @Query("SELECT * FROM games WHERE ownerId = :userId")
     suspend fun getLocalGamesByUser(userId: String): List<GameDbo>
 
-    @Delete
-    suspend fun deleteGame(game: GameDbo)
+    @Query("DELETE FROM games WHERE id = :gameId")
+    suspend fun deleteGame(gameId: Int): Int
 
     @Insert
     suspend fun createLocalGame(game: GameDbo): Long

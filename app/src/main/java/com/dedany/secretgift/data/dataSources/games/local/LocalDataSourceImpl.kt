@@ -1,7 +1,6 @@
 package com.dedany.secretgift.data.dataSources.games.local
 
 import com.dedany.secretgift.data.dataSources.games.local.gameDbo.GameDbo
-import com.dedany.secretgift.data.dataSources.games.local.gameDbo.PlayerDbo
 import javax.inject.Inject
 
 class LocalDataSourceImpl @Inject constructor(
@@ -20,8 +19,8 @@ class LocalDataSourceImpl @Inject constructor(
         return gamesDao.getLocalGameById(id)
     }
 
-    override suspend fun deleteGame(game: GameDbo) {
-        gamesDao.deleteGame(game)
+    override suspend fun deleteGame(gameId: Int): Boolean {
+       return gamesDao.deleteGame(gameId)>0
     }
 
     override suspend fun createGame(game: GameDbo): Long {
