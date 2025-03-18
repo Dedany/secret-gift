@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.SplittableRandom
 import javax.inject.Inject
 
 @HiltViewModel
@@ -83,6 +84,7 @@ class CreateGameViewModel @Inject constructor(
         }
     }
 
+
     //NOMBRE DEL JUEGO
     fun setName(name: String) {
         gameName = name
@@ -108,11 +110,16 @@ class CreateGameViewModel @Inject constructor(
     }
 
     //EDITAR JUGADOR
-    fun editPlayer(player: Player, newName: String) {
-        val playerIndex = playerList.indexOf(player)
+    fun editPlayer(oldplayer: Player, newName : String, newEmail : String) {
+        val playerIndex = playerList.indexOf(oldplayer)
         if (playerIndex != -1) {
-            playerList[playerIndex].name = newName
+            playerList[playerIndex] = Player(
+                name = newName,
+                email = newEmail
+            )
             _players.value = playerList.toList()
+
+
         }
 
         createOrUpdateGame()
