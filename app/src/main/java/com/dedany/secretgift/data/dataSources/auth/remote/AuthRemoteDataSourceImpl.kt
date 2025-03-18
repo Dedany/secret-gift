@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import retrofit2.Response
 import javax.inject.Inject
 import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 class AuthRemoteDataSourceImpl @Inject constructor(
@@ -20,18 +21,25 @@ class AuthRemoteDataSourceImpl @Inject constructor(
             try {
                 auth.signInWithEmailAndPassword(loginDto.email, loginDto.password)
                     .addOnCompleteListener { authResult ->
-                        try {
-                            result.resume(LoginDto("", "", authResult.result?.user?.uid))
-                        } catch (e: Exception) {
-                            println(e.stackTraceToString())
-                            throw e
+                        if (authResult.isSuccessful) {
+                            val user = authResult.result?.user
+                            val userId = user?.uid ?: ""
+                            result.resume(LoginDto(userId, loginDto.email, userId))
+                        } else {
+                            val exception = authResult.exception
+                            println("Login failed: ${exception?.message}")
+                            result.resumeWithException(
+                                Exception("Error de inicio de sesión: ${exception?.message}")
+                            )
                         }
                     }
                     .addOnFailureListener { exception ->
-                        println(exception.stackTraceToString())
+                        println("Login failed with exception: ${exception.stackTraceToString()}")
+                        result.resumeWithException(Exception("Error en el proceso de autenticación"))
                     }
             } catch (e: Exception) {
-                println(e.stackTraceToString())
+                println("Unexpected error: ${e.stackTraceToString()}")
+                result.resumeWithException(Exception("Error inesperado en el inicio de sesión"))
             }
         }
     }

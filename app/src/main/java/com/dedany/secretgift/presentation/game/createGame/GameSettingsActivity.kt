@@ -6,55 +6,66 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.dedany.secretgift.databinding.ActivityGameOptionsBinding
+import com.dedany.secretgift.domain.entities.Player
 import com.dedany.secretgift.domain.entities.Rule
 import com.dedany.secretgift.presentation.helpers.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 
-
 @AndroidEntryPoint
 class GameSettingsActivity : AppCompatActivity() {
 
-    private val calendar = Calendar.getInstance()
     private lateinit var binding: ActivityGameOptionsBinding
     private val gameSettingsViewModel: GameSettingsViewModel by viewModels()
     private lateinit var rulesAdapter: RulesAdapter
+    private val calendar = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityGameOptionsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val gameId = intent.getIntExtra(Constants.KEY_GAME_ID, -1) // Obtener el ID del juego desde el Intent
+        // Inicializar el adaptador antes de usarlo en los observadores
+        initAdapters()
 
+        val gameId = intent.getIntExtra(Constants.KEY_GAME_ID, -1)
         if (gameId != -1) {
             gameSettingsViewModel.getLocalGameById(gameId)
         }
 
-        initAdapters()
-        initObservers()
         initListeners()
+        initObservers() // Ahora podemos observar sin problemas
+    }
+
+    private fun initAdapters() {
+        // Filtrar jugadores disponibles para incompatibilidades
+        val playersList = intent.getSerializableExtra("PLAYERS_LIST") as? List<Player> ?: emptyList()
+
+        val auxPlayersList = playersList.subList(1,playersList.size)
+
+        rulesAdapter = RulesAdapter(playersList.map { it.name }, auxPlayersList.map{ it.name }) {
+            gameSettingsViewModel.removeRuleAt(it)
+        }
+
+        binding.recyclerViewRules.adapter = rulesAdapter
     }
 
     private fun initObservers() {
-        // Observar la fecha del evento
+        // Ahora que el adaptador está inicializado, podemos observar las reglas sin problemas
+        gameSettingsViewModel.rules.observe(this) { rules ->
+            rulesAdapter.submitList(rules) // Actualizar el adaptador con las nuevas reglas
+        }
+
         gameSettingsViewModel.eventDate.observe(this) { eventDate ->
             binding.editTextEventDate.setText(eventDate)
         }
 
-        // Observar el precio máximo
         gameSettingsViewModel.maxPrice.observe(this) { maxPrice ->
             binding.editTextMaxPriceOptions.setText(maxPrice)
         }
 
-        // Observar el precio mínimo
         gameSettingsViewModel.minPrice.observe(this) { minPrice ->
             binding.editTextMinPriceOptions.setText(minPrice)
-        }
-
-        // Observar las reglas de incompatibilidad
-        gameSettingsViewModel.rules.observe(this) { rules ->
-            rulesAdapter.submitList(rules)
         }
     }
 
@@ -120,13 +131,5 @@ class GameSettingsActivity : AppCompatActivity() {
         } else {
             emptyList()
         }
-    }
-
-    // Inicializa el adaptador para las reglas de incompatibilidad
-    private fun initAdapters() {
-        rulesAdapter = RulesAdapter(listOf("Player 1", "Player 2", "Player 3", "Player 4", "Player 5")) {
-            gameSettingsViewModel.removeRuleAt(it)
-        }
-        binding.recyclerViewRules.adapter = rulesAdapter
     }
 }

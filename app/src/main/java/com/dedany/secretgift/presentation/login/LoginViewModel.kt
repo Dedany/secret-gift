@@ -25,6 +25,9 @@ class LoginViewModel @Inject constructor(
     private var _canDoLogin: MutableLiveData<Boolean> = MutableLiveData(false)
     val canDoLogin: LiveData<Boolean> = _canDoLogin
 
+    private var _loginError: MutableLiveData<String> = MutableLiveData()
+    val loginError: LiveData<String> = _loginError
+
     private val _user: MutableLiveData<User> = MutableLiveData()
     val user: LiveData<User> = _user
 
@@ -54,14 +57,16 @@ class LoginViewModel @Inject constructor(
         if (_isLoginFormValid.value == true) {
             viewModelScope.launch {
                 val isSuccess = authUseCase.login(email, password)
-                _isLoginSuccess.value = isSuccess
                 if (isSuccess) {
                     _user.value = usersUseCase.getRegisteredUser()
+                    _isLoginSuccess.value = true
+                } else {
+                    _loginError.value = "Error en correo o contraseña" // Mostrar un mensaje de error
+                    _isLoginSuccess.value = false
                 }
             }
         }
     }
-
     fun setCode(code: String) {
         this.code = code
     }

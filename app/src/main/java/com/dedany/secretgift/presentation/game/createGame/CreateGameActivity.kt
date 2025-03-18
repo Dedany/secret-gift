@@ -186,14 +186,24 @@ class CreateGameActivity : AppCompatActivity() {
             val maxPrice = viewModel?.maxPrice ?: ""
             val minPrice = viewModel?.minPrice ?: ""
 
+
+            val playersList = viewModel?.getPlayersList() ?: emptyList()
+
             val intent = Intent(this, GameSettingsActivity::class.java).apply {
                 putExtra(Constants.KEY_GAME_ID, gameId)
                 putExtra("EVENT_DATE", eventDate)
                 putExtra("MAX_PRICE", maxPrice)
                 putExtra("MIN_PRICE", minPrice)
+                putExtra("PLAYERS_LIST", ArrayList(playersList))
             }
+
             settingsActivityResultLauncher.launch(intent)
         }
+
+        binding?.btnAdd?.setOnClickListener {
+            showAddplayerDialog()
+        }
+
 
         binding?.btnAdd?.setOnClickListener {
             showAddplayerDialog()

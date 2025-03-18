@@ -12,7 +12,7 @@ import com.dedany.secretgift.domain.entities.LocalGame
 
 class LocalGamesAdapter(
     private val onGameClick: (LocalGame, Int) -> Unit,
-    private val onGameDelete: (LocalGame, Int) -> Unit
+    private val onGameDelete: (Int, Int) -> Unit
 ) : ListAdapter<LocalGame, LocalGamesAdapter.GameViewHolder>(GameDiffCallback()) {
 
     inner class GameViewHolder(private val binding: ItemGameListBinding) :
@@ -24,7 +24,7 @@ class LocalGamesAdapter(
                 ContextCompat.getColor(binding.root.context, R.color.orangecolor)
             )
             binding.ibMainDelete.setOnClickListener {
-                onGameDelete(game, position)
+                onGameDelete(game.id, position)
             }
 
             binding.root.setOnClickListener {
