@@ -20,4 +20,6 @@ interface AuthUseCase {
         repeatPassword: String,
         termsAndConditions: Boolean
     ): Boolean
+
+    suspend fun isLoggedIn (): Boolean
 }

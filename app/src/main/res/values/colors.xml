@@ -7,8 +7,10 @@
     <color name="blue">#3E658A</color>
     <color name="navColor">#A0382A07</color>
     <color name="editColor">#A99C57</color>
+    <color name="greenColor">#77DD77</color>
     <color name="deleteColor">#96E08989</color>
     <color name="maincolor">#C38217</color>
+    <color name="orangecolor">#FFB347</color>
     <color name="hintColor">#FFFFFFFF</color>
     <color name="errorColor">#FF5722</color>
     <color name="linked_player_color">#EBDFDF</color>

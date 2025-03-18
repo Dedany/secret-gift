@@ -67,5 +67,9 @@ class AuthUseCaseImpl @Inject constructor(
         ) && termsAndConditions
     }
 
+    override suspend fun isLoggedIn(): Boolean {
+        return repository.isLoggedIn()
+    }
+
 
 }

@@ -21,7 +21,7 @@ class LocalGamesAdapter(
             binding.tvGameName.text = game.name
 
             binding.tvGameName.setTextColor(
-                ContextCompat.getColor(binding.root.context, R.color.blue)
+                ContextCompat.getColor(binding.root.context, R.color.orangecolor)
             )
             binding.ibMainDelete.setOnClickListener {
                 onGameDelete(game, position)
