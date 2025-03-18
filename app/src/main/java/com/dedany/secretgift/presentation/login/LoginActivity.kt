@@ -41,6 +41,13 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initObservers() {
+
+        viewModel?.loginError?.observe(this) { errorMessage ->
+            errorMessage?.let {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            }
+        }
+
         viewModel?.isLoginSuccess?.observe(this) { isSucces ->
             if (isSucces) {
                 startActivity(Intent(this, MainActivity::class.java))
