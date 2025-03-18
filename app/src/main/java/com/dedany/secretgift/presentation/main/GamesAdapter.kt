@@ -2,9 +2,11 @@ package com.dedany.secretgift.presentation.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ItemApiGameListBinding
 import com.dedany.secretgift.databinding.ItemGameListBinding
 import com.dedany.secretgift.domain.entities.Game
@@ -20,9 +22,9 @@ class GamesAdapter(
         fun bind(game: GameSummary, position: Int) {
             binding.tvApiGameName.text = game.name
 
-//            binding.ibApiMainDelete.setOnClickListener {
-//                onGameDelete(game, position)
-//            }
+            binding.tvApiGameName.setTextColor(
+                ContextCompat.getColor(binding.root.context, R.color.brown)
+            )
 
             binding.root.setOnClickListener {
                 onGameClick(game.accessCode)

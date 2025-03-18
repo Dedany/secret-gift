@@ -214,7 +214,7 @@ class CreateGameActivity : AppCompatActivity() {
         dialog.show()
         dialogBinding.btnConfirm.setOnClickListener {
             val name = dialogBinding.nameEditText.text.toString().trim()
-            val email = dialogBinding.emailEditText.text.toString().trim()
+            val email = dialogBinding.emailEditText.text.toString().trim().lowercase(Locale.ROOT)
 
             if (name.isNotEmpty() && email.isNotEmpty()) {
                 if (viewModel?.validateEmail(email) == true) {
