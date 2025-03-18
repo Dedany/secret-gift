@@ -1,12 +1,13 @@
 package com.dedany.secretgift.presentation.game.createGame
 
-import android.R
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -21,8 +22,37 @@ class RulesAdapter(
     inner class RuleViewHolder(private val binding: ItemRuleBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-            private val spinnerPlayerOneAdapter = ArrayAdapter(itemView.context, R.layout.simple_spinner_item, players)
-            private val spinnerPlayerTwoAdapter = ArrayAdapter(itemView.context, R.layout.simple_spinner_item, players)
+        private val spinnerPlayerOneAdapter = object : ArrayAdapter<String>(
+            itemView.context, android.R.layout.simple_spinner_item, players
+        ) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent) as TextView
+                view.setTextColor(Color.WHITE)
+                return view
+            }
+
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent) as TextView
+                view.setTextColor(Color.BLACK)
+                return view
+            }
+        }
+
+        private val spinnerPlayerTwoAdapter = object : ArrayAdapter<String>(
+            itemView.context, android.R.layout.simple_spinner_item, players
+        ) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent) as TextView
+                view.setTextColor(Color.WHITE)
+                return view
+            }
+
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent) as TextView
+                view.setTextColor(Color.BLACK)
+                return view
+            }
+        }
 
         fun bind(rule: Rule) {
             binding.spinnerPlayer1.onItemSelectedListener = object : OnItemSelectedListener {
@@ -30,18 +60,14 @@ class RulesAdapter(
                     rule.playerOne = players[p2]
                 }
 
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-                    TODO("Not yet implemented")
-                }
+                override fun onNothingSelected(p0: AdapterView<*>?) {}
             }
             binding.spinnerPlayer2.onItemSelectedListener = object : OnItemSelectedListener {
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                     rule.playerTwo = players[p2]
                 }
 
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-                    TODO("Not yet implemented")
-                }
+                override fun onNothingSelected(p0: AdapterView<*>?) {}
             }
             binding.spinnerPlayer1.adapter = spinnerPlayerOneAdapter
             binding.spinnerPlayer2.adapter = spinnerPlayerTwoAdapter
@@ -77,5 +103,4 @@ class RulesAdapter(
     override fun onBindViewHolder(holder: RuleViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
-
 }
