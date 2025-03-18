@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.dedany.secretgift.domain.usecases.auth.AuthUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -61,7 +62,7 @@ class RegisterViewModel @Inject constructor(
 
 
     fun setEmail(text: String) {
-        _email.value = text
+        _email.value = text.trim().lowercase(Locale.getDefault())
         checkEmail(text)
     }
 

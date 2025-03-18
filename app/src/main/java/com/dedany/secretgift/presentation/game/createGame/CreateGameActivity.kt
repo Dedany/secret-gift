@@ -16,17 +16,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityCreateGameBinding
+import com.dedany.secretgift.databinding.RegisterGamePlayerBinding
 import com.dedany.secretgift.domain.entities.Rule
 import com.dedany.secretgift.presentation.helpers.Constants
 import com.dedany.secretgift.presentation.main.MainActivity
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Locale
 
 @AndroidEntryPoint
 class CreateGameActivity : AppCompatActivity() {
 
     private var binding: ActivityCreateGameBinding? = null
+    private var bindingDialog: RegisterGamePlayerBinding? = null
     private var viewModel: CreateGameViewModel? = null
     private var playerAdapter: PlayerAdapter? = null
 
@@ -165,70 +168,48 @@ class CreateGameActivity : AppCompatActivity() {
             }
             settingsActivityResultLauncher.launch(intent)
         }
+        binding?.btnAdd?.setOnClickListener { showAddPlayerDialog() }}
 
-        binding?.btnAdd?.setOnClickListener {
-            val dialog = Dialog(this)
-            dialog.setContentView(R.layout.register_game_player)
-            dialog.show()
 
-            val btnConfirm = dialog.findViewById<Button>(R.id.btn_confirm)
-            val btnCancel = dialog.findViewById<Button>(R.id.btn_cancel)
-            val nameEditText = dialog.findViewById<TextInputEditText>(R.id.name_edit_text)
-            val emailEditText = dialog.findViewById<TextInputEditText>(R.id.email_edit_text)
 
-            btnConfirm.setOnClickListener {
-                val name = nameEditText.text.toString().trim()
-                val email = emailEditText.text.toString().trim()
+    private fun showAddPlayerDialog() {
+        val dialog = Dialog(this).apply {
+            bindingDialog = RegisterGamePlayerBinding.inflate(layoutInflater)
+            setContentView(bindingDialog?.root)
+            show()
+        }
 
-                if (name.isEmpty() || email.isEmpty()) {
-                    Toast.makeText(this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT)
-                        .show()
-                    return@setOnClickListener
-                }
+        bindingDialog?.btnConfirm?.setOnClickListener {
+            val name = bindingDialog?.nameEditText?.text.toString().trim()
+            val email = bindingDialog?.emailEditText?.text.toString().trim().lowercase(Locale.ROOT)
 
-                if (viewModel?.validateEmail(email) == true) {
-                    val existingPlayers = viewModel?.players?.value ?: emptyList()
-                    val nameExists = existingPlayers.any { it.name.equals(name, ignoreCase = true) }
-                    val emailExists = existingPlayers.any { it.email == email }
-
-                    when {
-                        nameExists -> {
-                            Toast.makeText(this, "El nombre ya está registrado", Toast.LENGTH_SHORT)
-                                .show()
-                        }
-
-                        emailExists -> {
-                            Toast.makeText(this, "El email ya está registrado", Toast.LENGTH_SHORT)
-                                .show()
-                        }
-
-                        else -> {
-                            viewModel?.addPlayer(name, email)
-                            dialog.dismiss()
-                        }
-                    }
-                } else {
-                    Toast.makeText(
-                        this,
-                        viewModel?.emailDataMessage?.value ?: "Email inválido",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+            if (name.isEmpty() || email.isEmpty()) {
+                showToast("Por favor, completa todos los campos")
+                return@setOnClickListener
             }
 
-
-            btnCancel.setOnClickListener {
+            if (viewModel?.validateEmail(email) == true) {
+                handlePlayerValidation(name, email)
                 dialog.dismiss()
-            }
-            nameEditText.setOnFocusChangeListener { _, hasFocus ->
-                if (hasFocus) {
-                    nameEditText.hint = ""
-                } else {
-                    nameEditText.hint =
-                        getString(R.string.name)
-                }
+            } else {
+                showToast(viewModel?.emailDataMessage?.value ?: "Email inválido")
             }
         }
+
+        bindingDialog?.btnCancel?.setOnClickListener { dialog.dismiss() }
+    }
+
+    private fun handlePlayerValidation(name: String, email: String) {
+        val existingPlayers = viewModel?.players?.value ?: emptyList()
+        when {
+            existingPlayers.any { it.name.equals(name, ignoreCase = true) } -> showToast("El nombre ya está registrado")
+            existingPlayers.any { it.email == email } -> showToast("El email ya está registrado")
+            else -> viewModel?.addPlayer(name, email)
+        }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
     private fun showConfirmationDialog() {
@@ -266,3 +247,68 @@ class CreateGameActivity : AppCompatActivity() {
 
 }
 
+
+/*binding?.btnAdd?.setOnClickListener {
+      val dialog = Dialog(this)
+      dialog.setContentView(R.layout.register_game_player)
+      dialog.show()
+
+      val btnConfirm = dialog.findViewById<Button>(R.id.btn_confirm)
+      val btnCancel = dialog.findViewById<Button>(R.id.btn_cancel)
+      val nameEditText = dialog.findViewById<TextInputEditText>(R.id.name_edit_text)
+      val emailEditText = dialog.findViewById<TextInputEditText>(R.id.email_edit_text)
+
+      btnConfirm.setOnClickListener {
+          val name = nameEditText.text.toString().trim()
+          val email = emailEditText.text.toString().trim().lowercase(Locale.ROOT)
+
+          if (name.isEmpty() || email.isEmpty()) {
+              Toast.makeText(this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT)
+                  .show()
+              return@setOnClickListener
+          }
+
+          if (viewModel?.validateEmail(email) == true) {
+              val existingPlayers = viewModel?.players?.value ?: emptyList()
+              val nameExists = existingPlayers.any { it.name.equals(name, ignoreCase = true) }
+              val emailExists = existingPlayers.any { it.email == email }
+
+              when {
+                  nameExists -> {
+                      Toast.makeText(this, "El nombre ya está registrado", Toast.LENGTH_SHORT)
+                          .show()
+                  }
+
+                  emailExists -> {
+                      Toast.makeText(this, "El email ya está registrado", Toast.LENGTH_SHORT)
+                          .show()
+                  }
+
+                  else -> {
+                      viewModel?.addPlayer(name, email)
+                      dialog.dismiss()
+                  }
+              }
+          } else {
+              Toast.makeText(
+                  this,
+                  viewModel?.emailDataMessage?.value ?: "Email inválido",
+                  Toast.LENGTH_SHORT
+              ).show()
+          }
+      }
+
+
+      btnCancel.setOnClickListener {
+          dialog.dismiss()
+      }
+      nameEditText.setOnFocusChangeListener { _, hasFocus ->
+          if (hasFocus) {
+              nameEditText.hint = ""
+          } else {
+              nameEditText.hint =
+                  getString(R.string.name)
+          }
+      }
+  }
+}*/
