@@ -4,28 +4,36 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+
+
 import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityCreateGameBinding
 import com.dedany.secretgift.databinding.RegisterGamePlayerBinding
 import com.dedany.secretgift.domain.entities.Rule
+import com.dedany.secretgift.presentation.helpers.Constants
 import com.dedany.secretgift.presentation.main.MainActivity
 import com.google.android.gms.ads.MobileAds
-import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Locale
 
 @AndroidEntryPoint
 class CreateGameActivity : AppCompatActivity() {
 
     private var binding: ActivityCreateGameBinding? = null
+    private var bindingDialog: RegisterGamePlayerBinding? = null
     private var viewModel: CreateGameViewModel? = null
     private var playerAdapter: PlayerAdapter? = null
 
@@ -55,14 +63,23 @@ class CreateGameActivity : AppCompatActivity() {
         binding = ActivityCreateGameBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[CreateGameViewModel::class.java]
         setContentView(binding?.root)
-        viewModel?.addCreatingUserToPlayers()
 
+
+        val gameId = intent.getIntExtra(Constants.KEY_GAME_ID, -1)
+
+        if (gameId != -1) {
+            viewModel?.setGameId(gameId)
+            viewModel?.loadLocalGameById(gameId)
+            viewModel?.updateGame()
+        } else {
+            viewModel?.addCreatingUserToPlayers()  // Se ejecuta solo si es un nuevo juego
+            viewModel?.createOrUpdateGame()
+        }
 
         setAdapters()
         initObservers()
         initListeners()
         initAd()
-
     }
 
     private fun setAdapters() {
@@ -78,7 +95,7 @@ class CreateGameActivity : AppCompatActivity() {
                 dialogBinding.nameEditText.setText(player.name)
                 dialogBinding.emailEditText.setText(player.email)
 
-                dialogBinding.btnConfirm.setOnClickListener{
+                dialogBinding.btnConfirm.setOnClickListener {
                     val newName = dialogBinding.nameEditText.text.toString().trim()
                     val newEmail = dialogBinding.emailEditText.text.toString().trim()
 
@@ -101,6 +118,16 @@ class CreateGameActivity : AppCompatActivity() {
 
     private fun initObservers() {
 
+        viewModel?.localGame?.observe(this, Observer { game ->
+            game?.let {
+                binding?.edNameRoom?.setText(it.name)
+                playerAdapter?.submitList(it.players)
+            }
+        })
+
+        viewModel?.ownerId?.observe(this) { ownerId ->
+            playerAdapter?.setOwnerEmail(ownerId)
+        }
         viewModel?.isGameSavedSuccess?.observe(this) { isSuccess ->
             if (isSuccess) {
                 startActivity(Intent(this, MainActivity::class.java))
@@ -152,48 +179,39 @@ class CreateGameActivity : AppCompatActivity() {
         binding?.btnSaveGame?.setOnClickListener {
             viewModel?.onSaveGameClicked()
         }
+
         binding?.btnGameSettings?.setOnClickListener {
-            val intent = Intent(this, GameSettingsActivity::class.java)
+            val gameId = viewModel?.getGameId() ?: -1
+            val eventDate = viewModel?.eventDate ?: ""
+            val maxPrice = viewModel?.maxPrice ?: ""
+            val minPrice = viewModel?.minPrice ?: ""
+
+            val intent = Intent(this, GameSettingsActivity::class.java).apply {
+                putExtra(Constants.KEY_GAME_ID, gameId)
+                putExtra("EVENT_DATE", eventDate)
+                putExtra("MAX_PRICE", maxPrice)
+                putExtra("MIN_PRICE", minPrice)
+            }
             settingsActivityResultLauncher.launch(intent)
         }
+
         binding?.btnAdd?.setOnClickListener {
             showAddplayerDialog()
         }
-
-
     }
 
-    private fun showConfirmationDialog() {
-        AlertDialog.Builder(this)
-            .setTitle("Guardar Juego")
-            .setMessage("Una vez enviado el juego, no podrás modificarlo. ¿Estás seguro de que quieres enviar?")
-            .setPositiveButton("Guardar") { _, _ ->
-                viewModel?.saveGame()
-            }
-            .setNegativeButton("Cancelar") { _, _ ->
-                viewModel?.onDialogDismissed()
-            }
-            .show()
-    }
 
-    fun initAd() {
-        //iniciar adMob
-        MobileAds.initialize(this) { initialAd ->
-            val statusMap = initialAd.adapterStatusMap
-            for ((adapter, satatus) in statusMap) {
-                Log.d("AdMob", "Adapter: $adapter Status: ${satatus.description}")
-            }
-        }
-
-
-    }
     private fun showAddplayerDialog() {
         val dialogBinding = RegisterGamePlayerBinding.inflate(layoutInflater)
         val dialog = Dialog(this)
         dialog.setContentView(dialogBinding.root)
+        val width = ViewGroup.LayoutParams.WRAP_CONTENT
+        val height = resources.getDimensionPixelSize(R.dimen.dialog_height)
+
+        dialog.window?.setLayout(width, height)
+        dialog.window?.setGravity(Gravity.CENTER)
 
         dialog.show()
-
         dialogBinding.btnConfirm.setOnClickListener {
             val name = dialogBinding.nameEditText.text.toString().trim()
             val email = dialogBinding.emailEditText.text.toString().trim()
@@ -230,5 +248,34 @@ class CreateGameActivity : AppCompatActivity() {
         }
     }
 
-}
+    private fun showConfirmationDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Guardar Juego")
+            .setMessage("Una vez enviado el juego, no podrás modificarlo. ¿Estás seguro de que quieres enviar?")
+            .setPositiveButton("Guardar") { _, _ ->
+                viewModel?.saveGame()
+            }
+            .setNegativeButton("Cancelar") { _, _ ->
+                viewModel?.onDialogDismissed()
+            }
+            .show()
+    }
 
+    fun initAd() {
+        //iniciar adMob
+        MobileAds.initialize(this) { initialAd ->
+            val statusMap = initialAd.adapterStatusMap
+            for ((adapter, satatus) in statusMap) {
+                Log.d("AdMob", "Adapter: $adapter Status: ${satatus.description}")
+            }
+        }
+
+        /*binding?.adView?.apply {
+             //asigna tamaño
+
+             // Carga el anuncio
+             val adRequest = AdRequest.Builder().setContentUrl("https://www.amazon.es")
+             loadAd(adRequest.build())
+         }*/
+    }
+}

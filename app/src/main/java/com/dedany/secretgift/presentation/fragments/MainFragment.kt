@@ -34,19 +34,26 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private var localGamesAdapter: LocalGamesAdapter? = null
     private lateinit var user: User // Variable para almacenar al usuario
 
-    private var resultLauncher =
+    private var resultLauncherGame =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
                 RESULT_OK -> {
-                    if (result.data?.hasExtra(Constants.KEY_ACCESS_CODE) == true) {
-                        val game = result.data?.getCustomSerializable<Game>(Constants.KEY_ACCESS_CODE)
-                        val position = result.data?.extras?.getInt(Constants.KEY_GAME_POSITION)
-                        position?.let {
-                            game?.let {
-                                //viewModel?.updateGamesList(position, game)
-                                gamesAdapter?.notifyDataSetChanged()
-                            }
-                        }
+                    val gameId = result.data?.getIntExtra(Constants.KEY_GAME_ID, -1)
+                    if (gameId != null && gameId != -1) {
+                        viewModel?.loadLocalGames()
+                    }
+                }
+            }
+        }
+
+    private var resultLauncherAccess =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                RESULT_OK -> {
+                    val accessCode = result.data?.getStringExtra(Constants.KEY_ACCESS_CODE)
+                    if (!accessCode.isNullOrEmpty()) {
+                        // Recargar la lista de juegos de la API
+                        viewModel?.loadGames()
                     }
                 }
             }
@@ -87,8 +94,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun setUpAdapters() {
         localGamesAdapter = LocalGamesAdapter(
-            onGameClick = { game, position ->
-                openLocalGameDetails(game, position)
+            onGameClick = { game, _ ->
+                openLocalGameDetails(game.id)
             },
             onGameDelete = { game, _ ->
                 viewModel?.deleteLocalGame(game)
@@ -129,25 +136,23 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
 
         binding?.btnLogoutMain?.setOnClickListener {
-            // Cerrar sesión y navegar a la pantalla de inicio de sesión
             val intent = Intent(requireContext(), LoginActivity::class.java)
             startActivity(intent)
         }
     }
 
 
-    private fun openLocalGameDetails(game: LocalGame, position: Int) {
-//        val intent = Intent(requireContext(), ViewGameActivity::class.java).apply {
-//            putExtra(Constants.KEY_GAME, game)
-//            putExtra(Constants.KEY_GAME_POSITION, position)
-//        }
-//        resultLauncher.launch(intent)
+    private fun openLocalGameDetails(gameId: Int) {
+        val intent = Intent(requireContext(), CreateGameActivity::class.java).apply {
+            putExtra(Constants.KEY_GAME_ID, gameId)
+        }
+        resultLauncherGame.launch(intent)
     }
 
     private fun openApiGameDetails(accessCode: String) {
         val intent = Intent(requireContext(), ViewGameActivity::class.java).apply {
             putExtra(Constants.KEY_ACCESS_CODE, accessCode)
         }
-        resultLauncher.launch(intent)
+        resultLauncherAccess.launch(intent)
     }
 }

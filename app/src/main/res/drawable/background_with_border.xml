@@ -2,4 +2,5 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@drawable/app_background" />
     <item android:drawable="@drawable/border_dialog" />
+    <padding android:padding="16dp"/>
 </layer-list>

@@ -93,6 +93,7 @@ class LoginActivity : AppCompatActivity() {
             dialog.setContentView(R.layout.code_input_dialog)
 
             dialog.show()
+
             val btnConfirm = dialog.findViewById<Button>(R.id.btn_confirm)
             val btnCancel = dialog.findViewById<Button>(R.id.btn_cancel)
             val inputCodeField = dialog.findViewById<EditText>(R.id.inputCodeField)
