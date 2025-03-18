@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dedany.secretgift.domain.entities.Game
 import com.dedany.secretgift.domain.entities.GameSummary
 import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.User
@@ -34,14 +33,13 @@ class MainActivityViewModel @Inject constructor(
     val deletedGameMessage: LiveData<String> = _deletedGameMessage
 
 
-
     fun loadGames() {
         viewModelScope.launch {
             _games.value = gamesUseCase.getGamesByUser()
         }
     }
 
-    fun loadLocalGames(){
+    fun loadLocalGames() {
         viewModelScope.launch {
             _localGames.value = gamesUseCase.getLocalGamesByUser()
         }
@@ -51,8 +49,9 @@ class MainActivityViewModel @Inject constructor(
         viewModelScope.launch {
             val registeredUser = usersUseCase.getRegisteredUser()
             _user.value = registeredUser
+        }
     }
-    }
+
     fun deleteLocalGame(gameId: Int) {
         viewModelScope.launch {
             val isDeleted = gamesUseCase.deleteLocalGame(gameId)
@@ -60,6 +59,18 @@ class MainActivityViewModel @Inject constructor(
             if (isDeleted) {
                 _deletedGameMessage.value = "Juego borrado correctamente"
                 loadLocalGames()
+            } else {
+                _deletedGameMessage.value = "Error al borrar el juego"
+            }
+        }
+    }
+
+    fun deleteRemoteGame(gameId: String) {
+        viewModelScope.launch {
+            val isDeleted = gamesUseCase.deleteGame(gameId)
+            if (isDeleted) {
+                _deletedGameMessage.value = "Juego borrado correctamente"
+                loadGames()
             } else {
                 _deletedGameMessage.value = "Error al borrar el juego"
             }

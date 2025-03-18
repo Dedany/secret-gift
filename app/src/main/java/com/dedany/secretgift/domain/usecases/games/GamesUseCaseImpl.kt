@@ -58,8 +58,8 @@ class GamesUseCaseImpl @Inject constructor(
         repository.updateGame(game)
     }
 
-    override suspend fun deleteGame(game: Game) {
-        repository.deleteGame(game)
+    override suspend fun deleteGame(gameId: String): Boolean {
+       return repository.deleteGame(gameId)
     }
 
 

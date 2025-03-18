@@ -128,9 +128,8 @@ class GameRepositoryImpl @Inject constructor(
 //        remoteDataSource.updateGame(gameDto)
     }
 
-    override suspend fun deleteGame(game: Game) {
-//        val gameDto = game.toDto()
-//        remoteDataSource.deleteGame(gameDto)
+    override suspend fun deleteGame(gameId: String): Boolean {
+        return remoteDataSource.deleteGame(gameId)
     }
 
 

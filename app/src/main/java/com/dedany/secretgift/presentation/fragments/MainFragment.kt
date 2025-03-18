@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.FragmentMainBinding
 import com.dedany.secretgift.domain.entities.Game
+import com.dedany.secretgift.domain.entities.GameSummary
 import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.User
 import com.dedany.secretgift.presentation.game.createGame.CreateGameActivity
@@ -24,6 +25,7 @@ import com.dedany.secretgift.presentation.login.LoginActivity
 import com.dedany.secretgift.presentation.main.GamesAdapter
 import com.dedany.secretgift.presentation.main.LocalGamesAdapter
 import com.dedany.secretgift.presentation.main.MainActivityViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -98,8 +100,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             onGameClick = { game, _ ->
                 openLocalGameDetails(game.id)
             },
-            onGameDelete = { gameId,position ->
-                viewModel?.deleteLocalGame(gameId)
+            onGameDelete = { game,position ->
+                showDeleteConfirmationDialog(game, null)
             }
         )
 
@@ -107,8 +109,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             onGameClick = { accessCode ->
                 openApiGameDetails(accessCode)
             },
-            onGameDelete = { game, _ ->
-                //viewModel?.deleteLocalGame(game)
+            onGameDelete = { game, position ->
+                showDeleteConfirmationDialog(null, game)
             }
         )
 
@@ -159,5 +161,22 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             putExtra(Constants.KEY_ACCESS_CODE, accessCode)
         }
         resultLauncherAccess.launch(intent)
+    }
+    private fun showDeleteConfirmationDialog(localGame: LocalGame?, game: GameSummary?) {
+        val builder = MaterialAlertDialogBuilder(requireContext())
+        val gameName = localGame?.name ?: game?.name
+        builder.setTitle("Confirmar borrado")
+            .setMessage("¿Estás seguro de que quieres borrar el juego $gameName?")
+            .setPositiveButton("Borrar") { _, _ ->
+                if (localGame != null) {
+                    viewModel?.deleteLocalGame(localGame.id)
+                } else if (game != null) {
+                    viewModel?.deleteRemoteGame(game.id)
+                }
+            }
+            .setNegativeButton("Cancelar") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 }

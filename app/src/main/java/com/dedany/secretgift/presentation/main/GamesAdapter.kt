@@ -14,7 +14,7 @@ import com.dedany.secretgift.domain.entities.GameSummary
 
 class GamesAdapter(
     private val onGameClick: (String) -> Unit,
-    private val onGameDelete: (Game, Int) -> Unit
+    private val onGameDelete: (GameSummary, Int) -> Unit
 ) : ListAdapter<GameSummary, GamesAdapter.GameViewHolder>(ListAdapterCallback()) {
 
     inner class GameViewHolder(private val binding: ItemApiGameListBinding) :
@@ -25,7 +25,9 @@ class GamesAdapter(
             binding.tvApiGameName.setTextColor(
                 ContextCompat.getColor(binding.root.context, R.color.brown)
             )
-
+            binding.ibApiMainDelete.setOnClickListener(
+                { onGameDelete(game, position) }
+            )
             binding.root.setOnClickListener {
                 onGameClick(game.accessCode)
             }

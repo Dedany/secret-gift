@@ -5,7 +5,6 @@ import com.dedany.secretgift.data.dataSources.games.remote.api.SecretGiftApi
 import com.dedany.secretgift.data.dataSources.games.remote.dto.CreateGameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameSummaryDto
-import com.dedany.secretgift.data.dataSources.games.remote.dto.OwnedGamesSummaryDataDto
 import com.dedany.secretgift.data.dataSources.users.local.preferences.UserPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -57,8 +56,13 @@ class GameRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteGame(game: GameDto) {
-        TODO("Not yet implemented")
+    override suspend fun deleteGame(gameId: String): Boolean {
+        val response = gamesApi.deleteGame(gameId)
+        if (response.isSuccessful) {
+            return true
+        } else {
+            throw Exception("Error eliminando el juego: ${response.errorBody()?.string()}")
+        }
     }
 
     override suspend fun updateGame(game: GameDto) {
