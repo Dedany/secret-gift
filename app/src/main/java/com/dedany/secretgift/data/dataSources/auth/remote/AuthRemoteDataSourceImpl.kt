@@ -50,7 +50,6 @@ class AuthRemoteDataSourceImpl @Inject constructor(
     }
 
     override fun isLoggedIn(): Boolean {
-       // return FirebaseAuth.getInstance().currentUser != null
         return auth.currentUser != null
     }
 

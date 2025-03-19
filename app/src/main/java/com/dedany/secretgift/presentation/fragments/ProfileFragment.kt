@@ -19,13 +19,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // Inicializamos el binding
         binding = FragmentProfileBinding.bind(view)
-
-        // Obtenemos el usuario del Bundle
         user = arguments?.getSerializable("user") as? User ?: return
 
-        // Configurarmos los datos del usuario en el ViewModel
         viewModel.setUserData(user)
 
         initObservers()

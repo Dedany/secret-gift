@@ -66,7 +66,7 @@ class MainActivityViewModel @Inject constructor(
 
     fun deleteLocalGame(gameId: Int) {
         viewModelScope.launch {
-            _isdeleting.value = true // 🔥 Activa el loader antes de eliminar
+            _isdeleting.value = true
 
             val isDeleted = gamesUseCase.deleteLocalGame(gameId)
             delay(1000)
@@ -77,7 +77,7 @@ class MainActivityViewModel @Inject constructor(
                 _deletedGameMessage.value = "Error al borrar el juego"
             }
 
-            _isdeleting.value = false// 🔥 Desactiva el loader después de terminar
+            _isdeleting.value = false
         }
     }
 

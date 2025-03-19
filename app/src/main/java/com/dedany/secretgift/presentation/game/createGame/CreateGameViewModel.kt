@@ -251,11 +251,9 @@ class CreateGameViewModel @Inject constructor(
                     gameId = game.id
                     playerList = game.players.toMutableList()
                     _players.value = playerList.toList()
-
-                    // Cargar los valores con validaciones
-                    eventDate = game.gameDate ?: Date()  // Asignar fecha actual si es null
-                    maxPrice = game.maxCost ?: 0  // Valor predeterminado si maxCost es null
-                    minPrice = game.minCost ?: 0  // Valor predeterminado si minCost es null
+                    eventDate = game.gameDate ?: Date()
+                    maxPrice = game.maxCost ?: 0
+                    minPrice = game.minCost ?: 0
                     rules = game.rules
 
                     _localGame.value = game
@@ -293,7 +291,6 @@ class CreateGameViewModel @Inject constructor(
 
 
 
-    // Métodos para almacenar y configurar los valores recibidos de GameSettingsViewModel
     fun setGameSettings(eventDate: String?, maxPrice: String, minPrice: String, rules: List<Rule>) {
         val defaultDate = Date()
         this.eventDate = try {
@@ -303,7 +300,6 @@ class CreateGameViewModel @Inject constructor(
         } catch (e: ParseException) {
             defaultDate
         }
-
         this.maxPrice = maxPrice.toIntOrNull() ?: 0
         this.minPrice = minPrice.toIntOrNull() ?: 0
         this.rules = rules

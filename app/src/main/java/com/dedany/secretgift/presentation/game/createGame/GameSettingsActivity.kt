@@ -34,8 +34,6 @@ class GameSettingsActivity : AppCompatActivity() {
         )
         binding = ActivityGameOptionsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        // Inicializar el adaptador antes de usarlo en los observadores
         initAdapters()
 
         val gameId = intent.getIntExtra(Constants.KEY_GAME_ID, -1)
@@ -44,7 +42,7 @@ class GameSettingsActivity : AppCompatActivity() {
         }
 
         initListeners()
-        initObservers() // Ahora podemos observar sin problemas
+        initObservers()
     }
 
     private fun initAdapters() {
@@ -61,9 +59,8 @@ class GameSettingsActivity : AppCompatActivity() {
     }
 
     private fun initObservers() {
-        // Ahora que el adaptador está inicializado, podemos observar las reglas sin problemas
         gameSettingsViewModel.rules.observe(this) { rules ->
-            rulesAdapter.submitList(rules) // Actualizar el adaptador con las nuevas reglas
+            rulesAdapter.submitList(rules)
         }
 
         gameSettingsViewModel.eventDate.observe(this) { eventDate ->
@@ -98,8 +95,8 @@ class GameSettingsActivity : AppCompatActivity() {
             val datePickerDialog = DatePickerDialog(this, { _, year, month, dayOfMonth ->
                 calendar.set(year, month, dayOfMonth)
                 val selectedDate = "$dayOfMonth-${month + 1}-$year"
-                binding.editTextEventDate.setText(selectedDate) // Directamente actualiza el EditText
-                gameSettingsViewModel.setEventDate(selectedDate)  // Actualiza el ViewModel
+                binding.editTextEventDate.setText(selectedDate)
+                gameSettingsViewModel.setEventDate(selectedDate)
             }, year, month, day)
 
             datePickerDialog.show()
@@ -107,7 +104,6 @@ class GameSettingsActivity : AppCompatActivity() {
 
 
         binding.btnSaveChanges.setOnClickListener {
-            // Recoger los datos de los campos
             val eventDate = binding.editTextEventDate.text.toString()
             val maxPrice = binding.editTextMaxPriceOptions.text.toString()
             val minPrice = binding.editTextMinPriceOptions.text.toString()
@@ -129,10 +125,9 @@ class GameSettingsActivity : AppCompatActivity() {
             }
         }
 
-        // Regresar
         binding.iconBack.setOnClickListener {
             setResult(RESULT_CANCELED)
-            finish()  // Cierra la actividad
+            finish()
         }
 
         // Añadir incompatibilidad

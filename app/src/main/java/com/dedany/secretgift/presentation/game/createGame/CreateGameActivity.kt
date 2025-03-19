@@ -69,7 +69,7 @@ class CreateGameActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[CreateGameViewModel::class.java]
         setContentView(binding?.root)
 
-
+        viewModel?.fetchOwnerEmail()
         val gameId = intent.getIntExtra(Constants.KEY_GAME_ID, -1)
 
         if (gameId != -1) {
@@ -77,7 +77,7 @@ class CreateGameActivity : AppCompatActivity() {
             viewModel?.loadLocalGameById(gameId)
             viewModel?.updateGame()
         } else {
-            viewModel?.addCreatingUserToPlayers()  // Se ejecuta solo si es un nuevo juego
+            viewModel?.addCreatingUserToPlayers()
             viewModel?.createOrUpdateGame()
         }
 
@@ -145,7 +145,10 @@ class CreateGameActivity : AppCompatActivity() {
                 playerAdapter?.submitList(it.players)
             }
         }
-        
+        viewModel?.ownerId?.observe(this) { ownerEmail ->
+            playerAdapter?.setOwnerEmail(ownerEmail)
+        }
+
         viewModel?.isGameSavedSuccess?.observe(this) { isSuccess ->
             if (isSuccess) {
                 startActivity(Intent(this, MainActivity::class.java))
