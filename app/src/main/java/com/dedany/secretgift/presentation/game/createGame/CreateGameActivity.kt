@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -59,7 +60,11 @@ class CreateGameActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.dark(
+                resources.getColor(R.color.transparent, null),
+            )
+        )
         binding = ActivityCreateGameBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[CreateGameViewModel::class.java]
         setContentView(binding?.root)

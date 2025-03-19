@@ -2,9 +2,11 @@ package com.dedany.secretgift.presentation.details
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityDetailsMainBinding
 import com.dedany.secretgift.domain.entities.Game
 import com.dedany.secretgift.presentation.helpers.Constants
@@ -17,7 +19,11 @@ class DetailsMainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.dark(
+                resources.getColor(R.color.transparent, null),
+            )
+        )
         binding = ActivityDetailsMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
         viewModel = ViewModelProvider(this).get(DetailsMainViewModel::class.java)
