@@ -7,16 +7,11 @@ import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-
-
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -27,6 +22,7 @@ import com.dedany.secretgift.domain.entities.Rule
 import com.dedany.secretgift.presentation.helpers.Constants
 import com.dedany.secretgift.presentation.main.MainActivity
 import com.google.android.gms.ads.MobileAds
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 
@@ -37,6 +33,7 @@ class CreateGameActivity : AppCompatActivity() {
     private var bindingDialog: RegisterGamePlayerBinding? = null
     private var viewModel: CreateGameViewModel? = null
     private var playerAdapter: PlayerAdapter? = null
+    private var addPlayerDialog: Dialog? = null
 
     private val settingsActivityResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -140,14 +137,23 @@ class CreateGameActivity : AppCompatActivity() {
             if (isSuccess) {
                 startActivity(Intent(this, MainActivity::class.java))
             } else {
-                Toast.makeText(this, "Error al guardar el juego", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "No se puede guardar el juego", Toast.LENGTH_SHORT).show()
             }
         }
-        viewModel?.insufficientDataMessage?.observe(this) { message ->
+        viewModel?.nameErrorMessage?.observe(this) { message ->
             if (message.isNotEmpty()) {
                 Toast.makeText(this, message, Toast.LENGTH_LONG).show()
             }
-
+        }
+        viewModel?.playersErrorMessage?.observe(this) { message ->
+            if (message.isNotEmpty()) {
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+            }
+        }
+        viewModel?.dateErrorMessage?.observe(this) { message ->
+            if (message.isNotEmpty()) {
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+            }
         }
         viewModel?.showConfirmationDialog?.observe(this) { showDialog ->
             if (showDialog) {
@@ -164,6 +170,16 @@ class CreateGameActivity : AppCompatActivity() {
 
         viewModel?.players?.observe(this) { players ->
             playerAdapter?.submitList(players)
+        }
+        viewModel?.addPlayerResult?.observe(this) { result ->
+            when (result) {
+                is CreateGameViewModel.AddPlayerResult.Success -> {
+                    addPlayerDialog?.dismiss()
+                }
+                is CreateGameViewModel.AddPlayerResult.Error -> {
+                    Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
@@ -190,18 +206,12 @@ class CreateGameActivity : AppCompatActivity() {
 
         binding?.btnGameSettings?.setOnClickListener {
             val gameId = viewModel?.getGameId() ?: -1
-            val eventDate = viewModel?.eventDate ?: ""
-            val maxPrice = viewModel?.maxPrice ?: ""
-            val minPrice = viewModel?.minPrice ?: ""
-
 
             val playersList = viewModel?.getPlayersList() ?: emptyList()
 
             val intent = Intent(this, GameSettingsActivity::class.java).apply {
                 putExtra(Constants.KEY_GAME_ID, gameId)
-                putExtra("EVENT_DATE", eventDate)
-                putExtra("MAX_PRICE", maxPrice)
-                putExtra("MIN_PRICE", minPrice)
+
                 putExtra("PLAYERS_LIST", ArrayList(playersList))
             }
 
@@ -212,49 +222,28 @@ class CreateGameActivity : AppCompatActivity() {
             showAddplayerDialog()
         }
 
-
-        binding?.btnAdd?.setOnClickListener {
-            showAddplayerDialog()
-        }
     }
 
 
     private fun showAddplayerDialog() {
         val dialogBinding = RegisterGamePlayerBinding.inflate(layoutInflater)
-        val dialog = Dialog(this)
-        dialog.setContentView(dialogBinding.root)
+        addPlayerDialog = Dialog(this) // Assign to addPlayerDialog
+        addPlayerDialog?.setContentView(dialogBinding.root)
         val width = ViewGroup.LayoutParams.WRAP_CONTENT
         val height = resources.getDimensionPixelSize(R.dimen.dialog_height)
 
-        dialog.window?.setLayout(width, height)
-        dialog.window?.setGravity(Gravity.CENTER)
+        addPlayerDialog?.window?.setLayout(width, height)
+        addPlayerDialog?.window?.setGravity(Gravity.CENTER)
 
-        dialog.show()
+        addPlayerDialog?.show()
         dialogBinding.btnConfirm.setOnClickListener {
             val name = dialogBinding.nameEditText.text.toString().trim()
             val email = dialogBinding.emailEditText.text.toString().trim().lowercase(Locale.ROOT)
-
-            if (name.isNotEmpty() && email.isNotEmpty()) {
-                if (viewModel?.validateEmail(email) == true) {
-                    val existingPlayers = viewModel?.players?.value ?: emptyList()
-                    val emailExists = existingPlayers.any { it.email == email }
-
-                    if (emailExists) {
-                        Toast.makeText(this, "El email ya está registrado", Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        viewModel?.addPlayer(name, email)
-                        dialog.dismiss()
-                    }
-                }
-            } else {
-                Toast.makeText(this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT)
-                    .show()
-            }
+            viewModel?.addPlayer(name, email)
         }
 
         dialogBinding.btnCancel.setOnClickListener {
-            dialog.dismiss()
+            addPlayerDialog?.dismiss()
         }
         dialogBinding.nameEditText.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
@@ -267,10 +256,10 @@ class CreateGameActivity : AppCompatActivity() {
     }
 
     private fun showConfirmationDialog() {
-        AlertDialog.Builder(this)
+        MaterialAlertDialogBuilder(this)
             .setTitle("Guardar Juego")
             .setMessage("Una vez enviado el juego, no podrás modificarlo. ¿Estás seguro de que quieres enviar?")
-            .setPositiveButton("Guardar") { _, _ ->
+            .setPositiveButton("Enviar") { _, _ ->
                 viewModel?.saveGame()
             }
             .setNegativeButton("Cancelar") { _, _ ->

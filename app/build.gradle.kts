@@ -98,4 +98,8 @@ dependencies {
     //flexbox
     implementation("com.google.android.flexbox:flexbox:3.0.0")
 
+    //Mockito Test
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")
+    testImplementation("org.mockito:mockito-inline:2.13.0")
+
 }

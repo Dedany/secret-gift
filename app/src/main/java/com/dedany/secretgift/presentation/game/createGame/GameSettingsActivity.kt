@@ -3,17 +3,21 @@ package com.dedany.secretgift.presentation.game.createGame
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityGameOptionsBinding
 import com.dedany.secretgift.domain.entities.Player
 import com.dedany.secretgift.domain.entities.Rule
 import com.dedany.secretgift.presentation.helpers.Constants
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 @AndroidEntryPoint
 class GameSettingsActivity : AppCompatActivity() {
@@ -22,6 +26,7 @@ class GameSettingsActivity : AppCompatActivity() {
     private val gameSettingsViewModel: GameSettingsViewModel by viewModels()
     private lateinit var rulesAdapter: RulesAdapter
     private val calendar = Calendar.getInstance()
+    private val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +73,8 @@ class GameSettingsActivity : AppCompatActivity() {
             binding.editTextEventDate.setText(eventDate)
         }
 
+
+
         gameSettingsViewModel.maxPrice.observe(this) { maxPrice ->
             binding.editTextMaxPriceOptions.setText(maxPrice)
         }
@@ -80,15 +87,20 @@ class GameSettingsActivity : AppCompatActivity() {
     private fun initListeners() {
         // DataPicker
         binding.editTextEventDate.setOnClickListener {
+            // Si ya hay una fecha seleccionada, la borramos
+            if (gameSettingsViewModel.eventDate.value != null) {
+                binding.editTextEventDate.text.clear()
+                gameSettingsViewModel.setEventDate(null)
+            }
             val year = calendar.get(Calendar.YEAR)
             val month = calendar.get(Calendar.MONTH)
             val day = calendar.get(Calendar.DAY_OF_MONTH)
 
             val datePickerDialog = DatePickerDialog(this, { _, year, month, dayOfMonth ->
                 calendar.set(year, month, dayOfMonth)
-                val selectedDate = "$dayOfMonth-${month + 1}-$year"
+                val selectedDate = dateFormat.format(calendar.time)
                 binding.editTextEventDate.setText(selectedDate) // Directamente actualiza el EditText
-                gameSettingsViewModel.setEventDate(selectedDate)  // Actualiza el ViewModel
+                gameSettingsViewModel.setEventDate(selectedDate)
             }, year, month, day)
 
             datePickerDialog.show()
@@ -97,7 +109,12 @@ class GameSettingsActivity : AppCompatActivity() {
 
         // Guardar cambios
         binding.btnSaveChanges.setOnClickListener {
-            val eventDate = binding.editTextEventDate.text.toString()
+            if (gameSettingsViewModel.isDateSelected.value == false) {
+                Toast.makeText(this, "Por favor, selecciona una fecha", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val eventDate = gameSettingsViewModel.eventDate.value!!
             val maxPrice = binding.editTextMaxPriceOptions.text.toString()
             val minPrice = binding.editTextMinPriceOptions.text.toString()
             val incompatibilities = getIncompatibilities()
