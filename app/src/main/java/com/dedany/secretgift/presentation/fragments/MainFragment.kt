@@ -143,9 +143,24 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
 
         binding?.btnLogoutMain?.setOnClickListener {
-            val intent = Intent(requireContext(), LoginActivity::class.java)
-            startActivity(intent)
+
+            val builder = MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Confirmar cierre de sesión")
+                .setMessage("¿Estás seguro de que quieres cerrar sesión? Esto borrará todos los borradores de juegos.")
+                .setNegativeButton("Cancelar") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .setPositiveButton("Cerrar sesión") { dialog, _ ->
+                    viewModel?.deleteAllGames()
+                    viewModel?.logout()
+                    val intent = Intent(requireContext(), LoginActivity::class.java)
+                    startActivity(intent)
+
+                    dialog.dismiss()
+                }
+            builder.show()
         }
+
     }
 
 

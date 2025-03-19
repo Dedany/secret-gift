@@ -45,7 +45,8 @@ class AuthRemoteDataSourceImpl @Inject constructor(
     }
 
     override fun logout(): Boolean {
-        TODO("Not yet implemented")
+        auth.signOut()
+        return true
     }
 
     override suspend fun register(createUserDto: CreateUserDto): Pair<Boolean, String> {

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.dedany.secretgift.domain.entities.GameSummary
 import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.User
+import com.dedany.secretgift.domain.usecases.auth.AuthUseCase
 import com.dedany.secretgift.domain.usecases.games.GamesUseCase
 import com.dedany.secretgift.domain.usecases.users.UsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
     private val gamesUseCase: GamesUseCase,
+    private val authUseCase: AuthUseCase,
     private val usersUseCase: UsersUseCase
 ) : ViewModel() {
 
@@ -52,6 +54,12 @@ class MainActivityViewModel @Inject constructor(
         }
     }
 
+    fun logout() {
+        viewModelScope.launch {
+            authUseCase.logout()
+        }
+    }
+
     fun deleteLocalGame(gameId: Int) {
         viewModelScope.launch {
             val isDeleted = gamesUseCase.deleteLocalGame(gameId)
@@ -74,6 +82,13 @@ class MainActivityViewModel @Inject constructor(
             } else {
                 _deletedGameMessage.value = "Error al borrar el juego"
             }
+        }
+    }
+
+    fun deleteAllGames() {
+        viewModelScope.launch {
+            gamesUseCase.deleteAllGames()
+
         }
     }
 }

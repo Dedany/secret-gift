@@ -62,7 +62,9 @@ class GamesUseCaseImpl @Inject constructor(
        return repository.deleteGame(gameId)
     }
 
-
+    override suspend fun deleteAllGames(): Boolean{
+        return repository.deleteAllGames()
+    }
 
     override suspend fun getLocalGamesByUser(): List<LocalGame> {
         val games = repository.getLocalGamesByUser()

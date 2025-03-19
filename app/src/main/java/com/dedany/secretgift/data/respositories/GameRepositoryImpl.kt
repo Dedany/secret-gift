@@ -105,6 +105,10 @@ class GameRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun deleteAllGames(): Boolean {
+        return  localDataSource.deleteAllGames()
+    }
+
     override suspend fun deleteLocalGame(gameId: Int):Boolean {
        return localDataSource.deleteGame(gameId)
     }

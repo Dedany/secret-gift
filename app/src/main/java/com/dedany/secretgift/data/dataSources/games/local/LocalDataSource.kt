@@ -11,4 +11,5 @@ interface LocalDataSource {
     suspend fun createGame(game: GameDbo): Long
     suspend fun updateGame(game: GameDbo): Int
     suspend fun getLocalGamesByUser(userId: String): List<GameDbo>
+    suspend fun deleteAllGames(): Boolean
 }
