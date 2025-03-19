@@ -3,7 +3,6 @@ package com.dedany.secretgift.domain.usecases.games
 import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.Game
 import com.dedany.secretgift.domain.entities.GameSummary
-import com.dedany.secretgift.domain.entities.Player
 
 interface GamesUseCase {
     suspend fun getGame(gameCode: String): Game
@@ -15,6 +14,7 @@ interface GamesUseCase {
     suspend fun updateLocalGame(game: LocalGame) : Int
     suspend fun createGame(gameId: Int): Boolean
     suspend fun updateGame(game: Game)
-    suspend fun deleteGame(game: Game)
+    suspend fun deleteGame(gameId: String):Boolean
     suspend fun getLocalGamesByUser(): List<LocalGame>
+    suspend fun deleteAllGames(): Boolean
 }

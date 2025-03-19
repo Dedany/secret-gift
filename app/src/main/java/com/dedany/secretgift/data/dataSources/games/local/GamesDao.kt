@@ -14,6 +14,9 @@ interface GamesDao {
     @Query("SELECT * FROM games")
     suspend fun getGames(): List<GameDbo>
 
+    @Query("DELETE FROM games")
+    suspend fun deleteAllGames()
+
     @Query("SELECT * FROM games WHERE id = :gameId")
     suspend fun getGame(gameId: Int): GameDbo
 

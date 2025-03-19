@@ -46,7 +46,7 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override fun isLoggedIn(): Boolean {
-        TODO("Not yet implemented")
+       return authRemoteDataSource.isLoggedIn()
     }
 
 }

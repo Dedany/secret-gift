@@ -4,10 +4,12 @@ import com.dedany.secretgift.data.dataSources.games.remote.dto.CreateGameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GamesDataDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.OwnedGamesSummaryDataDto
+import com.dedany.secretgift.data.dataSources.games.remote.dto.ServerResponse
 
 
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -23,6 +25,9 @@ interface SecretGiftApi {
 
    @POST("/room/create")
    suspend fun createGame(@Body request: CreateGameDto): Response<GameDto>
+
+   @DELETE("/room/{id}")
+   suspend fun deleteGame(@Path("id") gameId: String): Response<ServerResponse>
 
 
 

@@ -34,5 +34,14 @@ class LocalDataSourceImpl @Inject constructor(
     override suspend fun getLocalGamesByUser(userId: String): List<GameDbo> {
         return gamesDao.getLocalGamesByUser(userId)
     }
+
+    override suspend fun deleteAllGames(): Boolean {
+        return try {
+            gamesDao.deleteAllGames()
+            return true
+        } catch (e: Exception) {
+            false
+        }
+    }
 }
 

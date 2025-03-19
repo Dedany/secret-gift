@@ -21,7 +21,7 @@
         <ImageView
             android:id="@+id/icon_back"
             style="@style/custom_back_image"
-            android:layout_marginHorizontal="10dp"
+            android:layout_marginStart="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,7 +33,6 @@
             android:layout_marginRight="@dimen/activity_button_margin_right"
             android:fontFamily="@font/cursive_serif_book"
             android:text="Registro de Usuario"
-
             />
     </Toolbar>
 
@@ -42,7 +41,7 @@
         style="@style/custom_text_input_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
@@ -98,10 +97,10 @@
         android:id="@+id/confirm_password_layout"
         style="@style/custom_text_input_layout"
         android:layout_width="0dp"
-        app:endIconMode="password_toggle"
-        app:endIconTint="@color/box_stroke_color"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        app:endIconMode="password_toggle"
+        app:endIconTint="@color/box_stroke_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password_layout">
@@ -125,7 +124,7 @@
         android:focusable="true"
         android:fontFamily="@font/cursive_serif_book"
         android:text="@string/terms_and_conditions"
-        android:textColor="@color/maincolor"
+        android:textColor="@color/orangecolor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/confirm_password_layout" />

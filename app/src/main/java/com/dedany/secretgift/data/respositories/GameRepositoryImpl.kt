@@ -105,6 +105,10 @@ class GameRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun deleteAllGames(): Boolean {
+        return  localDataSource.deleteAllGames()
+    }
+
     override suspend fun deleteLocalGame(gameId: Int):Boolean {
        return localDataSource.deleteGame(gameId)
     }
@@ -128,9 +132,8 @@ class GameRepositoryImpl @Inject constructor(
 //        remoteDataSource.updateGame(gameDto)
     }
 
-    override suspend fun deleteGame(game: Game) {
-//        val gameDto = game.toDto()
-//        remoteDataSource.deleteGame(gameDto)
+    override suspend fun deleteGame(gameId: String): Boolean {
+        return remoteDataSource.deleteGame(gameId)
     }
 
 
@@ -246,6 +249,7 @@ class GameRepositoryImpl @Inject constructor(
             ownerId = this.ownerId,
             status = this.status,
             maxCost = this.maxCost,
+            minCost = this.minCost,
             gameDate = this.gameDate,
             players = this.players.map { it.toDto() },
             rules = this.rules.map { it.toDto() },
