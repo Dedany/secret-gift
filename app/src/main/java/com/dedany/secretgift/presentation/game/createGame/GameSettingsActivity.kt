@@ -3,8 +3,11 @@ package com.dedany.secretgift.presentation.game.createGame
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.SystemBarStyle
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityGameOptionsBinding
 import com.dedany.secretgift.domain.entities.Player
 import com.dedany.secretgift.domain.entities.Rule
@@ -22,6 +25,11 @@ class GameSettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.dark(
+                resources.getColor(R.color.transparent, null),
+            )
+        )
         binding = ActivityGameOptionsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

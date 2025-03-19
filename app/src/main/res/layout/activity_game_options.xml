@@ -153,7 +153,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:fontFamily="@font/cursive_serif_book"
-                android:text="Incompatibilidades: No hay incompatibilidades"
+                android:text="Las incompatibilidades son bidireccionales "
+                android:textColor="@color/red"
                 android:textSize="14dp"
                 android:textStyle="bold" />
 

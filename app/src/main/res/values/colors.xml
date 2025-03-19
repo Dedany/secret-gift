@@ -5,6 +5,7 @@
     <color name="whiteStroke">#62FFFFFF</color>
     <color name="brown">#835B18</color>
     <color name="blue">#3E658A</color>
+    <color name="red">#AF2424</color>
     <color name="navColor">#A0382A07</color>
     <color name="editColor">#A99C57</color>
     <color name="greenColor">#77DD77</color>
@@ -15,5 +16,6 @@
     <color name="errorColor">#FF5722</color>
     <color name="linked_player_color">#EBDFDF</color>
     <color name="transparent">#00000000</color>"
+
 
 </resources>
