@@ -11,5 +11,6 @@ interface AuthRemoteDataSource {
     suspend fun register(userDto: CreateUserDto):  Pair<Boolean, String>
     suspend fun getUserByEmail(email: UserEmailDto): Response<UserRegisteredDto>
     fun logout(): Boolean
+    fun isLoggedIn(): Boolean
 
 }
