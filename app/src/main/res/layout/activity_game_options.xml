@@ -83,12 +83,13 @@
                  />
 
             <EditText
-                android:id="@+id/edit_text_event_date"
-                style="@style/custom_edit_text"
+                android:id="@+id/editTextEventDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="DD/MM/YYYY"
-                android:inputType="date" />
+                android:inputType="none"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:clickable="true" />
 
 
             <TextView
