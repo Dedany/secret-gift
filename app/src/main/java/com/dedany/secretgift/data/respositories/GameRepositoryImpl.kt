@@ -249,6 +249,7 @@ class GameRepositoryImpl @Inject constructor(
             ownerId = this.ownerId,
             status = this.status,
             maxCost = this.maxCost,
+            minCost = this.minCost,
             gameDate = this.gameDate,
             players = this.players.map { it.toDto() },
             rules = this.rules.map { it.toDto() },

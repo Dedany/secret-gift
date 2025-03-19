@@ -319,11 +319,14 @@ class CreateGameViewModel @Inject constructor(
     fun saveGame() {
         viewModelScope.launch {
             try {
-                if (true) {
+                if (checkGame()) {
 
                     val isGameSaved = gamesUseCase.createGame(gameId)
 
                     _isGameSavedSuccess.value = isGameSaved
+                } else {
+                    _isGameSavedSuccess.value = false
+                    _insufficientDataMessage.value = "Comprueba si falta algún dato"
                 }
             } catch (e: Exception) {
                 Log.e("CreateGameViewModel", "Error al guardar el juego: ${e.message}")
