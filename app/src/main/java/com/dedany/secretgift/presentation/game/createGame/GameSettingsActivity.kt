@@ -3,10 +3,12 @@ package com.dedany.secretgift.presentation.game.createGame
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityGameOptionsBinding
 import com.dedany.secretgift.domain.entities.Player
@@ -75,6 +77,15 @@ class GameSettingsActivity : AppCompatActivity() {
         gameSettingsViewModel.minPrice.observe(this) { minPrice ->
             binding.editTextMinPriceOptions.setText(minPrice)
         }
+
+        gameSettingsViewModel.isSaving.observe(this, Observer { isSaving ->
+            if (isSaving) {
+                binding.loader.visibility = View.VISIBLE
+                binding.cardViewOptions.visibility =View.GONE
+            } else {
+                binding.loader.visibility = View.GONE
+            }
+        })
     }
 
     private fun initListeners() {
@@ -95,8 +106,8 @@ class GameSettingsActivity : AppCompatActivity() {
         }
 
 
-        // Guardar cambios
         binding.btnSaveChanges.setOnClickListener {
+            // Recoger los datos de los campos
             val eventDate = binding.editTextEventDate.text.toString()
             val maxPrice = binding.editTextMaxPriceOptions.text.toString()
             val minPrice = binding.editTextMinPriceOptions.text.toString()
@@ -105,15 +116,17 @@ class GameSettingsActivity : AppCompatActivity() {
             val rules = incompatibilities.map { Rule(it.first, it.second) }
             gameSettingsViewModel.setRules(rules)
 
-            val intent = Intent(this, CreateGameActivity::class.java).apply {
-                putExtra("EVENT_DATE", eventDate)
-                putExtra("MAX_PRICE", maxPrice)
-                putExtra("MIN_PRICE", minPrice)
-                putExtra("RULES", ArrayList(rules))
-            }
+            gameSettingsViewModel.saveGame(eventDate, maxPrice, minPrice, rules) {
+                val intent = Intent(this, CreateGameActivity::class.java).apply {
+                    putExtra("EVENT_DATE", eventDate)
+                    putExtra("MAX_PRICE", maxPrice)
+                    putExtra("MIN_PRICE", minPrice)
+                    putExtra("RULES", ArrayList(rules))
+                }
 
-            setResult(RESULT_OK, intent)
-            finish()
+                setResult(RESULT_OK, intent)
+                finish()
+            }
         }
 
         // Regresar

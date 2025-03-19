@@ -130,16 +130,22 @@ class CreateGameActivity : AppCompatActivity() {
 
     private fun initObservers() {
 
-        viewModel?.localGame?.observe(this, Observer { game ->
+        viewModel?.isSaving?.observe(this) { isSaving ->
+            if (isSaving) {
+                binding?.loader?.visibility = View.VISIBLE
+                binding?.constraintLayout2?.visibility = View.GONE
+            } else {
+                binding?.loader?.visibility = View.GONE
+            }
+        }
+
+        viewModel?.localGame?.observe(this) { game ->
             game?.let {
                 binding?.edNameRoom?.setText(it.name)
                 playerAdapter?.submitList(it.players)
             }
-        })
-
-        viewModel?.ownerId?.observe(this) { ownerId ->
-            playerAdapter?.setOwnerEmail(ownerId)
         }
+        
         viewModel?.isGameSavedSuccess?.observe(this) { isSuccess ->
             if (isSuccess) {
                 startActivity(Intent(this, MainActivity::class.java))

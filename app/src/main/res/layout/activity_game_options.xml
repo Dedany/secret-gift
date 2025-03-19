@@ -4,7 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/app_background">
+    <ProgressBar
+        android:id="@+id/loader"
+        android:layout_width="match_parent"
+        android:layout_marginTop="250dp"
+        android:layout_height="200dp"
+        android:visibility="gone"
+        android:indeterminateTint="@color/brown"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+    </ProgressBar>
     <Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -87,6 +97,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="none"
                 android:focusable="false"
+                android:textColor="@color/white"
                 android:focusableInTouchMode="false"
                 android:clickable="true" />
 
