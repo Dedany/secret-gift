@@ -33,7 +33,7 @@
                     android:id="@+id/tv_secretgift"
                     style="@style/custom_text_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_marginTop="@dimen/activity_top_margin"
                     android:fontFamily="@font/cursive_serif_bold"
                     android:text="SecretGift" />
@@ -42,7 +42,8 @@
                     android:id="@+id/icon_back"
                     style="@style/custom_back_image"
                     android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="36dp"
+                    android:scaleType="centerCrop"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
                 />

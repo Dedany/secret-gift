@@ -144,7 +144,7 @@ class CreateGameActivity : AppCompatActivity() {
             if (isSuccess) {
                 startActivity(Intent(this, MainActivity::class.java))
             } else {
-                Toast.makeText(this, "Error al guardar el juego", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Error al enviar el juego", Toast.LENGTH_SHORT).show()
             }
         }
         viewModel?.insufficientDataMessage?.observe(this) { message ->
@@ -274,7 +274,7 @@ class CreateGameActivity : AppCompatActivity() {
         AlertDialog.Builder(this)
             .setTitle("Guardar Juego")
             .setMessage("Una vez enviado el juego, no podrás modificarlo. ¿Estás seguro de que quieres enviar?")
-            .setPositiveButton("Guardar") { _, _ ->
+            .setPositiveButton("Enviar") { _, _ ->
                 viewModel?.saveGame()
             }
             .setNegativeButton("Cancelar") { _, _ ->

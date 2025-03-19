@@ -3,7 +3,7 @@
 
 <resources>
     <dimen name="activity_horizontal_margin">48dp</dimen>
-    <dimen name="activity_top_margin">24dp</dimen>
+    <dimen name="activity_top_margin">42dp</dimen>
     <dimen name="activity_top_margin_logo">120dp</dimen>
     <dimen name="button_horizontal_margin">48dp</dimen>
     <dimen name="activity_button_margin">24dp</dimen>
