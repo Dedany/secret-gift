@@ -7,6 +7,7 @@
     android:background="@drawable/app_background">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="#00ffffff"
@@ -104,6 +105,7 @@
                 android:id="@+id/btn_add"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:layout_marginTop="25dp"
                 android:contentDescription="Añadir participantes"
                 android:src="@drawable/icon_add"
                 android:visibility="gone"
@@ -134,11 +136,13 @@
         style="@style/custom_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="16dp"
         android:text="@string/game_settings_button"
         app:layout_constraintBottom_toTopOf="@id/btn_save_game"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/coordinatorLayout" />
 
 
     <Button

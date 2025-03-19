@@ -8,36 +8,36 @@
     tools:context=".presentation.main.MainActivity">
 
     <!-- Toolbar -->
+
+    <!-- LinearLayout para el nombre -->
     <Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="48dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-
         app:layout_constraintTop_toTopOf="parent">
 
-
         <TextView
+            android:id="@+id/tv_game_name"
+            style="@style/custom_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_game_name"
             android:layout_gravity="center"
-            style="@style/custom_text_view"
+            android:layout_marginBottom="16dp"
             android:gravity="center"
             android:text="Detalles del usuario"
             android:textColor="@color/maincolor"
-            android:textSize="@dimen/text_size_text_view" />
+            android:textSize="@dimen/text_size_text_view" /> <!-- Margen inferior para separar del contenido siguiente -->
     </Toolbar>
 
-    <!-- LinearLayout para el nombre -->
-
-    <!-- LinearLayout para el correo electrónico -->
     <LinearLayout
         android:id="@+id/linear_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -125,6 +125,5 @@
             android:layout_marginHorizontal="20dp"
             android:textColor="#F4F1F1" />
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
