@@ -91,7 +91,10 @@ class CreateGameActivity : AppCompatActivity() {
                 val dialogBinding = RegisterGamePlayerBinding.inflate(layoutInflater)
                 val dialog = Dialog(this)
                 dialog.setContentView(dialogBinding.root)
-
+                val width = ViewGroup.LayoutParams.WRAP_CONTENT
+                val height = resources.getDimensionPixelSize(R.dimen.dialog_height)
+                dialog.window?.setLayout(width, height)
+                dialog.window?.setGravity(Gravity.CENTER)
                 dialogBinding.nameEditText.setText(player.name)
                 dialogBinding.emailEditText.setText(player.email)
 
