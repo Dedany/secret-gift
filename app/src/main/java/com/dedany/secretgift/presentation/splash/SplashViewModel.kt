@@ -3,10 +3,13 @@ package com.dedany.secretgift.presentation.splash
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.dedany.secretgift.domain.usecases.auth.AuthUseCase
 import com.dedany.secretgift.presentation.login.LoginActivity
 import com.dedany.secretgift.presentation.main.MainActivity
+import dagger.hilt.android.ViewModelLifecycle
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,20 +21,13 @@ class SplashViewModel @Inject constructor(
     private val _isLoggedIn = MutableLiveData<Boolean>()
     val isLoggedIn: LiveData<Boolean> = _isLoggedIn
 
-    private val _nextActivity = MutableLiveData<Class<*>>()
-    val nextActivity: LiveData<Class<*>> = _nextActivity
-
 
     //verifica si está logueado
-    suspend fun checkLoginStatus() {
-        val isLoggedIn = authUseCase.isLoggedIn()
-        _nextActivity.value = if (isLoggedIn) {
-            MainActivity::class.java
-        } else {
-            LoginActivity::class.java
+    fun checkLoginStatus() {
+        viewModelScope.launch {
+            val isLoggedIn = authUseCase.isLoggedIn()
+            _isLoggedIn.value = isLoggedIn
         }
     }
-
-
 }
 

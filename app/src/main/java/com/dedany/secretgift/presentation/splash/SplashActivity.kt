@@ -26,24 +26,24 @@ class SplashActivity : AppCompatActivity() {
         enableEdgeToEdge()
 
         binding = ActivitySplashBinding.inflate(layoutInflater)
+        viewModel = ViewModelProvider(this).get(SplashViewModel::class.java)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this).get(SplashViewModel::class.java)
+        initObservers()
+        viewModel.checkLoginStatus()
+    }
 
-        // Lanza la comprobación de estado de login de manera asíncrona
-        lifecycleScope.launch {
-            viewModel.checkLoginStatus()
-        }
-
-        // Después de 3 segundos, observa el estado de login y navega a la actividad correspondiente
-        Handler(Looper.getMainLooper()).postDelayed({
-            viewModel.nextActivity.observe(this) { activityClass ->
+    fun initObservers() {
+        viewModel.isLoggedIn.observe(this) { hasSession ->
+            val activityClass =
+                if (hasSession) MainActivity::class.java else LoginActivity::class.java
+            Handler(Looper.getMainLooper()).postDelayed({
                 val intent = Intent(this, activityClass)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
                 finish()  // Finaliza la SplashActivity
-            }
-        }, 3000)  // 3 segundos de retraso
+            }, 3000)
+        }
     }
 }
 

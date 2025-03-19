@@ -87,11 +87,13 @@ class GameSettingsActivity : AppCompatActivity() {
             val datePickerDialog = DatePickerDialog(this, { _, year, month, dayOfMonth ->
                 calendar.set(year, month, dayOfMonth)
                 val selectedDate = "$dayOfMonth-${month + 1}-$year"
-                binding.editTextEventDate.setText(selectedDate)
+                binding.editTextEventDate.setText(selectedDate) // Directamente actualiza el EditText
                 gameSettingsViewModel.setEventDate(selectedDate)  // Actualiza el ViewModel
             }, year, month, day)
+
             datePickerDialog.show()
         }
+
 
         // Guardar cambios
         binding.btnSaveChanges.setOnClickListener {
