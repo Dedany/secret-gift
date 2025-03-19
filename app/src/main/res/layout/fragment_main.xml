@@ -6,6 +6,18 @@
     android:background="@drawable/app_background"
     tools:context=".presentation.main.MainActivity">
 
+    <ProgressBar
+        android:id="@+id/loader"
+        android:layout_width="match_parent"
+        android:layout_marginTop="280dp"
+        android:layout_height="200dp"
+        android:visibility="gone"
+        android:indeterminateTint="@color/brown"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </ProgressBar>
+
     <!-- AppBarLayout y Toolbar -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
