@@ -49,6 +49,11 @@ class AuthRemoteDataSourceImpl @Inject constructor(
         return true
     }
 
+    override fun isLoggedIn(): Boolean {
+        return auth.currentUser != null
+    }
+
+
     override suspend fun register(createUserDto: CreateUserDto): Pair<Boolean, String> {
         val uuid = createAuthUser(createUserDto.email, createUserDto.password)
 

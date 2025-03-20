@@ -13,7 +13,7 @@
         android:id="@+id/iv_login"
         android:layout_width="128dp"
         android:layout_height="128dp"
-        android:layout_marginTop="@dimen/activity_top_margin"
+        android:layout_marginTop="@dimen/activity_top_margin_logo"
         android:scaleType="centerCrop"
         android:src="@drawable/logo_login"
         app:layout_constraintEnd_toEndOf="parent"

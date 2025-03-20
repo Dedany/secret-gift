@@ -40,7 +40,7 @@ class PlayerAdapter(
         fun bind(player: Player) {
 
             binding.tvName.text = player.name
-            binding.ibDelete.visibility = if (player.email == ownerEmail) View.GONE else View.VISIBLE
+            binding.ibDelete.visibility = if (player.email.lowercase() == ownerEmail?.lowercase()) View.GONE else View.VISIBLE
             binding.ibDelete.setOnClickListener { onDeleteClick(player) }
             binding.ibEdit.setOnClickListener { onEditClick(player) }
         }

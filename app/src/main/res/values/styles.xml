@@ -47,6 +47,8 @@
         <item name="android:layout_height">@dimen/layout_height_back_image_view</item>
         <item name="android:src">@drawable/ic_launcher_foreground</item>
         <item name="tint">@color/maincolor</item>
+        <item name="android:scaleX">1.6</item>
+        <item name="android:scaleY">1.6</item>
 
     </style>
     <style name="custom_linked_player">

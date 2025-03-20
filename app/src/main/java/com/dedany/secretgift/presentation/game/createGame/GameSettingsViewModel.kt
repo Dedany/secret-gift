@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.dedany.secretgift.domain.entities.Rule
 import com.dedany.secretgift.domain.usecases.games.GamesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -23,6 +24,9 @@ class GameSettingsViewModel @Inject constructor(
 
     private val _isDateSelected = MutableLiveData<Boolean>(false)
     val isDateSelected: LiveData<Boolean> get() = _isDateSelected
+
+    private val _isSaving = MutableLiveData<Boolean>(false)
+    val isSaving: LiveData<Boolean> get() = _isSaving
 
     private val _maxPrice = MutableLiveData<String>()
     val maxPrice: LiveData<String> get() = _maxPrice
@@ -61,7 +65,21 @@ class GameSettingsViewModel @Inject constructor(
     fun setRules(newRules: List<Rule>) {
         _rules.value = newRules
     }
+    fun saveGame(eventDate: String, maxPrice: String, minPrice: String, rules: List<Rule>, onComplete: () -> Unit) {
+        _isSaving.value = true
 
+        viewModelScope.launch {
+            try {
+                delay(2000)
+                Log.d("GameSettingsViewModel", "Juego guardado exitosamente")
+                _isSaving.value = false
+                onComplete()
+            } catch (e: Exception) {
+                _isSaving.value = false
+                Log.e("GameSettingsViewModel", "Error al guardar el juego: ${e.message}")
+            }
+        }
+    }
     fun getLocalGameById(id: Int) {
         viewModelScope.launch {
             try {

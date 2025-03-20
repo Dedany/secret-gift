@@ -23,7 +23,7 @@ class GamesAdapter(
             binding.tvApiGameName.text = game.name
 
             binding.tvApiGameName.setTextColor(
-                ContextCompat.getColor(binding.root.context, R.color.brown)
+                ContextCompat.getColor(binding.root.context, R.color.greenColor)
             )
             binding.ibApiMainDelete.setOnClickListener(
                 { onGameDelete(game, position) }

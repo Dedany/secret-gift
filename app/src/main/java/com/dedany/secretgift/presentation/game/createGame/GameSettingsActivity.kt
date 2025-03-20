@@ -4,11 +4,13 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import android.view.View
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 
+import androidx.lifecycle.Observer
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityGameOptionsBinding
 import com.dedany.secretgift.domain.entities.Player
@@ -37,8 +39,6 @@ class GameSettingsActivity : AppCompatActivity() {
         )
         binding = ActivityGameOptionsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        // Inicializar el adaptador antes de usarlo en los observadores
         initAdapters()
 
         val gameId = intent.getIntExtra(Constants.KEY_GAME_ID, -1)
@@ -47,7 +47,7 @@ class GameSettingsActivity : AppCompatActivity() {
         }
 
         initListeners()
-        initObservers() // Ahora podemos observar sin problemas
+        initObservers()
     }
 
     private fun initAdapters() {
@@ -64,9 +64,8 @@ class GameSettingsActivity : AppCompatActivity() {
     }
 
     private fun initObservers() {
-        // Ahora que el adaptador está inicializado, podemos observar las reglas sin problemas
         gameSettingsViewModel.rules.observe(this) { rules ->
-            rulesAdapter.submitList(rules) // Actualizar el adaptador con las nuevas reglas
+            rulesAdapter.submitList(rules)
         }
 
         gameSettingsViewModel.eventDate.observe(this) { eventDate ->
@@ -82,6 +81,15 @@ class GameSettingsActivity : AppCompatActivity() {
         gameSettingsViewModel.minPrice.observe(this) { minPrice ->
             binding.editTextMinPriceOptions.setText(minPrice)
         }
+
+        gameSettingsViewModel.isSaving.observe(this, Observer { isSaving ->
+            if (isSaving) {
+                binding.loader.visibility = View.VISIBLE
+                binding.cardViewOptions.visibility =View.GONE
+            } else {
+                binding.loader.visibility = View.GONE
+            }
+        })
     }
 
     private fun initListeners() {
@@ -107,7 +115,6 @@ class GameSettingsActivity : AppCompatActivity() {
         }
 
 
-        // Guardar cambios
         binding.btnSaveChanges.setOnClickListener {
             if (gameSettingsViewModel.isDateSelected.value == false) {
                 Toast.makeText(this, "Por favor, selecciona una fecha", Toast.LENGTH_SHORT).show()
@@ -122,21 +129,22 @@ class GameSettingsActivity : AppCompatActivity() {
             val rules = incompatibilities.map { Rule(it.first, it.second) }
             gameSettingsViewModel.setRules(rules)
 
-            val intent = Intent(this, CreateGameActivity::class.java).apply {
-                putExtra("EVENT_DATE", eventDate)
-                putExtra("MAX_PRICE", maxPrice)
-                putExtra("MIN_PRICE", minPrice)
-                putExtra("RULES", ArrayList(rules))
-            }
+            gameSettingsViewModel.saveGame(eventDate, maxPrice, minPrice, rules) {
+                val intent = Intent(this, CreateGameActivity::class.java).apply {
+                    putExtra("EVENT_DATE", eventDate)
+                    putExtra("MAX_PRICE", maxPrice)
+                    putExtra("MIN_PRICE", minPrice)
+                    putExtra("RULES", ArrayList(rules))
+                }
 
-            setResult(RESULT_OK, intent)
-            finish()
+                setResult(RESULT_OK, intent)
+                finish()
+            }
         }
 
-        // Regresar
         binding.iconBack.setOnClickListener {
             setResult(RESULT_CANCELED)
-            finish()  // Cierra la actividad
+            finish()
         }
 
         // Añadir incompatibilidad

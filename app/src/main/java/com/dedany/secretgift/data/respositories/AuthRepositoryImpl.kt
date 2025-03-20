@@ -45,4 +45,8 @@ class AuthRepositoryImpl @Inject constructor(
         return authRemoteDataSource.logout()
     }
 
+    override fun isLoggedIn(): Boolean {
+       return authRemoteDataSource.isLoggedIn()
+    }
+
 }

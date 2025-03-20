@@ -71,5 +71,9 @@ class AuthUseCaseImpl @Inject constructor(
         return repository.logout()
     }
 
+    override suspend fun isLoggedIn(): Boolean {
+        return repository.isLoggedIn()
+    }
+
 
 }

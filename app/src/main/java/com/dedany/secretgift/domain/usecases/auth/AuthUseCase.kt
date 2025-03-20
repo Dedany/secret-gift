@@ -21,4 +21,6 @@ interface AuthUseCase {
         termsAndConditions: Boolean
     ): Boolean
     suspend fun logout(): Boolean
+
+    suspend fun isLoggedIn (): Boolean
 }

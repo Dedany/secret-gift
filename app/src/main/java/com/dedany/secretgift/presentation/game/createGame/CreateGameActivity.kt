@@ -66,7 +66,7 @@ class CreateGameActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[CreateGameViewModel::class.java]
         setContentView(binding?.root)
 
-
+        viewModel?.fetchOwnerEmail()
         val gameId = intent.getIntExtra(Constants.KEY_GAME_ID, -1)
 
         if (gameId != -1) {
@@ -74,7 +74,7 @@ class CreateGameActivity : AppCompatActivity() {
             viewModel?.loadLocalGameById(gameId)
             viewModel?.updateGame()
         } else {
-            viewModel?.addCreatingUserToPlayers()  // Se ejecuta solo si es un nuevo juego
+            viewModel?.addCreatingUserToPlayers()
             viewModel?.createOrUpdateGame()
         }
 
@@ -93,10 +93,14 @@ class CreateGameActivity : AppCompatActivity() {
                 val dialogBinding = RegisterGamePlayerBinding.inflate(layoutInflater)
                 val dialog = Dialog(this)
                 dialog.setContentView(dialogBinding.root)
+
+
+
                 val width = ViewGroup.LayoutParams.WRAP_CONTENT
                 val height = resources.getDimensionPixelSize(R.dimen.dialog_height)
                 dialog.window?.setLayout(width, height)
                 dialog.window?.setGravity(Gravity.CENTER)
+
                 dialogBinding.nameEditText.setText(player.name)
                 dialogBinding.emailEditText.setText(player.email)
 
@@ -123,16 +127,25 @@ class CreateGameActivity : AppCompatActivity() {
 
     private fun initObservers() {
 
-        viewModel?.localGame?.observe(this, Observer { game ->
+        viewModel?.isSaving?.observe(this) { isSaving ->
+            if (isSaving) {
+                binding?.loader?.visibility = View.VISIBLE
+                binding?.constraintLayout2?.visibility = View.GONE
+            } else {
+                binding?.loader?.visibility = View.GONE
+            }
+        }
+
+        viewModel?.localGame?.observe(this) { game ->
             game?.let {
                 binding?.edNameRoom?.setText(it.name)
                 playerAdapter?.submitList(it.players)
             }
-        })
-
-        viewModel?.ownerId?.observe(this) { ownerId ->
-            playerAdapter?.setOwnerEmail(ownerId)
         }
+        viewModel?.ownerId?.observe(this) { ownerEmail ->
+            playerAdapter?.setOwnerEmail(ownerEmail)
+        }
+
         viewModel?.isGameSavedSuccess?.observe(this) { isSuccess ->
             if (isSuccess) {
                 startActivity(Intent(this, MainActivity::class.java))

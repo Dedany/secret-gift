@@ -60,6 +60,9 @@ class CreateGameViewModel @Inject constructor(
     private val _localGame: MutableLiveData<LocalGame> = MutableLiveData()
     val localGame: LiveData<LocalGame> = _localGame
 
+    private val _isSaving = MutableLiveData<Boolean>()
+    val isSaving: LiveData<Boolean> get() = _isSaving
+
 
     private val _ownerId = MutableLiveData<String>()
     val ownerId: LiveData<String> get() = _ownerId
@@ -342,10 +345,10 @@ class CreateGameViewModel @Inject constructor(
     fun saveGame() {
         viewModelScope.launch {
             try {
+                _isSaving.value = true
                 if (checkGame()) {
 
                     val isGameSaved = gamesUseCase.createGame(gameId)
-
                     _isGameSavedSuccess.value = isGameSaved
                 } else {
                     _isGameSavedSuccess.value = false
@@ -355,6 +358,7 @@ class CreateGameViewModel @Inject constructor(
                 Log.e("CreateGameViewModel", "Error al guardar el juego: ${e.message}")
                 _isGameSavedSuccess.value = false
             }
+            _isSaving.value = false
         }
     }
 

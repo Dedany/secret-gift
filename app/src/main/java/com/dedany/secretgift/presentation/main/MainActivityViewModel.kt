@@ -11,6 +11,7 @@ import com.dedany.secretgift.domain.usecases.auth.AuthUseCase
 import com.dedany.secretgift.domain.usecases.games.GamesUseCase
 import com.dedany.secretgift.domain.usecases.users.UsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,6 +31,9 @@ class MainActivityViewModel @Inject constructor(
 
     private val _user: MutableLiveData<User> = MutableLiveData()
     val user: LiveData<User> = _user
+
+    private val _isdeleting: MutableLiveData<Boolean> = MutableLiveData()
+    val isdeleting: LiveData<Boolean> = _isdeleting
 
     private var _deletedGameMessage: MutableLiveData<String> = MutableLiveData()
     val deletedGameMessage: LiveData<String> = _deletedGameMessage
@@ -62,26 +66,33 @@ class MainActivityViewModel @Inject constructor(
 
     fun deleteLocalGame(gameId: Int) {
         viewModelScope.launch {
-            val isDeleted = gamesUseCase.deleteLocalGame(gameId)
+            _isdeleting.value = true
 
+            val isDeleted = gamesUseCase.deleteLocalGame(gameId)
+            delay(1000)
             if (isDeleted) {
                 _deletedGameMessage.value = "Juego borrado correctamente"
                 loadLocalGames()
             } else {
                 _deletedGameMessage.value = "Error al borrar el juego"
             }
+
+            _isdeleting.value = false
         }
     }
 
     fun deleteRemoteGame(gameId: String) {
         viewModelScope.launch {
+            _isdeleting.value = true
             val isDeleted = gamesUseCase.deleteGame(gameId)
+            delay(1000)
             if (isDeleted) {
                 _deletedGameMessage.value = "Juego borrado correctamente"
                 loadGames()
             } else {
                 _deletedGameMessage.value = "Error al borrar el juego"
             }
+            _isdeleting.value = false
         }
     }
 
