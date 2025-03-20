@@ -240,7 +240,7 @@ class CreateGameActivity : AppCompatActivity() {
 
     private fun showAddplayerDialog() {
         val dialogBinding = RegisterGamePlayerBinding.inflate(layoutInflater)
-        addPlayerDialog = Dialog(this) // Assign to addPlayerDialog
+        addPlayerDialog = Dialog(this)
         addPlayerDialog?.setContentView(dialogBinding.root)
         val width = ViewGroup.LayoutParams.WRAP_CONTENT
         val height = resources.getDimensionPixelSize(R.dimen.dialog_height)

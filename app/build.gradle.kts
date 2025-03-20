@@ -102,4 +102,8 @@ dependencies {
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")
     testImplementation("org.mockito:mockito-inline:2.13.0")
 
+    testImplementation ("io.mockk:mockk:1.13.9")
+    testImplementation (libs.kotlinx.coroutines.test)
+    testImplementation (libs.junit)
+    testImplementation ("androidx.test:core:1.6.1")
 }

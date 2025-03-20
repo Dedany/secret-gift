@@ -211,7 +211,7 @@ class CreateGameViewModel @Inject constructor(
     fun updateGame() {
         viewModelScope.launch {
             val ownerId = useCase.getRegisteredUser().id
-            val parsedDate = parseDate(selectedDate.value!!)
+            val parsedDate = selectedDate.value?.let { parseDate(it) }
             val updatedGame = LocalGame(
                 id = gameId,
                 ownerId = ownerId,
