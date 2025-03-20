@@ -9,15 +9,19 @@ import com.dedany.secretgift.domain.usecases.auth.AuthUseCase
 import com.dedany.secretgift.domain.usecases.users.UsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.util.Locale
 import javax.inject.Inject
-
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val authUseCase: AuthUseCase,
     private val usersUseCase: UsersUseCase
 ) : ViewModel() {
+
+    private var _email: MutableLiveData<String> = MutableLiveData("")
+    val email: LiveData<String> = _email
+
+    private var _password: MutableLiveData<String> = MutableLiveData("")
+    val password: LiveData<String> = _password
 
     private var _isLoginSuccess: MutableLiveData<Boolean> = MutableLiveData()
     val isLoginSuccess: LiveData<Boolean> = _isLoginSuccess
@@ -34,36 +38,40 @@ class LoginViewModel @Inject constructor(
     private var _isLoginFormValid: MutableLiveData<Boolean> = MutableLiveData()
     val isLoginFormValid: LiveData<Boolean> = _isLoginFormValid
 
-    private var password: String = ""
     private var code: String = ""
-    private var email: String = ""
 
     fun setEmail(text: String) {
-        email = text.lowercase().trim()
-        _canDoLogin.value = authUseCase.isLoginFormValid(email, password)
+        _email.value = text.lowercase().trim()
+        _canDoLogin.value = authUseCase.isLoginFormValid(_email.value ?: "", _password.value ?: "")
     }
 
     fun setPassword(text: String) {
-        password = text
-        _canDoLogin.value = authUseCase.isLoginFormValid(email, password)
-
+        _password.value = text
+        _canDoLogin.value = authUseCase.isLoginFormValid(_email.value ?: "", _password.value ?: "")
     }
 
     fun login() {
-        _isLoginFormValid.value = authUseCase.isLoginFormValid(email, password)
+        _isLoginFormValid.value = authUseCase.isLoginFormValid(_email.value ?: "", _password.value ?: "")
         if (_isLoginFormValid.value == true) {
             viewModelScope.launch {
-                val isSuccess = authUseCase.login(email, password)
-                if (isSuccess) {
-                    _user.value = usersUseCase.getRegisteredUser()
-                    _isLoginSuccess.value = true
-                } else {
-                    _loginError.value =
-                        "Error en correo o contraseña" // Mostrar un mensaje de error
-                    _isLoginSuccess.value = false
+                try {
+                    val isSuccess = authUseCase.login(_email.value ?: "", _password.value ?: "")
+                    if (isSuccess) {
+                        _user.value = usersUseCase.getRegisteredUser()
+                        _isLoginSuccess.value = true
+                    } else {
+                        showLoginError("Error en correo o contraseña")
+                    }
+                } catch (e: Exception) {
+                    showLoginError(e.message ?: "Error desconocido")
                 }
             }
         }
+    }
+
+    private fun showLoginError(message: String) {
+        _loginError.value = message
+        _isLoginSuccess.value = false
     }
 
     fun setCode(code: String) {

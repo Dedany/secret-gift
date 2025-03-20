@@ -56,10 +56,7 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel?.isLoginSuccess?.observe(this) { isSucces ->
             if (isSucces) {
-                startActivity(Intent(this, MainActivity::class.java))
-            } else {
-                Toast.makeText(this, "Error al iniciar sesion", Toast.LENGTH_SHORT).show()
-            }
+                startActivity(Intent(this, MainActivity::class.java))}
         }
 
         viewModel?.user?.observe(this) { registeredUser ->
@@ -69,15 +66,16 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-
-        //viewModel?.canDoLogin?.observe(this) { isEnabled ->
-
-         //}
+/*
+        viewModel?.canDoLogin?.observe(this) { isEnabled ->
+            binding?.btnLogin?.isEnabled = isEnabled
+        }
+*/
         viewModel?.isLoginFormValid?.observe(this) { isValid ->
             if (!isValid) {
                 Toast.makeText(
                     this@LoginActivity,
-                    "Rectifica correo o contraseña",
+                    "Formato de correo o contraseña incorrectas",
                     Toast.LENGTH_LONG
                 ).show()
             }
