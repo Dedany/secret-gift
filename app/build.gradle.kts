@@ -99,11 +99,15 @@ dependencies {
     implementation("com.google.android.flexbox:flexbox:3.0.0")
 
     //Mockito Test
-    testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")
-    testImplementation("org.mockito:mockito-inline:2.13.0")
+    testImplementation("androidx.test:core:1.5.0")
+    testImplementation("androidx.arch.core:core-testing:2.1.0") // LiveData
+    testImplementation("org.mockito:mockito-core:5.2.0") // Obligatorio si se usa Mockito
+    testImplementation("org.mockito:mockito-inline:3.12.4") //Es para métodos estáticos
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1") // Facilitar la sintaxis de mockito de cara a Kotlin como lenguaje
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3") // Obligatorio para poder permitir el testing de coroutines
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3") // Testing de coroutines
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3") // Coroutines de test en android
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:2.0.0")
 
-    testImplementation ("io.mockk:mockk:1.13.9")
-    testImplementation (libs.kotlinx.coroutines.test)
-    testImplementation (libs.junit)
-    testImplementation ("androidx.test:core:1.6.1")
 }
