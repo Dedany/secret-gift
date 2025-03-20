@@ -7,18 +7,14 @@ import android.widget.Toast
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isInvisible
-import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityRegisterBinding
+import com.dedany.secretgift.presentation.pdf.PdfActivity
 import com.dedany.secretgift.presentation.login.LoginActivity
-import com.dedany.secretgift.presentation.main.MainActivity
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,8 +22,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class RegisterActivity : AppCompatActivity() {
 
-    private var binding : ActivityRegisterBinding? = null
-    private var viewModel : RegisterViewModel? = null
+    private var binding: ActivityRegisterBinding? = null
+    private var viewModel: RegisterViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +67,7 @@ class RegisterActivity : AppCompatActivity() {
                 if (isValid) "Registro exitoso" else "Error en el registro",
                 Toast.LENGTH_LONG
             ).show()
-            if (isValid){
+            if (isValid) {
                 startActivity(Intent(this, LoginActivity::class.java))
             }
 
@@ -88,10 +84,11 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun initListeners() {
         binding?.iconBack?.setOnClickListener {
-            finish()}
+            finish()
+        }
 
         with(binding) {
-            this?.nameEditText?.doOnTextChanged  { text, start, before, count ->
+            this?.nameEditText?.doOnTextChanged { text, start, before, count ->
                 clearErrorState(this.nameLayout)
                 viewModel?.setName(text?.toString() ?: "")
             }
@@ -119,12 +116,23 @@ class RegisterActivity : AppCompatActivity() {
             this?.registerButton?.setOnClickListener {
                 viewModel?.register()
             }
+            this?.tvPrivacyPolicyAcept?.setOnClickListener {
+                openTermsAndConditions()
 
+            }
         }
     }
+
+    private fun openTermsAndConditions() {
+        val intent = Intent(this, PdfActivity::class.java)
+        startActivity(intent)
+    }
+
     private fun clearErrorState(layout: TextInputLayout?) {
         layout?.error = null
     }
+
+
     fun initAd() {
         //iniciar adMob
         MobileAds.initialize(this) { initialAd ->
