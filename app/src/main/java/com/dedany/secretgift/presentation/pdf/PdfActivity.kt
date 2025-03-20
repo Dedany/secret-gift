@@ -44,16 +44,10 @@ class PdfActivity : AppCompatActivity() {
         @android.webkit.JavascriptInterface
         fun acceptTerms() {
             // Aquí manejamos la aceptación
-            Toast.makeText(activity, "Términos Aceptados", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, "Términos Leidos", Toast.LENGTH_SHORT).show()
             activity.finish() // Cerrar la actividad al aceptar los términos
         }
 
-        @android.webkit.JavascriptInterface
-        fun rejectTerms() {
-            // Aquí manejamos el rechazo
-            Toast.makeText(activity, "Términos Rechazados", Toast.LENGTH_SHORT).show()
-            activity.finish() // Cerrar la actividad al rechazar los términos
-        }
     }
 
     // Sobrescribir el comportamiento de la tecla atrás
