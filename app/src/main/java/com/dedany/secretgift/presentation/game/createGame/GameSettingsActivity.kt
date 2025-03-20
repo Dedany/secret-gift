@@ -72,8 +72,13 @@ class GameSettingsActivity : AppCompatActivity() {
             binding.editTextEventDate.setText(eventDate)
         }
 
-
-
+        gameSettingsViewModel.rules.observe(this) { rules ->
+            if (rules.isNotEmpty()) {
+                binding.textViewRulesExist.visibility = View.GONE
+            } else {
+                binding.textViewRulesExist.visibility = View.VISIBLE
+            }
+        }
         gameSettingsViewModel.maxPrice.observe(this) { maxPrice ->
             binding.editTextMaxPriceOptions.setText(maxPrice)
         }
