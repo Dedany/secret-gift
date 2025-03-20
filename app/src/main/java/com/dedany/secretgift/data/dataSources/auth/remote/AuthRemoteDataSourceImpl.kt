@@ -6,6 +6,7 @@ import com.dedany.secretgift.data.dataSources.users.remote.UsersRemoteDataSource
 import com.dedany.secretgift.data.dataSources.users.remote.dto.CreateUserDto
 import com.dedany.secretgift.data.dataSources.users.remote.dto.UserEmailDto
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.Response
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -17,32 +18,28 @@ class AuthRemoteDataSourceImpl @Inject constructor(
     private val usersRemoteDataSource: UsersRemoteDataSource,
 ) : AuthRemoteDataSource {
     override suspend fun login(loginDto: LoginDto): LoginDto {
-        return suspendCoroutine { result ->
-            try {
-                auth.signInWithEmailAndPassword(loginDto.email, loginDto.password)
-                    .addOnCompleteListener { authResult ->
-                        if (authResult.isSuccessful) {
-                            val user = authResult.result?.user
-                            val userId = user?.uid ?: ""
-                            result.resume(LoginDto(userId, loginDto.email, userId))
-                        } else {
-                            val exception = authResult.exception
-                            println("Login failed: ${exception?.message}")
-                            result.resumeWithException(
-                                Exception("Error de inicio de sesión: ${exception?.message}")
-                            )
+        return suspendCancellableCoroutine { continuation ->
+            auth.signInWithEmailAndPassword(loginDto.email, loginDto.password)
+                .addOnCompleteListener { authResult ->
+                    if (authResult.isSuccessful) {
+                        val userId = authResult.result?.user?.uid ?: ""
+                        if (continuation.isActive) {
+                            continuation.resume(LoginDto(userId, loginDto.email, userId))
+                        }
+                    } else {
+                        if (continuation.isActive) {
+                            continuation.resumeWithException(Exception("Error de inicio de sesión"))
                         }
                     }
-                    .addOnFailureListener { exception ->
-                        println("Login failed with exception: ${exception.stackTraceToString()}")
-                        result.resumeWithException(Exception("Error en el proceso de autenticación"))
+                }
+                .addOnFailureListener { exception ->
+                    if (continuation.isActive) {
+                        continuation.resumeWithException(Exception("Error en el proceso de autenticación"))
                     }
-            } catch (e: Exception) {
-                println("Unexpected error: ${e.stackTraceToString()}")
-                result.resumeWithException(Exception("Error inesperado en el inicio de sesión"))
-            }
+                }
         }
     }
+
 
     override fun logout(): Boolean {
         auth.signOut()
