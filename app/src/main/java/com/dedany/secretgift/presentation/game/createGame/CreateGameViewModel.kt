@@ -52,6 +52,9 @@ class CreateGameViewModel @Inject constructor(
     private var _emailDataMessage: MutableLiveData<String> = MutableLiveData("")
     val emailDataMessage: LiveData<String> = _emailDataMessage
 
+    private val _validationError = MutableLiveData<String?>()
+    val validationError: LiveData<String?> get() = _validationError
+
     private var _player: MutableLiveData<List<Player>> = MutableLiveData()
     val player: LiveData<List<Player>> = _player
     private var _players: MutableLiveData<List<Player>> = MutableLiveData(listOf())
@@ -98,16 +101,7 @@ class CreateGameViewModel @Inject constructor(
         }
     }
 
-    fun checkName() {
-        if (gameName.isNotEmpty() && gameName.length > 1) {
 
-            _isGameNameValid.value = true
-        } else {
-            _isGameNameValid.value = false
-            _nameErrorMessage.value = "El nombre del juego debe tener al menos 2 caracteres"
-
-        }
-    }
 
     //NOMBRE DEL JUEGO
     fun setName(name: String) {
@@ -233,10 +227,17 @@ class CreateGameViewModel @Inject constructor(
         }
     }
 
-
+    fun checkName(): Boolean {
+        return if (gameName.length < 3) {
+            _validationError.value = "El nombre del juego debe tener dos caracteres al menos"
+            false
+        } else {
+            true
+        }
+    }
     fun checkMinimumPlayers(): Boolean {
         if (playerList.size < 3) {
-            _playersErrorMessage.value = "El juego debe tener al menos 3 jugadores"
+            _validationError.value = "El juego debe tener al menos 3 jugadores"
             return false
         } else {
             return true
@@ -246,7 +247,7 @@ class CreateGameViewModel @Inject constructor(
 
     private fun checkEventDate(): Boolean {
         if (selectedDate.value == null) {
-            _dateErrorMessage.value = "La fecha del evento es obligatoria"
+            _validationError.value = "La fecha del evento es obligatoria"
             return false
         }
         return true
@@ -254,10 +255,11 @@ class CreateGameViewModel @Inject constructor(
 
     //COMPRUEBA LOS CAMPOS OBLIGATORIOS ANTES DE MANDAR AL BACKEND
     fun checkGame(): Boolean {
-        checkName()
-        checkMinimumPlayers()
-        checkEventDate()
-        return _isGameNameValid.value == true && checkMinimumPlayers() && checkEventDate()
+        if (!checkName()) return false
+        if (!checkMinimumPlayers()) return false
+        if (!checkEventDate()) return false
+        _validationError.value = null
+        return true
     }
 
     fun loadLocalGameById(id: Int) {
@@ -341,19 +343,16 @@ class CreateGameViewModel @Inject constructor(
             Date() // Retorna la fecha actual si el formato es inválido
         }
     }
-
+    //Guardar Juego en Backend
     fun saveGame() {
         viewModelScope.launch {
             try {
                 _isSaving.value = true
-                if (checkGame()) {
+
 
                     val isGameSaved = gamesUseCase.createGame(gameId)
                     _isGameSavedSuccess.value = isGameSaved
-                } else {
-                    _isGameSavedSuccess.value = false
 
-                }
             } catch (e: Exception) {
                 Log.e("CreateGameViewModel", "Error al guardar el juego: ${e.message}")
                 _isGameSavedSuccess.value = false
@@ -362,32 +361,6 @@ class CreateGameViewModel @Inject constructor(
         }
     }
 
-
-    //CARGAR JUGADOR
-    fun loadPlayer() {
-        viewModelScope.launch {
-            try {
-                val game = gamesUseCase.getLocalGame(gameId)
-                _players.value = game.players
-            } catch (e: Exception) {
-                _players.value = emptyList()
-            }
-        }
-    }
-
-    fun validateEmail(email: String): Boolean {
-        if (email.isEmpty()) {
-            _emailDataMessage.value = "El correo electrónico no puede estar vacío"
-            return false
-        }
-
-        if (!isValidEmail(email)) {
-            _emailDataMessage.value = "Por favor, ingresa un correo electrónico válido"
-            return false
-        }
-
-        return true
-    }
 
     private fun isValidEmail(email: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()

@@ -135,7 +135,13 @@ class CreateGameActivity : AppCompatActivity() {
                 binding?.loader?.visibility = View.GONE
             }
         }
-
+        viewModel?.validationError?.observe(this) { message ->
+            if (message != null) {
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+            } else {
+                showConfirmationDialog()
+            }
+        }
         viewModel?.localGame?.observe(this) { game ->
             game?.let {
                 binding?.edNameRoom?.setText(it.name)
@@ -214,7 +220,7 @@ class CreateGameActivity : AppCompatActivity() {
         }
 
         binding?.btnSaveGame?.setOnClickListener {
-            viewModel?.onSaveGameClicked()
+            viewModel?.checkGame()
         }
 
         binding?.btnGameSettings?.setOnClickListener {
