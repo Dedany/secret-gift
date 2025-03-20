@@ -60,9 +60,6 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)  // o la última versión disponible
     implementation(libs.androidx.lifecycle.viewmodel.ktx)  // o la última versión disponible
 
-    //Mockk
-    testImplementation("io.mockk:mockk:1.13.16")
-
     //Glide
     implementation("com.github.bumptech.glide:glide:4.16.0")
     ksp("com.github.bumptech.glide:compiler:4.16.0")
@@ -88,9 +85,7 @@ dependencies {
 
     //Kotlin Livecycle
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
-
-    implementation (libs.androidx.fragment.ktx)
-
+    implementation(libs.androidx.fragment.ktx)
 
     //AdMob
     implementation("com.google.android.gms:play-services-ads:24.0.0")
@@ -98,4 +93,12 @@ dependencies {
     //flexbox
     implementation("com.google.android.flexbox:flexbox:3.0.0")
 
+    //mockk
+    testImplementation("io.mockk:mockk:1.13.9")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("androidx.test:core:1.5.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:2.0.0")
 }

@@ -70,8 +70,9 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
 
-        viewModel?.canDoLogin?.observe(this) { isEnabled ->
-        }
+        //viewModel?.canDoLogin?.observe(this) { isEnabled ->
+
+         //}
         viewModel?.isLoginFormValid?.observe(this) { isValid ->
             if (!isValid) {
                 Toast.makeText(

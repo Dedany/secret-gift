@@ -34,16 +34,13 @@ class LoginViewModel @Inject constructor(
     private var _isLoginFormValid: MutableLiveData<Boolean> = MutableLiveData()
     val isLoginFormValid: LiveData<Boolean> = _isLoginFormValid
 
-
-    private var email: String = ""
     private var password: String = ""
     private var code: String = ""
+    private var email: String = ""
 
     fun setEmail(text: String) {
-        email = text.lowercase(Locale.getDefault()).trim()
+        email = text.lowercase().trim()
         _canDoLogin.value = authUseCase.isLoginFormValid(email, password)
-
-
     }
 
     fun setPassword(text: String) {
@@ -61,12 +58,14 @@ class LoginViewModel @Inject constructor(
                     _user.value = usersUseCase.getRegisteredUser()
                     _isLoginSuccess.value = true
                 } else {
-                    _loginError.value = "Error en correo o contraseña" // Mostrar un mensaje de error
+                    _loginError.value =
+                        "Error en correo o contraseña" // Mostrar un mensaje de error
                     _isLoginSuccess.value = false
                 }
             }
         }
     }
+
     fun setCode(code: String) {
         this.code = code
     }
