@@ -184,7 +184,7 @@
                     android:fontFamily="@font/cursive_serif_book"
                     android:gravity="end"
                     android:text="No hay incompatibilidades añadidas"
-                    android:textColor="@color/white"
+                    android:textColor="@color/orangecolor"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -207,13 +207,13 @@
                 android:id="@+id/textView_incompatibilities"
                 style="@style/custom_text_view"
                 android:layout_width="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/cursive_serif_book"
                 android:text="Las incompatibilidades son bidireccionales "
-                android:textColor="@color/red"
+                android:textColor="@color/orangecolor"
                 android:textSize="14dp"
                 android:textStyle="bold" />
 
