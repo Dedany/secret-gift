@@ -66,6 +66,10 @@ class GamesUseCaseImpl @Inject constructor(
         return repository.deleteAllGames()
     }
 
+    override suspend fun sendMailToPlayer(gameId: String, playerId: String, playerEmail: String?):Boolean {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getLocalGamesByUser(): List<LocalGame> {
         val games = repository.getLocalGamesByUser()
         return games

@@ -205,8 +205,9 @@ class GameRepositoryImpl @Inject constructor(
         )
     }
 
-    private fun PlayerDto.toDomain(): Player {
-        return Player(
+    private fun PlayerDto.toDomain(): User {
+        return User(
+            id = this.id ,
             name = this.name,
             email = this.email
         )

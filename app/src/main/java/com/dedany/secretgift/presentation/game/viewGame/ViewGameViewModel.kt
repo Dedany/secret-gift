@@ -22,11 +22,23 @@ class ViewGameViewModel @Inject constructor(
     private val _gameCodeError: MutableLiveData<String> = MutableLiveData<String>()
     val gameCodeError: LiveData<String> = _gameCodeError
 
+    private val _isMailSent: MutableLiveData<Boolean> = MutableLiveData<Boolean>()
+    val isMailSent: LiveData<Boolean> = _isMailSent
+
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    fun setGame(game: Game) {
-        _game.value = game
+    fun sendMailToPlayer(playerId: String, playerEmail: String?) {
+        val gameId = game.value?.id
+        viewModelScope.launch {
+            try {
+                _isMailSent.value = useCase.sendMailToPlayer(gameId.toString(), playerId, playerEmail)
+            } catch (e: ErrorDto) {
+                _gameCodeError.value=e.errorMessage
+            }
+        }
+
+
     }
 
     fun fetchGaMeData(gameCode: String) {

@@ -1,7 +1,10 @@
 package com.dedany.secretgift.presentation.game.viewGame
 
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
@@ -14,6 +17,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ActivityViewGameBinding
+import com.dedany.secretgift.databinding.RegisterGamePlayerBinding
+import com.dedany.secretgift.domain.entities.User
 import com.dedany.secretgift.presentation.helpers.Constants
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
@@ -66,12 +71,47 @@ class ViewGameActivity : AppCompatActivity() {
     }
 
     private fun setAdapter() {
-        playersAdapter = PlayersAdapter()
+        playersAdapter = PlayersAdapter(
+            onSendEmail = { player, position ->
+                showSendEmailDialog(player)
+            }
+        )
         binding?.playersRecyclerView?.apply {
             layoutManager = LinearLayoutManager(this@ViewGameActivity)
             adapter = playersAdapter
         }
 
+    }
+
+    private fun showSendEmailDialog(player: User) {
+        val dialogBinding = RegisterGamePlayerBinding.inflate(layoutInflater)
+        val dialog = Dialog(this)
+        dialog.setContentView(dialogBinding.root)
+
+
+
+        val width = ViewGroup.LayoutParams.WRAP_CONTENT
+        val height = resources.getDimensionPixelSize(R.dimen.dialog_height)
+        dialog.window?.setLayout(width, height)
+        dialog.window?.setGravity(Gravity.CENTER)
+
+        dialogBinding.nameEditText.setText(player.name)
+        dialogBinding.emailEditText.setText(player.email)
+
+        dialogBinding.btnConfirm.setOnClickListener {
+
+            val newEmail = dialogBinding.emailEditText.text.toString().trim()
+
+            if (newEmail.isNotEmpty()) {
+                viewModel?.sendMailToPlayer(player.id, newEmail)
+                dialog.dismiss()
+            }
+        }
+        dialogBinding.btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     private fun loadGame() {

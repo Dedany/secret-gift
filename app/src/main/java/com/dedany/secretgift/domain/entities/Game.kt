@@ -8,7 +8,7 @@ data class Game(
     val ownerId: String,
     val status: String,
     val gameCode: String,
-    val players: List<Player> = emptyList(),
+    val players: List<User> = emptyList(),
     var name: String,
     val maxCost : Int?,
     val minCost : Int?,

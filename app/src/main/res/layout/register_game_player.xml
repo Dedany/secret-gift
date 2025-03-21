@@ -8,13 +8,19 @@
     android:layout_marginHorizontal="16dp"
    >
 
-
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/custom_text_view"
+    android:text="Añadir jugador "
+    android:layout_marginTop="8dp"
+    />
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/name_layout"
         style="@style/custom_text_input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="16dp"
         >
 
         <com.google.android.material.textfield.TextInputEditText
