@@ -8,6 +8,7 @@
 
     <style name="custom_edit_text">
         <item name="android:fontFamily">@font/cursive_serif_book</item>
+        <item name="android:maxLines">1</item>
         <item name="colorControlActivated">@color/maincolor</item>
         <item name="android:textSelectHandle">@color/maincolor</item>
         <item name="android:textSelectHandleRight">@color/maincolor</item>
@@ -37,6 +38,7 @@
 
         <item name="android:fontFamily">@font/cursive_serif_book</item>
         <item name="android:gravity">center</item>
+        <item name="android:maxLines">1</item>
         <item name="android:textAlignment">center</item>
         <item name="android:textSize">@dimen/text_size_text_view</item>
         <item name="android:textColor">@color/maincolor</item>

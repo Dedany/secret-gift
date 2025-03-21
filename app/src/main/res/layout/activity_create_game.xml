@@ -9,12 +9,12 @@
     <ProgressBar
         android:id="@+id/loader"
         android:layout_width="match_parent"
-        android:layout_marginTop="100dp"
         android:layout_height="100dp"
-        android:visibility="gone"
+        android:layout_marginTop="100dp"
         android:indeterminateTint="@color/brown"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout"
@@ -85,7 +85,8 @@
                         android:id="@+id/ed_name_room"
                         style="@style/custom_edit_text"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -134,8 +135,10 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btn_add"
+                app:layout_constraintVertical_bias="0.0"
                 tools:listitem="@layout/item_element_list" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

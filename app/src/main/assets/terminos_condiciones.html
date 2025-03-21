@@ -5,28 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Términos y Condiciones de SecretGift</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            line-height: 1.6;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        h2 {
-            color: #333;
-        }
-        p {
-            margin-bottom: 15px;
-            color: #555;
-        }
-        footer {
-            margin-top: 30px;
-            text-align: center;
-            font-size: 0.9em;
-            color: #777;
-        }
+     body {
+              background-image: url("images/app_background.jpg");
+              background-size: cover;
+              background-position: center;
+              font-family: Arial, sans-serif;
+              padding: 20px;
+              line-height: 1.6;
+}
+
+h1, h2, p, ul, li, footer {
+    color: #FFB347; /* Color del texto */
+    background: none; /* Elimina cualquier fondo oscuro detrás del texto */
+}
         .buttons {
             text-align: center;
             margin-top: 20px;
@@ -38,17 +29,15 @@
             cursor: pointer;
         }
         .accept {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-        }
-        .reject {
-            background-color: #f44336;
-            color: white;
-            border: none;
-            border-radius: 5px;
-        }
+    background-color: #4CAF50 !important; /* Fondo verde */
+    background-image: none !important; /* Elimina cualquier imagen de fondo heredada */
+    color: white; /* Texto en blanco para mayor contraste */
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    padding: 10px 20px;
+    cursor: pointer;
+}
     </style>
 </head>
 <body>
@@ -64,8 +53,7 @@
     <li>Nombre completo</li>
     <li>Correo electrónico</li>
 </ul>
-<p>Estos datos son necesarios para la creación de grupos de amigo invisible y la administración de
-    sorteos.</p>
+<p>Estos datos son necesarios para la creación de grupos de amigo invisible y la administración de sorteos.</p>
 
 <h2>2. Uso de la Información</h2>
 <p>La información recopilada se utilizará únicamente para:</p>
@@ -85,8 +73,7 @@
 </ul>
 
 <h2>4. Modificaciones de los Términos</h2>
-<p>Nos reservamos el derecho de modificar estos términos en cualquier momento. Cualquier cambio será
-    notificado a los usuarios a través de la aplicación.</p>
+<p>Nos reservamos el derecho de modificar estos términos en cualquier momento. Cualquier cambio será notificado a los usuarios a través de la aplicación.</p>
 
 <h2>5. Contacto</h2>
 <p>Si tiene dudas o necesita soporte, puede contactarnos en:</p>
@@ -105,11 +92,7 @@
 
 <script>
     function acceptTerms() {
-        window.Android.acceptTerms();  // Llamada a la función de Kotlin
-    }
-
-    function rejectTerms() {
-        window.Android.rejectTerms();  // Llamada a la función de Kotlin
+        window.Android.acceptTerms();
     }
 </script>
 </body>
