@@ -71,14 +71,13 @@
 
                         <TextView
                             android:id="@+id/tv_game_name"
+                            style="@style/custom_text_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:fontFamily="cursive"
-                            android:gravity="center"
                             android:text="Mi amigo invisible"
-                            android:textColor="@color/maincolor"
-                            android:textSize="@dimen/text_size_text_view" />
+
+                             />
                     </Toolbar>
 
                 </LinearLayout>

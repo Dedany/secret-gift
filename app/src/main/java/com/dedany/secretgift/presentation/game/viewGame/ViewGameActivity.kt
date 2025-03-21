@@ -1,6 +1,7 @@
 package com.dedany.secretgift.presentation.game.viewGame
 
 import android.app.Dialog
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -9,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
@@ -96,6 +98,13 @@ class ViewGameActivity : AppCompatActivity() {
         dialog.window?.setGravity(Gravity.CENTER)
 
         dialogBinding.nameEditText.setText(player.name)
+        dialogBinding.nameEditText.apply {
+            isFocusable = false
+            isCursorVisible = false
+            isClickable = false
+//            isEnabled = false
+            setTextColor(ContextCompat.getColor(context, R.color.black))
+        }
         dialogBinding.emailEditText.setText(player.email)
 
         dialogBinding.btnConfirm.setOnClickListener {
