@@ -131,20 +131,38 @@ class GameSettingsActivity : AppCompatActivity() {
             val minPrice = binding.editTextMinPriceOptions.text.toString()
             val incompatibilities = getIncompatibilities()
 
+            // Crea el mapa de restricciones a partir de las incompatibilidades
+            val restrictions = incompatibilities.groupBy(
+                { it.first },
+                { it.second }
+            ).mapValues { it.value.toSet() }
+
             val rules = incompatibilities.map { Rule(it.first, it.second) }
             gameSettingsViewModel.setRules(rules)
 
-            gameSettingsViewModel.saveGame(eventDate, maxPrice, minPrice, rules) {
-                val intent = Intent(this, CreateGameActivity::class.java).apply {
-                    putExtra("EVENT_DATE", eventDate)
-                    putExtra("MAX_PRICE", maxPrice)
-                    putExtra("MIN_PRICE", minPrice)
-                    putExtra("RULES", ArrayList(rules))
-                }
+            // Llamada a la función canAssignGift
+            gameSettingsViewModel.canAssignGift(
+                participants = gameSettingsViewModel.playerList.value ?: emptyList(),
+                restrictions = restrictions
+            ) { canAssign ->
+                if (canAssign) {
+                    // Si es posible asignar regalos, guardar el juego
+                    gameSettingsViewModel.saveGame(eventDate, maxPrice, minPrice, rules) {
+                        val intent = Intent(this, CreateGameActivity::class.java).apply {
+                            putExtra("EVENT_DATE", eventDate)
+                            putExtra("MAX_PRICE", maxPrice)
+                            putExtra("MIN_PRICE", minPrice)
+                            putExtra("RULES", ArrayList(rules))
+                        }
 
-                setResult(RESULT_OK, intent)
-                finish()
-            }
+                        setResult(RESULT_OK, intent)
+                        finish()
+                    }
+                } else {
+                    // Mostrar mensaje si no es posible asignar regalos
+                    Toast.makeText(this, "No se pueden asignar los regalos debido a restricciones", Toast.LENGTH_SHORT).show()
+                } }
+
         }
 
         binding.iconBack.setOnClickListener {
