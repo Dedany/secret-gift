@@ -296,12 +296,5 @@ class CreateGameActivity : AppCompatActivity() {
             }
         }
 
-        /*binding?.adView?.apply {
-             //asigna tamaño
-
-             // Carga el anuncio
-             val adRequest = AdRequest.Builder().setContentUrl("https://www.amazon.es")
-             loadAd(adRequest.build())
-         }*/
     }
 }
