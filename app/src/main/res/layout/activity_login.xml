@@ -74,7 +74,7 @@
         android:layout_marginTop="@dimen/activity_top_margin"
         android:backgroundTint="#EF000000"
         android:text="@string/btn_log"
-        android:textColor="@color/maincolor"
+        android:textColor="@color/orangecolor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/til_password" />
@@ -87,6 +87,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_top_margin"
         android:text="@string/link_create_user"
+        android:textColor="@color/orangecolor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_login" />
@@ -99,6 +100,7 @@
         android:layout_marginHorizontal="@dimen/button_horizontal_margin"
         android:layout_marginTop="@dimen/activity_top_margin"
         android:text="@string/btn_event"
+        android:textColor="@color/orangecolor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_link_create_user" />
