@@ -64,8 +64,19 @@ class GameSettingsActivity : AppCompatActivity() {
     }
 
     private fun initObservers() {
+
+        //invisibilidad del recylclerView si no hay reglas
         gameSettingsViewModel.rules.observe(this) { rules ->
             rulesAdapter.submitList(rules)
+
+            if(rules.isNotEmpty()){
+                binding.recyclerViewRules.visibility = View.VISIBLE
+                binding.textViewRulesExist.visibility = View.GONE
+
+            }else {
+                binding.recyclerViewRules.visibility = View.GONE
+                binding.textViewRulesExist.visibility = View.VISIBLE
+            }
         }
 
         gameSettingsViewModel.eventDate.observe(this) { eventDate ->
@@ -118,6 +129,8 @@ class GameSettingsActivity : AppCompatActivity() {
 
             datePickerDialog.show()
         }
+
+        binding?.recyclerViewRules?.visibility= if (gameSettingsViewModel.rules.value?.isNotEmpty() == true) View.VISIBLE else View.GONE
 
 
         binding.btnSaveChanges.setOnClickListener {

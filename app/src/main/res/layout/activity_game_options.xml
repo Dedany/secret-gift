@@ -197,6 +197,7 @@
                 android:layout_height="64dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="8dp"
+                android:visibility="gone"
                 android:layout_weight="1"
                 android:scrollbars="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
