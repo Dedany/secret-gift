@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Términos y Condiciones de SecretGift</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        h2 {
+            color: #333;
+        }
+        p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #777;
+        }
+        .buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .accept {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .reject {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<h1>Términos y Condiciones de SecretGift</h1>
+
+<h2>Bienvenido a SecretGift</h2>
+<p>Antes de utilizar nuestra aplicación, lea detenidamente estos términos y condiciones.</p>
+<p>Al registrarse y utilizar la aplicación, acepta estos términos en su totalidad.</p>
+
+<h2>1. Información Recopilada</h2>
+<p>Para utilizar SecretGift, necesitamos recopilar cierta información personal, incluyendo:</p>
+<ul>
+    <li>Nombre completo</li>
+    <li>Correo electrónico</li>
+</ul>
+<p>Estos datos son necesarios para la creación de grupos de amigo invisible y la administración de
+    sorteos.</p>
+
+<h2>2. Uso de la Información</h2>
+<p>La información recopilada se utilizará únicamente para:</p>
+<ul>
+    <li>Gestionar los sorteos de amigo invisible.</li>
+    <li>Enviar notificaciones sobre el juego.</li>
+    <li>Mejorar la experiencia del usuario en la aplicación.</li>
+</ul>
+<p>No compartimos su información con terceros sin su consentimiento.</p>
+
+<h2>3. Responsabilidades del Usuario</h2>
+<p>Al utilizar SecretGift, usted acepta:</p>
+<ul>
+    <li>Proporcionar información verídica.</li>
+    <li>No utilizar la aplicación para actividades ilícitas o fraudulentas.</li>
+    <li>Respetar las reglas establecidas en los grupos de amigo invisible.</li>
+</ul>
+
+<h2>4. Modificaciones de los Términos</h2>
+<p>Nos reservamos el derecho de modificar estos términos en cualquier momento. Cualquier cambio será
+    notificado a los usuarios a través de la aplicación.</p>
+
+<h2>5. Contacto</h2>
+<p>Si tiene dudas o necesita soporte, puede contactarnos en:</p>
+<p>Correo electrónico: secretgiftgame@gmail.com</p>
+
+<h2>Fecha de Entrada en Vigor</h2>
+<p>Estos términos y condiciones entran en vigor el 26/03/2025.</p>
+
+<div class="buttons">
+    <button class="accept" onclick="acceptTerms()">Términos y condiciones leídos</button>
+</div>
+
+<footer>
+    <p>&copy; 2025 SecretGift. Todos los derechos reservados.</p>
+</footer>
+
+<script>
+    function acceptTerms() {
+        window.Android.acceptTerms();  // Llamada a la función de Kotlin
+    }
+
+    function rejectTerms() {
+        window.Android.rejectTerms();  // Llamada a la función de Kotlin
+    }
+</script>
+</body>
+</html>

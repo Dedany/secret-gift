@@ -1,16 +1,20 @@
 package com.dedany.secretgift.presentation.game.createGame
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dedany.secretgift.databinding.ActivityCreateGameBinding
 import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.Player
 import com.dedany.secretgift.domain.entities.Rule
 import com.dedany.secretgift.domain.usecases.games.GamesUseCase
 import com.dedany.secretgift.domain.usecases.users.UsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -27,6 +31,7 @@ class CreateGameViewModel @Inject constructor(
 
     private var _isGameNameValid: MutableLiveData<Boolean> = MutableLiveData()
     val isGameNameValid: LiveData<Boolean> = _isGameNameValid
+    private var binding: ActivityCreateGameBinding? = null
 
     private val _showConfirmationDialog = MutableLiveData<Boolean>()
     val showConfirmationDialog: LiveData<Boolean> get() = _showConfirmationDialog
@@ -85,6 +90,12 @@ class CreateGameViewModel @Inject constructor(
     private val _addPlayerResult = MutableLiveData<AddPlayerResult>()
     val addPlayerResult: LiveData<AddPlayerResult> = _addPlayerResult
 
+    private val handler = Handler(Looper.getMainLooper())
+    private var saveRunnable: Runnable? = null
+    private val delayMillis: Long = 2000
+    private var lastText = ""
+    private var currentText = ""
+
     fun addCreatingUserToPlayers() {
         if (isUserAdded) return
 
@@ -102,12 +113,9 @@ class CreateGameViewModel @Inject constructor(
     }
 
 
-
-    //NOMBRE DEL JUEGO
     fun setName(name: String) {
         gameName = name
-//        checkName()
-        createOrUpdateGame()
+        onTextChanged(name)
     }
 
     //CORREO DEL JUGADOR
@@ -153,9 +161,7 @@ class CreateGameViewModel @Inject constructor(
 
 
         }
-
         createOrUpdateGame()
-
     }
 
 
@@ -262,6 +268,8 @@ class CreateGameViewModel @Inject constructor(
         return true
     }
 
+
+
     fun loadLocalGameById(id: Int) {
         viewModelScope.launch {
             try {
@@ -361,6 +369,30 @@ class CreateGameViewModel @Inject constructor(
         }
     }
 
+    fun onTextChanged(newText: String) {
+        currentText = newText
+
+        // Si el texto ha cambiado con respecto al último guardado
+        if (lastText != currentText) {
+            lastText = currentText
+            restartTimer() // Reinicia el temporizador
+        }
+    }
+
+    private fun restartTimer() {
+        saveRunnable?.let { handler.removeCallbacks(it) } // Elimina cualquier callback anterior
+
+        saveRunnable = Runnable {
+            if (currentText == lastText) {
+                createOrUpdateGame()
+            } else {
+                Log.d("TextChanged", "El texto ha cambiado antes de que se actualice")
+            }
+        }
+
+        // Postear el Runnable con el retraso especificado
+        saveRunnable?.let { handler.postDelayed(it, delayMillis) }
+    }
 
     private fun isValidEmail(email: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()

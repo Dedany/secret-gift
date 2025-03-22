@@ -76,7 +76,7 @@ class GamesUseCaseImpl @Inject constructor(
     }
 
 
-    fun canAssignGift(
+    override suspend fun canAssignGift(
         participants: List<Player>,
         restrictions: Map<String, Set<String>>
     ): Boolean {

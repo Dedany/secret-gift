@@ -9,8 +9,8 @@
     <ProgressBar
         android:id="@+id/loader"
         android:layout_width="match_parent"
-        android:layout_marginTop="200dp"
-        android:layout_height="200dp"
+        android:layout_marginTop="100dp"
+        android:layout_height="100dp"
         android:visibility="gone"
         android:indeterminateTint="@color/brown"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -48,15 +48,15 @@
                     android:fontFamily="@font/cursive_serif_bold"
                     android:text="SecretGift" />
 
+
                 <ImageView
                     android:id="@+id/icon_back"
                     style="@style/custom_back_image"
                     android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="36dp"
+                    android:layout_marginTop="52dp"
                     android:scaleType="centerCrop"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-                />
 
                 <TextView
                     android:id="@+id/tv_name_room"
@@ -64,7 +64,7 @@
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="64dp"
-                    android:layout_marginTop="102dp"
+                    android:layout_marginTop="120dp"
                     android:fontFamily="@font/cursive_serif_book"
                     android:text="Nombre de la Sala:"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -76,7 +76,7 @@
                     style="@style/custom_text_input_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="148dp"
+                    android:layout_marginTop="152dp"
                     app:boxBackgroundMode="outline"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
