@@ -27,7 +27,13 @@
             android:text="Nombre"
             android:textColor="@color/maincolor"
             android:textSize="20dp" />
-
+        <ImageButton
+            android:id="@+id/iv_mail_status"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginVertical="@dimen/activity_top_margin"
+            android:background="#00FFFFFF"
+            android:src="@drawable/unknown" />
         <ImageButton
             android:id="@+id/ib_send_email"
             android:layout_width="40dp"
