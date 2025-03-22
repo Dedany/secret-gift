@@ -197,7 +197,8 @@ class GameRepositoryImpl @Inject constructor(
         return User(
             id = this.userId,
             name = this.name,
-            email = this.email
+            email = this.email,
+
         )
     }
 
@@ -220,7 +221,8 @@ class GameRepositoryImpl @Inject constructor(
         return User(
             id = this.id,
             name = this.name,
-            email = this.email
+            email = this.email,
+            mailStatus = this.mailStatus
         )
     }
 

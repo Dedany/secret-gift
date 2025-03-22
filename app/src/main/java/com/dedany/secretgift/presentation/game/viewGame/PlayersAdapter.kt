@@ -5,8 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.ItemPlayersViewBinding
 import com.dedany.secretgift.domain.entities.User
+import com.dedany.secretgift.presentation.helpers.setMailStatusIcon
 
 class PlayersAdapter(
     private val onSendEmail: (User, Int) -> Unit
@@ -27,6 +29,7 @@ class PlayersAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(player: User, position: Int) {
             binding.tvPlayerName.text = player.name
+            binding.ibMailStatus.setMailStatusIcon(player.mailStatus)
             binding.ibSendEmail.setOnClickListener {
                 onSendEmail(player, position)
             }

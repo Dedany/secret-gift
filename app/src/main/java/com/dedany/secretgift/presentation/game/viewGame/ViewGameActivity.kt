@@ -161,6 +161,7 @@ class ViewGameActivity : AppCompatActivity() {
 
         viewModel?.game?.observe(this) { gameData ->
             binding?.tvGameName?.text = gameData.name
+
             binding?.currentPlayerName?.text = gameData.currentPlayer
             binding?.matchedPlayerName?.text = gameData.matchedPlayer
             binding?.tvPlayersNumber?.text = (gameData.players.size + 1).toString()

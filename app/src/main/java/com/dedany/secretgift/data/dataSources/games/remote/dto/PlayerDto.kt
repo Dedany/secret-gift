@@ -11,5 +11,7 @@ data class PlayerDto(
     val name: String,
     val email: String,
     @SerializedName("player_code")
-    val playerCode: String? = null
+    val playerCode: String? = null,
+    @SerializedName("mail_status")
+    val mailStatus: String
 )
