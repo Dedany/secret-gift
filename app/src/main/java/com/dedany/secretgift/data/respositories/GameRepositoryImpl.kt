@@ -12,6 +12,7 @@ import com.dedany.secretgift.data.dataSources.games.remote.dto.GameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameRuleDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameSummaryDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.PlayerDto
+import com.dedany.secretgift.data.dataSources.games.remote.dto.SendEmailToPlayerDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.UserRegisteredDto
 import com.dedany.secretgift.data.dataSources.users.local.preferences.UserPreferences
 import com.dedany.secretgift.domain.entities.CreateGame
@@ -106,11 +107,21 @@ class GameRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteAllGames(): Boolean {
-        return  localDataSource.deleteAllGames()
+        return localDataSource.deleteAllGames()
     }
 
-    override suspend fun deleteLocalGame(gameId: Int):Boolean {
-       return localDataSource.deleteGame(gameId)
+    override suspend fun sendMailToPlayer(
+        gameId: String,
+        playerId: String,
+        playerEmail: String
+    ): Boolean {
+        val sendEmailToPlayerDto =
+            SendEmailToPlayerDto(gameId, playerId, playerEmail)
+        return remoteDataSource.sendMailToPlayer(sendEmailToPlayerDto)
+    }
+
+    override suspend fun deleteLocalGame(gameId: Int): Boolean {
+        return localDataSource.deleteGame(gameId)
     }
 
     override suspend fun createLocalGame(game: LocalGame): Long {
@@ -207,7 +218,7 @@ class GameRepositoryImpl @Inject constructor(
 
     private fun PlayerDto.toDomain(): User {
         return User(
-            id = this.id ,
+            id = this.id,
             name = this.name,
             email = this.email
         )

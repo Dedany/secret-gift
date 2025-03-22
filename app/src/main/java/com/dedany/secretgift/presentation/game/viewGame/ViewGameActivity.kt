@@ -1,7 +1,6 @@
 package com.dedany.secretgift.presentation.game.viewGame
 
 import android.app.Dialog
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -39,7 +38,7 @@ class ViewGameActivity : AppCompatActivity() {
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.dark(
                 resources.getColor(R.color.transparent, null),
-                )
+            )
         )
         binding = ActivityViewGameBinding.inflate(layoutInflater)
 
@@ -91,18 +90,19 @@ class ViewGameActivity : AppCompatActivity() {
         dialog.setContentView(dialogBinding.root)
 
 
-
         val width = ViewGroup.LayoutParams.WRAP_CONTENT
         val height = resources.getDimensionPixelSize(R.dimen.dialog_height)
         dialog.window?.setLayout(width, height)
         dialog.window?.setGravity(Gravity.CENTER)
 
+        dialogBinding.btnConfirm.text = getString(R.string.send)
+        dialogBinding.tvAddPlayer.text = getString(R.string.send_email)
         dialogBinding.nameEditText.setText(player.name)
         dialogBinding.nameEditText.apply {
             isFocusable = false
             isCursorVisible = false
             isClickable = false
-//            isEnabled = false
+
             setTextColor(ContextCompat.getColor(context, R.color.black))
         }
         dialogBinding.emailEditText.setText(player.email)
@@ -114,6 +114,8 @@ class ViewGameActivity : AppCompatActivity() {
             if (newEmail.isNotEmpty()) {
                 viewModel?.sendMailToPlayer(player.id, newEmail)
                 dialog.dismiss()
+            } else {
+                Toast.makeText(this, "El email no puede estar vacío", Toast.LENGTH_LONG).show()
             }
         }
         dialogBinding.btnCancel.setOnClickListener {
@@ -130,7 +132,8 @@ class ViewGameActivity : AppCompatActivity() {
             if (gameCode != null) {
                 viewModel?.fetchGaMeData(gameCode)
             } else {
-                //TODO: handle error
+                Toast.makeText(this, "Error al cargar el juego", Toast.LENGTH_LONG).show()
+                finish()
             }
         }
 
@@ -168,9 +171,17 @@ class ViewGameActivity : AppCompatActivity() {
             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             binding?.tvGameDate?.text = dateFormat.format(gameData.gameDate)
         }
+        viewModel?.isMailSent?.observe(this) {
+            if (it) {
+                Toast.makeText(this, "Mail enviado", Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(this, "Error al enviar el mail", Toast.LENGTH_LONG).show()
+            }
+        }
 
 
     }
+
     fun initAd() {
         //iniciar adMob
         MobileAds.initialize(this) { initialAd ->

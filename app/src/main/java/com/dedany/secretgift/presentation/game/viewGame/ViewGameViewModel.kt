@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ViewGameViewModel @Inject constructor(
     private val useCase: GamesUseCase
-): ViewModel() {
+) : ViewModel() {
 
     private val _game: MutableLiveData<Game> = MutableLiveData<Game>()
     val game: LiveData<Game> = _game
@@ -28,28 +28,38 @@ class ViewGameViewModel @Inject constructor(
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    fun sendMailToPlayer(playerId: String, playerEmail: String?) {
+    fun sendMailToPlayer(playerId: String, playerEmail: String) {
         val gameId = game.value?.id
+
+        if (!isValidEmail(playerEmail)) {
+            _gameCodeError.value = "El email no es válido"
+            return
+        }
+
         viewModelScope.launch {
             try {
-                _isMailSent.value = useCase.sendMailToPlayer(gameId.toString(), playerId, playerEmail)
+                _isMailSent.value =
+                    useCase.sendMailToPlayer(gameId.orEmpty(), playerId, playerEmail)
             } catch (e: ErrorDto) {
-                _gameCodeError.value=e.errorMessage
+                _gameCodeError.value = e.errorMessage
             }
         }
 
+    }
 
+    private fun isValidEmail(email: String): Boolean {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
     fun fetchGaMeData(gameCode: String) {
-            viewModelScope.launch {
-                try {
-                    _isLoading.value=true
+        viewModelScope.launch {
+            try {
+                _isLoading.value = true
                 _game.value = useCase.getGame(gameCode)
-                    _isLoading.value=false
-                } catch (e: ErrorDto) {
-                    _gameCodeError.value=e.errorMessage
-                }
+                _isLoading.value = false
+            } catch (e: ErrorDto) {
+                _gameCodeError.value = e.errorMessage
             }
+        }
     }
 }

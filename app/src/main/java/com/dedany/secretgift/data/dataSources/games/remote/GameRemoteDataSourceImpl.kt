@@ -5,6 +5,7 @@ import com.dedany.secretgift.data.dataSources.games.remote.api.SecretGiftApi
 import com.dedany.secretgift.data.dataSources.games.remote.dto.CreateGameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameSummaryDto
+import com.dedany.secretgift.data.dataSources.games.remote.dto.SendEmailToPlayerDto
 import com.dedany.secretgift.data.dataSources.users.local.preferences.UserPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -51,7 +52,8 @@ class GameRemoteDataSourceImpl @Inject constructor(
         if (response.isSuccessful) {
             return true
         } else {
-            throw Exception("Error creando el juego: ${response.errorBody()?.string()}")
+            return false
+//            throw Exception("Error creando el juego: ${response.errorBody()?.string()}")
 
         }
     }
@@ -61,12 +63,26 @@ class GameRemoteDataSourceImpl @Inject constructor(
         if (response.isSuccessful) {
             return true
         } else {
-            throw Exception("Error eliminando el juego: ${response.errorBody()?.string()}")
+            return false
+//            throw Exception("Error eliminando el juego: ${response.errorBody()?.string()}")
         }
     }
 
     override suspend fun updateGame(game: GameDto) {
         TODO("Not yet implemented")
+    }
+
+    override suspend fun sendMailToPlayer(
+        sendEmailToPlayerDto: SendEmailToPlayerDto
+    ): Boolean {
+        val response = gamesApi.sendMailToPlayer(sendEmailToPlayerDto)
+        if (response.isSuccessful) {
+            return true
+        } else {
+            return false
+//            throw Exception("Error enviando mail: ${response.errorBody()?.string()}")
+
+        }
     }
 
 

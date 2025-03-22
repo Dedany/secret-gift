@@ -4,6 +4,7 @@ import com.dedany.secretgift.data.dataSources.games.remote.dto.CreateGameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GamesDataDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.OwnedGamesSummaryDataDto
+import com.dedany.secretgift.data.dataSources.games.remote.dto.SendEmailToPlayerDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.ServerResponse
 
 
@@ -25,6 +26,11 @@ interface SecretGiftApi {
 
    @POST("/room/create")
    suspend fun createGame(@Body request: CreateGameDto): Response<GameDto>
+
+   @POST("/room/sendemail")
+   suspend fun sendMailToPlayer(
+       @Body request: SendEmailToPlayerDto
+   ): Response<ServerResponse>
 
    @DELETE("/room/{id}")
    suspend fun deleteGame(@Path("id") gameId: String): Response<ServerResponse>

@@ -26,5 +26,7 @@
     <string name="game_info">Datos de la sala</string>
     <string name="game_settings_button">Ajustes de Sala</string>
     <string name="create_game">Crear Sala</string>
+    <string name="send_email">Enviar email</string>
+    <string name="send">Enviar</string>
 
 </resources>

@@ -19,6 +19,7 @@ interface GamesRepository {
     suspend fun deleteGame(gameId: String): Boolean
     suspend fun getLocalGamesByUser(): List<LocalGame>
     suspend fun deleteAllGames(): Boolean
+    suspend fun sendMailToPlayer(gameId: String, playerId: String, playerEmail: String): Boolean
 
 
 }
