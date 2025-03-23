@@ -159,6 +159,7 @@ class ViewGameActivity : AppCompatActivity() {
             finish()
         }
 
+
         viewModel?.game?.observe(this) { gameData ->
             binding?.tvGameName?.text = gameData.name
 
@@ -166,11 +167,30 @@ class ViewGameActivity : AppCompatActivity() {
             binding?.matchedPlayerName?.text = gameData.matchedPlayer
             binding?.tvPlayersNumber?.text = (gameData.players.size + 1).toString()
             binding?.tvMinMoney?.text = gameData.minCost.toString()
-            binding?.tvMaxMoney?.text = gameData.maxCost.toString()
+
             playersAdapter?.submitList(gameData.players)
 
             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             binding?.tvGameDate?.text = dateFormat.format(gameData.gameDate)
+        }
+        viewModel?.formattedMaxCost?.observe(this) { formattedMaxCost ->
+            if (formattedMaxCost == "∞") {
+                binding?.tvMaxMoney?.text = ""
+                binding?.tvMaxMoney?.setCompoundDrawablesWithIntrinsicBounds(
+                    ContextCompat.getDrawable(this, R.drawable.infinite),
+                    null,
+                    null,
+                    null
+                )
+            } else {
+                binding?.tvMaxMoney?.text = formattedMaxCost
+                binding?.tvMaxMoney?.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    null,
+                    null
+                )
+            }
         }
         viewModel?.isMailSent?.observe(this) {
             if (it) {

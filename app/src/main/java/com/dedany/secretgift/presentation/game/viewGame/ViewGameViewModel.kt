@@ -28,6 +28,14 @@ class ViewGameViewModel @Inject constructor(
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private val _formattedMaxCost = MutableLiveData<String>()
+    val formattedMaxCost: LiveData<String> get() = _formattedMaxCost
+
+
+    private fun formatMaxCost(maxCost: Int): String {
+        return if (maxCost == 0) "∞" else maxCost.toString()
+    }
+
     fun sendMailToPlayer(playerId: String, playerEmail: String) {
         val gameId = game.value?.id
 
@@ -56,6 +64,7 @@ class ViewGameViewModel @Inject constructor(
             try {
                 _isLoading.value = true
                 _game.value = useCase.getGame(gameCode)
+                _formattedMaxCost.value = formatMaxCost(game.value?.maxCost ?: 0)
                 _isLoading.value = false
             } catch (e: ErrorDto) {
                 _gameCodeError.value = e.errorMessage
