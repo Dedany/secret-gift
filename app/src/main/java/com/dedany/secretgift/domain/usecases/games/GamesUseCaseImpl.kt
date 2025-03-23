@@ -28,8 +28,8 @@ class GamesUseCaseImpl @Inject constructor(
     }
 
 
-    override suspend fun getGamesByUser(): List<GameSummary> {
-        val games = repository.getGamesByUser()
+    override suspend fun getOwnedGamesByUser(): List<GameSummary> {
+        val games = repository.getOwnedGamesByUser()
         return games
     }
 
@@ -58,8 +58,8 @@ class GamesUseCaseImpl @Inject constructor(
         repository.updateGame(game)
     }
 
-    override suspend fun deleteGame(gameId: String): Boolean {
-       return repository.deleteGame(gameId)
+    override suspend fun deleteGame(gameId: String, userId: String): Boolean {
+       return repository.deleteGame(gameId, userId)
     }
 
     override suspend fun deleteAllGames(): Boolean{
@@ -68,6 +68,11 @@ class GamesUseCaseImpl @Inject constructor(
 
     override suspend fun sendMailToPlayer(gameId: String, playerId: String, playerEmail: String):Boolean {
         return repository.sendMailToPlayer(gameId, playerId, playerEmail)
+    }
+
+    override suspend fun getPlayedGamesByUser(): List<GameSummary> {
+        val games = repository.getPlayedGamesByUser()
+        return games
     }
 
     override suspend fun getLocalGamesByUser(): List<LocalGame> {

@@ -81,11 +81,11 @@ class GameRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun getGamesByUser(): List<GameSummary> {
+    override suspend fun getOwnedGamesByUser(): List<GameSummary> {
         return withContext(Dispatchers.IO) {
             try {
-                val gamesSummaryDto = remoteDataSource.getGamesByUser()
-                return@withContext gamesSummaryDto.map { it.toDomain() }
+                val gamesSummaryDto = remoteDataSource.getOwnedGamesByUser()
+                return@withContext gamesSummaryDto.map { it.toDomainAsOwned() }
             } catch (e: Exception) {
                 Log.e("getGamesByUser", "Error obteniendo juegos: ${e.message}")
                 return@withContext emptyList<GameSummary>()
@@ -120,6 +120,18 @@ class GameRepositoryImpl @Inject constructor(
         return remoteDataSource.sendMailToPlayer(sendEmailToPlayerDto)
     }
 
+    override suspend fun getPlayedGamesByUser(): List<GameSummary> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val gamesSummaryDto = remoteDataSource.getPlayedGamesByUser()
+                return@withContext gamesSummaryDto.map { it.toDomain() }
+            } catch (e: Exception) {
+                Log.e("getGamesByUser", "Error obteniendo juegos: ${e.message}")
+                return@withContext emptyList<GameSummary>()
+            }
+        }
+    }
+
     override suspend fun deleteLocalGame(gameId: Int): Boolean {
         return localDataSource.deleteGame(gameId)
     }
@@ -143,8 +155,8 @@ class GameRepositoryImpl @Inject constructor(
 //        remoteDataSource.updateGame(gameDto)
     }
 
-    override suspend fun deleteGame(gameId: String): Boolean {
-        return remoteDataSource.deleteGame(gameId)
+    override suspend fun deleteGame(gameId: String, userId: String): Boolean {
+        return remoteDataSource.deleteGame(gameId, userId)
     }
 
 
@@ -295,7 +307,18 @@ class GameRepositoryImpl @Inject constructor(
             name = this.name,
             status = this.status,
             accessCode = this.accessCode,
-            date = this.gameDate
+            date = this.gameDate,
+            isOwnedGame = false
+        )
+    }
+    private fun GameSummaryDto.toDomainAsOwned(): GameSummary {
+        return GameSummary(
+            id = this.id,
+            name = this.name,
+            status = this.status,
+            accessCode = this.accessCode,
+            date = this.gameDate,
+            isOwnedGame = true
         )
     }
 }

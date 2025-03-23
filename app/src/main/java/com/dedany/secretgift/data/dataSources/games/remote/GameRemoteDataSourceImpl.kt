@@ -31,7 +31,7 @@ class GameRemoteDataSourceImpl @Inject constructor(
     }
 
 
-    override suspend fun getGamesByUser(): List<GameSummaryDto> {
+    override suspend fun getOwnedGamesByUser(): List<GameSummaryDto> {
 
         val userId = userPreferences.getUserId()
 
@@ -43,7 +43,7 @@ class GameRemoteDataSourceImpl @Inject constructor(
         if (response.isSuccessful) {
             return response.body()?.data ?: emptyList()
         } else {
-            throw Exception("Error fetching games by user: ${response.errorBody()?.string()}")
+            throw Exception("Error fetching games owned by user: ${response.errorBody()?.string()}")
         }
     }
 
@@ -58,8 +58,8 @@ class GameRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteGame(gameId: String): Boolean {
-        val response = gamesApi.deleteGame(gameId)
+    override suspend fun deleteGame(gameId: String, userId: String): Boolean {
+        val response = gamesApi.deleteGame(gameId, userId)
         if (response.isSuccessful) {
             return true
         } else {
@@ -82,6 +82,21 @@ class GameRemoteDataSourceImpl @Inject constructor(
             return false
 //            throw Exception("Error enviando mail: ${response.errorBody()?.string()}")
 
+        }
+    }
+
+    override suspend fun getPlayedGamesByUser(): List<GameSummaryDto> {
+        val userId = userPreferences.getUserId()
+
+        if (userId.isEmpty()) {
+            throw Exception("User ID not found in preferences")
+        }
+        val response = gamesApi.getPlayedGamesByUser(userId)
+
+        if (response.isSuccessful) {
+            return response.body()?.data ?: emptyList()
+        } else {
+            throw Exception("Error fetching games played by user: ${response.errorBody()?.string()}")
         }
     }
 

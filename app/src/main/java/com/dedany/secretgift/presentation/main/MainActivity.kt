@@ -41,7 +41,8 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             viewModel.loadUser()
             viewModel.loadLocalGames()
-            viewModel.loadGames()
+            viewModel.loadOwnedGames()
+            viewModel.loadPlayedGames()
         } else {
             restoreFragments()
         }

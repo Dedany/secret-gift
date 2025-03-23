@@ -1,6 +1,7 @@
 package com.dedany.secretgift.presentation.main
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
@@ -22,12 +23,20 @@ class GamesAdapter(
         fun bind(game: GameSummary, position: Int) {
             binding.tvApiGameName.text = game.name
 
-            binding.tvApiGameName.setTextColor(
-                ContextCompat.getColor(binding.root.context, R.color.greenColor)
-            )
-            binding.ibApiMainDelete.setOnClickListener(
-                { onGameDelete(game, position) }
-            )
+            if (game.isOwnedGame) {
+                binding.tvApiGameName.setTextColor(
+                    ContextCompat.getColor(binding.root.context, R.color.greenColor)
+                )
+                binding.ibApiMainDelete.setOnClickListener(
+                    { onGameDelete(game, position) }
+                )
+
+            } else {
+                binding.tvApiGameName.setTextColor(
+                    ContextCompat.getColor(binding.root.context, R.color.blue)
+                )
+                binding.ibApiMainDelete.visibility = View.GONE
+            }
             binding.root.setOnClickListener {
                 onGameClick(game.accessCode)
             }
