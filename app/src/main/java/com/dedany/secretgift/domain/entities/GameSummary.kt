@@ -8,5 +8,6 @@ data class GameSummary(
     val name: String,
     val status: String,
     val accessCode: String,
-    val date: Date
+    val date: Date,
+    val isOwnedGame: Boolean =false
 ): Serializable

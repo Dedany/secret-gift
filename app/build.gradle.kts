@@ -98,7 +98,7 @@ dependencies {
     //flexbox
     implementation("com.google.android.flexbox:flexbox:3.0.0")
 
-    //mockk
+    //Mockito Test
     testImplementation("androidx.test:core:1.5.0")
     testImplementation("androidx.arch.core:core-testing:2.1.0") // LiveData
     testImplementation("org.mockito:mockito-core:5.2.0") // Obligatorio si se usa Mockito

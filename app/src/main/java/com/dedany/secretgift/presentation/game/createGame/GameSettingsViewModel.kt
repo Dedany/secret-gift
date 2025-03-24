@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dedany.secretgift.domain.entities.Player
 import com.dedany.secretgift.domain.entities.Rule
 import com.dedany.secretgift.domain.usecases.games.GamesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -34,6 +35,10 @@ class GameSettingsViewModel @Inject constructor(
     private val _minPrice = MutableLiveData<String>()
     val minPrice: LiveData<String> get() = _minPrice
 
+    private val _playerList = MutableLiveData<List<Player>>(emptyList()) // Inicializamos con una lista vacía
+    val playerList: LiveData<List<Player>> get() = _playerList
+
+
     private val _rules = MutableLiveData<List<Rule>>(listOf())
     val rules: LiveData<List<Rule>> = _rules
 
@@ -41,6 +46,9 @@ class GameSettingsViewModel @Inject constructor(
     fun setEventDate(date: String?) {
         _eventDate.value = date
         _isDateSelected.value = date != null
+    }
+    fun setPlayerList(players: List<Player>) {
+        _playerList.value = players
     }
 
     fun setMaxPrice(price: String) {
@@ -50,6 +58,23 @@ class GameSettingsViewModel @Inject constructor(
     fun setMinPrice(price: String) {
         _minPrice.value = price
     }
+
+    fun canAssignGift(participants: List<Player>, restrictions: Map<String, Set<String>>, onComplete: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            try {
+                // Llamamos al use case para verificar si es posible asignar regalos con las restricciones
+                val canAssign = gamesUseCase.canAssignGift(participants, restrictions)
+
+                // Retornamos el resultado a través del callback
+                onComplete(canAssign)
+            } catch (e: Exception) {
+                // En caso de error, logueamos el mensaje de error y retornamos false
+                Log.e("GameSettingsViewModel", "Error al verificar asignación de regalos: ${e.message}")
+                onComplete(false)
+            }
+        }
+    }
+
 
     fun addNewRule() {
         val rules = _rules.value ?: emptyList()
@@ -87,7 +112,7 @@ class GameSettingsViewModel @Inject constructor(
 
                 val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
                 val formattedDate = game.gameDate?.let { dateFormat.format(it) }
-
+                _playerList.value = game.players
                 _eventDate.value = formattedDate
                 _isDateSelected.value = formattedDate != null // Update isDateSelected
                 _maxPrice.value = game.maxCost?.toString() ?: ""

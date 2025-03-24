@@ -6,6 +6,8 @@ import com.dedany.secretgift.data.dataSources.users.remote.UsersRemoteDataSource
 import com.dedany.secretgift.data.dataSources.users.remote.dto.UserEmailDto
 import com.dedany.secretgift.domain.entities.User
 import com.dedany.secretgift.domain.repositories.UsersRepository
+import com.dedany.secretgift.domain.repositories.errorHandler.UserRepositoryError
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 class UsersRepositoryImpl @Inject constructor(
@@ -16,11 +18,18 @@ class UsersRepositoryImpl @Inject constructor(
     override suspend fun getRegisteredUser(): User {
 
         val email = userPreferences.getUserEmail().takeIf { it.isNotEmpty() }
-            ?: throw Exception("User not found")
+            ?: throw UserRepositoryError.UserNotFoundError("User email not found in preferences")
 
-        val response = usersRemoteDataSource.getUserByEmail(UserEmailDto(email))
-
-        return response.body()?.toLocal() ?: throw Exception("No user data found in response")
+        return try {
+            val response = usersRemoteDataSource.getUserByEmail(UserEmailDto(email))
+            response.body()?.toLocal()
+                ?: throw UserRepositoryError.UserNotFoundError("No user data found in response")
+        } catch (e: Exception) {
+            when (e) {
+                is UnknownHostException -> throw UserRepositoryError.NetworkError("Network error: Unable to reach server")
+                else -> throw UserRepositoryError.UnexpectedError("Unexpected error: ${e.message}")
+            }
+        }
     }
 
 

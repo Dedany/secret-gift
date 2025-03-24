@@ -16,6 +16,11 @@
     <color name="errorColor">#ff746c</color>
     <color name="linked_player_color">#EBDFDF</color>
     <color name="transparent">#00000000</color>"
+    <color name="gray_light">#EEEEEE</color>
+    <color name="gray_dark">#404040</color>
+    <color name="blueColor">#2196F3</color>
+    <color name="indicator_bg">#33000000</color>
+
 
 
 </resources>

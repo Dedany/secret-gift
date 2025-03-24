@@ -154,6 +154,7 @@ class CreateGameActivity : AppCompatActivity() {
 
         viewModel?.isGameSavedSuccess?.observe(this) { isSuccess ->
             if (isSuccess) {
+                Toast.makeText(this, "Juego guardado exitosamente", Toast.LENGTH_SHORT).show()
                 startActivity(Intent(this, MainActivity::class.java))
             } else {
                 Toast.makeText(this, "No se puede guardar el juego", Toast.LENGTH_SHORT).show()

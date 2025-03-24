@@ -45,6 +45,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     val gameId = result.data?.getIntExtra(Constants.KEY_GAME_ID, -1)
                     if (gameId != null && gameId != -1) {
                         viewModel?.loadLocalGames()
+
                     }
                 }
             }
@@ -57,7 +58,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     val accessCode = result.data?.getStringExtra(Constants.KEY_ACCESS_CODE)
                     if (!accessCode.isNullOrEmpty()) {
                         // Recargar la lista de juegos de la API
-                        viewModel?.loadGames()
+                        viewModel?.loadOwnedGames()
+                        viewModel?.loadPlayedGames()
                     }
                 }
             }
@@ -75,15 +77,17 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         setUpAdapters()
         setUpObservers()
         setUpListeners()
-
-        viewModel?.loadLocalGames()
-        viewModel?.loadGames()
+//
+//        viewModel?.loadLocalGames()
+//        viewModel?.loadOwnedGames()
+//        viewModel?.loadPlayedGames()
     }
 
     override fun onResume() {
         super.onResume()
         viewModel?.loadLocalGames()
-        viewModel?.loadGames()
+        viewModel?.loadOwnedGames()
+        viewModel?.loadPlayedGames()
     }
 
     override fun onCreateView(
@@ -130,7 +134,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 nestedScrollView.isVisible = !isDeleting
             }
         }
-        viewModel?.games?.observe(viewLifecycleOwner) { games ->
+        viewModel?.combinedGames?.observe(viewLifecycleOwner) { games ->
             gamesAdapter?.submitList(games)
         }
 
@@ -193,7 +197,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 if (localGame != null) {
                     viewModel?.deleteLocalGame(localGame.id)
                 } else if (game != null) {
-                    viewModel?.deleteRemoteGame(game.id)
+                    viewModel?.deleteRemoteGame(game.id, user.id)
                 }
             }
             .setNegativeButton("Cancelar") { dialog, _ ->

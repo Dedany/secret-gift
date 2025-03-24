@@ -10,15 +10,17 @@ interface GamesRepository {
     suspend fun getGame(gameCode: String): Game
     suspend fun getLocalGame(gameId: Int): LocalGame
     suspend fun getLocalGameById(id: Int): LocalGame
-    suspend fun getGamesByUser(): List<GameSummary>
+    suspend fun getOwnedGamesByUser(): List<GameSummary>
     suspend fun deleteLocalGame(gameId: Int): Boolean
     suspend fun createLocalGame(game: LocalGame): Long
     suspend fun updateLocalGame(game: LocalGame): Int
     suspend fun createGame(game: CreateGame):Boolean
     suspend fun updateGame(game: Game)
-    suspend fun deleteGame(gameId: String): Boolean
+    suspend fun deleteGame(gameId: String, userId: String): Boolean
     suspend fun getLocalGamesByUser(): List<LocalGame>
     suspend fun deleteAllGames(): Boolean
+    suspend fun sendMailToPlayer(gameId: String, playerId: String, playerEmail: String): Boolean
+    suspend fun getPlayedGamesByUser(): List<GameSummary>
 
 
 }
