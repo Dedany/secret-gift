@@ -4,17 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/app_background">
+
     <ProgressBar
         android:id="@+id/loader"
         android:layout_width="match_parent"
-        android:layout_marginTop="100dp"
         android:layout_height="100dp"
-        android:visibility="gone"
+        android:layout_marginTop="100dp"
         android:indeterminateTint="@color/brown"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
     </ProgressBar>
+
     <Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -41,8 +43,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/app_name"
-            android:textColor="@color/maincolor"
-            />
+            android:textColor="@color/maincolor" />
     </Toolbar>
 
 
@@ -51,10 +52,10 @@
         style="@style/custom_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/cursive_serif_book"
         android:text="@string/game_settings"
         android:textSize="24dp"
-        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
@@ -88,19 +89,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/game_date"
-                android:textSize="20sp"
-                 />
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/editTextEventDate"
                 style="@style/custom_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="none"
+                android:clickable="true"
                 android:focusable="false"
-                android:textColor="@color/white"
                 android:focusableInTouchMode="false"
-                android:clickable="true" />
+                android:inputType="none"
+                android:textColor="@color/white" />
 
 
             <TextView
@@ -109,8 +109,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/cursive_serif_book"
                 android:text="@string/min_cost"
-                android:textSize="20sp"
-                 />
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/editText_minPrice_options"
@@ -125,8 +124,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/max_cost"
-                android:textSize="20sp"
-                 />
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/editText_maxPrice_options"
@@ -154,10 +152,8 @@
                     android:textSize="20sp" />
 
 
-
                 <Button
                     android:id="@+id/btn_add_incompatibilities"
-                    style="@style/custom_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
@@ -166,25 +162,25 @@
                     android:text="+"
                     android:textColor="#FFFFFF" />
 
+
             </GridLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
                 android:layout_gravity="center"
-                app:layout_constraintTop_toBottomOf="parent"
+                android:layout_weight="1"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                >
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="parent">
 
                 <ImageView
                     android:id="@+id/place_holder_options"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/incompatibility"
                     android:layout_marginTop="12dp"
+                    android:src="@drawable/incompatibility"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -193,16 +189,16 @@
                     android:id="@+id/recycler_view_rules"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="8dp"
                     android:layout_weight="1"
+                    android:scrollbars="vertical"
+                    android:visibility="gone"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:scrollbars="vertical"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="26" />
 
 
@@ -227,8 +223,8 @@
                 android:id="@+id/btn_SaveChanges"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
-                android:layout_marginBottom="20dp"
                 android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"
                 android:backgroundTint="@color/maincolor"
                 android:text="Guardar Cambios"
                 android:textColor="#FFFFFF" />

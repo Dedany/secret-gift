@@ -35,4 +35,6 @@ class UserPreferences @Inject constructor(
     fun setUserId(userId: String) {
         sharedPreferences.edit()?.putString(USER_ID, userId)?.apply()
     }
+
+
 }
