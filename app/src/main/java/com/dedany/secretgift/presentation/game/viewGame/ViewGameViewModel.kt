@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dedany.secretgift.data.dataSources.errorHandler.ErrorDto
+import com.dedany.secretgift.data.errorHandler.ErrorDto
 import com.dedany.secretgift.domain.entities.Game
 import com.dedany.secretgift.domain.usecases.games.GamesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
