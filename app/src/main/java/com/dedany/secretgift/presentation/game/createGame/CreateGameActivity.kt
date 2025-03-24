@@ -44,7 +44,6 @@ class CreateGameActivity : AppCompatActivity() {
                 val rules: List<Rule> =
                     result.data?.getSerializableExtra("RULES") as? List<Rule> ?: emptyList()
 
-                // Pasar los valores al ViewModel
                 viewModel?.setGameSettings(
                     eventDate ?: "",
                     maxPrice ?: "",
@@ -66,8 +65,19 @@ class CreateGameActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[CreateGameViewModel::class.java]
         setContentView(binding?.root)
 
+        setupViewModel()
+        setAdapters()
+        initObservers()
+        initListeners()
+        initAd()
+    }
+
+    private fun setupViewModel() {
         viewModel?.fetchOwnerEmail()
+
         val gameId = intent.getIntExtra(Constants.KEY_GAME_ID, -1)
+
+        updateUIBasedOnName(binding?.edNameRoom?.text.toString())
 
         if (gameId != -1) {
             viewModel?.setGameId(gameId)
@@ -77,11 +87,6 @@ class CreateGameActivity : AppCompatActivity() {
             viewModel?.addCreatingUserToPlayers()
             viewModel?.createOrUpdateGame()
         }
-
-        setAdapters()
-        initObservers()
-        initListeners()
-        initAd()
     }
 
     private fun setAdapters() {
@@ -206,10 +211,7 @@ class CreateGameActivity : AppCompatActivity() {
 
     private fun initListeners() {
         binding?.edNameRoom?.doOnTextChanged { text, _, _, _ ->
-            val isNotEmpty = !text.isNullOrEmpty()
-            binding?.tvAddPeople?.visibility = if (isNotEmpty) View.VISIBLE else View.GONE
-            binding?.btnAdd?.visibility = if (isNotEmpty) View.VISIBLE else View.GONE
-            viewModel?.setName(text.toString())
+            updateUIBasedOnName(text.toString())
         }
         binding?.edNameRoom?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
@@ -286,6 +288,15 @@ class CreateGameActivity : AppCompatActivity() {
                 viewModel?.onDialogDismissed()
             }
             .show()
+    }
+    private fun updateUIBasedOnName(name: String) {
+        val isNotEmpty = name.isNotEmpty()
+        binding?.tvAddPeople?.visibility = if (isNotEmpty) View.VISIBLE else View.GONE
+        binding?.btnAdd?.visibility = if (isNotEmpty) View.VISIBLE else View.GONE
+        viewModel?.setName(name)
+
+        val isValidName = name.length > 3
+        binding?.btnGameSettings?.isEnabled = isValidName
     }
 
     fun initAd() {
