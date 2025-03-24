@@ -1,7 +1,12 @@
 package com.dedany.secretgift.presentation.main
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.widget.Toast
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -34,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         )
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         initAd()
         observeViewModel()
@@ -135,4 +141,6 @@ class MainActivity : AppCompatActivity() {
         val adRequest = AdRequest.Builder().build()
         binding.adView.loadAd(adRequest)
     }
+
+
 }
