@@ -75,9 +75,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <!-- Botón para crear evento -->
 
-        <!-- NestedScrollView con el contenido -->
         <Button
             android:id="@+id/button_create_event"
             style="@style/custom_button"
@@ -103,7 +101,20 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
-
+                <TextView
+                    android:id="@+id/textView_local_games"
+                    style="@style/custom_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Juegos en Borrador"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="30dp"
+                    android:background="@color/gray_light"
+                    android:layout_marginBottom="8dp"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView_main"
                     android:layout_width="match_parent"
@@ -111,7 +122,20 @@
 
                     tools:itemCount="3"
                     tools:listitem="@layout/item_game_list" />
-
+                <TextView
+                    android:id="@+id/textView_api_games"
+                    style="@style/custom_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Juegos Cerrados"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="8dp"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="30dp"
+                    android:background="@color/gray_light"
+                    android:layout_marginBottom="8dp"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView_main_api_games"
                     android:layout_width="match_parent"

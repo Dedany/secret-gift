@@ -67,4 +67,13 @@
 
 
     </style>
+    <style name="custom_subtitle" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:fontFamily">@font/cursive_serif_book</item>
+        <item name="android:textColor">@color/maincolor</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:letterSpacing">0.02</item>
+        <item name="android:lineHeight">24sp</item>
+        <item name="android:gravity">start</item>
+    </style>
 </resources>
