@@ -23,6 +23,7 @@
         android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
         ads:layout_constraintVertical_bias="0.0"
         app:layout_constraintBottom_toTopOf="@id/view_game_settings"
         app:layout_constraintTop_toTopOf="parent"
@@ -45,16 +46,11 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:orientation="vertical">
+                    android:layout_marginTop="64dp"
 
-                    <Toolbar
-                        android:id="@+id/toolbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                    android:orientation="horizontal">
+
+
 
                         <ImageView
                             android:id="@+id/icon_back"
@@ -68,13 +64,16 @@
                         <TextView
                             android:id="@+id/tv_game_name"
                             style="@style/custom_text_view"
-                            android:layout_width="wrap_content"
+                            android:layout_marginEnd="62dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+
+                            android:ellipsize="end"
                             android:text="Mi amigo invisible"
 
                              />
-                    </Toolbar>
+
 
                 </LinearLayout>
 
@@ -357,5 +356,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="@dimen/activity_ads_margin"/>
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
