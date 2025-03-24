@@ -16,16 +16,24 @@ class AuthRepositoryImpl @Inject constructor(
 ) :
     AuthRepository {
     override suspend fun login(email: String, password: String): Boolean {
+        if (email.isBlank() || password.isBlank()) {
+            throw AuthRepositoryError.InvalidCredentialsError("Email or password cannot be empty")
+        }
         val credentials = LoginDto(email, password, null)
+
         try {
             val response = authRemoteDataSource.login(credentials)
 
+            // Validar que el token no esté vacío
             if (response.token.isNullOrEmpty()) {
                 throw AuthRepositoryError.InvalidCredentialsError("Invalid credentials or empty token")
             }
 
             val userResponse = authRemoteDataSource.getUserByEmail(UserEmailDto(email))
-            val user = userResponse.body()?.takeIf { it.userId.isNotEmpty() }
+
+            val user = userResponse.body()?.takeIf {
+                it.userId.isNotEmpty() && it.name.isNotEmpty()
+            }
 
             user?.let { playerDto ->
                 userPreferences.apply {
@@ -34,33 +42,43 @@ class AuthRepositoryImpl @Inject constructor(
                     setUserName(playerDto.name)
                 }
                 return true
-            } ?: throw AuthRepositoryError.UserNotFoundError("User not found in the response")
-        } catch (e: java.net.UnknownHostException) {
-            throw AuthRepositoryError.NetworkError("Network error: Unable to reach server")
+            } ?: throw AuthRepositoryError.UserNotFoundError("User not found or incomplete user data in the response")
+
+        } catch (e: AuthRepositoryError.InvalidCredentialsError) {
+            throw e
         } catch (e: Exception) {
             throw AuthRepositoryError.UnexpectedError("Unexpected error: ${e.message}")
         }
     }
 
     override suspend fun register(name: String, email: String, password: String): Boolean {
+
+        if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            throw AuthRepositoryError.InvalidCredentialsError("Name, email, and password cannot be empty")
+        }
+
         val dto = CreateUserDto(name = name, email = email, password = password)
+
         return try {
             val responseDto = authRemoteDataSource.register(dto)
-            responseDto.first
-        } catch (e: Exception) {
-            when (e) {
-                is UnknownHostException -> throw AuthRepositoryError.NetworkError("Network error: Unable to reach server")
-                else -> throw AuthRepositoryError.UnexpectedError("Unexpected error: ${e.message}")
+
+            if (responseDto.first) {
+                return true
+            } else {
+                throw AuthRepositoryError.UserRegistrationError("User registration failed")
             }
+        } catch (e: Exception) {
+            throw AuthRepositoryError.UnexpectedError("Unexpected error: ${e.message}")
         }
     }
+
 
     override fun logout(): Boolean {
         return authRemoteDataSource.logout()
     }
 
     override fun isLoggedIn(): Boolean {
-       return authRemoteDataSource.isLoggedIn()
+        return authRemoteDataSource.isLoggedIn()
     }
 
 }

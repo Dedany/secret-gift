@@ -190,15 +190,9 @@ class GameRepositoryImpl @Inject constructor(
             is SQLiteException -> {
                 GameRepositoryError.DatabaseError(e.message ?: "Error en la base de datos")
             }
-
-            is IOException -> {
-                GameRepositoryError.NetworkError(e.message ?: "Error de red")
-            }
-
             is GameRepositoryError.UserNotFoundError -> {
                 e
             }
-
             else -> {
                 GameRepositoryError.UnexpectedError(e.message ?: "Error inesperado")
             }
@@ -212,135 +206,224 @@ class GameRepositoryImpl @Inject constructor(
 
 
     private fun GameDto.toDomain(): Game {
-        return Game(
-            id = this.id,
-            name = this.name,
-            ownerId = this.ownerId,
-            status = this.status,
-            gameCode = this.gameCode,
-            maxCost = this.maxCost,
-            minCost = this.minCost,
-            gameDate = this.gameDate,
-            players = this.players.map { it.toDomain() },
-            currentPlayer = this.currentPlayer,
-            matchedPlayer = this.matchedPlayer,
-            rules = this.rules.map { it.toDomain() },
-        )
+        return try {
+            if (this.id.isEmpty() || this.name.isEmpty()) {
+                throw GameRepositoryError.DataConversionError("Missing required fields in GameDto: id or name")
+            }
+            Game(
+                id = this.id,
+                name = this.name,
+                ownerId = this.ownerId,
+                status = this.status,
+                gameCode = this.gameCode,
+                maxCost = this.maxCost,
+                minCost = this.minCost,
+                gameDate = this.gameDate,
+                players = this.players.map { it.toDomain() },
+                currentPlayer = this.currentPlayer,
+                matchedPlayer = this.matchedPlayer,
+                rules = this.rules.map { it.toDomain() }
+            )
+        } catch (e: Exception) {
+            throw GameRepositoryError.DataConversionError("Error converting GameDto to Game: ${e.message}")
+        }
     }
-
 
     private fun LocalGame.toDbo(): GameDbo {
-        return GameDbo(
-            id = this.id,
-            name = this.name,
-            ownerId = this.ownerId,
-            maxCost = this.maxCost,
-            minCost = this.minCost,
-            gameDate = this.gameDate ?: Date(),
-            players = this.players.map { it.toDbo() },
-            rules = this.rules.map { it.toDbo() }
-        )
+        return try {
+            GameDbo(
+                id = this.id,
+                name = this.name,
+                ownerId = this.ownerId,
+                maxCost = this.maxCost,
+                minCost = this.minCost,
+                gameDate = this.gameDate ?: Date(),
+                players = this.players.map { it.toDbo() },
+                rules = this.rules.map { it.toDbo() }
+            )
+        } catch (e: Exception) {
+            throw GameRepositoryError.DataConversionError("Error converting LocalGame to GameDbo: ${e.message}")
+        }
     }
 
-
     private fun GameDbo.toDomain(): LocalGame {
-        return LocalGame(
-            id = this.id,
-            name = this.name,
-            ownerId = this.ownerId,
-            maxCost = this.maxCost,
-            minCost = this.minCost,
-            gameDate = this.gameDate,
-            players = this.players.map { it.toDomain() },
-            rules = this.rules.map { it.toDomain() }
-        )
+        return try {
+            LocalGame(
+                id = this.id,
+                name = this.name,
+                ownerId = this.ownerId,
+                maxCost = this.maxCost,
+                minCost = this.minCost,
+                gameDate = this.gameDate,
+                players = this.players.map { it.toDomain() },
+                rules = this.rules.map { it.toDomain() }
+            )
+        } catch (e: Exception) {
+            throw GameRepositoryError.DataConversionError("Error converting GameDbo to LocalGame: ${e.message}")
+        }
     }
 
     private fun UserRegisteredDto.toRegisteredUser(): User {
-        return User(
-            id = this.userId,
-            name = this.name,
-            email = this.email,
-
+        return try {
+            if (this.userId.isEmpty() || this.name.isEmpty() || this.email.isEmpty()) {
+                throw GameRepositoryError.DataConversionError("Missing required fields in UserRegisteredDto")
+            }
+            User(
+                id = this.userId,
+                name = this.name,
+                email = this.email
             )
+        } catch (e: Exception) {
+            throw GameRepositoryError.DataConversionError("Error converting UserRegisteredDto to User: ${e.message}")
+        }
     }
 
     private fun Player.toDbo(): PlayerDbo {
-        return PlayerDbo(
-            name = this.name,
-            email = this.email
-        )
+        return try {
+            PlayerDbo(
+                name = this.name,
+                email = this.email
+            )
+        } catch (e: Exception) {
+            throw GameRepositoryError.DataConversionError("Error converting Player to PlayerDbo: ${e.message}")
+        }
     }
 
-
     private fun PlayerDbo.toDomain(): Player {
-        return Player(
-            name = this.name,
-            email = this.email
-        )
+        return try {
+            Player(
+                name = this.name,
+                email = this.email
+            )
+        } catch (e: Exception) {
+            throw GameRepositoryError.DataConversionError("Error converting PlayerDbo to Player: ${e.message}")
+        }
     }
 
     private fun PlayerDto.toDomain(): User {
-        return User(
-            id = this.id,
-            name = this.name,
-            email = this.email,
-            mailStatus = this.mailStatus
-        )
+        return try {
+            if (this.id.isEmpty() || this.name.isEmpty() || this.email.isEmpty()) {
+                throw GameRepositoryError.DataConversionError("Missing required fields in PlayerDto")
+            }
+            User(
+                id = this.id,
+                name = this.name,
+                email = this.email,
+                mailStatus = this.mailStatus
+            )
+        } catch (e: Exception) {
+            throw GameRepositoryError.DataConversionError("Error converting PlayerDto to User: ${e.message}")
+        }
     }
 
-
     private fun GameRuleDto.toDomain(): Rule {
-        return Rule(
-            playerOne = this.playerOne,
-            playerTwo = this.playerTwo
-        )
+        return try {
+            if (this.playerOne.isEmpty() || this.playerTwo.isEmpty()) {
+                throw GameRepositoryError.DataConversionError("Missing required fields in GameRuleDto")
+            }
+            Rule(
+                playerOne = this.playerOne,
+                playerTwo = this.playerTwo
+            )
+        } catch (e: Exception) {
+            throw GameRepositoryError.DataConversionError("Error converting GameRuleDto to Rule: ${e.message}")
+        }
     }
 
     private fun RuleDbo.toDomain(): Rule {
-        return Rule(
-            playerOne = this.playerOne,
-            playerTwo = this.playerTwo
-        )
+        return try {
+            if (this.playerOne.isEmpty() || this.playerTwo.isEmpty()) {
+                throw GameRepositoryError.DataConversionError("Missing required fields in RuleDbo")
+            }
+            Rule(
+                playerOne = this.playerOne,
+                playerTwo = this.playerTwo
+            )
+        } catch (e: Exception) {
+            throw GameRepositoryError.DataConversionError("Error converting RuleDbo to Rule: ${e.message}")
+        }
     }
 
     private fun Rule.toDto(): GameRuleDto {
-        return GameRuleDto(
-            playerOne = this.playerOne.toString(),
-            playerTwo = this.playerTwo.toString()
-        )
+        return try {
+            GameRuleDto(
+                playerOne = this.playerOne.toString(),
+                playerTwo = this.playerTwo.toString()
+            )
+        } catch (e: Exception) {
+            throw GameRepositoryError.DataConversionError("Error converting Rule to GameRuleDto: ${e.message}")
+        }
     }
 
     private fun Rule.toDbo(): RuleDbo {
-        return RuleDbo(
-            playerOne = this.playerOne.toString(),
-            playerTwo = this.playerTwo.toString()
-        )
+        return try {
+            RuleDbo(
+                playerOne = this.playerOne.toString(),
+                playerTwo = this.playerTwo.toString()
+            )
+        } catch (e: Exception) {
+            throw GameRepositoryError.DataConversionError("Error converting Rule to RuleDbo: ${e.message}")
+        }
     }
 
-
     private fun CreateGame.toDto(): CreateGameDto {
-        return CreateGameDto(
-
-            name = this.name,
-            ownerId = this.ownerId,
-            status = this.status,
-            maxCost = this.maxCost,
-            minCost = this.minCost,
-            gameDate = this.gameDate,
-            players = this.players.map { it.toDto() },
-            rules = this.rules.map { it.toDto() },
-
-
+        return try {
+            CreateGameDto(
+                name = this.name,
+                ownerId = this.ownerId,
+                status = this.status,
+                maxCost = this.maxCost,
+                minCost = this.minCost,
+                gameDate = this.gameDate,
+                players = this.players.map { it.toDto() },
+                rules = this.rules.map { it.toDto() }
             )
+        } catch (e: Exception) {
+            throw GameRepositoryError.DataConversionError("Error converting CreateGame to CreateGameDto: ${e.message}")
+        }
     }
 
     private fun CreatePlayer.toDto(): CreatePlayerDto {
-        return CreatePlayerDto(
-            name = this.name,
-            email = this.email,
-            linkedTo = this.linkedTo
-        )
+        return try {
+            CreatePlayerDto(
+                name = this.name,
+                email = this.email,
+                linkedTo = this.linkedTo
+            )
+        } catch (e: Exception) {
+            throw GameRepositoryError.DataConversionError("Error converting CreatePlayer to CreatePlayerDto: ${e.message}")
+        }
+    }
+
+
+    private fun GameSummaryDto.toDomain(): GameSummary {
+        return try {
+            GameSummary(
+                id = this.id,
+                name = this.name,
+                status = this.status,
+                accessCode = this.accessCode,
+                date = this.gameDate,
+                isOwnedGame = false
+            )
+        } catch (e: Exception) {
+            throw GameRepositoryError.DataConversionError("Error converting GameSummaryDto to GameSummary: ${e.message}")
+        }
+    }
+
+    private fun GameSummaryDto.toDomainAsOwned(): GameSummary {
+        return try {
+            GameSummary(
+                id = this.id,
+                name = this.name,
+                status = this.status,
+                accessCode = this.accessCode,
+                date = this.gameDate,
+                isOwnedGame = true
+            )
+        } catch (e: Exception) {
+            throw GameRepositoryError.DataConversionError("Error converting GameSummaryDto to GameSummary: ${e.message}")
+        }
     }
 
     private fun String.toDate(): Date? {
@@ -350,28 +433,6 @@ class GameRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             null
         }
-    }
-
-    private fun GameSummaryDto.toDomain(): GameSummary {
-        return GameSummary(
-            id = this.id,
-            name = this.name,
-            status = this.status,
-            accessCode = this.accessCode,
-            date = this.gameDate,
-            isOwnedGame = false
-        )
-    }
-
-    private fun GameSummaryDto.toDomainAsOwned(): GameSummary {
-        return GameSummary(
-            id = this.id,
-            name = this.name,
-            status = this.status,
-            accessCode = this.accessCode,
-            date = this.gameDate,
-            isOwnedGame = true
-        )
     }
 }
 

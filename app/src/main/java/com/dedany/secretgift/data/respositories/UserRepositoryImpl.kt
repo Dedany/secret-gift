@@ -19,25 +19,28 @@ class UsersRepositoryImpl @Inject constructor(
 
         val email = userPreferences.getUserEmail().takeIf { it.isNotEmpty() }
             ?: throw UserRepositoryError.UserNotFoundError("User email not found in preferences")
-
         return try {
             val response = usersRemoteDataSource.getUserByEmail(UserEmailDto(email))
             response.body()?.toLocal()
                 ?: throw UserRepositoryError.UserNotFoundError("No user data found in response")
         } catch (e: Exception) {
-            when (e) {
-                is UnknownHostException -> throw UserRepositoryError.NetworkError("Network error: Unable to reach server")
-                else -> throw UserRepositoryError.UnexpectedError("Unexpected error: ${e.message}")
-            }
+            throw UserRepositoryError.UnexpectedError("Unexpected error: ${e.message}")
         }
     }
 
-
     private fun UserRegisteredDto.toLocal(): User {
-        return User(
-            id = this.userId,
-            email = this.email,
-            name = this.name
-        )
+        return try {
+            if (this.userId.isEmpty() || this.email.isEmpty()) {
+                throw UserRepositoryError.DataConversionError("User ID or email is missing in the response")
+            }
+
+            User(
+                id = this.userId,
+                email = this.email,
+                name = this.name
+            )
+        } catch (e: Exception) {
+            throw UserRepositoryError.DataConversionError("Error converting UserRegisteredDto to User: ${e.message}")
+        }
     }
 }
