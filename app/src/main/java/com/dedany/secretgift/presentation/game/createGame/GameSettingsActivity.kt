@@ -126,7 +126,7 @@ class GameSettingsActivity : AppCompatActivity() {
                 binding.editTextEventDate.setText(selectedDate) // Directamente actualiza el EditText
                 gameSettingsViewModel.setEventDate(selectedDate)
             }, year, month, day)
-
+            datePickerDialog.datePicker.minDate = System.currentTimeMillis()
             datePickerDialog.show()
         }
 
