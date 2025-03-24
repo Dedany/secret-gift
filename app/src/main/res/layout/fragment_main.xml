@@ -108,7 +108,7 @@
                     android:id="@+id/recyclerView_main"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="20dp"
+
                     tools:itemCount="3"
                     tools:listitem="@layout/item_game_list" />
 
@@ -117,9 +117,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:padding="20dp"
+
                     tools:itemCount="7"
-                    tools:listitem="@layout/item_game_list" />
+                    tools:listitem="@layout/item_api_game_list" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
