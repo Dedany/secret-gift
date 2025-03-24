@@ -78,7 +78,7 @@ class RulesAdapter(
             binding.spinnerPlayer1.setSelection(players.indexOf(rule.playerOne))
             binding.spinnerPlayer2.setSelection(auxPlayers.size-1)
 
-            binding.btnRemove.setOnClickListener {
+            binding.imageRemove.setOnClickListener {
                 onRemoveClick(adapterPosition)
             }
         }

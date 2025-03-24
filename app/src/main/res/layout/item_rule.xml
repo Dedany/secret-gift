@@ -27,11 +27,15 @@
         android:layout_height="wrap_content"
         android:layout_weight="1" />
 
-    <Button
-        android:id="@+id/btnRemove"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="X"
-        android:textColor="#FFFFFF"
-        android:backgroundTint="@color/maincolor"/>
+    <ImageView
+        android:id="@+id/image_remove"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/baseline_add_24"
+        android:rotation="134"
+
+        />
+
+
+
 </LinearLayout>
