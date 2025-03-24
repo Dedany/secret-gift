@@ -71,11 +71,14 @@ class GameSettingsActivity : AppCompatActivity() {
 
             if(rules.isNotEmpty()){
                 binding.recyclerViewRules.visibility = View.VISIBLE
-                binding.textViewRulesExist.visibility = View.GONE
+                binding.placeHolderOptions.visibility = View.GONE
+                binding.textViewIncompatibilities.visibility = View.VISIBLE
 
             }else {
                 binding.recyclerViewRules.visibility = View.GONE
-                binding.textViewRulesExist.visibility = View.VISIBLE
+                binding.placeHolderOptions.visibility = View.VISIBLE
+                binding.textViewIncompatibilities.visibility = View.GONE
+
             }
         }
 
@@ -83,13 +86,6 @@ class GameSettingsActivity : AppCompatActivity() {
             binding.editTextEventDate.setText(eventDate)
         }
 
-        gameSettingsViewModel.rules.observe(this) { rules ->
-            if (rules.isNotEmpty()) {
-                binding.textViewRulesExist.visibility = View.GONE
-            } else {
-                binding.textViewRulesExist.visibility = View.VISIBLE
-            }
-        }
         gameSettingsViewModel.maxPrice.observe(this) { maxPrice ->
             binding.editTextMaxPriceOptions.setText(maxPrice)
         }

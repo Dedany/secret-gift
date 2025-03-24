@@ -32,4 +32,18 @@
         android:padding="16dp"
       />
 
+    <TextView
+        android:id="@+id/credits_text_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Versión 1.0"
+        android:textColor="#67FFFFFF"
+        android:textSize="16sp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="16dp"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

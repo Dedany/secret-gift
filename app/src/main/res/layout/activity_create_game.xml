@@ -75,7 +75,7 @@
                     android:id="@+id/til_name_room"
                     style="@style/custom_text_input_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="?actionBarSize"
                     android:layout_marginTop="152dp"
                     app:boxBackgroundMode="outline"
                     app:layout_constraintEnd_toEndOf="parent"

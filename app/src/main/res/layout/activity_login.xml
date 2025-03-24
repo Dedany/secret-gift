@@ -47,7 +47,7 @@
         style="@style/custom_text_input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_top_margin"
+        android:layout_marginTop="24dp"
         android:textColorHint="@color/hintColor"
         app:endIconMode="password_toggle"
         app:endIconTint="@color/box_stroke_color"
@@ -71,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/button_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_top_margin"
+        android:layout_marginTop="52dp"
         android:backgroundTint="#EF000000"
         android:text="@string/btn_log"
         android:textColor="@color/orangecolor"
@@ -85,12 +85,13 @@
         android:fontFamily="@font/cursive_serif_book"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_top_margin"
+        android:layout_marginBottom="34dp"
         android:text="@string/link_create_user"
         android:textColor="@color/orangecolor"
         app:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintBottom_toTopOf="@id/btn_event"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_login" />
+      />
 
     <Button
         android:id="@+id/btn_event"
@@ -99,22 +100,23 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/button_horizontal_margin"
         android:layout_marginTop="56dp"
+        android:layout_marginBottom="18dp"
         android:text="@string/btn_event"
         android:textColor="@color/orangecolor"
-        ads:layout_constraintHorizontal_bias="0.497"
+        ads:layout_constraintBottom_toTopOf="@id/adView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_link_create_user" />
+         />
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_ads_margin"
         ads:adSize="FLUID"
         ads:adUnitId="@string/admob_banner_ad_id"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="@dimen/activity_ads_margin"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
