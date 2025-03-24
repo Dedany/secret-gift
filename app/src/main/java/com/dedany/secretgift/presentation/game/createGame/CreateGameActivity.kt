@@ -162,6 +162,7 @@ class CreateGameActivity : AppCompatActivity() {
                 startActivity(Intent(this, MainActivity::class.java))
             } else {
                 Toast.makeText(this, "No se puede guardar el juego", Toast.LENGTH_SHORT).show()
+                finish()
                 startActivity(Intent(this, CreateGameActivity::class.java))
             }
         }
