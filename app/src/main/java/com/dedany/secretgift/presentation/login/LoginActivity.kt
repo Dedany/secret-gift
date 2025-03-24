@@ -56,7 +56,8 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel?.isLoginSuccess?.observe(this) { isSucces ->
             if (isSucces) {
-                startActivity(Intent(this, MainActivity::class.java))}
+                startActivity(Intent(this, MainActivity::class.java))
+            }
         }
 
         viewModel?.user?.observe(this) { registeredUser ->
@@ -66,7 +67,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-/*
+        /*
         viewModel?.canDoLogin?.observe(this) { isEnabled ->
             binding?.btnLogin?.isEnabled = isEnabled
         }
@@ -80,8 +81,22 @@ class LoginActivity : AppCompatActivity() {
                 ).show()
             }
         }
+        viewModel?.isResetPassworEmailSent?.observe(this) { isSent ->
+            if (isSent) {
+                Toast.makeText(
+                    this@LoginActivity,
+                    "Correo de restablecimiento de contraseña enviado",
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                Toast.makeText(
+                    this@LoginActivity,
+                    "Error al enviar el correo de restablecimiento de contraseña",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
     }
-
     private fun initListeners() {
         binding?.etEmail?.doOnTextChanged { text, start, before, count ->
             viewModel?.setEmail(text.toString())
@@ -94,7 +109,9 @@ class LoginActivity : AppCompatActivity() {
         binding?.btnLogin?.setOnClickListener {
             viewModel?.login()
         }
-
+        binding?.tvResetPassword?.setOnClickListener {
+            viewModel?.resetPassword()
+        }
         binding?.tvLinkCreateUser?.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }

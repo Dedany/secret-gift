@@ -35,6 +35,9 @@ class LoginViewModel @Inject constructor(
     private val _user: MutableLiveData<User> = MutableLiveData()
     val user: LiveData<User> = _user
 
+    private val _isResetPassworEmailSent: MutableLiveData<Boolean> = MutableLiveData()
+    val isResetPassworEmailSent: LiveData<Boolean> = _isResetPassworEmailSent
+
     private var _isLoginFormValid: MutableLiveData<Boolean> = MutableLiveData()
     val isLoginFormValid: LiveData<Boolean> = _isLoginFormValid
 
@@ -76,5 +79,16 @@ class LoginViewModel @Inject constructor(
 
     fun setCode(code: String) {
         this.code = code
+    }
+
+    fun resetPassword() {
+        val email=_email.value ?: ""
+        if (authUseCase.isEmailFormatValid(email)) {
+            viewModelScope.launch {
+              _isResetPassworEmailSent.value =  authUseCase.sendResetPasswordEmail(email)
+            }
+        } else {
+            _loginError.value = "Formato de correo incorrecto"
+        }
     }
 }

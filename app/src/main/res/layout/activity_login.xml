@@ -65,16 +65,23 @@
             android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        ads:layout_constraintTop_toBottomOf="@id/til_password"
+        ads:layout_constraintStart_toStartOf="parent"
+        style="@style/custom_button"
+        android:layout_marginStart="48dp"
+        android:id="@+id/tv_reset_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reset_password" />
 
     <Button
         android:id="@+id/btn_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/button_horizontal_margin"
+        style="@style/custom_button"
         android:layout_marginTop="@dimen/activity_top_margin"
-        android:backgroundTint="#EF000000"
         android:text="@string/btn_log"
-        android:textColor="@color/maincolor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/til_password" />
@@ -82,7 +89,7 @@
     <TextView
         android:id="@+id/tv_link_create_user"
         style="@style/custom_button"
-        android:fontFamily="@font/cursive_serif_book"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_top_margin"

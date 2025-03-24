@@ -49,4 +49,8 @@ class AuthRepositoryImpl @Inject constructor(
        return authRemoteDataSource.isLoggedIn()
     }
 
+    override suspend fun sendResetPasswordEmail(email: String): Boolean {
+       return authRemoteDataSource.sendResetPasswordEmail(email)
+    }
+
 }

@@ -28,5 +28,6 @@
     <string name="create_game">Crear Sala</string>
     <string name="send_email">Enviar email</string>
     <string name="send">Enviar</string>
+    <string name="reset_password"><u>Restablecer contraseña</u></string>
 
 </resources>

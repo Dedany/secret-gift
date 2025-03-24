@@ -75,5 +75,9 @@ class AuthUseCaseImpl @Inject constructor(
         return repository.isLoggedIn()
     }
 
+    override suspend fun sendResetPasswordEmail(email: String): Boolean {
+        return repository.sendResetPasswordEmail(email)
+    }
+
 
 }

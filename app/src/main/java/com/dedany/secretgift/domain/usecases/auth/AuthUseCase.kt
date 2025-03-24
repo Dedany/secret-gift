@@ -23,4 +23,5 @@ interface AuthUseCase {
     suspend fun logout(): Boolean
 
     suspend fun isLoggedIn (): Boolean
+    suspend fun sendResetPasswordEmail(email: String): Boolean
 }

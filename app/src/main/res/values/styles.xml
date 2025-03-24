@@ -27,6 +27,7 @@
     </style>
 
     <style name="custom_button">
+        <item name="android:fontFamily">@font/cursive_serif_book</item>
         <item name="android:backgroundTint">#EF000000</item>
         <item name="android:textColor">@color/maincolor</item>
         <item name="android:textAlignment">center</item>

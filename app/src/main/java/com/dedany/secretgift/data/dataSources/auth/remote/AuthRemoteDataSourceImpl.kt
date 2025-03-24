@@ -50,6 +50,22 @@ class AuthRemoteDataSourceImpl @Inject constructor(
         return auth.currentUser != null
     }
 
+    override suspend fun sendResetPasswordEmail(email: String): Boolean {
+        return suspendCancellableCoroutine { continuation ->
+            auth.sendPasswordResetEmail(email)
+                .addOnCompleteListener { task ->
+                    if (continuation.isActive) {
+                        continuation.resume(task.isSuccessful)
+                    }
+                }
+                .addOnFailureListener {
+                    if (continuation.isActive) {
+                        continuation.resume(false)
+                    }
+                }
+        }
+    }
+
 
     override suspend fun register(createUserDto: CreateUserDto): Pair<Boolean, String> {
         val uuid = createAuthUser(createUserDto.email, createUserDto.password)

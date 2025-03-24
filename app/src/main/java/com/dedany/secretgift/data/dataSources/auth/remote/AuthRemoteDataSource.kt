@@ -12,5 +12,6 @@ interface AuthRemoteDataSource {
     suspend fun getUserByEmail(email: UserEmailDto): Response<UserRegisteredDto>
     fun logout(): Boolean
     fun isLoggedIn(): Boolean
+    suspend fun sendResetPasswordEmail(email: String): Boolean
 
 }
