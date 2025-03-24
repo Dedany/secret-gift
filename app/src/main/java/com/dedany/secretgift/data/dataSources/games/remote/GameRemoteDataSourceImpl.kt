@@ -20,17 +20,18 @@ class GameRemoteDataSourceImpl @Inject constructor(
 ) : GameRemoteDataSource {
 
     override suspend fun getGame(gameCode: String): GameDto {
-        val response = try {
-            gamesApi.getGameByAccessCode(gameCode)
-        } catch (e: Exception) {
-            throw handleNetworkError(e)
+        val response = gamesApi.getGameByAccessCode(gameCode)
+        if (response.isSuccessful) {
+            return response.body()!!
+            } else {
+                val bodyError: ResponseBody? = response.errorBody()
+                val type: Type = object : TypeToken<ErrorDto>() {}.type
+                val errorDto: ErrorDto = Gson().fromJson(bodyError?.string(), type)
+                throw errorDto
+
+            }
+
         }
-        return if (response.isSuccessful) {
-            response.body() ?: throw NetworkErrorDto.UnknownErrorDto
-        } else {
-            throw handleError(response.errorBody())
-        }
-    }
 
     override suspend fun getOwnedGamesByUser(userId: String): List<GameSummaryDto> {
         val response = try {
@@ -52,7 +53,6 @@ class GameRemoteDataSourceImpl @Inject constructor(
         } catch (e: Exception) {
             throw handleNetworkError(e)
         }
-
         return if (response.isSuccessful) {
             true
         } else {

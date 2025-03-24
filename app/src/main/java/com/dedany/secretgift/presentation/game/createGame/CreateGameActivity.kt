@@ -129,7 +129,6 @@ class CreateGameActivity : AppCompatActivity() {
         binding?.recyclerView?.adapter = playerAdapter
     }
 
-
     private fun initObservers() {
 
         viewModel?.isSaving?.observe(this) { isSaving ->
@@ -163,6 +162,7 @@ class CreateGameActivity : AppCompatActivity() {
                 startActivity(Intent(this, MainActivity::class.java))
             } else {
                 Toast.makeText(this, "No se puede guardar el juego", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, CreateGameActivity::class.java))
             }
         }
         viewModel?.nameErrorMessage?.observe(this) { message ->
@@ -227,17 +227,18 @@ class CreateGameActivity : AppCompatActivity() {
         }
 
         binding?.btnGameSettings?.setOnClickListener {
-            val gameId = viewModel?.getGameId() ?: -1
-
             val playersList = viewModel?.getPlayersList() ?: emptyList()
 
-            val intent = Intent(this, GameSettingsActivity::class.java).apply {
-                putExtra(Constants.KEY_GAME_ID, gameId)
-
-                putExtra("PLAYERS_LIST", ArrayList(playersList))
+            if (playersList.size < 3) {
+                Toast.makeText(this, "Necesitas 3 jugadores mínimo", Toast.LENGTH_SHORT).show()
+            } else {
+                val gameId = viewModel?.getGameId() ?: -1
+                val intent = Intent(this, GameSettingsActivity::class.java).apply {
+                    putExtra(Constants.KEY_GAME_ID, gameId)
+                    putExtra("PLAYERS_LIST", ArrayList(playersList))
+                }
+                settingsActivityResultLauncher.launch(intent)
             }
-
-            settingsActivityResultLauncher.launch(intent)
         }
 
         binding?.btnAdd?.setOnClickListener {
@@ -290,12 +291,13 @@ class CreateGameActivity : AppCompatActivity() {
             .show()
     }
     private fun updateUIBasedOnName(name: String) {
+
         val isNotEmpty = name.isNotEmpty()
         binding?.tvAddPeople?.visibility = if (isNotEmpty) View.VISIBLE else View.GONE
         binding?.btnAdd?.visibility = if (isNotEmpty) View.VISIBLE else View.GONE
         viewModel?.setName(name)
 
-        val isValidName = name.length > 3
+        val isValidName = name.length >= 3
         binding?.btnGameSettings?.isEnabled = isValidName
     }
 
