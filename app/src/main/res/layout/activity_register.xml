@@ -31,6 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/activity_button_margin_right"
+
             android:fontFamily="@font/cursive_serif_book"
             android:text="Registro de Usuario" />
 
@@ -41,22 +42,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        ads:layout_constraintTop_toBottomOf="@id/toolbar"
         ads:layout_constraintEnd_toEndOf="parent"
         ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintTop_toBottomOf="@id/toolbar"
 
         >
 
-    <TextView
-        android:id="@+id/tv_obligated_text"
-        style="@style/custom_text_view"
-        android:text="Todos los campos son obligatorios"
-        android:textColor="@color/orangecolor"
-        android:textSize="16dp"
-        android:gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/cursive_serif_book"/>
+        <TextView
+            android:id="@+id/tv_obligated_text"
+            style="@style/custom_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/cursive_serif_book"
+            android:gravity="center"
+            android:text="Todos los campos son obligatorios"
+            android:textColor="@color/orangecolor"
+            android:textSize="16dp" />
 
 
     </LinearLayout>
@@ -211,8 +212,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
