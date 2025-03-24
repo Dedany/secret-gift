@@ -51,9 +51,6 @@
         <activity
             android:name=".presentation.game.createGame.GameSettingsActivity"
             android:exported="true" />
-        <activity
-            android:name=".presentation.details.DetailsMainActivity"
-            android:exported="true" />
     </application>
 
 </manifest>

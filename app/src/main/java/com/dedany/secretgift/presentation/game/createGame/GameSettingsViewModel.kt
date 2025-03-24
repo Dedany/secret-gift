@@ -38,6 +38,9 @@ class GameSettingsViewModel @Inject constructor(
     private val _playerList = MutableLiveData<List<Player>>(emptyList()) // Inicializamos con una lista vacía
     val playerList: LiveData<List<Player>> get() = _playerList
 
+    private val _errorMessage = MutableLiveData<String?>()
+    val errorMessage: LiveData<String?> get() = _errorMessage
+
 
     private val _rules = MutableLiveData<List<Rule>>(listOf())
     val rules: LiveData<List<Rule>> = _rules
@@ -62,19 +65,14 @@ class GameSettingsViewModel @Inject constructor(
     fun canAssignGift(participants: List<Player>, restrictions: Map<String, Set<String>>, onComplete: (Boolean) -> Unit) {
         viewModelScope.launch {
             try {
-                // Llamamos al use case para verificar si es posible asignar regalos con las restricciones
                 val canAssign = gamesUseCase.canAssignGift(participants, restrictions)
-
-                // Retornamos el resultado a través del callback
                 onComplete(canAssign)
             } catch (e: Exception) {
-                // En caso de error, logueamos el mensaje de error y retornamos false
-                Log.e("GameSettingsViewModel", "Error al verificar asignación de regalos: ${e.message}")
+                _errorMessage.value = "Error al verificar asignación de regalos: ${e.message}"
                 onComplete(false)
             }
         }
     }
-
 
     fun addNewRule() {
         val rules = _rules.value ?: emptyList()
@@ -96,12 +94,11 @@ class GameSettingsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 delay(2000)
-                Log.d("GameSettingsViewModel", "Juego guardado exitosamente")
                 _isSaving.value = false
                 onComplete()
             } catch (e: Exception) {
                 _isSaving.value = false
-                Log.e("GameSettingsViewModel", "Error al guardar el juego: ${e.message}")
+                _errorMessage.value = "Error al guardar el juego: ${e.message}"
             }
         }
     }
@@ -109,7 +106,6 @@ class GameSettingsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val game = gamesUseCase.getLocalGame(id)
-
                 val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
                 val formattedDate = game.gameDate?.let { dateFormat.format(it) }
                 _playerList.value = game.players
@@ -119,8 +115,7 @@ class GameSettingsViewModel @Inject constructor(
                 _minPrice.value = game.minCost?.toString() ?: ""
                 _rules.value = game.rules
             } catch (e: Exception) {
-                // Manejo de errores
-                Log.e("GameSettingsViewModel", "Error al obtener el juego: ${e.message}")
+                _errorMessage.value = "Error al obtener el juego: ${e.message}"
             }
         }
     }

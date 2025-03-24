@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dedany.secretgift.R
@@ -127,6 +128,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     private fun setUpObservers() {
+        viewModel?.errorMessage?.observe(viewLifecycleOwner, Observer { errorMessage ->
+            errorMessage?.let {
+                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            }
+        })
 
         viewModel?.isdeleting?.observe(viewLifecycleOwner) { isDeleting ->
             binding?.apply {
@@ -134,6 +140,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 nestedScrollView.isVisible = !isDeleting
             }
         }
+
         viewModel?.combinedGames?.observe(viewLifecycleOwner) { games ->
             gamesAdapter?.submitList(games)
         }

@@ -18,7 +18,6 @@ class RegisterViewModel @Inject constructor(
     val isRegisterSuccessful: LiveData<Boolean> = _isRegisterSuccessful
     private var _formHasError: MutableLiveData<Boolean> = MutableLiveData()
     val formHasError: LiveData<Boolean> = _formHasError
-
     private var _name = MutableLiveData<String>("")
     val name: LiveData<String> = _name
     private var _email = MutableLiveData<String>("")
@@ -29,8 +28,6 @@ class RegisterViewModel @Inject constructor(
     val confirmPassword: LiveData<String> = _confirmPassword
     private var _isTermsAccepted = MutableLiveData<Boolean>(false)
     val isTermsAccepted: LiveData<Boolean> = _isTermsAccepted
-
-
     private var _nameError: MutableLiveData<String?> = MutableLiveData()
     val nameError: MutableLiveData<String?> = _nameError
     private var _emailError: MutableLiveData<String?> = MutableLiveData()
@@ -59,8 +56,6 @@ class RegisterViewModel @Inject constructor(
         }
     }
 
-
-
     fun setEmail(text: String) {
         _email.value = text.trim().lowercase(Locale.getDefault())
         checkEmail(text)
@@ -76,8 +71,6 @@ class RegisterViewModel @Inject constructor(
             return false
         }
     }
-
-
 
     fun setPassword(text: String) {
         _password.value = text
@@ -144,10 +137,7 @@ class RegisterViewModel @Inject constructor(
                 _formHasError.value = true
                 checkInputs()
             }
-
-
         }
-
     }
 
     private fun checkInputs() {
@@ -156,6 +146,5 @@ class RegisterViewModel @Inject constructor(
         _passwordError.value = if (password.value.isNullOrEmpty()) "La contraseña no puede estar vacía" else null
         _confirmPasswordError.value = if (confirmPassword.value.isNullOrEmpty()) "La confirmación de contraseña no puede estar vacía" else null
         _isTermsAcceptedError.value = if (!isTermsAccepted.value!!) "Debe aceptar los términos y condiciones" else null
-
     }
 }
