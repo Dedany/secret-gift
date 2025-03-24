@@ -44,40 +44,46 @@ class MainActivityViewModel @Inject constructor(
     private var _deletedGameMessage: MutableLiveData<String> = MutableLiveData()
     val deletedGameMessage: LiveData<String> = _deletedGameMessage
 
+    private var _errorMessage: MutableLiveData<String> = MutableLiveData()
+    val errorMessage: LiveData<String> = _errorMessage
+
 
     fun loadPlayedGames() {
         viewModelScope.launch {
-            val result = gamesUseCase.getPlayedGamesByUser()
-            Log.d("ViewModel", "PlayedGames cargados: ${result.size}")
-            _playedGames.value = result
+            try {
+                val result = gamesUseCase.getPlayedGamesByUser()
+                _playedGames.value = result
+            } catch (e: Exception) {
+                _errorMessage.value = "Error al cargar los juegos jugados: ${e.message}"
+            }
         }
     }
 
     fun loadOwnedGames() {
         viewModelScope.launch {
-            val result = gamesUseCase.getOwnedGamesByUser()
-            Log.d("ViewModel", "OwnedGames cargados: ${result.size}")
-            _ownedGames.value = result
+            try {
+                val result = gamesUseCase.getOwnedGamesByUser()
+                _ownedGames.value = result
+            } catch (e: Exception) {
+                _errorMessage.value = "Error al cargar los juegos de propiedad: ${e.message}"
+            }
         }
     }
+
     val combinedGames: LiveData<List<GameSummary>> = MediatorLiveData<List<GameSummary>>().apply {
         addSource(ownedGames) { ownedList ->
-            Log.d("ViewModel", "Combinando desde owned: ${ownedList?.size ?: 0} owned, ${playedGames.value?.size ?: 0} played")
             val owned = ownedList.orEmpty()
             val played = playedGames.value.orEmpty()
 
-            // Verifica que no haya una lista vacía reemplazando los valores
             if (owned.isNotEmpty() || played.isNotEmpty()) {
                 value = combineGames(owned, played)
             }
         }
 
         addSource(playedGames) { playedList ->
-            Log.d("ViewModel", "Combinando desde played: ${ownedGames.value?.size ?: 0} owned, ${playedList?.size ?: 0} played")
             val owned = ownedGames.value.orEmpty()
             val played = playedList.orEmpty()
 
-            // Verifica que no haya una lista vacía reemplazando los valores
             if (owned.isNotEmpty() || played.isNotEmpty()) {
                 value = combineGames(owned, played)
             }
@@ -96,59 +102,82 @@ class MainActivityViewModel @Inject constructor(
 
     fun loadLocalGames() {
         viewModelScope.launch {
-            _localGames.value = gamesUseCase.getLocalGamesByUser()
+            try {
+                _localGames.value = gamesUseCase.getLocalGamesByUser()
+            } catch (e: Exception) {
+                _errorMessage.value = "Error al cargar los juegos locales: ${e.message}"
+            }
         }
     }
 
     fun loadUser() {
         viewModelScope.launch {
-            val registeredUser = usersUseCase.getRegisteredUser()
-            _user.value = registeredUser
+            try {
+                val registeredUser = usersUseCase.getRegisteredUser()
+                _user.value = registeredUser
+            } catch (e: Exception) {
+                _errorMessage.value = "Error al cargar el usuario: ${e.message}"
+            }
         }
     }
 
     fun logout() {
         viewModelScope.launch {
-            authUseCase.logout()
+            try {
+                authUseCase.logout()
+            } catch (e: Exception) {
+                _errorMessage.value = "Error al cerrar sesión: ${e.message}"
+            }
         }
     }
 
     fun deleteLocalGame(gameId: Int) {
         viewModelScope.launch {
             _isdeleting.value = true
-
-            val isDeleted = gamesUseCase.deleteLocalGame(gameId)
-            delay(1000)
-            if (isDeleted) {
-                _deletedGameMessage.value = "Juego borrado correctamente"
-                loadLocalGames()
-            } else {
-                _deletedGameMessage.value = "Error al borrar el juego"
+            try {
+                val isDeleted = gamesUseCase.deleteLocalGame(gameId)
+                delay(1000)
+                if (isDeleted) {
+                    _deletedGameMessage.value = "Juego borrado correctamente"
+                    loadLocalGames()
+                } else {
+                    _deletedGameMessage.value = "Error al borrar el juego"
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = "Error al borrar el juego local: ${e.message}"
+            } finally {
+                _isdeleting.value = false
             }
-
-            _isdeleting.value = false
         }
     }
 
     fun deleteRemoteGame(gameId: String, userId: String) {
         viewModelScope.launch {
             _isdeleting.value = true
-            val isDeleted = gamesUseCase.deleteGame(gameId, userId)
-            delay(1000)
-            if (isDeleted) {
-                _deletedGameMessage.value = "Juego borrado correctamente"
-                loadOwnedGames()
-            } else {
-                _deletedGameMessage.value = "Error al borrar el juego"
+            try {
+                val isDeleted = gamesUseCase.deleteGame(gameId, userId)
+                delay(1000)
+                if (isDeleted) {
+                    _deletedGameMessage.value = "Juego borrado correctamente"
+                    loadOwnedGames()
+                } else {
+                    _deletedGameMessage.value = "Error al borrar el juego"
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = "Error al borrar el juego remoto: ${e.message}"
+            } finally {
+                _isdeleting.value = false
             }
-            _isdeleting.value = false
         }
     }
 
     fun deleteAllGames() {
         viewModelScope.launch {
-            gamesUseCase.deleteAllGames()
-
+            try {
+                gamesUseCase.deleteAllGames()
+            } catch (e: Exception) {
+                _errorMessage.value = "Error al borrar todos los juegos: ${e.message}"
+            }
         }
     }
 }

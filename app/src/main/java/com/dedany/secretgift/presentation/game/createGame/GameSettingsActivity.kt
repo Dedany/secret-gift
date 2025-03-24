@@ -51,7 +51,6 @@ class GameSettingsActivity : AppCompatActivity() {
     }
 
     private fun initAdapters() {
-        // Filtrar jugadores disponibles para incompatibilidades
         val playersList = intent.getSerializableExtra("PLAYERS_LIST") as? List<Player> ?: emptyList()
 
         val auxPlayersList = playersList.subList(1,playersList.size)
@@ -82,6 +81,11 @@ class GameSettingsActivity : AppCompatActivity() {
             }
         }
 
+        gameSettingsViewModel.errorMessage.observe(this) { errorMessage ->
+            errorMessage?.let {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            }
+        }
         gameSettingsViewModel.eventDate.observe(this) { eventDate ->
             binding.editTextEventDate.setText(eventDate)
         }

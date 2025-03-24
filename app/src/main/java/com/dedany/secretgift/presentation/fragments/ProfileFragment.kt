@@ -2,8 +2,10 @@ package com.dedany.secretgift.presentation.fragments
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.dedany.secretgift.R
 import com.dedany.secretgift.databinding.FragmentProfileBinding
 import com.dedany.secretgift.domain.entities.User
@@ -28,6 +30,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     }
 
     private fun initObservers() {
+        viewModel.errorData.observe(viewLifecycleOwner, { errorMessage ->
+            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+        })
         viewModel.userName.observe(viewLifecycleOwner) { name ->
             binding?.textNameValue?.text = name
         }

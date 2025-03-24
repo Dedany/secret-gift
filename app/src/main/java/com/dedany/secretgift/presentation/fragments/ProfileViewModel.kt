@@ -19,7 +19,23 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
     private val _userId = MutableLiveData<String>()
     val userId: LiveData<String> = _userId
 
-    fun setUserData(user: User) {
+    private val _errorData = MutableLiveData<String>()
+    val errorData: LiveData<String> = _errorData
+
+    fun setUserData(user: User?) {
+        if (user == null) {
+            _errorData.value = "Error: El usuario no está disponible."
+            return
+        }
+        if (user.name.isEmpty()) {
+            _errorData.value = "Error: El nombre del usuario es inválido."
+            return
+        }
+
+        if (user.email.isEmpty()) {
+            _errorData.value = "Error: El correo electrónico del usuario es inválido."
+            return
+        }
         _userName.value = user.name
         _userEmail.value = user.email
         _userId.value = user.id

@@ -7,7 +7,6 @@ import com.dedany.secretgift.data.dataSources.games.remote.dto.CreateGameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.GameSummaryDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.SendEmailToPlayerDto
-import com.dedany.secretgift.data.dataSources.users.local.preferences.UserPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import okhttp3.ResponseBody

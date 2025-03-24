@@ -102,35 +102,47 @@ class CreateGameViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val user = useCase.getRegisteredUser()
+                if (user.name.isEmpty() || user.email.isEmpty()) {
+                    _validationError.value = "Usuario no tiene nombre o correo registrado."
+                    return@launch
+                }
                 val creatingPlayer = Player(name = user.name, email = user.email)
                 playerList.add(creatingPlayer)
                 _players.value = playerList.toList()
                 isUserAdded = true
             } catch (e: Exception) {
-                Log.e("CreateGameViewModel", "Error adding creating user: ${e.message}")
+                _validationError.value = "Error al agregar el jugador: ${e.message ?: "Desconocido"}"
             }
         }
     }
 
 
     fun setName(name: String) {
+        if (name.isEmpty()) {
+            _validationError.value = "El nombre del juego no puede estar vacío."
+            return
+        }
         gameName = name
         onTextChanged(name)
     }
 
-    //CORREO DEL JUGADOR
-    fun setEmail(email: String) {
-        playerEmail = email
-    }
 
     fun fetchOwnerEmail() {
         viewModelScope.launch {
-            _ownerId.value = useCase.getRegisteredUser().email
+            try {
+                val user = useCase.getRegisteredUser()
+                _ownerId.value = user.email
+            } catch (e: Exception) {
+                _validationError.value = "Error al obtener el correo del usuario: ${e.message}"
+            }
         }
     }
 
     fun getGameId(): Int {
-        return this.gameId
+        if (gameId == 0) {
+            _validationError.value = "El ID del juego no está configurado correctamente."
+        }
+        return gameId
     }
 
     //ID JUEGO
@@ -140,9 +152,17 @@ class CreateGameViewModel @Inject constructor(
 
     //ELIMINAR JUGADOR
     fun deletePlayer(player: Player) {
-        playerList.remove(player)
-        _players.value = playerList.toList()
-        createOrUpdateGame()
+        try {
+            if (playerList.contains(player)) {
+                playerList.remove(player)
+                _players.value = playerList.toList()
+                createOrUpdateGame()
+            } else {
+                _validationError.value = "El jugador no existe en la lista."
+            }
+        } catch (e: Exception) {
+            _validationError.value = "Error al eliminar el jugador: ${e.message}"
+        }
     }
 
     fun getPlayersList(): List<Player> {
@@ -150,19 +170,21 @@ class CreateGameViewModel @Inject constructor(
     }
 
     //EDITAR JUGADOR
-    fun editPlayer(oldplayer: Player, newName: String, newEmail: String) {
-        val playerIndex = playerList.indexOf(oldplayer)
+    fun editPlayer(oldPlayer: Player, newName: String, newEmail: String) {
+        val playerIndex = playerList.indexOf(oldPlayer)
         if (playerIndex != -1) {
-            playerList[playerIndex] = Player(
-                name = newName,
-                email = newEmail
-            )
-            _players.value = playerList.toList()
-
-
+            try {
+                playerList[playerIndex] = Player(name = newName, email = newEmail)
+                _players.value = playerList.toList()
+                createOrUpdateGame()
+            } catch (e: Exception) {
+                _validationError.value = "Error al editar el jugador: ${e.message}"
+            }
+        } else {
+            _validationError.value = "El jugador a editar no fue encontrado."
         }
-        createOrUpdateGame()
     }
+
 
 
     fun onSaveGameClicked() {
@@ -174,22 +196,20 @@ class CreateGameViewModel @Inject constructor(
     }
 
     fun createOrUpdateGame() {
-//        if (!checkGame()) {
-//            return
-//        }
         viewModelScope.launch {
             try {
                 if (gameId != 0) {
                     val existingGame = gamesUseCase.getLocalGamesById(gameId)
                     if (existingGame.id != 0) {
                         updateGame()
+                    } else {
+                        _validationError.value = "No se pudo encontrar el juego para actualizar."
                     }
                 } else {
                     createGame()
                 }
             } catch (e: Exception) {
-                Log.e("CreateGameViewModel", "Error: ${e.message}")
-
+                _validationError.value = "Error al crear o actualizar el juego: ${e.message}"
             }
         }
     }
@@ -198,13 +218,19 @@ class CreateGameViewModel @Inject constructor(
     fun createGame() {
         if (gameName.isNotEmpty() && gameName.length > 3) {
             viewModelScope.launch {
-                val ownerId = useCase.getRegisteredUser().id
-                val localGame = LocalGame(ownerId = ownerId, name = gameName, players = playerList)
-
-                val newGameId = gamesUseCase.createLocalGame(localGame).toInt()
-                gameId = newGameId
-                _isGameCreatedSuccess.value = true
+                try {
+                    val ownerId = useCase.getRegisteredUser().id
+                    val localGame = LocalGame(ownerId = ownerId, name = gameName, players = playerList)
+                    val newGameId = gamesUseCase.createLocalGame(localGame).toInt()
+                    gameId = newGameId
+                    _isGameCreatedSuccess.value = true
+                } catch (e: Exception) {
+                    _validationError.value = "Hubo un error al crear el juego. Intenta de nuevo."
+                    _isGameCreatedSuccess.value = false
+                }
             }
+        } else {
+            _validationError.value = "El nombre del juego debe ser mayor de 3 caracteres."
         }
     }
 
@@ -233,22 +259,31 @@ class CreateGameViewModel @Inject constructor(
         }
     }
 
+    fun checkGame(): Boolean {
+        _validationError.value = null  // Limpiar mensaje de error previo
+        return when {
+            !checkName() -> false
+            !checkMinimumPlayers() -> false
+            !checkEventDate() -> false
+            else -> true
+        }
+    }
+
     fun checkName(): Boolean {
         return if (gameName.length < 3) {
-            _validationError.value = "El nombre del juego debe tener dos caracteres al menos"
+            _validationError.value = "El nombre del juego debe tener al menos 3 caracteres"
             false
         } else {
             true
         }
     }
-    fun checkMinimumPlayers(): Boolean {
+
+    private fun checkMinimumPlayers(): Boolean {
         if (playerList.size < 3) {
             _validationError.value = "El juego debe tener al menos 3 jugadores"
             return false
-        } else {
-            return true
         }
-
+        return true
     }
 
     private fun checkEventDate(): Boolean {
@@ -259,40 +294,31 @@ class CreateGameViewModel @Inject constructor(
         return true
     }
 
-    //COMPRUEBA LOS CAMPOS OBLIGATORIOS ANTES DE MANDAR AL BACKEND
-    fun checkGame(): Boolean {
-        if (!checkName()) return false
-        if (!checkMinimumPlayers()) return false
-        if (!checkEventDate()) return false
-        _validationError.value = null
-        return true
-    }
-
 
 
     fun loadLocalGameById(id: Int) {
         viewModelScope.launch {
             try {
                 val game = gamesUseCase.getLocalGame(id)
-                if (game != null) {
-                    gameId = game.id
-                    playerList = game.players.toMutableList()
-                    _players.value = playerList.toList()
 
-                    // Cargar los valores con validaciones
-                    if (game.gameDate != null) {
-                        _selectedDate.value = formatDate(game.gameDate!!)
-                    } // Asignar fecha actual si es null
-                    maxPrice = game.maxCost ?: 0  // Valor predeterminado si maxCost es null
-                    minPrice = game.minCost ?: 0  // Valor predeterminado si minCost es null
-                    rules = game.rules
+                gameId = game.id
+                playerList = game.players.toMutableList()
+                _players.value = playerList.toList()
 
-                    _localGame.value = game
+                if (game.gameDate != null) {
+                    _selectedDate.value = formatDate(game.gameDate)
                 } else {
-                    Log.e("CreateGameViewModel", "Juego no encontrado para ID $id")
+                    _selectedDate.value = "Fecha no disponible"
                 }
+
+                maxPrice = game.maxCost ?: 0
+                minPrice = game.minCost ?: 0
+                rules = game.rules
+
+                _localGame.value = game
+
             } catch (e: Exception) {
-                Log.e("CreateGameViewModel", "Error al cargar el juego: ${e.message}", e)
+                _validationError.value = "Ocurrió un error al cargar el juego. Intenta nuevamente más tarde."
             }
         }
     }
@@ -330,18 +356,32 @@ class CreateGameViewModel @Inject constructor(
 
 
 
-    // Métodos para almacenar y configurar los valores recibidos de GameSettingsViewModel
     fun setGameSettings(eventDate: String, maxPrice: String, minPrice: String, rules: List<Rule>) {
-
+        if (eventDate.isEmpty()) {
+            _validationError.value = "La fecha del evento no puede estar vacía."
+            return
+        }
         _selectedDate.value = eventDate
-        this.maxPrice = maxPrice.toIntOrNull() ?: 0
-        this.minPrice = minPrice.toIntOrNull() ?: 0
+        val parsedMaxPrice = maxPrice.toIntOrNull()
+        val parsedMinPrice = minPrice.toIntOrNull()
+        if (parsedMaxPrice == null) {
+            _validationError.value = "El precio máximo no es válido."
+            return
+        }
+        if (parsedMinPrice == null) {
+            _validationError.value = "El precio mínimo no es válido."
+            return
+        }
+        this.maxPrice = parsedMaxPrice
+        this.minPrice = parsedMinPrice
         this.rules = rules
     }
+
+
     private fun formatDate(date: Date): String {
-               val format = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-               return format.format(date)
-           }
+        val format = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+        return format.format(date)
+    }
 
     private fun parseDate(dateString: String): Date {
         return try {
@@ -358,8 +398,8 @@ class CreateGameViewModel @Inject constructor(
                 _isSaving.value = true
 
 
-                    val isGameSaved = gamesUseCase.createGame(gameId)
-                    _isGameSavedSuccess.value = isGameSaved
+                val isGameSaved = gamesUseCase.createGame(gameId)
+                _isGameSavedSuccess.value = isGameSaved
 
             } catch (e: Exception) {
                 Log.e("CreateGameViewModel", "Error al guardar el juego: ${e.message}")
@@ -372,15 +412,14 @@ class CreateGameViewModel @Inject constructor(
     fun onTextChanged(newText: String) {
         currentText = newText
 
-        // Si el texto ha cambiado con respecto al último guardado
         if (lastText != currentText) {
             lastText = currentText
-            restartTimer() // Reinicia el temporizador
+            restartTimer()
         }
     }
 
     private fun restartTimer() {
-        saveRunnable?.let { handler.removeCallbacks(it) } // Elimina cualquier callback anterior
+        saveRunnable?.let { handler.removeCallbacks(it) }
 
         saveRunnable = Runnable {
             if (currentText == lastText) {
