@@ -130,9 +130,10 @@ class GameRepositoryImpl @Inject constructor(
                     throw GameRepositoryError.UserNotFoundError()
                 }
                 val gamesSummaryDto = remoteDataSource.getPlayedGamesByUser(userId)
-                gamesSummaryDto.map { it.toDomain() }
+                return@withContext gamesSummaryDto.map { it.toDomain() }
             } catch (e: Exception) {
-                throw handleRepositoryError(e)
+                Log.e("getGamesByUser", "Error obteniendo juegos: ${e.message}")
+                return@withContext emptyList<GameSummary>()
             }
         }
     }
@@ -178,6 +179,7 @@ class GameRepositoryImpl @Inject constructor(
             throw handleRepositoryError(e)
         }
     }
+
     override suspend fun updateGame(game: Game) {
 //        val gameDto = game.toDto()
 //        remoteDataSource.updateGame(gameDto)
@@ -188,12 +190,15 @@ class GameRepositoryImpl @Inject constructor(
             is SQLiteException -> {
                 GameRepositoryError.DatabaseError(e.message ?: "Error en la base de datos")
             }
+
             is IOException -> {
                 GameRepositoryError.NetworkError(e.message ?: "Error de red")
             }
+
             is GameRepositoryError.UserNotFoundError -> {
                 e
             }
+
             else -> {
                 GameRepositoryError.UnexpectedError(e.message ?: "Error inesperado")
             }
@@ -257,7 +262,7 @@ class GameRepositoryImpl @Inject constructor(
             name = this.name,
             email = this.email,
 
-        )
+            )
     }
 
     private fun Player.toDbo(): PlayerDbo {
@@ -357,6 +362,7 @@ class GameRepositoryImpl @Inject constructor(
             isOwnedGame = false
         )
     }
+
     private fun GameSummaryDto.toDomainAsOwned(): GameSummary {
         return GameSummary(
             id = this.id,
