@@ -1,13 +1,18 @@
 package com.dedany.secretgift.data.dataSources.auth.remote
 
 import com.dedany.secretgift.data.dataSources.auth.remote.dto.LoginDto
+import com.dedany.secretgift.data.errorHandler.NetworkErrorDto
 import com.dedany.secretgift.data.dataSources.games.remote.dto.UserRegisteredDto
 import com.dedany.secretgift.data.dataSources.users.remote.UsersRemoteDataSource
 import com.dedany.secretgift.data.dataSources.users.remote.dto.CreateUserDto
 import com.dedany.secretgift.data.dataSources.users.remote.dto.UserEmailDto
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthException
 import kotlinx.coroutines.suspendCancellableCoroutine
+import retrofit2.HttpException
 import retrofit2.Response
+import java.io.IOException
+import java.net.SocketTimeoutException
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -28,13 +33,13 @@ class AuthRemoteDataSourceImpl @Inject constructor(
                         }
                     } else {
                         if (continuation.isActive) {
-                            continuation.resumeWithException(Exception("Error de inicio de sesión"))
+                            continuation.resumeWithException(NetworkErrorDto.UnknownErrorDto)
                         }
                     }
                 }
                 .addOnFailureListener { exception ->
                     if (continuation.isActive) {
-                        continuation.resumeWithException(Exception("Error en el proceso de autenticación"))
+                        continuation.resumeWithException(handleAuthException(exception))
                     }
                 }
         }
@@ -67,21 +72,27 @@ class AuthRemoteDataSourceImpl @Inject constructor(
     }
 
 
-    override suspend fun register(createUserDto: CreateUserDto): Pair<Boolean, String> {
-        val uuid = createAuthUser(createUserDto.email, createUserDto.password)
-
-        var isRegisterSuccess = false
-        if (uuid.isNotEmpty()) {
-            isRegisterSuccess = true
-            val userDtoWithoutPassword = createUserDto.copy(password = "")
-            usersRemoteDataSource.signUpUser(userDtoWithoutPassword)
-
+    override suspend fun register(userDto: CreateUserDto): Pair<Boolean, String> {
+        return try {
+            val uuid = createAuthUser(userDto.email, userDto.password)
+            if (uuid.isNotEmpty()) {
+                val userDtoWithoutPassword = userDto.copy(password = "")
+                usersRemoteDataSource.signUpUser(userDtoWithoutPassword)
+                Pair(true, uuid)
+            } else {
+                Pair(false, "")
+            }
+        } catch (e: Exception) {
+            throw handleAuthException(e)
         }
-        return Pair(isRegisterSuccess, uuid)
     }
 
     override suspend fun getUserByEmail(email: UserEmailDto): Response<UserRegisteredDto> {
-        return usersRemoteDataSource.getUserByEmail(email)
+        return try {
+            usersRemoteDataSource.getUserByEmail(email)
+        } catch (e: Exception) {
+            throw handleNetworkException(e)
+        }
     }
 
 
@@ -92,11 +103,37 @@ class AuthRemoteDataSourceImpl @Inject constructor(
                     if (task.isSuccessful) {
                         result.resume(task.result.user?.uid ?: "")
                     }
-                }.addOnFailureListener {
-                    result.resume("")
+                }.addOnFailureListener { exception ->
+                    result.resumeWithException(handleAuthException(exception))
                 }
+        }
+    }
+
+    private fun handleNetworkException(e: Exception): NetworkErrorDto {
+        return when (e) {
+            is HttpException -> {
+                val code = e.response()?.code() ?: -1
+                val body = e.response()?.errorBody()?.string() ?: ""
+                NetworkErrorDto.FailureError(code, body)
+            }
+
+            is SocketTimeoutException -> NetworkErrorDto.TimeOutError
+            is IOException -> NetworkErrorDto.NoInternetConnection
+            else -> NetworkErrorDto.UnknownErrorDto
+        }
+    }
+
+    private fun handleAuthException(e: Exception): NetworkErrorDto {
+        return when (e) {
+            is FirebaseAuthException -> NetworkErrorDto.FailureError(
+                -1,
+                e.message ?: "Error de autenticación"
+            )
+
+            is SocketTimeoutException -> NetworkErrorDto.TimeOutError
+            is IOException -> NetworkErrorDto.NoInternetConnection
+            else -> NetworkErrorDto.UnknownErrorDto
         }
 
     }
-
 }

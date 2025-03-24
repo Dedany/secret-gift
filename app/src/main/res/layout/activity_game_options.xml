@@ -79,7 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingHorizontal="16dp">
 
             <!-- Event Date -->
             <TextView
@@ -124,7 +124,6 @@
                 style="@style/custom_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:text="@string/max_cost"
                 android:textSize="20sp"
                  />
@@ -145,6 +144,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_rules"
                     style="@style/custom_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -168,39 +168,45 @@
 
             </GridLayout>
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                app:layout_constraintTop_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                >
 
-                <TextView
-                    android:id="@+id/textView_rules_exist"
-                    style="@style/custom_text_view"
+                <ImageView
+                    android:id="@+id/place_holder_options"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginLeft="90dp"
+                    android:src="@drawable/incompatibility"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_rules"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_marginTop="12dp"
                     android:layout_marginBottom="8dp"
-                    android:fontFamily="@font/cursive_serif_book"
-                    android:gravity="end"
-                    android:text="No hay incompatibilidades añadidas"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:layout_weight="1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:scrollbars="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="26" />
 
-            </LinearLayout>
 
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_rules"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="8dp"
-                android:layout_weight="1"
-                android:scrollbars="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="26" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             <TextView
@@ -208,20 +214,21 @@
                 style="@style/custom_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/cursive_serif_book"
                 android:text="Las incompatibilidades son bidireccionales "
-                android:textColor="@color/red"
+                android:textColor="@color/orangecolor"
                 android:textSize="14dp"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btn_SaveChanges"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
+                android:layout_height="42dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="30dp"
                 android:backgroundTint="@color/maincolor"
                 android:text="Guardar Cambios"
                 android:textColor="#FFFFFF" />

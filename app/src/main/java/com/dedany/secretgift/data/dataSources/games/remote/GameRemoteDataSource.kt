@@ -7,12 +7,12 @@ import com.dedany.secretgift.data.dataSources.games.remote.dto.SendEmailToPlayer
 
 interface GameRemoteDataSource {
     suspend fun getGame(gameCode: String): GameDto
-    suspend fun getOwnedGamesByUser(): List<GameSummaryDto>
+    suspend fun getOwnedGamesByUser(userId: String): List<GameSummaryDto>
     suspend fun createGame(game: CreateGameDto):Boolean
     suspend fun deleteGame(gameId: String, userId: String): Boolean
     suspend fun updateGame(game: GameDto)
     suspend fun sendMailToPlayer(sendEmailToPlayerDto: SendEmailToPlayerDto): Boolean
-    suspend fun getPlayedGamesByUser(): List<GameSummaryDto>
+    suspend fun getPlayedGamesByUser(userId: String): List<GameSummaryDto>
 
 
 }

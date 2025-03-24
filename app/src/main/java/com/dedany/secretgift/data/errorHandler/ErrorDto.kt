@@ -1,4 +1,4 @@
-package com.dedany.secretgift.data.dataSources.errorHandler
+package com.dedany.secretgift.data.errorHandler
 
 import com.google.gson.annotations.SerializedName
 

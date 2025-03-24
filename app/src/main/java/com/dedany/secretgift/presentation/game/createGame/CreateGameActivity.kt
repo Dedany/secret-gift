@@ -277,7 +277,7 @@ class CreateGameActivity : AppCompatActivity() {
 
     private fun showConfirmationDialog() {
         MaterialAlertDialogBuilder(this)
-            .setTitle("Guardar Juego")
+            .setTitle("¿Estás segur@?")
             .setMessage("Una vez enviado el juego, no podrás modificarlo. ¿Estás seguro de que quieres enviar?")
             .setPositiveButton("Enviar") { _, _ ->
                 viewModel?.saveGame()
