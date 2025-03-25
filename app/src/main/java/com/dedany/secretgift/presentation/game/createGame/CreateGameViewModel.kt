@@ -256,13 +256,11 @@ class CreateGameViewModel @Inject constructor(
     }
 
     fun checkGame(): Boolean {
-        _validationError.value = null  // Limpiar mensaje de error previo
-        return when {
-            !checkName() -> false
-            !checkMinimumPlayers() -> false
-            !checkEventDate() -> false
-            else -> true
-        }
+        if (!checkName()) return false
+        if (!checkMinimumPlayers()) return false
+        if (!checkEventDate()) return false
+        _validationError.value = null
+        return true
     }
 
     fun checkName(): Boolean {
