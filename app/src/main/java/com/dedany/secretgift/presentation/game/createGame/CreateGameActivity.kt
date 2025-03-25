@@ -30,7 +30,7 @@ import java.util.Locale
 class CreateGameActivity : AppCompatActivity() {
 
     private var binding: ActivityCreateGameBinding? = null
-    private var bindingDialog: RegisterGamePlayerBinding? = null
+
     private var viewModel: CreateGameViewModel? = null
     private var playerAdapter: PlayerAdapter? = null
     private var addPlayerDialog: Dialog? = null

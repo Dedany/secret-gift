@@ -17,27 +17,16 @@
 
         <TextView
             android:id="@+id/tv_game_name"
-            android:fontFamily="@font/cursive_serif_book"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-
+            style="@style/custom_text_view_list_element"
             android:layout_weight="1"
-            android:text="Nombre"
-            android:maxLines="1"
+            android:text="@string/name"
             android:ellipsize="end"
-            android:textColor="@color/maincolor"
-            android:textSize="20dp" />
+             />
 
         <ImageButton
             android:id="@+id/ib_main_delete"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-
-            android:layout_marginEnd="20dp"
-
-            android:background="#00FFFFFF"
-            android:src="@drawable/icon_delete" />
+            android:src="@drawable/icon_delete"
+           style="@style/custom_last_icon" />
 
 
     </LinearLayout>

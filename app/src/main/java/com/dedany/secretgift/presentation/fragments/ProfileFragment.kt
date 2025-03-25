@@ -29,6 +29,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         initObservers()
     }
 
+
+
     private fun initObservers() {
         viewModel.errorData.observe(viewLifecycleOwner, { errorMessage ->
             Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()

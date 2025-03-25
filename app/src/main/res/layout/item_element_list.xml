@@ -17,32 +17,22 @@
 
         <TextView
             android:id="@+id/tv_name"
-            android:layout_width="match_parent"
-            android:fontFamily="@font/cursive_serif_book"
-            android:layout_height="30dp"
-            android:layout_marginHorizontal="@dimen/activity_top_margin"
-            android:layout_marginVertical="@dimen/activity_top_margin"
-            android:layout_weight="1"
-            android:text="Nombre"
+            style="@style/custom_text_view_list_element"
+            android:text="@string/name"
             android:textColor="@color/maincolor"
-            android:textSize="20dp" />
-
-        <ImageButton
-            android:id="@+id/ib_delete"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginVertical="@dimen/activity_top_margin"
-            android:background="#00FFFFFF"
-            android:src="@drawable/icon_delete" />
-
+            android:layout_weight="1" />
         <ImageButton
             android:id="@+id/ib_edit"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginVertical="@dimen/activity_top_margin"
-            android:layout_marginEnd="20dp"
             android:background="#00FFFFFF"
             android:src="@drawable/icon_edit" />
+        <ImageButton
+            android:id="@+id/ib_delete"
+            android:src="@drawable/icon_delete"
+            style="@style/custom_last_icon" />
+
+
 
     </LinearLayout>
 

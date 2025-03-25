@@ -63,23 +63,18 @@
 
                         <TextView
                             android:id="@+id/tv_game_name"
-                            style="@style/custom_text_view"
+                            style="@style/custom_text_view_activity_title"
                             android:layout_marginEnd="62dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-
                             android:ellipsize="end"
                             android:text="Mi amigo invisible"
 
                              />
-
-
                 </LinearLayout>
 
-
             </com.google.android.material.appbar.CollapsingToolbarLayout>
-
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -87,7 +82,7 @@
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="@dimen/main_activity_margin_top"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <com.google.android.material.card.MaterialCardView
@@ -95,31 +90,19 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
               android:layout_marginHorizontal="8dp"
-                android:backgroundTint="#327167"
+                android:backgroundTint="@color/current_player_bg"
                 app:cardCornerRadius="16dp"
                 app:layout_constraintBottom_toBottomOf="@id/mc_conector"
                 app:layout_constraintEnd_toStartOf="@id/mc_conector"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/mc_conector"
-                app:strokeColor="#835B18"
+                app:strokeColor="@color/view_game_strokes"
                 app:strokeWidth="2dp">
 
                 <TextView
                     android:id="@+id/current_player_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:breakStrategy="simple"
-                    android:ellipsize="end"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:minLines="2"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="2dp"
-                    android:text="Jugador 1"
-                    android:textAlignment="center"
-                    android:textColor="#EBDFDF"
-                    android:textSize="22sp" />
+                    android:text="@string/current_player"
+                    style="@style/view_game_player" />
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
@@ -128,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="8dp"
-                android:backgroundTint="#A29F67"
+                android:backgroundTint="@color/info_cardview_bg"
                 ads:layout_constraintBottom_toTopOf="@+id/tv_participants"
                 ads:layout_constraintEnd_toEndOf="@id/tv_participants"
                 ads:layout_constraintStart_toStartOf="@id/tv_participants"
@@ -139,15 +122,16 @@
                 >
                 <TextView
                     android:id="@+id/conector"
+                    android:fontFamily="@font/althea_regular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="2dp"
-                    android:text="te ha tocado"
+                    android:text="@string/linked_to"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/text_size_text_view_small" />
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
@@ -155,29 +139,19 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
-                android:backgroundTint="#327167"
+                android:backgroundTint="@color/linked_player_bg"
                 app:cardCornerRadius="16dp"
                 app:layout_constraintBottom_toBottomOf="@id/mc_conector"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/mc_conector"
                 app:layout_constraintTop_toTopOf="@id/mc_conector"
-                app:strokeColor="#835B18"
+                app:strokeColor="@color/view_game_strokes"
                 app:strokeWidth="2dp">
 
                 <TextView
                     android:id="@+id/matched_player_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:ellipsize="end"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:minLines="2"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="2dp"
-                    android:text="Jugador 2"
-                    android:textColor="#EBDFDF"
-                    android:textSize="22sp" />
+                    android:text="@string/current_player"
+                    style="@style/view_game_player" />
             </com.google.android.material.card.MaterialCardView>
 
             <TextView
@@ -186,8 +160,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_top_margin"
-                android:text="PARTICIPANTES"
-                android:textSize="18sp"
+                android:text="@string/players"
+                android:textSize="@dimen/text_size_text_view_medium"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -220,19 +194,17 @@
         android:layout_height="120dp"
         android:layout_gravity="bottom"
         android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
-        android:backgroundTint="#A05F5540"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:backgroundTint="@color/info_cardview_bg"
         android:orientation="vertical"
         app:cardCornerRadius="16dp"
-        app:contentPaddingBottom="8dp"
-        app:contentPaddingLeft="32dp"
-        app:contentPaddingRight="32dp"
-        app:contentPaddingTop="8dp"
+        android:paddingVertical="@dimen/margin_small"
+        android:paddingHorizontal="@dimen/margin_large"
         app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:strokeColor="#835B18"
+        app:strokeColor="@color/view_game_strokes"
         app:strokeWidth="2dp">
 
         <LinearLayout
@@ -286,8 +258,9 @@
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
+
                         android:src="@drawable/group_profile_users_icon_icons_com_73540"
-                        android:textColor="@color/hintColor" />
+                         />
 
                     <TextView
                         android:id="@+id/tv_players_number"
@@ -320,8 +293,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="8dp"
-                        android:text="5"
-                        android:textColor="#EBDFDF"
+                        android:text="@string/min_cost_text"
+                        android:textColor="@color/hintColor"
                         android:textStyle="bold" />
 
                     <ImageView
@@ -335,8 +308,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginStart="8dp"
-                        android:text="25"
+                        android:text="@string/max_cost_text"
                         android:textColor="@color/hintColor"
                         android:textStyle="bold" />
 

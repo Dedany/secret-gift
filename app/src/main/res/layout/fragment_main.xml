@@ -33,22 +33,17 @@
             app:layout_scrollFlags="scroll|snap"
             android:fitsSystemWindows="true">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="58dp"
-                app:layout_collapseMode="pin" />
+
 
             <TextView
                 android:id="@+id/textView_title_main"
-                style="@style/custom_text_view"
+                style="@style/custom_text_view_activity_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="110dp"
+                android:layout_marginTop="@dimen/main_activity_title_margin_top"
                 android:gravity="center"
                 android:text="@string/app_name"
-                android:textColor="@color/maincolor"
-                android:textSize="48sp" />
+                android:textSize="@dimen/main_activity_title_text_size" />
 
 
             <ImageButton
@@ -81,7 +76,7 @@
             style="@style/custom_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="@dimen/main_activity_margin_top"
             android:text="@string/create_game"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
@@ -92,7 +87,7 @@
             android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="@dimen/main_activity_margin_top"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/button_create_event">
 
@@ -104,25 +99,16 @@
                 <TextView
                     android:id="@+id/textView_local_games"
                     style="@style/custom_subtitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="@string/local_games"
                     android:layout_marginTop="16dp"
-                    android:layout_marginBottom="8dp"/>
+                  />
                 <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="30dp"
-                    android:background="@color/gray_light"
-                    android:layout_marginBottom="8dp"/>
+                   style="@style/divider_style"/>
                 <TextView
                     android:id="@+id/empty_local_games"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/no_games_message_style"
                     android:text="@string/no_games_message"
-                    android:textColor="@color/gray_dark"
-                    android:visibility="gone"
-                    android:layout_marginBottom="8dp"/>
+                   />
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView_main"
                     android:layout_width="match_parent"
@@ -132,25 +118,17 @@
                 <TextView
                     android:id="@+id/textView_api_games"
                     style="@style/custom_subtitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+
                     android:text="@string/api_games_message"
                     android:layout_marginTop="24dp"
-                    android:layout_marginBottom="8dp"/>
+                   />
                 <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="30dp"
-                    android:background="@color/gray_light"
-                    android:layout_marginBottom="8dp"/>
+                    style="@style/divider_style"/>
                 <TextView
                     android:id="@+id/empty_api_games"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/no_games_message_style"
                     android:text="@string/no_games_message"
-                    android:textColor="@color/gray_dark"
-                    android:visibility="gone"
-                    android:layout_marginBottom="8dp"/>
+                   />
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView_main_api_games"
                     android:layout_width="match_parent"

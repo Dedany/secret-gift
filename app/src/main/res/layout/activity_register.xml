@@ -31,9 +31,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/activity_button_margin_right"
-
             android:fontFamily="@font/cursive_serif_book"
-            android:text="Registro de Usuario" />
+            android:text="Registro de Usuario"
+            android:textSize="28sp" />
 
 
     </Toolbar>
@@ -50,14 +50,14 @@
 
         <TextView
             android:id="@+id/tv_obligated_text"
-            style="@style/custom_text_view"
+            style="@style/custom_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/cursive_serif_book"
             android:gravity="center"
             android:text="Todos los campos son obligatorios"
-            android:textColor="@color/orangecolor"
-            android:textSize="16dp" />
+
+            android:textSize="@dimen/text_size_text_view_small" />
 
 
     </LinearLayout>
@@ -165,6 +165,7 @@
 
         <TextView
             android:id="@+id/tv_privacy_policy_acept"
+            android:fontFamily="@font/althea_regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"

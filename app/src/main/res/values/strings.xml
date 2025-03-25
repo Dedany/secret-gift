@@ -3,7 +3,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_profile">Profile</string>
     <string name="btn_log">INGRESAR</string>
-    <string name="btn_event">Tengo Código</string>
+    <string name="btn_event">TENGO CÓDIGO</string>
     <string name="link_create_user"><u>No tengo cuenta</u></string>
     <string name="register">REGISTRAR</string>
     <string name="name">Nombre</string>
@@ -24,8 +24,8 @@
     <string name="max_cost">Precio máximo:</string>
     <string name="min_cost">Precio mínimo:</string>
     <string name="game_info">Datos de la sala</string>
-    <string name="game_settings_button">Ajustes de Sala</string>
-    <string name="create_game">Crear Sala</string>
+    <string name="game_settings_button">AJUSTES DE SALA</string>
+    <string name="create_game">CREAR SALA</string>
     <string name="send_email">Enviar email</string>
     <string name="send">Enviar</string>
     <string name="reset_password"><u>Restablecer contraseña</u></string>
@@ -33,5 +33,18 @@
     <string name="no_games_message">No hay salas en esta lista</string>
     <string name="api_games_message">Salas Guardadas</string>
     <string name="send_game_button">ENVIAR SALA</string>
+    <string name="game_name">Nombre de la Sala:</string>
+    <string name="accept_button">Aceptar</string>
+    <string name="cancel_button">Cancelar</string>
+    <string name="user_details">Detalles del usuario</string>
+    <string name="user_name">Nombre:</string>
+    <string name="user_email">Correo Electrónico:</string>
+    <string name="user_id">ID de Usuario:</string>
+    <string name="current_player">Jugador 1</string>
+    <string name="linked_to">regalas a:</string>
+    <string name="players">PARTICIPANTES</string>
+    <string name="max_cost_text">25</string>
+    <string name="min_cost_text">5</string>
+
 
 </resources>

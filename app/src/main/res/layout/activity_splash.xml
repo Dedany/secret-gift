@@ -19,6 +19,7 @@
 
     <TextView
         android:id="@+id/credits_text"
+        android:fontFamily="@font/althea_semibold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Desarrollado por:Miguel Abelleira ,Daniel Hernandez y Daniel Pérez"

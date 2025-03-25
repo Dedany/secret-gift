@@ -7,7 +7,7 @@
     </style>
 
     <style name="custom_edit_text">
-        <item name="android:fontFamily">@font/cursive_serif_book</item>
+        <item name="android:fontFamily">@font/althea_regular</item>
         <item name="android:maxLines">1</item>
         <item name="colorControlActivated">@color/maincolor</item>
         <item name="android:textSelectHandle">@color/maincolor</item>
@@ -15,33 +15,66 @@
         <item name="android:textSelectHandleLeft">@color/maincolor</item>
         <item name="android:textColorHighlight">@color/maincolor</item>
         <item name="android:textColor">@color/hintColor</item>
-
     </style>
 
     <style name="custom_text_input_layout">
         <item name="android:layout_marginHorizontal">@dimen/activity_horizontal_margin</item>
         <item name="android:textColorHint">@color/hintColor</item>
-       <item name="boxStrokeColor">@color/box_stroke_color</item>
+        <item name="boxStrokeColor">@color/box_stroke_color</item>
         <item name="cursorColor">@color/maincolor</item>
         <item name="hintTextColor">@color/maincolor</item>
 
     </style>
 
     <style name="custom_button">
-        <item name="android:fontFamily">@font/cursive_serif_book</item>
+        <item name="android:fontFamily">@font/althea_semibold</item>
         <item name="android:backgroundTint">#EF000000</item>
-        <item name="android:textColor">@color/maincolor</item>
+        <item name="android:textColor">@color/orangecolor</item>
         <item name="android:textAlignment">center</item>
         <item name="android:layout_marginHorizontal">8dp</item>
     </style>
 
-    <style name="custom_text_view">
-
-        <item name="android:fontFamily">@font/cursive_serif_book</item>
+    <style name="custom_text_view_activity_title">
+        <item name="android:fontFamily">@font/althea_bold</item>
         <item name="android:gravity">center</item>
         <item name="android:maxLines">1</item>
         <item name="android:textAlignment">center</item>
-        <item name="android:textSize">@dimen/text_size_text_view</item>
+        <item name="android:textSize">@dimen/text_size_text_view_large</item>
+        <item name="android:textColor">@color/maincolor</item>
+    </style>
+
+    <style name="custom_text_view">
+        <item name="android:fontFamily">@font/althea_regular</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">@dimen/text_size_text_view_medium</item>
+        <item name="android:textColor">@color/maincolor</item>
+    </style>
+
+    <style name="no_games_message_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/gray_dark</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+
+    <style name="custom_text_view_games_room_name">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+
+
+    <style name="custom_text_view_user_data">
+        <item name="android:fontFamily">@font/althea_bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">20dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>"
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">@dimen/text_size_text_view_small</item>
         <item name="android:textColor">@color/maincolor</item>
     </style>
 
@@ -52,28 +85,69 @@
         <item name="tint">@color/maincolor</item>
         <item name="android:scaleX">1.6</item>
         <item name="android:scaleY">1.6</item>
-
     </style>
+
+    <style name="custom_text_view_list_element">
+        <item name="android:fontFamily">@font/althea_regular</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">30dp</item>
+        <item name="android:textSize">@dimen/text_size_text_view_player_name</item>
+        <item name="android:textColor">@color/maincolor</item>
+    </style>
+    <style name="divider_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginHorizontal">30dp</item>
+        <item name="android:background">@color/gray_light</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+
     <style name="custom_linked_player">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:fontFamily">@font/cursive_serif_book</item>
+        <item name="android:fontFamily">@font/althea_regular</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:textAlignment">center</item>
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">@dimen/text_size_text_view_medium</item>
         <item name="android:textColor">@color/linked_player_color</item>
         <item name="android:paddingHorizontal">12dp</item>
         <item name="android:paddingVertical">6dp</item>
-
-
     </style>
+    <style name="view_game_player">
+        <item name="android:fontFamily">@font/althea_semibold</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:breakStrategy">simple</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:minLines">2</item>
+        <item name="android:paddingHorizontal">12dp</item>
+        <item name="android:paddingVertical">2dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/linked_player_color</item>
+        <item name="android:textSize">@dimen/text_size_text_view_medium</item>
+    </style>
+
+    <style name="custom_last_icon">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:background">@color/delete_icon_color</item>
+    </style>
+
     <style name="custom_subtitle" parent="TextAppearance.AppCompat.Medium">
-        <item name="android:fontFamily">@font/cursive_serif_book</item>
+        <item name="android:fontFamily">@font/althea_regular</item>
         <item name="android:textColor">@color/maincolor</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">18sp</item>
         <item name="android:letterSpacing">0.02</item>
         <item name="android:lineHeight">24sp</item>
         <item name="android:gravity">start</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">8dp</item>
     </style>
 </resources>

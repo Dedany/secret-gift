@@ -28,23 +28,21 @@
         <Button
             android:id="@+id/btn_confirm"
             style="@style/custom_button"
-            android:layout_marginHorizontal="4dp"
+
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="#EF000000"
-            android:text="Aceptar"
-            android:textColor="@color/orangecolor" />
+
+            android:text="@string/accept_button"
+             />
 
         <Button
             android:id="@+id/btn_cancel"
             style="@style/custom_button"
             android:layout_width="120dp"
-            android:layout_marginHorizontal="4dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="#EF000000"
-            android:text="Cancelar"
-            android:textColor="@color/orangecolor" />
+            android:text="@string/cancel_button"
+            />
     </LinearLayout>
 </LinearLayout>

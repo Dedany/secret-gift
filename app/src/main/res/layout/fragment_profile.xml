@@ -7,30 +7,27 @@
     android:background="@drawable/app_background"
     tools:context=".presentation.main.MainActivity">
 
-    <!-- Toolbar -->
 
-    <!-- LinearLayout para el nombre -->
     <Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="@dimen/activity_top_margin"
         app:layout_constraintEnd_toEndOf="parent"
+
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
+
         <TextView
             android:id="@+id/tv_game_name"
-            style="@style/custom_text_view"
+            style="@style/custom_text_view_activity_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="16dp"
-            android:gravity="center"
-            android:text="Detalles del usuario"
-            android:textColor="@color/maincolor"
-            android:textSize="@dimen/text_size_text_view" /> <!-- Margen inferior para separar del contenido siguiente -->
+            android:text="@string/user_details" />
     </Toolbar>
 
     <LinearLayout
@@ -46,13 +43,9 @@
 
         <TextView
             android:id="@+id/text_name"
-            style="@style/custom_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:text="Nombre:"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            style="@style/custom_text_view_user_data"
+            android:text="@string/user_name"
+             />
 
         <TextView
             android:id="@+id/text_name_value"
@@ -60,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="20dp"
-            android:textColor="#F4F1F1" />
+            android:textColor="@color/user_details_color" />
     </LinearLayout>
 
     <LinearLayout
@@ -74,14 +67,9 @@
 
         <TextView
             android:id="@+id/text_email"
-            style="@style/custom_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:text="Correo Electrónico:"
-            android:textColor="@color/maincolor"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            style="@style/custom_text_view_user_data"
+            android:text="@string/user_email"
+            />
 
         <TextView
             android:id="@+id/text_email_value"
@@ -89,10 +77,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="20dp"
-            android:textColor="#F4F1F1" />
+            android:textColor="@color/user_details_color" />
     </LinearLayout>
 
-    <!-- LinearLayout para el ID -->
+
     <LinearLayout
         android:id="@+id/linear_id"
         android:layout_width="0dp"
@@ -107,15 +95,10 @@
 
         <TextView
             android:id="@+id/text_id"
-            style="@style/custom_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:gravity="center_vertical"
-            android:text="ID de Usuario:"
-            android:textColor="@color/maincolor"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            style="@style/custom_text_view_user_data"
+
+            android:text="@string/user_id"
+            />
 
         <TextView
             android:id="@+id/text_id_value"
@@ -123,7 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="20dp"
-            android:textColor="#F4F1F1" />
+            android:textColor="@color/user_details_color" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

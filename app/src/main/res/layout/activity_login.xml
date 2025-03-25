@@ -73,6 +73,8 @@
         android:id="@+id/tv_reset_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="16sp"
         android:text="@string/reset_password" />
 
     <Button
@@ -89,14 +91,14 @@
     <TextView
         android:id="@+id/tv_link_create_user"
         style="@style/custom_button"
-
+        android:textSize="16sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="34dp"
         android:text="@string/link_create_user"
         android:textColor="@color/orangecolor"
         app:layout_constraintEnd_toEndOf="parent"
-        ads:layout_constraintBottom_toTopOf="@id/btn_event"
+        ads:layout_constraintTop_toBottomOf="@id/btn_login"
         app:layout_constraintStart_toStartOf="parent"
       />
 
