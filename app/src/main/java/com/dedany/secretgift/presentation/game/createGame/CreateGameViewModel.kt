@@ -119,7 +119,7 @@ class CreateGameViewModel @Inject constructor(
 
     fun setName(name: String) {
         if (name.isEmpty()) {
-            _validationError.value = "El nombre del juego no puede estar vacío."
+            _validationError.value = "El nombre de la sala no puede estar vacío."
             return
         }
         gameName = name
@@ -140,7 +140,7 @@ class CreateGameViewModel @Inject constructor(
 
     fun getGameId(): Int {
         if (gameId == 0) {
-            _validationError.value = "El ID del juego no está configurado correctamente."
+            _validationError.value = "El ID de la sala no está configurado correctamente."
         }
         return gameId
     }
@@ -203,13 +203,13 @@ class CreateGameViewModel @Inject constructor(
                     if (existingGame.id != 0) {
                         updateGame()
                     } else {
-                        _validationError.value = "No se pudo encontrar el juego para actualizar."
+                        _validationError.value = "No se pudo encontrar la sala para actualizar."
                     }
                 } else {
                     createGame()
                 }
             } catch (e: Exception) {
-                _validationError.value = "Error al crear o actualizar el juego: ${e.message}"
+                _validationError.value = "Error al crear o actualizar la sala: ${e.message}"
             }
         }
     }
@@ -225,12 +225,12 @@ class CreateGameViewModel @Inject constructor(
                     gameId = newGameId
                     _isGameCreatedSuccess.value = true
                 } catch (e: Exception) {
-                    _validationError.value = "Hubo un error al crear el juego. Intenta de nuevo."
+                    _validationError.value = "Hubo un error al crear la sala. Intenta de nuevo."
                     _isGameCreatedSuccess.value = false
                 }
             }
         } else {
-            _validationError.value = "El nombre del juego debe ser mayor de 3 caracteres."
+            _validationError.value = "El nombre de sala debe ser al menos de 3 caracteres."
         }
     }
 
@@ -271,7 +271,7 @@ class CreateGameViewModel @Inject constructor(
 
     fun checkName(): Boolean {
         return if (gameName.length < 3) {
-            _validationError.value = "El nombre del juego debe tener al menos 3 caracteres"
+            _validationError.value = "El nombre de sala debe tener al menos 3 caracteres"
             false
         } else {
             true
@@ -280,7 +280,7 @@ class CreateGameViewModel @Inject constructor(
 
     private fun checkMinimumPlayers(): Boolean {
         if (playerList.size < 3) {
-            _validationError.value = "El juego debe tener al menos 3 jugadores"
+            _validationError.value = "La sala debe tener al menos 3 jugadores"
             return false
         }
         return true
@@ -318,7 +318,7 @@ class CreateGameViewModel @Inject constructor(
                 _localGame.value = game
 
             } catch (e: Exception) {
-                _validationError.value = "Ocurrió un error al cargar el juego. Intenta nuevamente más tarde."
+                _validationError.value = "Ocurrió un error al cargar la sala. Intenta nuevamente más tarde."
             }
         }
     }

@@ -106,7 +106,7 @@
                     style="@style/custom_subtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Juegos en Borrador"
+                    android:text="@string/local_games"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="8dp"/>
                 <View
@@ -115,11 +115,18 @@
                     android:layout_marginHorizontal="30dp"
                     android:background="@color/gray_light"
                     android:layout_marginBottom="8dp"/>
+                <TextView
+                    android:id="@+id/empty_local_games"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_games_message"
+                    android:textColor="@color/gray_dark"
+                    android:visibility="gone"
+                    android:layout_marginBottom="8dp"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView_main"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     tools:itemCount="3"
                     tools:listitem="@layout/item_game_list" />
                 <TextView
@@ -127,7 +134,7 @@
                     style="@style/custom_subtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Juegos Cerrados"
+                    android:text="@string/api_games_message"
                     android:layout_marginTop="24dp"
                     android:layout_marginBottom="8dp"/>
                 <View
@@ -136,12 +143,19 @@
                     android:layout_marginHorizontal="30dp"
                     android:background="@color/gray_light"
                     android:layout_marginBottom="8dp"/>
+                <TextView
+                    android:id="@+id/empty_api_games"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_games_message"
+                    android:textColor="@color/gray_dark"
+                    android:visibility="gone"
+                    android:layout_marginBottom="8dp"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView_main_api_games"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-
                     tools:itemCount="7"
                     tools:listitem="@layout/item_api_game_list" />
             </LinearLayout>

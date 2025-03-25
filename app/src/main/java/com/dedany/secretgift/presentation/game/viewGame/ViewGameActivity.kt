@@ -132,7 +132,7 @@ class ViewGameActivity : AppCompatActivity() {
             if (gameCode != null) {
                 viewModel?.fetchGaMeData(gameCode)
             } else {
-                Toast.makeText(this, "Error al cargar el juego", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Error al cargar la sala", Toast.LENGTH_LONG).show()
                 finish()
             }
         }

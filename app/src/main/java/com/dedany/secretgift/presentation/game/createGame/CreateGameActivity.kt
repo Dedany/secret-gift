@@ -77,7 +77,7 @@ class CreateGameActivity : AppCompatActivity() {
 
         val gameId = intent.getIntExtra(Constants.KEY_GAME_ID, -1)
 
-        updateUIBasedOnName(binding?.edNameRoom?.text.toString())
+
 
         if (gameId != -1) {
             viewModel?.setGameId(gameId)
@@ -151,6 +151,7 @@ class CreateGameActivity : AppCompatActivity() {
             game?.let {
                 binding?.edNameRoom?.setText(it.name)
                 playerAdapter?.submitList(it.players)
+                updateUIBasedOnName(it.name)
             }
         }
         viewModel?.ownerId?.observe(this) { ownerEmail ->
@@ -159,10 +160,10 @@ class CreateGameActivity : AppCompatActivity() {
 
         viewModel?.isGameSavedSuccess?.observe(this) { isSuccess ->
             if (isSuccess) {
-                Toast.makeText(this, "Juego guardado exitosamente", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Sala guardada exitosamente", Toast.LENGTH_SHORT).show()
                 startActivity(Intent(this, MainActivity::class.java))
             } else {
-                Toast.makeText(this, "No se puede guardar el juego", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "No se puede guardar la sala", Toast.LENGTH_SHORT).show()
             }
         }
         viewModel?.nameErrorMessage?.observe(this) { message ->
@@ -280,7 +281,7 @@ class CreateGameActivity : AppCompatActivity() {
     private fun showConfirmationDialog() {
         MaterialAlertDialogBuilder(this)
             .setTitle("¿Estás segur@?")
-            .setMessage("Una vez enviado el juego, no podrás modificarlo. ¿Estás seguro de que quieres enviar?")
+            .setMessage("Una vez enviada la sala, no se podrá modificar. ¿Estás seguro de que quieres enviar?")
             .setPositiveButton("Enviar") { _, _ ->
                 viewModel?.saveGame()
             }

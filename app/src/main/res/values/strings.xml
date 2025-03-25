@@ -29,5 +29,9 @@
     <string name="send_email">Enviar email</string>
     <string name="send">Enviar</string>
     <string name="reset_password"><u>Restablecer contraseña</u></string>
+    <string name="local_games">Salas en Borrador</string>
+    <string name="no_games_message">No hay salas en esta lista</string>
+    <string name="api_games_message">Salas Guardadas</string>
+    <string name="send_game_button">ENVIAR SALA</string>
 
 </resources>

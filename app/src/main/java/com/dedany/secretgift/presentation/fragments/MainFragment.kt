@@ -78,10 +78,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         setUpAdapters()
         setUpObservers()
         setUpListeners()
-//
-//        viewModel?.loadLocalGames()
-//        viewModel?.loadOwnedGames()
-//        viewModel?.loadPlayedGames()
+
     }
 
     override fun onResume() {
@@ -143,10 +140,20 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         viewModel?.combinedGames?.observe(viewLifecycleOwner) { games ->
             gamesAdapter?.submitList(games)
+            binding?.apply {
+                val isEmpty = games?.isEmpty() ?: true
+                recyclerViewMainApiGames.isVisible = !isEmpty
+                emptyApiGames.isVisible = isEmpty
+            }
         }
 
         viewModel?.localGames?.observe(viewLifecycleOwner) { localGames ->
             localGamesAdapter?.submitList(localGames)
+            binding?.apply {
+                val isEmpty = localGames.isNullOrEmpty()
+                recyclerViewMain.isVisible = !isEmpty
+                emptyLocalGames.isVisible = isEmpty
+            }
         }
 
         viewModel?.deletedGameMessage?.observe(viewLifecycleOwner) { message ->
@@ -164,7 +171,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
             val builder = MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Confirmar cierre de sesión")
-                .setMessage("¿Estás seguro de que quieres cerrar sesión? Esto borrará todos los borradores de juegos.")
+                .setMessage("¿Estás seguro de que quieres cerrar sesión? Se eliminarán todos los borradores de salas.")
                 .setNegativeButton("Cancelar") { dialog, _ ->
                     dialog.dismiss()
                 }
@@ -199,7 +206,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         val builder = MaterialAlertDialogBuilder(requireContext())
         val gameName = localGame?.name ?: game?.name
         builder.setTitle("Confirmar borrado")
-            .setMessage("¿Estás seguro de que quieres borrar el juego $gameName?")
+            .setMessage("¿Estás seguro de que quieres borrar la sala $gameName?")
             .setPositiveButton("Borrar") { _, _ ->
                 if (localGame != null) {
                     viewModel?.deleteLocalGame(localGame.id)

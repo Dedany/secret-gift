@@ -74,19 +74,13 @@ class MainActivityViewModel @Inject constructor(
         addSource(ownedGames) { ownedList ->
             val owned = ownedList.orEmpty()
             val played = playedGames.value.orEmpty()
-
-            if (owned.isNotEmpty() || played.isNotEmpty()) {
-                value = combineGames(owned, played)
-            }
+            value = combineGames(owned, played)
         }
 
         addSource(playedGames) { playedList ->
             val owned = ownedGames.value.orEmpty()
             val played = playedList.orEmpty()
-
-            if (owned.isNotEmpty() || played.isNotEmpty()) {
-                value = combineGames(owned, played)
-            }
+            value = combineGames(owned, played)
         }
     }
 

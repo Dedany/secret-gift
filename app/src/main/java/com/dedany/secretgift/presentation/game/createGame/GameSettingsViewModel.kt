@@ -115,7 +115,7 @@ class GameSettingsViewModel @Inject constructor(
                 _minPrice.value = game.minCost?.toString() ?: ""
                 _rules.value = game.rules
             } catch (e: Exception) {
-                _errorMessage.value = "Error al obtener el juego: ${e.message}"
+                _errorMessage.value = "Error al obtener la sala: ${e.message}"
             }
         }
     }
