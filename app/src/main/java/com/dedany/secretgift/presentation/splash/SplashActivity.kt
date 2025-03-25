@@ -80,11 +80,7 @@ class SplashActivity : AppCompatActivity() {
     //monitorea los cambios de conexión a internet
     private fun monitorConnectivityChanges() {
         val callback = object : ConnectivityManager.NetworkCallback() {
-            override fun onAvailable(network: Network) {
-                super.onAvailable(network)
-                Log.d("Connectivity", "Conexión restaurada")
-                Toast.makeText(applicationContext, "Conexión restaurada", Toast.LENGTH_SHORT).show()
-            }
+
 
             override fun onLost(network: Network) {
                 super.onLost(network)
