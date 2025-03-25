@@ -47,7 +47,7 @@ class AuthRepositoryImpl @Inject constructor(
         } catch (e: AuthRepositoryError.InvalidCredentialsError) {
             throw e
         } catch (e: Exception) {
-            throw AuthRepositoryError.UnexpectedError("Unexpected error: ${e.message}")
+            throw AuthRepositoryError.UnexpectedError("Error de credenciales")
         }
     }
 

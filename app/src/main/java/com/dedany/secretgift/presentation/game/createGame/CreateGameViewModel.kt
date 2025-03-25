@@ -7,18 +7,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dedany.secretgift.databinding.ActivityCreateGameBinding
 import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.Player
 import com.dedany.secretgift.domain.entities.Rule
 import com.dedany.secretgift.domain.usecases.games.GamesUseCase
 import com.dedany.secretgift.domain.usecases.users.UsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
@@ -29,12 +25,11 @@ class CreateGameViewModel @Inject constructor(
     private val useCase: UsersUseCase
 ) : ViewModel() {
 
-    private var _isGameNameValid: MutableLiveData<Boolean> = MutableLiveData()
-    val isGameNameValid: LiveData<Boolean> = _isGameNameValid
-    private var binding: ActivityCreateGameBinding? = null
-
     private val _showConfirmationDialog = MutableLiveData<Boolean>()
     val showConfirmationDialog: LiveData<Boolean> get() = _showConfirmationDialog
+
+    private var playerList = mutableListOf<Player>()
+
 
     private var _isGameSavedSuccess: MutableLiveData<Boolean> = MutableLiveData()
     val isGameSavedSuccess: LiveData<Boolean> = _isGameSavedSuccess
@@ -77,7 +72,7 @@ class CreateGameViewModel @Inject constructor(
 
     private var gameName: String = ""
     private var gameId: Int = 0
-    private var playerList = mutableListOf<Player>()
+
     private var playerEmail: String = ""
 
     private val _selectedDate = MutableLiveData<String>()
@@ -169,20 +164,21 @@ class CreateGameViewModel @Inject constructor(
         return _players.value ?: emptyList()
     }
 
-    //EDITAR JUGADOR
     fun editPlayer(oldPlayer: Player, newName: String, newEmail: String) {
-        val playerIndex = playerList.indexOf(oldPlayer)
-        if (playerIndex != -1) {
-            try {
-                playerList[playerIndex] = Player(name = newName, email = newEmail)
-                _players.value = playerList.toList()
-                createOrUpdateGame()
-            } catch (e: Exception) {
-                _validationError.value = "Error al editar el jugador: ${e.message}"
-            }
-        } else {
-            _validationError.value = "El jugador a editar no fue encontrado."
+        if (newName.isBlank()) {
+            _validationError.value = "El nombre del jugador no puede estar vacío."
+            return
         }
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(newEmail).matches()) {
+            _validationError.value = "Correo electrónico inválido."
+            return
+        }
+        val updatedPlayers = _players.value?.map { player ->
+            if (player == oldPlayer) player.copy(name = newName, email = newEmail) else player
+        } ?: return
+
+        _players.value = updatedPlayers
+        createOrUpdateGame()
     }
 
 

@@ -42,11 +42,12 @@ class GameRepositoryImpl @Inject constructor(
 
     override suspend fun getGame(gameCode: String): Game {
         return withContext(Dispatchers.IO) {
+
             try {
                 val gameDto = remoteDataSource.getGame(gameCode)
-                gameDto.toDomain()
+                return@withContext gameDto.toDomain()
             } catch (e: Exception) {
-                throw handleRepositoryError(e)
+                throw e
             }
         }
     }
