@@ -164,8 +164,8 @@ class CreateGameActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "No se puede guardar la sala", Toast.LENGTH_SHORT).show()
 
-                finish()
-                startActivity(Intent(this, CreateGameActivity::class.java))
+//                finish()
+//                startActivity(Intent(this, CreateGameActivity::class.java))
             }
         }
         viewModel?.nameErrorMessage?.observe(this) { message ->
@@ -208,6 +208,9 @@ class CreateGameActivity : AppCompatActivity() {
                     Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+        viewModel?.error?.observe(this) { error ->
+            Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
         }
     }
 

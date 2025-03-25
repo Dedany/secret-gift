@@ -10,6 +10,7 @@ import com.dedany.secretgift.data.dataSources.games.remote.dto.SendEmailToPlayer
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import okhttp3.ResponseBody
+import java.io.IOException
 import java.lang.reflect.Type
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -111,6 +112,7 @@ class GameRemoteDataSourceImpl @Inject constructor(
         return when (e) {
             is UnknownHostException -> NetworkErrorDto.NoInternetConnection
             is SocketTimeoutException -> NetworkErrorDto.TimeOutError
+            is IOException -> NetworkErrorDto.NoInternetConnection
             else -> NetworkErrorDto.UnknownErrorDto
         }
     }
@@ -118,7 +120,7 @@ class GameRemoteDataSourceImpl @Inject constructor(
     private fun handleError(errorBody: ResponseBody?): NetworkErrorDto {
         return try {
             val type: Type = object : TypeToken<ErrorDto>() {}.type
-            val errorDto: ErrorDto = Gson().fromJson(errorBody?.string(), type)
+            val errorDto: ErrorDto = Gson().fromJson(errorBody?.charStream(), type)
             NetworkErrorDto.FailureError(400, errorDto.message ?: "Unknown error")
         } catch (e: Exception) {
             NetworkErrorDto.UnknownErrorDto

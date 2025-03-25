@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.dedany.secretgift.domain.entities.LocalGame
 import com.dedany.secretgift.domain.entities.Player
 import com.dedany.secretgift.domain.entities.Rule
+import com.dedany.secretgift.domain.repositories.errorHandler.GameRepositoryError
 import com.dedany.secretgift.domain.usecases.games.GamesUseCase
 import com.dedany.secretgift.domain.usecases.users.UsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -54,6 +55,9 @@ class CreateGameViewModel @Inject constructor(
 
     private val _validationError = MutableLiveData<String?>()
     val validationError: LiveData<String?> get() = _validationError
+
+    private val _error = MutableLiveData<GameRepositoryError>()
+    val error: LiveData<GameRepositoryError> = _error
 
     private var _player: MutableLiveData<List<Player>> = MutableLiveData()
     val player: LiveData<List<Player>> = _player
@@ -395,8 +399,8 @@ class CreateGameViewModel @Inject constructor(
                 val isGameSaved = gamesUseCase.createGame(gameId)
                 _isGameSavedSuccess.value = isGameSaved
 
-            } catch (e: Exception) {
-                Log.e("CreateGameViewModel", "Error al guardar el juego: ${e.message}")
+            } catch (e: GameRepositoryError) {
+                _error.value = e
                 _isGameSavedSuccess.value = false
             }
             _isSaving.value = false
