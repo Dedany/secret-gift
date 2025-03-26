@@ -5,7 +5,7 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="colorError">@color/errorColor</item>
         <item name="android:windowLightStatusBar">false</item>
-
+        <item name="android:letterSpacing">0.05</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">false</item>
